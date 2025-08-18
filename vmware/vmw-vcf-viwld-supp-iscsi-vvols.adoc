@@ -1,0 +1,401 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-iscsi-vvols.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
+summary:  
+---
+= Ajoutez des vVols comme stockage supplémentaire aux domaines de charge de travail VI à l'aide des ONTAP tools for VMware vSphere
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dans ce cas d'utilisation, nous décrivons la procédure de configuration d'une banque de données vVols avec iSCSI pour un stockage supplémentaire dans un domaine de charge de travail d'infrastructure virtuelle (VI) VMware Cloud Foundation (VCF).  Cette procédure résume la configuration du réseau iSCSI, le déploiement ONTAP Tools pour VMware vSphere et le provisionnement de la banque de données vVols .
+
+*iSCSI* est utilisé comme protocole de stockage pour la banque de données vVols .
+
+
+
+== Avantages de l'iSCSI
+
+*Haute performance :* offre des performances élevées pour fournir des taux de transfert de données rapides et efficaces et une faible latence.  Idéal pour les applications d'entreprise exigeantes et les environnements virtualisés.
+
+*Facilité de gestion :* simplifie la gestion du stockage en utilisant des outils et des protocoles IP familiers.
+
+*Rentable :* utilise l'infrastructure Ethernet existante, réduisant ainsi le besoin de matériel spécialisé et permettant aux organisations d'obtenir des solutions de stockage fiables et évolutives.
+
+Pour plus d'informations sur l'utilisation d'iSCSI avec les systèmes de stockage NetApp , reportez-vous à https://docs.netapp.com/us-en/ontap/san-admin/san-host-provisioning-concept.html["Provisionnement SAN avec iSCSI"] .
+
+
+
+== Aperçu du scénario
+
+Ce scénario couvre les étapes de haut niveau suivantes :
+
+* Créez une machine virtuelle de stockage (SVM) avec des interfaces logiques (LIF) pour le trafic iSCSI.
+* Créez des groupes de ports distribués pour les réseaux iSCSI sur le domaine de charge de travail VI.
+* Créez des adaptateurs vmkernel pour iSCSI sur les hôtes ESXi pour le domaine de charge de travail VI.
+* Déployez les outils ONTAP sur le domaine de charge de travail VI.
+* Créez une nouvelle banque de données vVols sur le domaine de charge de travail VI.
+
+
+
+
+== Prérequis
+
+Ce scénario nécessite les composants et configurations suivants :
+
+* Un système de stockage ONTAP AFF ou ASA avec des ports de données physiques sur des commutateurs Ethernet dédiés au trafic de stockage.
+* Le déploiement du domaine de gestion VCF est terminé et le client vSphere est accessible.
+* Un domaine de charge de travail VI a été précédemment déployé.
+
+
+NetApp recommande des conceptions de réseau entièrement redondantes pour iSCSI.  Le diagramme suivant illustre un exemple de configuration redondante, offrant une tolérance aux pannes pour les systèmes de stockage, les commutateurs, les adaptateurs réseau et les systèmes hôtes.  Consultez NetApplink:https://docs.netapp.com/us-en/ontap/san-config/index.html["Référence de configuration SAN"] pour plus d'informations.
+
+image:vmware-vcf-asa-074.png["Conception de réseau NVMe-tcp"]
+
+{nbsp}
+
+Pour le multi-accès et le basculement sur plusieurs chemins, NetApp recommande d'avoir au moins deux LIF par nœud de stockage dans des réseaux Ethernet distincts pour tous les SVM dans les configurations iSCSI.
+
+Cette documentation illustre le processus de création d'un nouveau SVM et de spécification des informations d'adresse IP pour créer plusieurs LIF pour le trafic iSCSI.  Pour ajouter de nouveaux LIF à un SVM existant, reportez-vous àlink:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["Créer une LIF (interface réseau)"] .
+
+
+TIP: Dans les situations où plusieurs adaptateurs VMkernel sont configurés sur le même réseau IP, il est recommandé d'utiliser la liaison de port iSCSI logicielle sur les hôtes ESXi pour garantir l'équilibrage de charge entre les adaptateurs.  Se référer à l'article de la base de connaissanceslink:https://knowledge.broadcom.com/external/article?legacyId=2038869["Considérations relatives à l'utilisation de la liaison de port iSCSI logicielle dans ESX/ESXi (2038869)"] .
+
+Pour plus d'informations sur l'utilisation des banques de données iSCSI VMFS avec VMware, reportez-vous àlink:vmw-vmfs-iscsi.html["Stockage de données vSphere VMFS - Backend de stockage iSCSI avec ONTAP"] .
+
+
+
+== Étapes de déploiement
+
+Pour déployer ONTAP Tools et l'utiliser pour créer une banque de données vVols sur le domaine de gestion VCF, procédez comme suit :
+
+
+
+=== Créer des SVM et des LIF sur le système de stockage ONTAP
+
+L'étape suivante est effectuée dans ONTAP System Manager.
+
+.Créer la VM de stockage et les LIF
+[%collapsible%open]
+====
+Suivez les étapes suivantes pour créer un SVM avec plusieurs LIF pour le trafic iSCSI.
+
+. Depuis ONTAP System Manager, accédez à *VM de stockage* dans le menu de gauche et cliquez sur *+ Ajouter* pour démarrer.
++
+image:vmware-vcf-asa-001.png["Cliquez sur +Ajouter pour commencer à créer SVM"]
+
++
+{nbsp}
+
+. Dans l'assistant *Ajouter une machine virtuelle de stockage*, indiquez un *Nom* pour la SVM, sélectionnez l'*Espace IP*, puis, sous *Protocole d'accès*, cliquez sur l'onglet *iSCSI* et cochez la case *Activer iSCSI*.
++
+image:vmware-vcf-asa-002.png["Assistant d'ajout de machine virtuelle de stockage - activer iSCSI"]
+
++
+{nbsp}
+
+. Dans la section *Interface réseau*, renseignez l'*adresse IP*, le *masque de sous-réseau* et le *domaine de diffusion et le port* pour le premier LIF.  Pour les LIF suivants, la case à cocher peut être activée pour utiliser des paramètres communs à tous les LIF restants ou utiliser des paramètres distincts.
++
+
+NOTE: Pour le multi-accès et le basculement sur plusieurs chemins, NetApp recommande d'avoir au moins deux LIF par nœud de stockage dans des réseaux Ethernet distincts pour tous les SVM dans les configurations iSCSI.
+
++
+image:vmware-vcf-asa-003.png["Remplissez les informations réseau pour les LIF"]
+
++
+{nbsp}
+
+. Choisissez si vous souhaitez activer le compte d'administration de la machine virtuelle de stockage (pour les environnements multi-locataires) et cliquez sur *Enregistrer* pour créer la SVM.
++
+image:vmware-vcf-asa-004.png["Activer le compte SVM et terminer"]
+
+
+
+====
+
+
+=== Configurer la mise en réseau pour iSCSI sur les hôtes ESXi
+
+Les étapes suivantes sont effectuées sur le cluster VI Workload Domain à l’aide du client vSphere.  Dans ce cas, vCenter Single Sign-On est utilisé, de sorte que le client vSphere est commun aux domaines de gestion et de charge de travail.
+
+.Créer des groupes de ports distribués pour le trafic iSCSI
+[%collapsible%open]
+====
+Procédez comme suit pour créer un nouveau groupe de ports distribués pour chaque réseau iSCSI :
+
+. Depuis le client vSphere, accédez à *Inventaire > Réseau* pour le domaine de charge de travail.  Accédez au commutateur distribué existant et choisissez l'action pour créer *Nouveau groupe de ports distribués...*.
++
+image:vmware-vcf-asa-022.png["Choisissez de créer un nouveau groupe de ports"]
+
++
+{nbsp}
+
+. Dans l'assistant *Nouveau groupe de ports distribués*, saisissez un nom pour le nouveau groupe de ports et cliquez sur *Suivant* pour continuer.
+. Sur la page *Configurer les paramètres*, remplissez tous les paramètres.  Si des VLAN sont utilisés, assurez-vous de fournir l'ID VLAN correct. Cliquez sur *Suivant* pour continuer.
++
+image:vmware-vcf-asa-023.png["Remplissez l'ID VLAN"]
+
++
+{nbsp}
+
+. Sur la page *Prêt à terminer*, vérifiez les modifications et cliquez sur *Terminer* pour créer le nouveau groupe de ports distribués.
+. Répétez ce processus pour créer un groupe de ports distribués pour le deuxième réseau iSCSI utilisé et assurez-vous d'avoir saisi le *ID VLAN* correct.
+. Une fois les deux groupes de ports créés, accédez au premier groupe de ports et sélectionnez l'action *Modifier les paramètres...*.
++
+image:vmware-vcf-asa-024.png["DPG - modifier les paramètres"]
+
++
+{nbsp}
+
+. Sur la page *Groupe de ports distribués - Modifier les paramètres*, accédez à *Teaming et basculement* dans le menu de gauche et cliquez sur *uplink2* pour le déplacer vers *Liaisons montantes inutilisées*.
++
+image:vmware-vcf-asa-025.png["déplacer la liaison montante 2 vers la zone inutilisée"]
+
+. Répétez cette étape pour le deuxième groupe de ports iSCSI.  Cependant, cette fois, déplacez *uplink1* vers *Liaisons montantes inutilisées*.
++
+image:vmware-vcf-asa-026.png["déplacer la liaison montante 1 vers la liaison inutilisée"]
+
+
+
+====
+.Créer des adaptateurs VMkernel sur chaque hôte ESXi
+[%collapsible%open]
+====
+Répétez ce processus sur chaque hôte ESXi dans le domaine de charge de travail.
+
+. À partir du client vSphere, accédez à l’un des hôtes ESXi dans l’inventaire du domaine de charge de travail.  Dans l'onglet *Configurer*, sélectionnez *Adaptateurs VMkernel* et cliquez sur *Ajouter un réseau...* pour démarrer.
++
+image:vmware-vcf-asa-030.png["Démarrer l'assistant d'ajout de réseau"]
+
++
+{nbsp}
+
+. Dans la fenêtre *Sélectionner le type de connexion*, choisissez *Adaptateur réseau VMkernel* et cliquez sur *Suivant* pour continuer.
++
+image:vmware-vcf-asa-008.png["Choisir l'adaptateur réseau VMkernel"]
+
++
+{nbsp}
+
+. Sur la page *Sélectionner le périphérique cible*, choisissez l’un des groupes de ports distribués pour iSCSI qui a été créé précédemment.
++
+image:vmware-vcf-asa-031.png["Choisissez le groupe de ports cible"]
+
++
+{nbsp}
+
+. Sur la page *Propriétés du port*, conservez les valeurs par défaut et cliquez sur *Suivant* pour continuer.
++
+image:vmware-vcf-asa-032.png["Propriétés du port VMkernel"]
+
++
+{nbsp}
+
+. Sur la page *Paramètres IPv4*, renseignez l'*adresse IP*, le *masque de sous-réseau* et fournissez une nouvelle adresse IP de passerelle (uniquement si nécessaire). Cliquez sur *Suivant* pour continuer.
++
+image:vmware-vcf-asa-033.png["Paramètres IPv4 de VMkernel"]
+
++
+{nbsp}
+
+. Vérifiez vos sélections sur la page *Prêt à terminer* et cliquez sur *Terminer* pour créer l'adaptateur VMkernel.
++
+image:vmware-vcf-asa-034.png["Examiner les sélections VMkernel"]
+
++
+{nbsp}
+
+. Répétez ce processus pour créer un adaptateur VMkernel pour le deuxième réseau iSCSI.
+
+
+====
+
+
+=== Déployer et utiliser les outils ONTAP pour configurer le stockage
+
+Les étapes suivantes sont effectuées sur le cluster de domaine de gestion VCF à l'aide du client vSphere et impliquent le déploiement des outils ONTAP , la création d'une banque de données iSCSI vVols et la migration des machines virtuelles de gestion vers la nouvelle banque de données.
+
+Pour les domaines de charge de travail VI, ONTAP Tools est installé sur le cluster de gestion VCF mais enregistré auprès du vCenter associé au domaine de charge de travail VI.
+
+Pour plus d'informations sur le déploiement et l'utilisation des outils ONTAP dans un environnement vCenter multiple, reportez-vous àlink:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/configure/concept_requirements_for_registering_vsc_in_multiple_vcenter_servers_environment.html["Conditions requises pour l'enregistrement des outils ONTAP dans un environnement multi-serveurs vCenter"] .
+
+.Déployer les ONTAP tools for VMware vSphere
+[%collapsible%open]
+====
+Les ONTAP tools for VMware vSphere sont déployés en tant qu’appliance VM et fournissent une interface utilisateur vCenter intégrée pour la gestion du stockage ONTAP .
+
+Effectuez les opérations suivantes pour déployer les ONTAP tools for VMware vSphere:
+
+. Obtenez l'image OVA des outils ONTAP à partir dulink:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["Site d'assistance NetApp"] et téléchargez-le dans un dossier local.
+. Connectez-vous à l’appliance vCenter pour le domaine de gestion VCF.
+. Depuis l'interface de l'appliance vCenter, cliquez avec le bouton droit sur le cluster de gestion et sélectionnez *Déployer le modèle OVF…*
++
+image:vmware-vcf-aff-021.png["Déployer le modèle OVF..."]
+
++
+{nbsp}
+
+. Dans l'assistant *Déployer le modèle OVF*, cliquez sur le bouton radio *Fichier local* et sélectionnez le fichier OVA des outils ONTAP téléchargé à l'étape précédente.
++
+image:vmware-vcf-aff-022.png["Sélectionnez le fichier OVA"]
+
++
+{nbsp}
+
+. Pour les étapes 2 à 5 de l’assistant, sélectionnez un nom et un dossier pour la machine virtuelle, sélectionnez la ressource de calcul, vérifiez les détails et acceptez le contrat de licence.
+. Pour l'emplacement de stockage des fichiers de configuration et de disque, sélectionnez la banque de données vSAN du cluster de domaine de gestion VCF.
++
+image:vmware-vcf-aff-023.png["Sélectionnez le fichier OVA"]
+
++
+{nbsp}
+
+. Sur la page Sélectionner le réseau, sélectionnez le réseau utilisé pour le trafic de gestion.
++
+image:vmware-vcf-aff-024.png["Sélectionnez le réseau"]
+
++
+{nbsp}
+
+. Sur la page Personnaliser le modèle, remplissez toutes les informations requises :
++
+** Mot de passe à utiliser pour l'accès administratif aux outils ONTAP .
+** Adresse IP du serveur NTP.
+** Mot de passe du compte de maintenance des outils ONTAP .
+** Mot de passe de la base de données Derby des outils ONTAP .
+** Ne cochez pas la case *Activer VMware Cloud Foundation (VCF)*.  Le mode VCF n'est pas requis pour le déploiement de stockage supplémentaire.
+** Nom de domaine complet ou adresse IP de l'appliance vCenter pour le *domaine de charge de travail VI*
+** Informations d'identification pour l'appliance vCenter du *domaine de charge de travail VI*
+** Fournissez les champs de propriétés réseau requis.
++
+Cliquez sur *Suivant* pour continuer.
+
++
+image:vmware-vcf-aff-025.png["Personnaliser le modèle OTV 1"]
+
++
+image:vmware-vcf-asa-035.png["Personnaliser le modèle OTV 2"]
+
++
+{nbsp}
+
+
+
+. Vérifiez toutes les informations sur la page Prêt à terminer et cliquez sur Terminer pour commencer le déploiement de l'appliance ONTAP Tools.
+
+
+====
+.Ajoutez un système de stockage aux outils ONTAP .
+[%collapsible%open]
+====
+. Accédez aux outils NetApp ONTAP en les sélectionnant dans le menu principal du client vSphere.
++
+image:vmware-asa-006.png["Outils NetApp ONTAP"]
+
++
+{nbsp}
+
+. Dans le menu déroulant *INSTANCE* de l'interface ONTAP Tool, sélectionnez l'instance ONTAP Tools associée au domaine de charge de travail à gérer.
++
+image:vmware-vcf-asa-036.png["Choisissez l'instance OTV"]
+
++
+{nbsp}
+
+. Dans ONTAP Tools, sélectionnez *Systèmes de stockage* dans le menu de gauche, puis appuyez sur *Ajouter*.
++
+image:vmware-vcf-asa-037.png["Ajouter un système de stockage"]
+
++
+{nbsp}
+
+. Remplissez l'adresse IP, les informations d'identification du système de stockage et le numéro de port.  Cliquez sur *Ajouter* pour démarrer le processus de découverte.
++
+
+NOTE: vVol nécessite des informations d'identification de cluster ONTAP plutôt que des informations d'identification SVM.  Pour plus d'informations, reportez-vous à https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/configure/task_add_storage_systems.html["Ajouter des systèmes de stockage"] Dans la documentation des outils ONTAP .
+
++
+image:vmware-vcf-asa-038.png["Fournir les informations d'identification du système de stockage"]
+
+
+
+====
+.Créer un profil de capacité de stockage dans ONTAP Tools
+[%collapsible%open]
+====
+Les profils de capacité de stockage décrivent les fonctionnalités fournies par une baie de stockage ou un système de stockage.  Ils incluent des définitions de qualité de service et sont utilisés pour sélectionner les systèmes de stockage qui répondent aux paramètres définis dans le profil.  L'un des profils fournis peut être utilisé ou de nouveaux profils peuvent être créés.
+
+Pour créer un profil de capacité de stockage dans ONTAP Tools, procédez comme suit :
+
+. Dans ONTAP Tools, sélectionnez *Profil de capacité de stockage* dans le menu de gauche, puis appuyez sur *Créer*.
++
+image:vmware-vcf-asa-039.png["Profil de capacité de stockage"]
+
+. Dans l'assistant *Créer un profil de capacité de stockage*, indiquez un nom et une description du profil et cliquez sur *Suivant*.
++
+image:vmware-asa-010.png["Ajouter un nom pour SCP"]
+
+. Sélectionnez le type de plate-forme et spécifiez que le système de stockage doit être une baie SAN All-Flash définie sur *Asymétrique* sur faux.
++
+image:vmware-asa-011.png["Plateforme pour SCP"]
+
+. Ensuite, sélectionnez le choix du protocole ou *Tout* pour autoriser tous les protocoles possibles. Cliquez sur *Suivant* pour continuer.
++
+image:vmware-asa-012.png["Protocole pour SCP"]
+
+. La page *performance* permet de définir la qualité de service sous forme d'IOP minimum et maximum autorisés.
++
+image:vmware-asa-013.png["QoS pour SCP"]
+
+. Complétez la page *attributs de stockage* en sélectionnant l'efficacité du stockage, la réservation d'espace, le cryptage et toute politique de hiérarchisation selon les besoins.
++
+image:vmware-asa-014.png["Attributs pour SCP"]
+
+. Enfin, examinez le résumé et cliquez sur Terminer pour créer le profil.
++
+image:vmware-vcf-asa-040.png["Résumé pour SCP"]
+
+
+
+====
+.Créer une banque de données vVols dans ONTAP Tools
+[%collapsible%open]
+====
+Pour créer une banque de données vVols dans ONTAP Tools, procédez comme suit :
+
+. Dans ONTAP Tools, sélectionnez *Aperçu* et dans l'onglet *Mise en route*, cliquez sur *Provision* pour démarrer l'assistant.
++
+image:vmware-vcf-asa-041.png["Provisionner le magasin de données"]
+
+. Sur la page *Général* de l'assistant Nouveau magasin de données, sélectionnez la destination du centre de données ou du cluster vSphere.  Sélectionnez * vVols* comme type de banque de données, renseignez un nom pour la banque de données et sélectionnez *iSCSI* comme protocole. Cliquez sur *Suivant* pour continuer.
++
+image:vmware-vcf-asa-042.png["Page générale"]
+
+. Sur la page *Système de stockage*, sélectionnez un profil de capacité de stockage, le système de stockage et le SVM. Cliquez sur *Suivant* pour continuer.
++
+image:vmware-vcf-asa-043.png["Système de stockage"]
+
+. Sur la page *Attributs de stockage*, sélectionnez la création d'un nouveau volume pour la banque de données et renseignez les attributs de stockage du volume à créer.  Cliquez sur *Ajouter* pour créer le volume, puis sur *Suivant* pour continuer.
++
+image:vmware-vcf-asa-044.png["Attributs de stockage"]
+
+. Enfin, examinez le résumé et cliquez sur *Terminer* pour démarrer le processus de création du magasin de données vVol.
++
+image:vmware-vcf-asa-045.png["Page de résumé"]
+
+
+
+====
+
+
+== Informations Complémentaires
+
+Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.
+
+Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentation de VMware Cloud Foundation"] .

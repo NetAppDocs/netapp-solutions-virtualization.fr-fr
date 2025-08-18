@@ -1,0 +1,446 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-nfs-otv10.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
+summary:  
+---
+= Configurer les banques de données NFS pour vSphere 8 à l'aide des ONTAP tools for VMware vSphere
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Déployez les ONTAP tools for VMware vSphere 10 pour configurer les banques de données NFS dans un environnement vSphere 8.  Cette procédure inclut la création de SVM et de LIF pour le trafic NFS, la configuration du réseau hôte ESXi et l'enregistrement des outils ONTAP auprès de votre cluster vSphere.
+
+Les ONTAP tools for VMware vSphere 10 présentent une architecture de nouvelle génération qui permet une haute disponibilité et une évolutivité natives pour le fournisseur VASA (prenant en charge les vVols iSCSI et NFS).  Cela simplifie la gestion de plusieurs serveurs VMware vCenter et clusters ONTAP .
+
+Dans ce scénario, nous montrerons comment déployer et utiliser les ONTAP tools for VMware vSphere 10 et configurer une banque de données NFS pour vSphere 8.
+
+
+
+== Présentation de la solution
+
+Ce scénario couvre les étapes de haut niveau suivantes :
+
+* Créez une machine virtuelle de stockage (SVM) avec des interfaces logiques (LIF) pour le trafic NFS.
+* Créez un groupe de ports distribués pour le réseau NFS sur le cluster vSphere 8.
+* Créez un adaptateur vmkernel pour NFS sur les hôtes ESXi dans le cluster vSphere 8.
+* Déployez les outils ONTAP 10 et enregistrez-vous auprès du cluster vSphere 8.
+* Créez une nouvelle banque de données NFS sur le cluster vSphere 8.
+
+
+
+
+== Architecture
+
+Le diagramme suivant montre les composants architecturaux d’une implémentation des ONTAP tools for VMware vSphere 10.
+
+image:vmware-nfs-otv10-029.png["architecture otv10"]
+
+
+
+== Prérequis
+
+Cette solution nécessite les composants et configurations suivants :
+
+* Un système de stockage ONTAP AFF avec des ports de données physiques sur des commutateurs Ethernet dédiés au trafic de stockage.
+* Le déploiement du cluster vSphere 8 est terminé et le client vSphere est accessible.
+* Le modèle OVA des ONTAP tools for VMware vSphere 10 a été téléchargé à partir du site de support NetApp .
+
+
+NetApp recommande des conceptions de réseau redondantes pour NFS, offrant une tolérance aux pannes pour les systèmes de stockage, les commutateurs, les adaptateurs réseau et les systèmes hôtes.  Il est courant de déployer NFS avec un seul sous-réseau ou plusieurs sous-réseaux en fonction des exigences architecturales.
+
+Se référer à https://www.vmware.com/docs/vmw-best-practices-running-nfs-vmware-vsphere["Meilleures pratiques pour exécuter NFS avec VMware vSphere"] pour des informations détaillées spécifiques à VMware vSphere.
+
+Pour obtenir des conseils réseau sur l'utilisation ONTAP avec VMware vSphere, reportez-vous au https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-network.html#nfs["Configuration réseau - NFS"] section de la documentation des applications d'entreprise NetApp .
+
+Outils ONTAP complets 10 ressources peuvent être trouvées https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["Ressources de documentation sur les ONTAP tools for VMware vSphere"] .
+
+
+
+== Étapes de déploiement
+
+Pour déployer les outils ONTAP 10 et les utiliser pour créer une banque de données NFS sur le domaine de gestion VCF, procédez comme suit :
+
+
+
+=== Créer des SVM et des LIF sur le système de stockage ONTAP
+
+L'étape suivante est effectuée dans ONTAP System Manager.
+
+.Créer la VM de stockage et les LIF
+[%collapsible%open]
+====
+Suivez les étapes suivantes pour créer un SVM avec plusieurs LIF pour le trafic NFS.
+
+. Depuis ONTAP System Manager, accédez à *VM de stockage* dans le menu de gauche et cliquez sur *+ Ajouter* pour démarrer.
++
+image:vmware-vcf-asa-001.png["Cliquez sur +Ajouter pour commencer à créer SVM"]
+
++
+{nbsp}
+
+. Dans l'assistant *Ajouter une machine virtuelle de stockage*, indiquez un *Nom* pour la SVM, sélectionnez l'*Espace IP*, puis, sous *Protocole d'accès*, cliquez sur l'onglet *SMB/CIFS, NFS, S3* et cochez la case *Activer NFS*.
++
+image:vmware-vcf-aff-035.png["Assistant d'ajout de machine virtuelle de stockage - activer NFS"]
+
++
+
+TIP: Il n'est pas nécessaire de cocher le bouton *Autoriser l'accès client NFS* ici, car les outils Ontap pour VMware vSphere seront utilisés pour automatiser le processus de déploiement de la banque de données.  Cela inclut la fourniture d’un accès client pour les hôtes ESXi.  &#160;
+
+. Dans la section *Interface réseau*, renseignez l'*adresse IP*, le *masque de sous-réseau* et le *domaine de diffusion et le port* pour le premier LIF.  Pour les LIF suivants, la case à cocher peut être activée pour utiliser des paramètres communs à tous les LIF restants ou utiliser des paramètres distincts.
++
+image:vmware-vcf-aff-036.png["Remplissez les informations réseau pour les LIF"]
+
++
+{nbsp}
+
+. Choisissez si vous souhaitez activer le compte d'administration de la machine virtuelle de stockage (pour les environnements multi-locataires) et cliquez sur *Enregistrer* pour créer la SVM.
++
+image:vmware-vcf-asa-004.png["Activer le compte SVM et terminer"]
+
+
+
+====
+
+
+=== Configurer la mise en réseau pour NFS sur les hôtes ESXi
+
+Les étapes suivantes sont effectuées sur le cluster VI Workload Domain à l’aide du client vSphere.  Dans ce cas, vCenter Single Sign-On est utilisé, de sorte que le client vSphere est commun aux domaines de gestion et de charge de travail.
+
+.Créer un groupe de ports distribués pour le trafic NFS
+[%collapsible%open]
+====
+Procédez comme suit pour créer un nouveau groupe de ports distribués pour le réseau afin de transporter le trafic NFS :
+
+. Depuis le client vSphere, accédez à *Inventaire > Réseau* pour le domaine de charge de travail.  Accédez au commutateur distribué existant et choisissez l'action pour créer *Nouveau groupe de ports distribués...*.
++
+image:vmware-nfs-otv10-001.png["Choisissez de créer un nouveau groupe de ports"]
+
++
+{nbsp}
+
+. Dans l'assistant *Nouveau groupe de ports distribués*, saisissez un nom pour le nouveau groupe de ports et cliquez sur *Suivant* pour continuer.
+. Sur la page *Configurer les paramètres*, remplissez tous les paramètres.  Si des VLAN sont utilisés, assurez-vous de fournir l'ID VLAN correct. Cliquez sur *Suivant* pour continuer.
++
+image:vmware-vcf-asa-023.png["Remplissez l'ID VLAN"]
+
++
+{nbsp}
+
+. Sur la page *Prêt à terminer*, vérifiez les modifications et cliquez sur *Terminer* pour créer le nouveau groupe de ports distribués.
+. Une fois le groupe de ports créé, accédez au groupe de ports et sélectionnez l'action *Modifier les paramètres...*.
++
+image:vmware-vcf-aff-037.png["DPG - modifier les paramètres"]
+
++
+{nbsp}
+
+. Sur la page *Groupe de ports distribués - Modifier les paramètres*, accédez à *Teaming et basculement* dans le menu de gauche.  Activez le regroupement des liaisons montantes à utiliser pour le trafic NFS en vous assurant qu'elles sont regroupées dans la zone *Liaisons montantes actives*.  Déplacez toutes les liaisons montantes inutilisées vers *Liaisons montantes inutilisées*.
++
+image:vmware-nfs-otv10-002.png["DPG - liaisons montantes d'équipe"]
+
++
+{nbsp}
+
+. Répétez ce processus pour chaque hôte ESXi du cluster.
+
+
+====
+.Créer un adaptateur VMkernel sur chaque hôte ESXi
+[%collapsible%open]
+====
+Répétez ce processus sur chaque hôte ESXi dans le domaine de charge de travail.
+
+. À partir du client vSphere, accédez à l’un des hôtes ESXi dans l’inventaire du domaine de charge de travail.  Dans l'onglet *Configurer*, sélectionnez *Adaptateurs VMkernel* et cliquez sur *Ajouter un réseau...* pour démarrer.
++
+image:vmware-nfs-otv10-003.png["Démarrer l'assistant d'ajout de réseau"]
+
++
+{nbsp}
+
+. Dans la fenêtre *Sélectionner le type de connexion*, choisissez *Adaptateur réseau VMkernel* et cliquez sur *Suivant* pour continuer.
++
+image:vmware-vcf-asa-008.png["Choisir l'adaptateur réseau VMkernel"]
+
++
+{nbsp}
+
+. Sur la page *Sélectionner le périphérique cible*, choisissez l’un des groupes de ports distribués pour NFS qui a été créé précédemment.
++
+image:vmware-nfs-otv10-004.png["Choisissez le groupe de ports cible"]
+
++
+{nbsp}
+
+. Sur la page *Propriétés du port*, conservez les valeurs par défaut (aucun service activé) et cliquez sur *Suivant* pour continuer.
+. Sur la page *Paramètres IPv4*, renseignez l'*adresse IP*, le *masque de sous-réseau* et fournissez une nouvelle adresse IP de passerelle (uniquement si nécessaire). Cliquez sur *Suivant* pour continuer.
++
+image:vmware-nfs-otv10-005.png["Paramètres IPv4 de VMkernel"]
+
++
+{nbsp}
+
+. Vérifiez vos sélections sur la page *Prêt à terminer* et cliquez sur *Terminer* pour créer l'adaptateur VMkernel.
++
+image:vmware-nfs-otv10-006.png["Examiner les sélections VMkernel"]
+
+
+
+====
+
+
+=== Déployer et utiliser les outils ONTAP 10 pour configurer le stockage
+
+Les étapes suivantes sont effectuées sur un cluster vSphere 8 à l’aide du client vSphere et impliquent le déploiement d’OTV, la configuration du gestionnaire d’outils ONTAP et la création d’une banque de données NFS vVols .
+
+Pour la documentation complète sur le déploiement et l'utilisation des ONTAP tools for VMware vSphere 10, reportez-vous à https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["Déployer les ONTAP tools for VMware vSphere"] .
+
+.Déployer les ONTAP tools for VMware vSphere 10
+[%collapsible%open]
+====
+Les ONTAP tools for VMware vSphere 10 sont déployés en tant qu’appliance VM et fournissent une interface utilisateur vCenter intégrée pour la gestion du stockage ONTAP .  Les outils ONTAP 10 disposent d'un nouveau portail de gestion global pour gérer les connexions à plusieurs serveurs vCenter et backends de stockage ONTAP .
+
+
+NOTE: Dans un scénario de déploiement non HA, trois adresses IP disponibles sont requises.  Une adresse IP est allouée à l'équilibreur de charge, une autre au plan de contrôle Kubernetes et la dernière au nœud.  Dans un déploiement HA, deux adresses IP supplémentaires sont nécessaires pour les deuxième et troisième nœuds, en plus des trois initiales.  Avant l'attribution, les noms d'hôtes doivent être associés aux adresses IP dans le DNS.  Il est important que les cinq adresses IP soient sur le même VLAN, celui choisi pour le déploiement.
+
+Effectuez les opérations suivantes pour déployer les ONTAP tools for VMware vSphere:
+
+. Obtenez l'image OVA des outils ONTAP à partir dulink:https://mysupport.netapp.com/site/products/all/details/otv10/downloads-tab["Site d'assistance NetApp"] et téléchargez-le dans un dossier local.
+. Connectez-vous à l’appliance vCenter pour le cluster vSphere 8.
+. Depuis l'interface de l'appliance vCenter, cliquez avec le bouton droit sur le cluster de gestion et sélectionnez *Déployer le modèle OVF…*
++
+image:vmware-nfs-otv10-007.png["Déployer le modèle OVF..."]
+
++
+{nbsp}
+
+. Dans l'assistant *Déployer le modèle OVF*, cliquez sur le bouton radio *Fichier local* et sélectionnez le fichier OVA des outils ONTAP téléchargé à l'étape précédente.
++
+image:vmware-vcf-aff-022.png["Sélectionnez le fichier OVA"]
+
++
+{nbsp}
+
+. Pour les étapes 2 à 5 de l’assistant, sélectionnez un nom et un dossier pour la machine virtuelle, sélectionnez la ressource de calcul, vérifiez les détails et acceptez le contrat de licence.
+. Pour l'emplacement de stockage des fichiers de configuration et de disque, sélectionnez une banque de données locale ou une banque de données vSAN.
++
+image:vmware-nfs-otv10-008.png["Sélectionnez le fichier OVA"]
+
++
+{nbsp}
+
+. Sur la page Sélectionner le réseau, sélectionnez le réseau utilisé pour le trafic de gestion.
++
+image:vmware-nfs-otv10-009.png["Sélectionnez le réseau"]
+
++
+{nbsp}
+
+. Sur la page Configuration, sélectionnez la configuration de déploiement à utiliser.  Dans ce scénario, la méthode de déploiement simple est utilisée.
++
+
+NOTE: ONTAP Tools 10 propose plusieurs configurations de déploiement, notamment des déploiements à haute disponibilité utilisant plusieurs nœuds.  Pour obtenir de la documentation sur toutes les configurations de déploiement et les prérequis, reportez-vous à https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/prerequisites.html["Conditions préalables au déploiement des ONTAP tools for VMware vSphere"] .
+
++
+image:vmware-nfs-otv10-010.png["Sélectionnez le réseau"]
+
++
+{nbsp}
+
+. Sur la page Personnaliser le modèle, remplissez toutes les informations requises :
++
+** Nom d'utilisateur de l'application à utiliser pour enregistrer le fournisseur VASA et SRA dans vCenter Server.
+** Activez ASUP pour un support automatisé.
+** URL du proxy ASUP si nécessaire.
+** Nom d'utilisateur et mot de passe de l'administrateur.
+** Serveurs NTP.
+** Mot de passe utilisateur de maintenance pour accéder aux fonctions de gestion depuis la console.
+** IP de l'équilibreur de charge.
+** IP virtuelle pour le plan de contrôle K8s.
+** Machine virtuelle principale pour sélectionner la machine virtuelle actuelle comme machine virtuelle principale (pour les configurations HA).
+** Nom d'hôte de la machine virtuelle
+** Fournissez les champs de propriétés réseau requis.
++
+Cliquez sur *Suivant* pour continuer.
+
++
+image:vmware-nfs-otv10-011.png["Personnaliser le modèle OTV 1"]
+
++
+image:vmware-nfs-otv10-012.png["Personnaliser le modèle OTV 2"]
+
++
+{nbsp}
+
+
+
+. Vérifiez toutes les informations sur la page Prêt à terminer et cliquez sur Terminer pour commencer à déployer l'appliance des outils ONTAP .
+
+
+====
+.Connectez Storage Backend et vCenter Server aux outils ONTAP 10.
+[%collapsible%open]
+====
+Le gestionnaire d'outils ONTAP est utilisé pour configurer les paramètres globaux pour ONTAP Tools 10.
+
+. Accédez au gestionnaire d'outils ONTAP en naviguant vers `https://<loadBalanceIP>:8443/virtualization/ui/` dans un navigateur Web et en vous connectant avec les informations d'identification administratives fournies lors du déploiement.
++
+image:vmware-nfs-otv10-013.png["Gestionnaire d'outils ONTAP"]
+
++
+{nbsp}
+
+. Sur la page *Mise en route*, cliquez sur *Accéder aux backends de stockage*.
++
+image:vmware-nfs-otv10-014.png["Commencer"]
+
++
+{nbsp}
+
+. Sur la page *Backends de stockage*, cliquez sur *AJOUTER* pour renseigner les informations d'identification d'un système de stockage ONTAP à enregistrer avec les outils ONTAP 10.
++
+image:vmware-nfs-otv10-015.png["Ajouter un backend de stockage"]
+
++
+{nbsp}
+
+. Dans la case *Ajouter un backend de stockage*, renseignez les informations d'identification du système de stockage ONTAP .
++
+image:vmware-nfs-otv10-016.png["Ajouter un backend de stockage"]
+
++
+{nbsp}
+
+. Dans le menu de gauche, cliquez sur *vCenters*, puis sur *AJOUTER* pour renseigner les informations d'identification d'un serveur vCenter à enregistrer auprès des outils ONTAP 10.
++
+image:vmware-nfs-otv10-017.png["Ajouter un serveur vCenter"]
+
++
+{nbsp}
+
+. Dans la case *Ajouter vCenter*, renseignez les informations d’identification du système de stockage ONTAP .
++
+image:vmware-nfs-otv10-018.png["Ajouter des informations d'identification de stockage"]
+
++
+{nbsp}
+
+. Dans le menu vertical à trois points du serveur vCenter nouvellement découvert, sélectionnez *Associer le backend de stockage*.
++
+image:vmware-nfs-otv10-019.png["Stockage associé au backend"]
+
++
+{nbsp}
+
+. Dans la case *Associer le backend de stockage*, sélectionnez le système de stockage ONTAP à associer au serveur vCenter et cliquez sur *Associer* pour terminer l'action.
++
+image:vmware-nfs-otv10-020.png["Sélectionnez le système de stockage à associer"]
+
++
+{nbsp}
+
+. Pour vérifier l'installation, connectez-vous au client vSphere et sélectionnez * Outils NetApp ONTAP * dans le menu de gauche.
++
+image:vmware-nfs-otv10-021.png["Plugin d'outils Access ONTAP"]
+
++
+{nbsp}
+
+. À partir du tableau de bord des outils ONTAP , vous devriez voir qu’un backend de stockage a été associé au serveur vCenter.
++
+image:vmware-nfs-otv10-022.png["Tableau de bord des outils ONTAP"]
+
++
+{nbsp}
+
+
+
+====
+.Créer une banque de données NFS à l'aide des outils ONTAP 10
+[%collapsible%open]
+====
+Suivez les étapes suivantes pour déployer une banque de données ONTAP , exécutée sur NFS, à l’aide des outils ONTAP 10.
+
+. Dans le client vSphere, accédez à l’inventaire de stockage.  Dans le menu *ACTIONS*, sélectionnez * Outils NetApp ONTAP > Créer une banque de données*.
++
+image:vmware-nfs-otv10-023.png["Outils ONTAP - Créer une banque de données"]
+
++
+{nbsp}
+
+. Sur la page *Type* de l'assistant Créer une banque de données, cliquez sur le bouton radio NFS, puis sur *Suivant* pour continuer.
++
+image:vmware-nfs-otv10-024.png["Sélectionnez le type de magasin de données"]
+
++
+{nbsp}
+
+. Sur la page *Nom et protocole*, renseignez le nom, la taille et le protocole du magasin de données. Cliquez sur *Suivant* pour continuer.
++
+image:vmware-nfs-otv10-025.png["Sélectionnez le type de magasin de données"]
+
++
+{nbsp}
+
+. Sur la page *Stockage*, sélectionnez une plate-forme (filtre le système de stockage par type) et une machine virtuelle de stockage pour le volume.  Vous pouvez également sélectionner une politique d’exportation personnalisée. Cliquez sur *Suivant* pour continuer.
++
+image:vmware-nfs-otv10-026.png["Page de stockage"]
+
++
+{nbsp}
+
+. Sur la page *Attributs de stockage*, sélectionnez l'agrégat de stockage à utiliser et, éventuellement, des options avancées telles que la réservation d'espace et la qualité de service. Cliquez sur *Suivant* pour continuer.
++
+image:vmware-nfs-otv10-027.png["Page des attributs de stockage"]
+
++
+{nbsp}
+
+. Enfin, examinez le *Résumé* et cliquez sur Terminer pour commencer à créer le magasin de données NFS.
++
+image:vmware-nfs-otv10-028.png["Résumé et conclusion de l'examen"]
+
+
+
+====
+.Redimensionner une banque de données NFS à l'aide des outils ONTAP 10
+[%collapsible%open]
+====
+Suivez les étapes suivantes pour redimensionner une banque de données NFS existante à l’aide des outils ONTAP 10.
+
+. Dans le client vSphere, accédez à l’inventaire de stockage.  Dans le menu *ACTIONS*, sélectionnez * Outils NetApp ONTAP > Redimensionner la banque de données*.
++
+image:vmware-nfs-otv10-030.png["Sélectionnez redimensionner le magasin de données"]
+
++
+{nbsp}
+
+. Dans l'assistant *Redimensionner le magasin de données*, indiquez la nouvelle taille du magasin de données en Go et cliquez sur *Redimensionner* pour continuer.
++
+image:vmware-nfs-otv10-031.png["Assistant de redimensionnement du magasin de données"]
+
++
+{nbsp}
+
+. Surveillez la progression du travail de redimensionnement dans le volet *Tâches récentes*.
++
+image:vmware-nfs-otv10-032.png["Volet des tâches récentes"]
+
++
+{nbsp}
+
+
+
+====
+
+
+== Informations Complémentaires
+
+Pour une liste complète des ONTAP tools for VMware vSphere 10, reportez-vous à https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["Ressources de documentation sur les ONTAP tools for VMware vSphere"] .
+
+Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous à lalink:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/["Documentation ONTAP 10"] centre.

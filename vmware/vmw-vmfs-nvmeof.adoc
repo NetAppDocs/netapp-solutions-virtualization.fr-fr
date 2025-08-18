@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vmfs-nvmeof.html 
+keywords: vSphere, datastore, VMFS, NVMeoF, ONTAP tools, zone, network interface, namespace, storage subsystem 
+summary: Cette page fournit les étapes à suivre pour déployer un stockage NetApp ONTAP NVMe/FC pour une banque de données VMFS dans un environnement VMware vSphere. 
+---
+= Banque de données vSphere VMFS - NVMe/FC avec ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cette section couvre la création d'une banque de données VMFS avec stockage ONTAP à l'aide de NVMe/FC.
+
+
+
+== Ce dont vous avez besoin
+
+* Compétences de base nécessaires pour gérer un environnement vSphere et ONTAP.
+* link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-storage-7-0/about-vmware-nvme-storage/vmware-nvme-concepts/basic-vmware-nvme-architecture.html++["Compréhension de base de NVMe/FC"] .
+* Un système de stockage ONTAP (FAS/ AFF/CVO/ ONTAP Select/ ASA) exécutant {ontap_version}
+* Informations d'identification ONTAP (nom SVM, ID utilisateur et mot de passe)
+* ONTAP WWPN pour les informations sur l'hôte, la cible, les SVM et les LUN
+* link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-429C4DDD-5EC0-4DBD-8EA8-76082AB7ADEC.html++["Une feuille de configuration FC complétée"]
+* vCenter Server
+* Informations sur l'hôte(s) vSphere ({vsphere_version})
+* Interrupteur(s) en tissu
++
+** Avec les ports de données ONTAP FC et les hôtes vSphere connectés.
+** Avec la fonctionnalité de virtualisation d'ID N_port (NPIV) activée.
+** Créez une zone cible d'initiateur unique.
+** Créez une zone pour chaque initiateur (zone d'initiateur unique).
+** Pour chaque zone, incluez une cible qui est l'interface logique ONTAP FC (WWPN) pour les SVM.  Il doit y avoir au moins deux interfaces logiques par nœud et par SVM.  N'utilisez pas le WWPN des ports physiques.
+
+
+
+
+
+
+== Provisionner la banque de données VMFS
+
+. Vérifiez la compatibilité avec le https://mysupport.netapp.com/matrix["Outil de matrice d'interopérabilité (IMT)"] .
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.exp-fc-esx-cpg/GUID-7D444A0D-02CE-4A21-8017-CB1DC99EFD9A.html++["Vérifiez que la configuration NVMe/FC est prise en charge."]
+
+
+
+
+== Tâches ONTAP
+
+. link:https://docs.netapp.com/us-en/ontap-cli-98/system-license-show.html["Vérifiez la licence ONTAP pour FCP."]Utilisez le `system license show` commandez et vérifiez si NVMe_oF est répertorié.  Utiliser `license add -license-code <license code>` pour ajouter une licence.
+. Vérifiez que le protocole NVMe est activé sur le SVM.
++
+.. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-CDDBD7F4-2089-4466-892F-F2DFF5798B1C.html++["Configurer les SVM pour NVMe."]
+
+
+. Vérifiez que les interfaces logiques NVMe/FC sont disponibles sur les SVM.
++
+.. Utiliser `Network Interface show` pour vérifier l'adaptateur FCP.
+.. Lorsqu'un SVM est créé avec l'interface graphique, les interfaces logiques font partie de ce processus.
+.. Pour renommer l'interface réseau, utilisez la commande `Network Interface modify` .
+
+
+. link:++https://docs.netapp.com/ontap-9/topic/com.netapp.doc.dot-cm-sanag/GUID-BBBAB2E4-E106-4355-B95C-C3626DCD5088.html++["Créer un espace de noms et un sous-système NVMe"]
+
+
+
+
+== Tâches VMware vSphere
+
+. Vérifiez que les pilotes HBA sont installés.  Les HBA pris en charge par VMware ont les pilotes déployés prêts à l'emploi et doivent être visibles àlink:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-ED20B7BE-0D1C-4BF7-85C9-631D45D96FEC.html++["Informations sur l'adaptateur de stockage"]
+. link:++https://docs.netapp.com/us-en/ontap-sanhost/nvme_esxi_7.html++["Effectuer les tâches d'installation et de validation du pilote NVMe de l'hôte vSphere"]
+. link:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-storage-7-0/working-with-datastores-in-vsphere-storage-environment/creating-vsphere-datastores/create-a-vsphere-vmfs-datastore.html++["Créer une banque de données VMFS"]
+

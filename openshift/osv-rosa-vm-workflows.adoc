@@ -1,0 +1,55 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-rosa-vm-workflows.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, ROSA, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift sur ROSA 
+---
+= Redémarrer ou migrer des machines virtuelles dans Red Hat OpenShift Virtualization avec FSx pour ONTAP sur un cluster ROSA
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Redémarrez une machine virtuelle ou effectuez une migration en direct de la machine virtuelle entre deux nœuds dans OpenShift Virtualization avec Amazon FSx for ONTAP.
+
+Cliquez sur le bouton redémarrer.image:redhat-openshift-ocpv-rosa-020.png["Redémarrage de la machine virtuelle OCP-v"]
+
+La machine virtuelle revient à l'état d'exécution avec exactement les mêmes systèmes de fichiers, PVC et fichiers dans les systèmes de fichiersimage:redhat-openshift-ocpv-rosa-021.png["Systèmes de fichiers de redémarrage de la machine virtuelle OCP-v"]
+
+image:redhat-openshift-ocpv-rosa-022.png["Disques de redémarrage de la machine virtuelle OCP-v"]
+
+image:redhat-openshift-ocpv-rosa-023.png["Fichiers de redémarrage de la machine virtuelle OCP-v"]
+
+
+
+== Migration en direct de machines virtuelles
+
+Dans cette section, nous effectuerons une migration en direct de VM, puis examinerons le contenu des disques.  La migration en direct fait référence au processus de déplacement d'une machine virtuelle (VM) en cours d'exécution d'un hôte physique vers un autre hôte sans perturber les opérations normales ni provoquer de temps d'arrêt ou d'autres effets indésirables pour l'utilisateur final.  La migration en direct est considérée comme une étape majeure de la virtualisation.  Il permet de déplacer une machine virtuelle entière avec un système d'exploitation (OS) en cours d'exécution, de la mémoire, du stockage et une connectivité réseau de son nœud actuel vers la destination.  Ci-dessous, nous verrons comment effectuer une migration en direct de la VM du nœud actuel vers un nouveau nœud.
+
+Notez le nœud sur lequel la machine virtuelle s'exécuteimage:redhat-openshift-ocpv-rosa-024.png["Nœud actuel de la machine virtuelle OCP-v"]
+
+Cliquez sur les 3 points et sélectionnez Migrerimage:redhat-openshift-ocpv-rosa-025.png["Migration en direct de la machine virtuelle OCP-v"]
+
+Sur la page Aperçu, vous pouvez voir que la migration a réussi et que le statut est passé à Réussi.image:redhat-openshift-ocpv-rosa-026.png["Réussite de la migration de la machine virtuelle OCP-v"]
+
+Une fois la migration en direct terminée, la machine virtuelle se trouve désormais sur un nœud différent.image:redhat-openshift-ocpv-rosa-027.png["VM OCP-v sur un nœud différent"]
+
+Ouvrez la console Web et affichez le contenu des disques.  Il contient toujours les mêmes 2 fichiers que nous avons créés précédemment avant la migration en direct.image:redhat-openshift-ocpv-rosa-028.png["Fichiers identiques de la machine virtuelle OCP-v après la migration en direct1"] image:redhat-openshift-ocpv-rosa-029.png["Fichiers identiques de la machine virtuelle OCP-v après la migration en direct2"]
+
+Le stockage de la machine virtuelle sur le nouveau nœud affiche toujours les mêmes disquesimage:redhat-openshift-ocpv-rosa-030.png["Disques identiques de la machine virtuelle OCP-v après la migration en direct"]
+
+De plus, les PVC sont les mêmes.image:redhat-openshift-ocpv-rosa-031.png["VM OCP-v mêmes PVC après migration en direct"]
+
+Les volumes associés au pod VM sont également les mêmes (2 PVC) qu'auparavant.image:redhat-openshift-ocpv-rosa-032.png["VM OCP-v mêmes PVC après migration en direct"]
+
+
+
+== Vidéo de démonstration
+
+.Migration en direct de machines virtuelles dans OpenShift Virtualization sur ROSA avec Amazon FSx for NetApp ONTAP
+video::4b3ef03d-7d65-4637-9dab-b21301371d7d[panopto,width=360]
+D'autres vidéos sur Red Hat OpenShift et les solutions de virtualisation OpenShift sont disponibles.link:../videos/openshift-videos.html["ici"] .

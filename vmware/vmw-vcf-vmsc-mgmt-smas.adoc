@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-vmsc-mgmt-smas.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, iscsi 
+summary:  
+---
+= Configurer un cluster extensible pour un domaine de gestion VCF à l'aide de SnapMirror Active Sync
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dans ce cas d’utilisation, nous décrivons la procédure d’utilisation des ONTAP tools for VMware vSphere pour configurer un cluster extensible pour un domaine de gestion VCF.  Cette procédure inclut le déploiement des hôtes vSphere et de vCenter Server, l'installation des outils ONTAP , la protection des banques de données avec SnapMirror Active Sync, la migration des machines virtuelles vers des banques de données protégées et la configuration du stockage supplémentaire.
+
+image:vmware-vcf-asa-mgmt-stretchcluster-001.png["Instance unique - Zones de disponibilité multiples"]
+
+
+
+== Aperçu du scénario
+
+La solution de cluster extensible peut être implémentée sur un cluster par défaut ou sur un cluster supplémentaire dans les domaines de gestion ou de charge de travail VCF.  VMFS sur FC est pris en charge à la fois sur le magasin de données principal et sur les magasins de données supplémentaires.  VMFS sur iSCSI n'est pris en charge qu'avec des banques de données supplémentaires.  Consultez IMT pour la prise en charge de VMFS sur NVMe-oF avec la synchronisation active SnapMirror .
+
+image:vmware-vcf-asa-mgmt-stretchcluster-002.png["Cluster extensible avec ONTAP pour le domaine de gestion VCF"]
+
+.Stockage principal sur le domaine de gestion
+[%collapsible%open]
+====
+Avec VCF 5.2, le domaine de gestion peut être déployé sans VSAN à l'aide de l'outil d'importation VCF.  L'option de conversion de l'outil d'importation VCF permetlink:vmw-vcf-mgmt-fc.html["un déploiement vCenter existant dans un domaine de gestion"] .  Tous les clusters de vCenter feront partie du domaine de gestion.
+
+. Déployer des hôtes vSphere
+. Déployer le serveur vCenter sur une banque de données locale (vCenter doit coexister sur les hôtes vSphere qui seront convertis en domaine de gestion)
+. Déployer les ONTAP tools for VMware vSphere
+. Déployer le plug-in SnapCenter pour VMware vSphere (facultatif)
+. Créer un magasin de données (la configuration de la zone FC doit être en place)
+. Protéger le cluster vSphere
+. Migrer les machines virtuelles vers une banque de données nouvellement créée
+
+
+
+NOTE: Chaque fois que le cluster est étendu ou réduit, vous devez mettre à jour la relation du cluster hôte sur les outils ONTAP pour que le cluster indique les modifications apportées à la source ou à la cible.
+
+====
+.Stockage supplémentaire sur le domaine de gestion
+[%collapsible%open]
+====
+Une fois le domaine de gestion opérationnel, des banques de données supplémentaires peuvent être créées à l'aide des outils ONTAP , ce qui déclenchera l'extension du groupe de cohérence.
+
+
+TIP: Si un cluster vSphere est protégé, toutes les banques de données du cluster seront protégées.
+
+Si l'environnement VCF est déployé avec l'outil Cloud Builder, pour créer le stockage supplémentaire avec iSCSI, déployez les outils ONTAP pour créer la banque de données iSCSI et protéger le cluster vSphere.
+
+
+NOTE: Chaque fois que le cluster est étendu ou réduit, vous devez mettre à jour la relation du cluster hôte sur les outils ONTAP pour que le cluster indique les modifications apportées à la source ou à la cible.
+
+====
+
+
+== Informations Complémentaires
+
+Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.
+
+Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["Documentation de VMware Cloud Foundation 5.2"] .
+
+
+
+== Démo vidéo de cette solution
+
+.Cluster extensible pour VCF avec outils ONTAP
+video::569a91a9-2679-4414-b6dc-b25d00ff0c5a[panopto,width=360]

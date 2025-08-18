@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-dii.html 
+keywords: vmware, getting, started, overview, netapp, data, infrastructure, insights, dii 
+summary:  
+---
+= Découvrez comment surveiller une infrastructure complète à l'aide de NetApp Data Infrastructure Insights
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp Data Infrastructure Insights (anciennement Cloud Insights) surveille les systèmes sur site et cloud, offrant une visibilité sur votre environnement informatique complet, y compris les systèmes de stockage VMware vSphere et ONTAP .  Il permet des fonctionnalités telles que le suivi des performances, la détection des problèmes et l'optimisation des ressources dans vos environnements publics et privés.
+
+
+
+== Introduction
+
+Avec Data Infrastructure Insights, vous pouvez surveiller, dépanner et optimiser toutes vos ressources, y compris vos clouds publics et vos centres de données privés.
+
+Pour plus d'informations sur Data Infrastructure Insights, consultezlink:https://docs.netapp.com/us-en/data-infrastructure-insights/index.html["Documentation sur les Data Infrastructure Insights"] .
+
+
+
+== Capacités Data Infrastructure Insights
+
+* Data Infrastructure Insights fournit une surveillance multicloud hybride, vous offrant une observabilité complète de l'infrastructure et des charges de travail.
+* Collecteurs de données pour infrastructures et charges de travail hétérogènes, y compris Kubernetes
+* Collecteur Telegraf ouvert et API ouvertes pour une intégration facile
+* Alertes et notifications complètes
+* L'apprentissage automatique pour des informations intelligentes
+* Optimiser l'utilisation des ressources
+* Tableaux de bord intégrés ou personnalisables avec des filtres avancés pour minimiser le bruit d'affichage afin de répondre aux questions
+* Découvrez l'état de santé de vos opérations de stockage ONTAP 
+* Protégez votre actif commercial le plus précieux – les données – contre les attaques de rançongiciel ou de destruction de données
+

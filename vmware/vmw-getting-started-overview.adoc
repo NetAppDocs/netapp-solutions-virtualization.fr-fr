@@ -1,0 +1,79 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-overview.html 
+keywords: vmware, getting, started, overview, netapp 
+summary:  
+---
+= En savoir plus sur ONTAP pour VMware vSphere
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp ONTAP est une solution de stockage leader pour VMware vSphere, offrant près de deux décennies de performances fiables pour les cas d'utilisation de stockage de données et de stockage connecté aux invités.  ONTAP prend en charge les protocoles SAN et NAS, permet une mise à l'échelle indépendante des ressources de stockage et de calcul et décharge les tâches de stockage des hôtes.  Les avantages incluent une protection renforcée des données, une haute disponibilité et des fonctionnalités avancées de continuité des activités telles que SnapMirror et MetroCluster.
+
+
+
+== Introduction
+
+NetApp continue d'ajouter des fonctionnalités innovantes pour simplifier la gestion du stockage tout en réduisant les coûts et en augmentant la confiance dans une infrastructure virtuelle consolidée basée sur VMware et prête pour le cloud.  Cette collection de solutions présente les offres ONTAP pour VMware vSphere Foundation et VMware Cloud Foundation, y compris les dernières informations sur les produits et les meilleures pratiques, pour rationaliser le déploiement, réduire les risques et simplifier la gestion.
+
+Pour plus d'informations sur l'utilisation ONTAP avec VMware vSphere, reportez-vous à https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html["VMware vSphere avec ONTAP"] .
+
+
+
+== Pourquoi ONTAP pour VMware
+
+Il existe de nombreuses raisons pour lesquelles des dizaines de milliers de clients ont choisi ONTAP comme solution de stockage pour vSphere, notamment un système de stockage unifié prenant en charge les protocoles SAN et NAS, des capacités de protection des données robustes utilisant des instantanés peu encombrants et une multitude d'outils pour vous aider à gérer les données d'application.  L’utilisation d’un système de stockage distinct de l’hyperviseur vous permet de décharger de nombreuses fonctions et de maximiser votre investissement dans les systèmes hôtes vSphere.  Cette approche garantit non seulement que vos ressources hôtes sont concentrées sur les charges de travail des applications, mais elle évite également les effets aléatoires sur les performances des applications dus aux opérations de stockage.
+
+L’utilisation ONTAP avec vSphere est une excellente combinaison qui vous permet de réduire les dépenses liées au matériel hôte et aux logiciels VMware. Vous pouvez également protéger vos données à moindre coût avec des performances élevées et constantes. Étant donné que les charges de travail virtualisées sont mobiles, vous pouvez explorer différentes approches à l’aide de Storage vMotion pour déplacer des machines virtuelles entre des banques de données VMFS, NFS ou vVols , le tout sur le même système de stockage.
+
+image:why-ontap-for-vmware-002.png["Pourquoi ONTAP pour VMware"]
+
+Voici les principaux avantages pour les clients NetApp et VMware :
+
+* *Flexibilité dès le premier jour et au fur et à mesure de votre évolution.*  Le besoin de croissance peut survenir pour diverses raisons, quelle que soit l’architecture.  Que les besoins en termes de performances ou de capacité évoluent, ou que de nouveaux hôtes soient ajoutés et que des considérations relatives au réseau ou à la structure surviennent, il est essentiel de choisir une plate-forme de stockage qui permet une mise à l'échelle indépendante des ressources.
++
+Avec ONTAP, vous pouvez commencer avec la capacité requise, évoluer selon vos besoins et profiter de la hiérarchisation, le tout sans avoir à ajouter d'hôtes de calcul supplémentaires.  De plus, un seul cluster ONTAP peut être utilisé avec plusieurs domaines de charge de travail et évite la création d'îlots de stockage.  Ces avantages génèrent des économies de coûts importantes pour l’organisation.
+
+* *Décharger les tâches de stockage vers ONTAP.*  Dans les environnements HCI typiques, la plate-forme hôte est responsable des tâches de calcul, des opérations de stockage et de toute optimisation du réseau côté client.  Par exemple, la surcharge du processeur doit être prise en compte lors de la détermination des exigences matérielles des nœuds de calcul.  Souvent difficile à évaluer de manière préventive, cette surcharge est généralement considérée comme étant de 10 à 15 % et dépend du profil d'E/S des charges de travail.  De plus, il est important de prendre en compte la consommation de mémoire.  La surcharge de mémoire est obligatoire et ne doit pas être compromise pour maintenir les performances.  Les hôtes peuvent compenser cela en tirant parti des cartes réseau compatibles RDMA, améliorant ainsi l'efficacité du transfert réseau, moyennant des coûts supplémentaires.  Enfin, avec une plate-forme HCI, les fonctions de stockage telles que l'efficacité du stockage, les tolérances RAID et aux pannes et le cryptage sont gérées par les hôtes.
++
+Les clients peuvent atténuer ces impacts négatifs sur les ressources du processeur hôte en tirant parti ONTAP.  Cette stratégie permet aux hôtes de se concentrer sur les tâches de calcul tout en permettant à ONTAP de gérer les opérations de stockage gourmandes en ressources CPU.  Cette stratégie améliore les performances globales en optimisant l’efficacité du stockage, le chiffrement, les instantanés, etc., tout en réduisant le coût total de possession.  En augmentant non seulement les performances de l'hôte et en diminuant le nombre d'hôtes nécessaires pour fournir la même charge de travail, il réduit également le nombre de cœurs requis par hôte, ce qui entraîne des économies de coûts supplémentaires.  Ces économies s'étendent également aux économies d'efficacité énergétique, aux besoins de refroidissement réduits, aux coûts de licence optimisés et bien plus encore ; tout cela en déchargeant les tâches de stockage gourmandes en CPU vers ONTAP et en s'appuyant moins sur les hôtes pour tout gérer.
+
+* *Efficacité du stockage* Bien que NetApp ait été le premier à proposer la déduplication pour les charges de travail de production, cette innovation n'était ni la première ni la dernière dans ce domaine. Tout a commencé avec des instantanés, un mécanisme de protection des données peu encombrant sans effet sur les performances, ainsi que la technologie FlexClone pour créer instantanément des copies en lecture/écriture de machines virtuelles à des fins de production et de sauvegarde. NetApp a ensuite proposé des fonctionnalités en ligne, notamment la déduplication, la compression et la déduplication zéro bloc, pour tirer le meilleur parti du stockage des SSD coûteux.  Plus récemment, ONTAP a ajouté la possibilité de regrouper des opérations d'E/S et des fichiers plus petits dans un bloc de disque à l'aide de la compaction.  La combinaison de ces capacités a permis aux clients de réaliser des économies allant jusqu'à 5:1 pour VSI et jusqu'à 30:1 pour VDI.
+* *Disponibilité des données de niveau entreprise.*  La protection des données est primordiale pour toute organisation informatique.  La planification des tolérances aux pannes de charge de travail nécessite une réflexion approfondie pour garantir qu'un nombre adéquat de nœuds sont disponibles lorsque les hôtes sont responsables des opérations de stockage.  À mesure que le nombre de pannes tolérées augmente, le besoin d'hôtes supplémentaires et la quantité de stockage provisionnée pour prendre en charge la capacité de stockage de machine virtuelle requise augmentent également.
++
+Les fonctionnalités de disponibilité complètes d'ONTAP garantissent que les données sont toujours accessibles, sécurisées et résilientes, ce qui en fait un choix fiable pour les déploiements VMware de toutes tailles.  L'exploitation du stockage partagé dans les environnements VMware facilite le déploiement de clusters vSphere plus petits, simplifiant le processus de configuration et permettant le partage du stockage entre les clusters avec une tolérance aux pannes améliorée.
+
++
+Les principales fonctionnalités de disponibilité ONTAP incluent :
+
++
+** Architecture haute disponibilité (HA) : ONTAP prend en charge une architecture haute disponibilité qui inclut un modèle de déploiement en cluster.
+** Basculement et restauration automatiques : en cas de panne matérielle ou logicielle, ONTAP permet un basculement automatique vers un nœud de stockage de secours.  Une fois le problème résolu, une restauration peut être effectuée pour restaurer la configuration d'origine, minimisant ainsi les temps d'arrêt.
+** Protection des données intégrée : ONTAP inclut des fonctionnalités de protection des données intégrées telles que RAID-DP et RAID-TEC, qui offrent une protection améliorée contre les pannes de disque et garantissent l'intégrité et la disponibilité des données.
+
+
+* *Opérations de sauvegarde et de récupération efficaces.*  En plus de protéger les données en cas de pannes diverses, nous devons prévoir de sauvegarder les machines virtuelles et les charges de travail dans le cadre des opérations informatiques régulières.  Les instantanés capturent l'état d'une machine virtuelle à un moment précis, y compris le disque, la mémoire et les paramètres de la machine virtuelle.  Cela permet à un administrateur de rétablir un état antérieur de la machine virtuelle en cas de problème, comme une mise à jour échouée, un changement de configuration ou une attaque de ransomware ou de virus.  Le stockage consommé par les snapshots doit être pris en compte lors de la conception d'une solution équilibrée pour les environnements VMware.
++
+Bien que les instantanés soient un outil important, une dépendance excessive aux instantanés basés sur VMware soulève des inquiétudes concernant les politiques de fréquence et de conservation.  De plus, avoir trop de snapshots basés sur VMware peut réduire les performances.  Il est important de considérer des alternatives telles que les copies instantanées NetApp et le SnapCenter Plug-in for VMware vSphere.  SnapCenter exploite des copies instantanées, qui sont des images en lecture seule, à un instant T, d'un volume qui partage initialement des blocs de disque avec le système de fichiers actif, ne nécessitant aucun espace supplémentaire et un stockage minimal.  Ces instantanés ont une surcharge de performances négligeable, capturant uniquement les modifications depuis le dernier instantané.  Le SnapCenter Plug-in for VMware vSphere (SCV) utilise ces instantanés pour fournir des sauvegardes et des restaurations efficaces et cohérentes en cas de panne pour les machines virtuelles, les banques de données et les VMDK.  Ces opérations sont intégrées de manière transparente et sans impact sur les performances dans un environnement vCenter.  De plus, ONTAP permet le déchargement des snapshots vers le stockage d'objets pour une conservation à long terme.
+
+* *Capacités de continuité des activités holistiques.*  Au-delà de la tolérance aux pannes, de la sauvegarde et de la récupération standard, une organisation doit planifier divers scénarios tels que les catastrophes, les attaques de ransomware et les migrations de sites de centres de données.  Avec le stockage basé sur l’hôte, relever ces défis implique généralement de s’appuyer sur une gamme de solutions tierces pour atténuer efficacement les catastrophes et assurer la continuité des activités.  De plus, pour les scénarios nécessitant une utilisation intensive du réseau, un dimensionnement insuffisant des périphériques réseau et de stockage peut entraîner des impacts significatifs sur les performances.
++
+S'appuyant sur ses fonctionnalités de disponibilité et ses capacités de sauvegarde et de récupération, ONTAP est un composant essentiel d'une stratégie complète de continuité des activités pour les environnements VMware.  Les organisations ont besoin que les machines virtuelles et les charges de travail soient disponibles de manière transparente pendant les opérations normales et de maintenance, protégées par des capacités de protection et de récupération robustes et capables de tirer parti de solutions de reprise après sinistre économiques et peu encombrantes.
+
++
+Les principales fonctionnalités de continuité des activités ONTAP incluent :
+
++
+** Réplication des données avec SnapMirror: En tirant parti des copies instantanées, SnapMirror permet la réplication asynchrone et synchrone des données vers des sites distants ou des environnements cloud pour la reprise après sinistre
+** MetroCluster: la technologie MetroCluster d'ONTAP fournit une réplication synchrone entre des sites géographiquement séparés, garantissant une perte de données nulle et une récupération rapide en cas de panne du site.
+** Cloud Tiering : Cloud Tiering identifie automatiquement les données froides (données auxquelles on accède rarement) sur le stockage principal et les déplace vers un stockage d'objets à moindre coût, soit dans le cloud, soit sur site.
+** BlueXP DRaaS : NetApp BlueXP Disaster Recovery as a Service (DRaaS) est une solution complète conçue pour fournir des capacités de reprise après sinistre robustes aux entreprises, garantissant la protection des données, une récupération rapide et la continuité des activités en cas de sinistre.
+
+
+

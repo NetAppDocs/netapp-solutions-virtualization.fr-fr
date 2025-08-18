@@ -1,0 +1,53 @@
+---
+indexpage:
+  title: Regardez des vidéos et des démonstrations sur la virtualisation avec NetApp
+  summary: Série de vidéos et de démonstrations présentant les fonctionnalités de
+    nombreuses solutions de virtualisation de NetApp
+  lead: Découvrez la bibliothèque vidéo complète de NetApp présentant les solutions
+    de virtualisation sur OpenShift, VMware et les plates-formes multicloud hybrides.
+    Chaque collection se concentre sur des cas d’utilisation et des scénarios d’intégration
+    spécifiques.
+  tiles:
+  - title: Virtualisation Red Hat OpenShift
+    links:
+    - title: Gestion et opérations des machines virtuelles
+      url: openshift-videos.html#vm-management-and-operations
+    - title: Protection des données et reprise après sinistre
+      url: openshift-videos.html#data-protection-and-disaster-recovery
+    - title: Intégration et gestion du stockage
+      url: openshift-videos.html#storage-integration-and-management
+    - title: Automatisation et surveillance
+      url: openshift-videos.html#automation-and-monitoring
+  - title: Virtualisation VMware
+    links:
+    - title: Provisionnement de banque de données VMware avec ONTAP
+      url: vmware-videos.html#vmware-datastore-provisioning-with-ontap
+    - title: SnapCenter Plug-in for VMware vSphere
+      url: vmware-videos.html#snapcenter-plug-in-for-vmware-vsphere
+    - title: Solutions de protection des données 3-2-1
+      url: vmware-videos.html#3-2-1-data-protection-solutions
+    - title: VMware Cloud sur AWS avec AWS FSx ONTAP
+      url: vmware-videos.html#vmware-cloud-on-aws-with-aws-fsx-ontap
+    - title: Solutions Azure VMware
+      url: vmware-videos.html#azure-vmware-solutions
+    - title: VMware Cloud Foundation avec NetApp ONTAP
+      url: vmware-videos.html#vmware-cloud-foundation-with-netapp-ontap
+    - title: NetApp avec VMware Tanzu
+      url: vmware-videos.html#netapp-with-vmware-tanzu
+    - title: Cloud Insights NetApp
+      url: vmware-videos.html#netapp-cloud-insights
+  - title: Virtualisation multicloud hybride
+    links:
+    - title: Service Red Hat OpenShift sur AWS (ROSA) avec FSx ONTAP
+      url: hybrid-cloud-videos.html#red-hat-openshift-service-on-aws-rosa-with-fsx-ontap
+    - title: Solutions NetApp HCI
+      url: hybrid-cloud-videos.html#netapp-hci-solutions
+  - title: Vidéos en vedette
+    links:
+    - title: Outils ONTAP pour VMware - Présentation
+      url: https://netapp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=e8071955-f6f1-45a0-a868-b12a010bba44
+    - title: Créer une machine virtuelle dans OpenShift Virtualization à l'aide du
+        stockage iSCSI
+      url: https://netapp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=497b868d-2917-4824-bbaa-b2d500f92dda
+    - title: Amazon FSx for NetApp ONTAP avec Red Hat OpenShift Service sur AWS
+      url: https://netapp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=213061d2-53e6-4762-a68f-b21401519023

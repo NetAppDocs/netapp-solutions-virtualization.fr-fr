@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-sovereign-cloud.html 
+keywords: NetApp Solutions, vmware, sovereign cloud 
+summary:  
+---
+= En savoir plus sur VMware Sovereign Cloud
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+VMware Sovereign Cloud est un framework pour le cloud computing qui donne la priorité à la souveraineté des données, au contrôle juridictionnel et à la conformité réglementaire pour les organisations qui traitent des données sensibles.  Cette approche garantit que les données restent sous le contrôle et l’autorité exclusifs de l’État-nation où elles ont été collectées, tout en offrant la flexibilité et les capacités d’une infrastructure cloud moderne.
+
+Le concept de souveraineté apparaît comme un élément nécessaire du cloud computing pour de nombreuses entités qui traitent et conservent des données hautement sensibles, telles que les gouvernements nationaux et étatiques, et les secteurs hautement réglementés, tels que la finance et la santé.  Les gouvernements nationaux cherchent également à étendre leurs capacités économiques numériques et à réduire leur dépendance à l’égard des entreprises multinationales pour leurs services cloud.
+
+
+
+== Initiative VMware Sovereign Cloud
+
+VMware définit un cloud souverain comme un cloud qui :
+
+* Protège et libère la valeur des données critiques (par exemple, les données nationales, les données d'entreprise et les données personnelles) pour les organisations des secteurs privé et public
+* Fournit une capacité nationale pour l'économie numérique
+* Sécurise les données avec des contrôles de sécurité audités
+* Assure le respect des lois sur la confidentialité des données
+* Améliore le contrôle des données en fournissant à la fois la résidence des données et la souveraineté des données avec un contrôle juridictionnel complet
+
+
+
+
+== Partenariat avec un fournisseur de services cloud souverain VMware de confiance
+
+Pour garantir leur succès, les organisations doivent travailler avec des partenaires en qui elles ont confiance et qui sont capables d’héberger des plateformes cloud souveraines authentiques et autonomes.  Les fournisseurs VMware Cloud reconnus dans le cadre de l'initiative VMware Sovereign Cloud s'engagent à concevoir et à exploiter des solutions cloud basées sur des architectures modernes définies par logiciel qui incarnent les principes clés et les meilleures pratiques décrits dans le cadre VMware Sovereign Cloud.
+
+* *Souveraineté des données et contrôle juridictionnel* – Toutes les données sont résidentes et soumises au contrôle et à l’autorité exclusifs de l’État-nation où ces données ont été collectées.  Les opérations sont entièrement gérées au sein de la juridiction
+* *Accès et intégrité des données* – L’infrastructure cloud est résiliente et disponible dans au moins deux centres de données au sein de la juridiction avec des options de connectivité sécurisées et privées disponibles.
+* *Sécurité et conformité des données* – Les contrôles du système de gestion de la sécurité de l’information sont certifiés selon une norme mondiale (ou régionale) reconnue par l’industrie et font l’objet d’audits réguliers.
+* *Indépendance et mobilité des données* – Prise en charge des architectures d'applications modernes pour éviter le verrouillage du cloud par les fournisseurs et permettre la portabilité et l'indépendance des applications
+
+
+Pour plus d'informations sur VMware, veuillez visiter :
+
+* link:https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/docs/vmw-sovereign-cloud-solution-brief-customer.pdf["Présentation de VMware Sovereign Cloud"]
+* link:https://www.vmware.com/topics/glossary/content/sovereign-cloud.html["Qu'est-ce que VMware Sovereign Cloud ?"]
+* link:https://blogs.vmware.com/cloud/2021/10/06/vmware-sovereign-cloud/["Présentation de la nouvelle initiative VMware Sovereign Cloud"]
+* link:https://www.vmware.com/solutions/cloud-infrastructure/sovereign-cloud["Solution VMware Sovereign Cloud"]
+

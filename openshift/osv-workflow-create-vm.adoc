@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-workflow-create-vm.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP 
+---
+= Créer une machine virtuelle sur un stockage ONTAP avec Red Hat OpenShift Virtualization
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Créez une machine virtuelle avec OpenShift Virtualization.  Cette procédure comprend la sélection d’un modèle de système d’exploitation, la configuration des classes de stockage et la personnalisation des paramètres de machine virtuelle pour répondre à des exigences spécifiques.  Comme prérequis, vous devez déjà avoir créé le backend trident, la classe de stockage et les objets de classe d'instantané de volume.  Vous pouvez vous référer à lalink:osv-trident-install.html["Section d'installation du Trident"] pour plus de détails.
+
+
+
+== Créer VM
+
+Les machines virtuelles sont des déploiements avec état qui nécessitent des volumes pour héberger le système d’exploitation et les données.  Avec CNV, étant donné que les machines virtuelles sont exécutées en tant que pods, elles sont sauvegardées par des PV hébergés sur NetApp ONTAP via Trident.  Ces volumes sont attachés en tant que disques et stockent l'intégralité du système de fichiers, y compris la source de démarrage de la machine virtuelle.
+
+image:redhat-openshift-052.png["Créer une architecture de machine virtuelle"]
+
+Pour créer rapidement une machine virtuelle sur le cluster OpenShift, procédez comme suit :
+
+. Accédez à Virtualisation > Machines virtuelles et cliquez sur Créer.
+. Sélectionner à partir du modèle.
+. Sélectionnez le système d’exploitation souhaité pour lequel la source de démarrage est disponible.
+. Cochez la case Démarrer la machine virtuelle après la création.
+. Cliquez sur Créer rapidement une machine virtuelle.
+
+
+La machine virtuelle est créée et démarrée et passe à l'état *En cours d'exécution*.  Il crée automatiquement un PVC et un PV correspondant pour le disque de démarrage en utilisant la classe de stockage par défaut.  Afin de pouvoir migrer en direct la machine virtuelle à l'avenir, vous devez vous assurer que la classe de stockage utilisée pour les disques peut prendre en charge les volumes RWX.  Il s'agit d'une exigence pour la migration en direct. ontap-nas et ontap-san (bloc volumeMode pour les protocoles iSCSI et NVMe/TCP) peuvent prendre en charge les modes d'accès RWX pour les volumes créés à l'aide des classes de stockage respectives.
+
+Pour configurer la classe de stockage ontap-san sur le cluster, consultez lelink:osv-workflow-vm-migration-mtv.html["Section relative à la migration d'une machine virtuelle de VMware vers OpenShift Virtualization"] .
+
+
+NOTE: Cliquer sur Créer rapidement une machine virtuelle utilisera la classe de stockage par défaut pour créer le PVC et le PV pour le disque racine de démarrage de la machine virtuelle.  Vous pouvez sélectionner une classe de stockage différente pour le disque en sélectionnant Personnaliser la machine virtuelle > Personnaliser les paramètres de la machine virtuelle > Disques, puis en modifiant le disque pour utiliser la classe de stockage requise.
+
+En règle générale, le mode d'accès par bloc est préféré aux systèmes de fichiers lors du provisionnement des disques de machine virtuelle.
+
+Pour personnaliser la création de la machine virtuelle après avoir sélectionné le modèle de système d'exploitation, cliquez sur Personnaliser la machine virtuelle au lieu de Créer rapidement.
+
+. Si le système d'exploitation sélectionné a une source de démarrage configurée, vous pouvez cliquer sur *Personnaliser les paramètres de la machine virtuelle*.
+. Si le système d'exploitation sélectionné n'a pas de source de démarrage configurée, vous devez la configurer.  Vous pouvez voir les détails des procédures présentées dans lelink:https://docs.openshift.com/container-platform/4.14/virt/virtual_machines/creating_vms_custom/virt-creating-vms-from-custom-images-overview.html["documentation"] .
+. Après avoir configuré le disque de démarrage, vous pouvez cliquer sur *Personnaliser les paramètres de la machine virtuelle*.
+. Vous pouvez personnaliser la VM à partir des onglets de cette page.  Par exemple, cliquez sur l'onglet *Disques* puis sur *Ajouter un disque* pour ajouter un autre disque à la machine virtuelle.
+. Cliquez sur Créer une machine virtuelle pour créer la machine virtuelle ; cela lance un pod correspondant en arrière-plan.
+
+
+
+NOTE: Lorsqu'une source de démarrage est configurée pour un modèle ou un système d'exploitation à partir d'une URL ou d'un registre, elle crée un PVC dans le `openshift-virtualization-os-images` projet et télécharge l'image invité KVM sur le PVC.  Vous devez vous assurer que les modèles PVC disposent de suffisamment d'espace provisionné pour accueillir l'image invitée KVM pour le système d'exploitation correspondant.  Ces PVC sont ensuite clonés et attachés en tant que disque racine aux machines virtuelles lorsqu'elles sont créées à l'aide des modèles respectifs dans n'importe quel projet.
+
+image:rh-os-n-use-case-vm-create-001.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+image:rh-os-n-use-case-vm-create-002.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+image:rh-os-n-use-case-vm-create-003.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+image:rh-os-n-use-case-vm-create-004.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+image:rh-os-n-use-case-vm-create-005.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+
+
+== Démonstration vidéo
+
+La vidéo suivante montre une démonstration de la création d’une machine virtuelle dans OpenShift Virtualization à l’aide du stockage iSCSI.
+
+.Créer une machine virtuelle dans OpenShift Virtualization à l'aide du stockage en blocs
+video::497b868d-2917-4824-bbaa-b2d500f92dda[panopto,width=360]

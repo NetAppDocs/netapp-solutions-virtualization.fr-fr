@@ -1,0 +1,145 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vsphere8-nfs-nconnect.html 
+keywords: netapp, vmware, nfsv3, nconnect, performance 
+summary:  
+---
+= Utilisez nConnect sur les banques de données NFS v3 pour améliorer les performances de la banque de données
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Utilisez la fonctionnalité NFS nConnect pour améliorer les performances de la banque de données dans les environnements VMware vSphere 8.  Cette procédure comprend l’hébergement de machines virtuelles par banque de données NFS, l’amélioration des performances de la banque de données NFS et la configuration d’un niveau supérieur pour les applications basées sur des machines virtuelles et des conteneurs.
+
+À partir de VMware vSphere 8.0 U1 (en tant qu'aperçu technique), la fonctionnalité nconnect permet plusieurs connexions TCP pour les volumes de banque de données NFS v3 afin d'obtenir un débit supérieur.  Les clients utilisant le magasin de données NFS peuvent désormais augmenter le nombre de connexions au serveur NFS, maximisant ainsi l'utilisation des cartes d'interface réseau à haut débit.
+
+
+NOTE: La fonctionnalité est généralement disponible pour NFS v3 avec 8.0 U2, reportez-vous à la section stockage surlink:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/release-notes/esxi-update-and-patch-release-notes/vsphere-esxi-802-release-notes.html["Notes de version de VMware vSphere 8.0 Update 2"] .  La prise en charge de NFS v4.1 est ajoutée avec vSphere 8.0 U3. Pour plus d'informations, consultezlink:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/release-notes/esxi-update-and-patch-release-notes/vsphere-esxi-803-release-notes.html["Notes de publication de vSphere 8.0 Update 3"]
+
+
+
+== Cas d'utilisation
+
+* Hébergez davantage de machines virtuelles par banque de données NFS sur le même hôte.
+* Améliorez les performances du magasin de données NFS.
+* Fournir une option permettant d'offrir un service à un niveau supérieur pour les applications basées sur des machines virtuelles et des conteneurs.
+
+
+
+
+== Détails techniques
+
+L’objectif de nconnect est de fournir plusieurs connexions TCP par banque de données NFS sur un hôte vSphere.  Cela permet d’augmenter le parallélisme et les performances des banques de données NFS.  Dans ONTAP, lorsqu'un montage NFS est établi, un ID de connexion (CID) est créé.  Ce CID permet jusqu'à 128 opérations simultanées en vol.  Lorsque ce nombre est dépassé par le client, ONTAP applique une forme de contrôle de flux jusqu'à ce qu'il puisse libérer certaines ressources disponibles pendant que d'autres opérations se terminent.  Ces pauses ne durent généralement que quelques microsecondes, mais au fil de millions d’opérations, elles peuvent s’accumuler et créer des problèmes de performances.  Nconnect peut prendre la limite de 128 et la multiplier par le nombre de sessions nconnect sur le client, ce qui fournit davantage d'opérations simultanées par CID et peut potentiellement ajouter des avantages en termes de performances.  Pour plus de détails, veuillez vous référerlink:https://www.netapp.com/media/10720-tr-4067.pdf["Guide des meilleures pratiques et de mise en œuvre du NFS"]
+
+
+
+=== Magasin de données NFS par défaut
+
+Pour répondre aux limitations de performances d'une connexion unique de banque de données NFS, des banques de données supplémentaires sont montées ou des hôtes supplémentaires sont ajoutés pour augmenter la connexion.
+
+image:vmware-vsphere8-nfs-wo-nconnect.png["Banque de données NFS sans fonctionnalité nconnect"]
+
+
+
+=== Avec nConnect NFS Datastore
+
+Une fois le magasin de données NFS créé à l'aide des outils ONTAP ou avec d'autres options, le nombre de connexions par magasin de données NFS peut être modifié à l'aide de vSphere CLI, PowerCLI, de l'outil govc ou d'autres options d'API.  Pour éviter les problèmes de performances avec vMotion, conservez le même nombre de connexions pour la banque de données NFS sur tous les hôtes vSphere qui font partie du cluster vSphere.
+
+image:vmware-vsphere8-nfs-nconnect.png["Banque de données NFS avec fonction nconnect activée"]
+
+
+
+== Condition préalable
+
+Pour utiliser la fonctionnalité nconnect, les dépendances suivantes doivent être respectées.
+
+[cols="25%, 25%, 50%"]
+|===
+
+
+| Version ONTAP | Version vSphere | Commentaires 
+
+
+| 9,8 ou supérieur | 8 Mise à jour 1 | Aperçu technique avec option pour augmenter le nombre de connexions.  Il faut démonter le datastore pour diminuer le nombre de connexions. 
+
+
+| 9,8 ou supérieur | 8 Mise à jour 2 | Généralement disponible avec option pour augmenter et diminuer le nombre de connexions. 
+
+
+| 9,8 ou supérieur | 8 Mise à jour 3 | Prise en charge de NFS 4.1 et multi-chemins. 
+|===
+
+
+== Mettre à jour le numéro de connexion au magasin de données NFS
+
+Une seule connexion TCP est utilisée lorsqu'une banque de données NFS est créée avec ONTAP Tools ou avec vCenter.  Pour augmenter le nombre de connexions, vSphere CLI peut être utilisé.  La commande de référence est indiquée ci-dessous.
+
+[source, bash]
+----
+# Increase the number of connections while creating the NFS v3 datastore.
+esxcli storage nfs add -H <NFS_Server_FQDN_or_IP> -v <datastore_name> -s <remote_share> -c <number_of_connections>
+# To specify the number of connections while mounting the NFS 4.1 datastore.
+esxcli storage nfs41 add -H <NFS_Server_FQDN_or_IP> -v <datastore_name> -s <remote_share> -c <number_of_connections>
+# To utilize specific VMkernel adapters while mounting, use the -I switch
+esxcli storage nfs41 add -I <NFS_Server_FQDN_or_IP>:vmk1 -I <NFS_Server_FQDN_or_IP>:vmk2 -v <datastore_name> -s <remote_share> -c <number_of_connections>
+# To increase or decrease the number of connections for existing NFSv3 datastore.
+esxcli storage nfs param set -v <datastore_name> -c <number_of_connections>
+# For NFSv4.1 datastore
+esxcli storage nfs41 param set -v <datastore_name> -c <number_of_connections>
+# To set VMkernel adapter for an existing NFS 4.1 datastore
+esxcli storage nfs41 param set -I <NFS_Server_FQDN_or_IP>:vmk2 -v <datastore_name> -c <number_of_connections>
+----
+ou utilisez PowerCLI comme indiqué ci-dessous
+
+[source, powershell]
+----
+$datastoreSys = Get-View (Get-VMHost host01.vsphere.local).ExtensionData.ConfigManager.DatastoreSystem
+$nfsSpec = New-Object VMware.Vim.HostNasVolumeSpec
+$nfsSpec.RemoteHost = "nfs_server.ontap.local"
+$nfsSpec.RemotePath = "/DS01"
+$nfsSpec.LocalPath = "DS01"
+$nfsSpec.AccessMode = "readWrite"
+$nfsSpec.Type = "NFS"
+$nfsSpec.Connections = 4
+$datastoreSys.CreateNasDatastore($nfsSpec)
+----
+Voici l'exemple d'augmentation du nombre de connexion avec l'outil govc.
+
+[source, powershell]
+----
+$env.GOVC_URL = 'vcenter.vsphere.local'
+$env.GOVC_USERNAME = 'administrator@vsphere.local'
+$env.GOVC_PASSWORD = 'XXXXXXXXX'
+$env.GOVC_Datastore = 'DS01'
+# $env.GOVC_INSECURE = 1
+$env.GOVC_HOST = 'host01.vsphere.local'
+# Increase number of connections while creating the datastore.
+govc host.esxcli storage nfs add -H nfs_server.ontap.local -v DS01 -s /DS01 -c 2
+# For NFS 4.1, replace nfs with nfs41
+govc host.esxcli storage nfs41 add -H <NFS_Server_FQDN_or_IP> -v <datastore_name> -s <remote_share> -c <number_of_connections>
+# To utilize specific VMkernel adapters while mounting, use the -I switch
+govc host.esxcli storage nfs41 add -I <NFS_Server_FQDN_or_IP>:vmk1 -I <NFS_Server_FQDN_or_IP>:vmk2 -v <datastore_name> -s <remote_share> -c <number_of_connections>
+# To increase or decrease the connections for existing datastore.
+govc host.esxcli storage nfs param set -v DS01 -c 4
+# For NFSv4.1 datastore
+govc host.esxcli storage nfs41 param set -v <datastore_name> -c <number_of_connections>
+# View the connection info
+govc host.esxcli storage nfs list
+----
+Référerlink:https://kb.vmware.com/s/article/91497["Article 91497 de la base de connaissances VMware"] pour plus d'informations.
+
+
+
+== Considérations de conception
+
+Le nombre maximal de connexions prises en charge sur ONTAP dépend du modèle de plate-forme de stockage.  Recherchez exec_ctx surlink:https://www.netapp.com/media/10720-tr-4067.pdf["Guide des meilleures pratiques et de mise en œuvre du NFS"] pour plus d'informations.
+
+À mesure que le nombre de connexions par banque de données NFSv3 augmente, le nombre de banques de données NFS pouvant être montées sur cet hôte vSphere diminue.  Le nombre total de connexions prises en charge par hôte vSphere est de 256.  Vérifierlink:https://knowledge.broadcom.com/external/article?legacyId=91481["Article 91481 de la base de connaissances VMware"] pour les limites de banque de données par hôte vSphere.
+
+
+NOTE: La banque de données vVol ne prend pas en charge la fonctionnalité nConnect.  Mais les points de terminaison du protocole comptent dans la limite de connexion.  Un point de terminaison de protocole est créé pour chaque durée de vie de données de SVM lorsque la banque de données vVol est créée.

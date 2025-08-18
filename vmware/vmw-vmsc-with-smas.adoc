@@ -1,0 +1,123 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vmsc-with-smas.html 
+keywords: NetApp Solutions, vMSC, Metro Storage Cluster, SnapMirror active sync, Business Continuity, SMBC, ONTAP Tools, AFD, SCV, iSCSI, backup, restore 
+summary:  
+---
+= Cluster de stockage VMware vSphere Metro avec synchronisation active SnapMirror
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware_vmsc_overview.html["Cluster de stockage VMware vSphere Metro (vMSC)"]est une solution de cluster étendue sur différents domaines de pannes pour fournir * une mobilité de la charge de travail sur plusieurs zones ou sites de disponibilité.  * évitement des temps d'arrêt * évitement des catastrophes * récupération rapide
+
+Ce document fournit les détails d'implémentation de vMSC aveclink:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync["Synchronisation active SnapMirror (SM-as)"] en utilisant System Manager et les outils ONTAP .  De plus, il montre comment la machine virtuelle peut être protégée en la répliquant sur un site tiers et en la gérant avec le plug-in SnapCenter pour VMware vSphere.
+
+image:vmware-vmsc-with-smas-001.png["vMSC avec architecture de synchronisation active SnapMirror"]
+
+SnapMirror Active Sync prend en charge les baies de stockage ASA, AFF et FAS .  Il est recommandé d'utiliser le même type (modèles de performance/capacité) sur les deux domaines de pannes.  Actuellement, seuls les protocoles de blocs tels que FC et iSCSI sont pris en charge.  Pour plus d'informations sur l'assistance, reportez-vous àlink:https://imt.netapp.com/matrix/["Outil de matrice d'interopérabilité"] etlink:https://hwu.netapp.com/["Hardware Universe"]
+
+vMSC prend en charge deux modèles de déploiement différents nommés Accès hôte uniforme et Accès hôte non uniforme.  Dans la configuration d'accès uniforme à l'hôte, chaque hôte du cluster a accès au LUN sur les deux domaines d'erreur.  Il est généralement utilisé dans différentes zones de disponibilité dans le même centre de données.
+
+image:vmware-vmsc-with-smas-002.png["Mode d'accès hôte uniforme et non uniforme vMSC"]
+
+Dans la configuration d'accès hôte non uniforme, l'hôte a accès uniquement au domaine de pannes local.  Il est généralement utilisé sur différents sites où le passage de plusieurs câbles à travers les domaines de défaut constitue une option restrictive.
+
+
+NOTE: En mode d'accès hôte non uniforme, les machines virtuelles seront redémarrées dans un autre domaine de pannes par vSphere HA.  La disponibilité de l'application sera affectée en fonction de sa conception.  Le mode d'accès hôte non uniforme est pris en charge uniquement à partir d' ONTAP 9.15.
+
+
+
+== Prérequis
+
+* link:vmw-vcf-mgmt-supplemental-iscsi.html["Hôtes VMware vSphere déployés avec une structure de stockage double (deux HBA ou double VLAN pour iSCSI) par hôte"] .
+* link:https://docs.netapp.com/us-en/ontap/networking/combine_physical_ports_to_create_interface_groups.html["Les baies de stockage sont déployées avec agrégation de liens pour les ports de données (pour iSCSI)"] .
+* link:vmw-vcf-mgmt-supplemental-iscsi.html["Des machines virtuelles de stockage et des LIF sont disponibles"]
+* link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/prerequisites-reference.html#networking-environment["Le temps de latence aller-retour inter-cluster doit être inférieur à 10 millisecondes"] .
+* link:https://docs.netapp.com/us-en/ontap/mediator/index.html["La machine virtuelle ONTAP Mediator est déployée sur un domaine de pannes différent"]
+* link:https://docs.netapp.com/us-en/ontap/task_dp_prepare_mirror.html["Une relation entre pairs du cluster est établie"]
+* link:https://docs.netapp.com/us-en/ontap/peering/create-intercluster-svm-peer-relationship-93-later-task.html["La relation entre pairs SVM est établie"]
+* link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/mediator-install-task.html#initialize-the-ontap-mediator["Médiateur ONTAP enregistré auprès du cluster ONTAP"]
+
+
+
+TIP: Si vous utilisez un certificat auto-signé, le certificat CA peut être récupéré à partir du <chemin d'installation>/ontap_mediator/server_config/ca.crt sur la machine virtuelle du médiateur.
+
+
+
+== Accès hôte non uniforme vMSC avec l'interface utilisateur d' ONTAP System Manager.
+
+Remarque : ONTAP Tools 10.2 ou version ultérieure peut être utilisé pour provisionner une banque de données étendue avec un mode d'accès hôte non uniforme sans changer plusieurs interfaces utilisateur.  Cette section est uniquement à titre de référence si ONTAP Tools n'est pas utilisé.
+
+. Notez l'une des adresses IP de données iSCSI de la baie de stockage du domaine de pannes local.image:vmware-vmsc-with-smas-004.png["Gestionnaire de système iSCSI Lifs"]
+. Sur l’adaptateur de stockage iSCSI de l’hôte vSphere, ajoutez cette adresse IP iSCSI sous l’onglet Découverte dynamique.image:vmware-vmsc-with-smas-003.png["Ajouter un serveur iSCSI pour la découverte dynamique"]
++
+
+NOTE: Pour le mode d'accès uniforme, vous devez fournir l'adresse LIF des données iSCSI du domaine de panne source et cible.
+
+. Répétez l’étape ci-dessus sur les hôtes vSphere pour l’autre domaine d’erreur en ajoutant son IP de données iSCSI locale dans l’onglet Découverte dynamique.
+. Avec une connectivité réseau appropriée, quatre connexions iSCSI doivent exister par hôte vSphere doté de deux cartes réseau iSCSI VMKernel et de deux LIF de données iSCSI par contrôleur de stockage.image:vmware-vmsc-with-smas-005.png["Informations sur la connexion iSCSI"]
+. Créez un LUN à l'aide d' ONTAP System Manager, configurez SnapMirror avec la politique de réplication AutomatedFailOverDuplex, choisissez les initiateurs d'hôte et définissez la proximité de l'hôte.image:vmware-vmsc-with-smas-006.png["Créer un LUN avec AutomatedFailOverDuplex"]
+. Sur une autre baie de stockage de domaine de pannes, créez le groupe d'initiateurs SAN avec ses initiateurs d'hôte vSphere et définissez la proximité de l'hôte.image:vmware-vmsc-with-smas-009.png["Groupe initiateur SAN"]
++
+
+NOTE: Pour le mode d'accès uniforme, l'igroup peut être répliqué à partir du domaine d'erreur source.
+
+. Mappez le LUN répliqué avec le même ID de mappage que dans le domaine de panne source.image:vmware-vmsc-with-smas-010.png["ID de mappage LUN"]
+. Sur vCenter, cliquez avec le bouton droit sur vSphere Cluster et sélectionnez l’option Rescanner le stockage.image:vmware-vmsc-with-smas-007.png["Réanalyser le stockage"]
+. Sur l’un des hôtes vSphere du cluster, vérifiez que le périphérique nouvellement créé s’affiche avec la banque de données indiquant « Non consommé ».image:vmware-vmsc-with-smas-008.png["Liste des périphériques iSCSI sur l'hôte vSphere"]
+. Sur vCenter, cliquez avec le bouton droit sur vSphere Cluster et sélectionnez l’option Nouvelle banque de données.image:vmware-vmsc-with-smas-007.png["Nouveau magasin de données"]
+. Dans l'assistant, n'oubliez pas de fournir le nom du magasin de données et de sélectionner le périphérique avec la capacité et l'ID de périphérique appropriés.image:vmware-vmsc-with-smas-011.png["Création d'une banque de données sur un périphérique iSCSI"]
+. Vérifiez que le magasin de données est monté sur tous les hôtes du cluster sur les deux domaines d’erreur.image:vmware-vmsc-with-smas-012.png["Banque de données sur l'hôte source"]
++
+image:vmware-vmsc-with-smas-013.png["Banque de données sur l'hôte de destination"]
+
++
+
+NOTE: Les captures d'écran ci-dessus montrent les E/S actives sur un seul contrôleur puisque nous avons utilisé AFF.  Pour ASA, il aura des E/S actives sur tous les chemins.
+
+. Lorsque des banques de données supplémentaires sont ajoutées, n'oubliez pas d'étendre le groupe de cohérence existant pour qu'il soit cohérent dans l'ensemble du cluster vSphere.image:vmware-vmsc-with-smas-014.png["Politique de protection des CG"]
+
+
+
+
+== Mode d'accès hôte uniforme vMSC avec les outils ONTAP .
+
+. Assurez-vous que les outils NetApp ONTAP sont déployés et enregistrés sur vCenter. image:vmware-vmsc-with-smas-015.png["Plug-in ONTAP Tools enregistré sur vCenter"] Sinon, suivezlink:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["Déploiement des outils ONTAP"] etlink:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["Ajouter une instance de serveur vCenter"]
+. Assurez-vous que les systèmes de stockage ONTAP sont enregistrés dans les outils ONTAP .  Cela inclut à la fois les systèmes de stockage de domaine de panne et un troisième pour la réplication à distance asynchrone à utiliser pour la protection des machines virtuelles avec le plug-in SnapCenter pour VMware vSphere. image:vmware-vmsc-with-smas-016.png["Backends de stockage enregistrés"] Sinon, suivezlink:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html#add-storage-backend-using-vsphere-client-ui["Ajouter un backend de stockage à l'aide de l'interface utilisateur du client vSphere"]
+. Mettez à jour les données des hôtes pour les synchroniser avec les outils ONTAP , puis,link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html#create-a-vmfs-datastore["créer un magasin de données"] .image:vmware-vmsc-with-smas-017.png["Mettre à jour les données des hôtes"]
+. Pour activer SM-as, faites un clic droit sur le cluster vSphere et sélectionnez Protéger le cluster sur NetApp ONTAP Tools (voir la capture d'écran ci-dessus)
+. Il affichera les magasins de données existants pour ce cluster ainsi que les détails SVM.  Le nom CG par défaut est <nom du cluster vSphere>_<nom SVM>.  Cliquez sur le bouton Ajouter une relation.image:vmware-vmsc-with-smas-018.png["Protéger le cluster"]
+. Sélectionnez le SVM cible et définissez la stratégie sur AutomatedFailOverDuplex pour SM-as.  Il existe un interrupteur à bascule pour la configuration uniforme de l'hôte.  Définissez la proximité pour chaque hôte.image:vmware-vmsc-with-smas-019.png["Ajouter une relation SnapMirror"]
+. Vérifiez les informations de promesse de l'hôte et d'autres détails.  Ajoutez une autre relation au troisième site avec la politique de réplication asynchrone si nécessaire.  Ensuite, cliquez sur Protéger. image:vmware-vmsc-with-smas-020.png["Ajouter une relation"] REMARQUE : si vous prévoyez d'utiliser SnapCenter Plug-in for VMware vSphere 6.0, la réplication doit être configurée au niveau du volume plutôt qu'au niveau du groupe de cohérence.
+. Avec l'accès uniforme à l'hôte, l'hôte dispose d'une connexion iSCSI aux deux baies de stockage de domaine de pannes. image:vmware-vmsc-with-smas-021.png["Informations sur le multi-chemin iSCSI"] REMARQUE : la capture d'écran ci-dessus provient d' AFF.  Si ASA, les E/S ACTIVE doivent être dans tous les chemins avec des connexions réseau appropriées.
+. Le plugin ONTAP Tools indique également que le volume est protégé ou non.image:vmware-vmsc-with-smas-022.png["État de protection du volume"]
+. Pour plus de détails et pour mettre à jour les informations de proximité de l'hôte, l'option Relations de cluster d'hôtes sous les outils ONTAP peut être utilisée.image:vmware-vmsc-with-smas-023.png["Relations entre les clusters hôtes"]
+
+
+
+
+== Protection VM avec le plug-in SnapCenter pour VMware vSphere.
+
+Le SnapCenter Plug-in for VMware vSphere (SCV) 6.0 ou supérieur prend en charge la synchronisation active SnapMirror et également en combinaison avec SnapMirror Async pour la réplication vers un troisième domaine d'erreur.
+
+image:vmware-vmsc-with-smas-033.png["Topologie à trois sites"]
+
+image:vmware-vmsc-with-smas-024.png["Topologie à trois sites avec basculement asynchrone"]
+
+Les cas d'utilisation pris en charge incluent : * Sauvegarder et restaurer la machine virtuelle ou le magasin de données à partir de l'un des domaines d'erreur avec la synchronisation active SnapMirror .  * Restaurer les ressources du troisième domaine de panne.
+
+. Ajoutez tous les systèmes de stockage ONTAP prévus pour être utilisés dans SCV.image:vmware-vmsc-with-smas-025.png["Enregistrer les baies de stockage"]
+. Créer une politique.  Assurez-vous que la mise à jour de SnapMirror après la sauvegarde est vérifiée pour SM-as et mettez également à jour SnapVault après la sauvegarde pour la réplication asynchrone vers le troisième domaine d'erreur.image:vmware-vmsc-with-smas-026.png["Politique de sauvegarde"]
+. Créez un groupe de ressources avec les éléments souhaités qui doivent être protégés, associés à la politique et à la planification. image:vmware-vmsc-with-smas-027.png["Groupe de ressources"] REMARQUE : le nom d'instantané se terminant par _recent n'est pas pris en charge avec SM-as.
+. Les sauvegardes se produisent à l'heure planifiée en fonction de la politique associée au groupe de ressources.  Les tâches peuvent être surveillées à partir du moniteur de tâches du tableau de bord ou à partir des informations de sauvegarde sur ces ressources.image:vmware-vmsc-with-smas-028.png["Tableau de bord SCV"] image:vmware-vmsc-with-smas-029.png["Informations de sauvegarde des ressources pour le magasin de données"] image:vmware-vmsc-with-smas-030.png["Informations de sauvegarde des ressources pour la machine virtuelle"]
+. Les machines virtuelles peuvent être restaurées sur le même vCenter ou sur un autre vCenter à partir du SVM sur le domaine d'erreur principal ou à partir de l'un des emplacements secondaires.image:vmware-vmsc-with-smas-031.png["Options d'emplacement de restauration de la machine virtuelle"]
+. Une option similaire est également disponible pour l'opération de montage du magasin de données.image:vmware-vmsc-with-smas-032.png["Options d'emplacement de restauration du magasin de données"]
+
+
+Pour obtenir de l'aide sur des opérations supplémentaires avec SCV, reportez-vous àlink:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/index.html["Documentation du SnapCenter Plug-in for VMware vSphere"]

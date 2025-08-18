@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-disaster-recovery.html 
+keywords: vmware, vcf, dr, disaster recovery, draas, bluexp 
+summary:  
+---
+= En savoir plus sur la protection des banques de données VMware à l'aide de la BlueXP disaster recovery
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Découvrez les solutions NetApp pour la reprise après sinistre à l’aide de BlueXP disaster recovery pour VMware.  Cela fournit des solutions robustes pour la reprise après sinistre en utilisant la réplication au niveau des blocs d'un site principal vers un site de reprise après sinistre.
+
+BlueXP DRaaS est une méthode efficace et économique pour protéger les charges de travail contre les pannes de site et les problèmes d'intégrité des données, y compris les attaques de ransomware.  De plus, NetApp BlueXP DRaaS améliore cette stratégie en fournissant une solution de reprise après sinistre gérée et basée sur le cloud, garantissant une récupération rapide et des temps d'arrêt minimes en cas de sinistre.
+
+Veuillez vous référer aux solutions suivantes pour les détails techniques.
+
+* link:vmw-disaster-recovery-vmfs.html["DR avec BlueXP DRaaS pour les banques de données VMFS"]
+* link:vmw-disaster-recovery-nfs.html["DR avec BlueXP DRaaS pour les banques de données NFS"]
+

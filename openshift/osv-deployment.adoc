@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-deployment.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP 
+---
+= Déployer Red Hat OpenShift Virtualization avec ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Installez OpenShift Virtualization sur un cluster bare-metal Red Hat OpenShift.  Cette procédure comprend la connexion avec l’accès administrateur du cluster, la navigation vers OperatorHub et l’installation de l’opérateur OpenShift Virtualization.
+
+. Connectez-vous au cluster bare-metal Red Hat OpenShift avec un accès administrateur de cluster.
+. Sélectionnez Administrateur dans la liste déroulante Perspective.
+. Accédez à Opérateurs > OperatorHub et recherchez OpenShift Virtualization.
++
+image:redhat-openshift-045.png["OpenShift Operator Hub"]
+
+. Sélectionnez la mosaïque Virtualisation OpenShift et cliquez sur Installer.
++
+image:redhat-openshift-046.png["Tuile d'opérateur de virtualisation OpenShift"]
+
+. Sur l’écran Installer l’opérateur, laissez tous les paramètres par défaut et cliquez sur Installer.
++
+image:redhat-openshift-047.png["Détails de l'opérateur de virtualisation OpenShift"]
+
+. Attendez que l’installation de l’opérateur soit terminée.
++
+image:redhat-openshift-048.png["Installation de l'opérateur de virtualisation OpenShift"]
+
+. Une fois l’opérateur installé, cliquez sur Créer HyperConverged.
++
+image:redhat-openshift-049.png["Opérateur de virtualisation OpenShift - Créer une hyperconvergence"]
+
+. Sur l’écran Créer HyperConverged, cliquez sur Créer, en acceptant tous les paramètres par défaut.  Cette étape démarre l’installation d’OpenShift Virtualization.
++
+image:redhat-openshift-050.png["OpenShift Virtualization Operator - Détails hyperconvergés"]
+
+. Une fois que tous les pods passent à l’état En cours d’exécution dans l’espace de noms openshift-cnv et que l’opérateur de virtualisation OpenShift est à l’état Réussi, l’opérateur est prêt à être utilisé.  Les machines virtuelles peuvent désormais être créées sur le cluster OpenShift.
++
+image:redhat-openshift-051.png["Installation d'OpenShift Virtualization Operator terminée"]
+
+

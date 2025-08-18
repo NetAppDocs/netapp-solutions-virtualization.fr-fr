@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-netapp-overview.html 
+keywords: NetApp, ONTAP, Element, Storage 
+summary: NetApp dispose de plusieurs plates-formes de stockage qualifiées avec notre Trident Storage Orchestrator pour provisionner le stockage des applications déployées sur Red Hat OpenShift. 
+---
+= En savoir plus sur le provisionnement du stockage pour les applications déployées sur Red Hat OpenShift
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp s'intègre à Red Hat OpenShift à l'aide de Trident Storage Orchestrator pour fournir un stockage persistant pour les applications conteneurisées.  Les options de stockage prises en charge incluent les systèmes basés sur ONTAP tels que AFF et FAS, ainsi que ONTAP Select et Cloud Volumes ONTAP pour les environnements virtualisés et cloud.  Les services cloud natifs tels qu'Amazon Amazon FSx for NetApp ONTAP, Azure NetApp Files et Google Cloud NetApp Volumes sont également pris en charge.
+
+image:redhat-openshift-043.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+* Les systèmes AFF et FAS exécutent NetApp ONTAP et fournissent un stockage pour les cas d'utilisation basés sur des fichiers (NFS) et basés sur des blocs (iSCSI).
+* Cloud Volumes ONTAP et ONTAP Select offrent respectivement les mêmes avantages dans le cloud et dans l'espace virtuel.
+* Amazon FSx for NetApp ONTAP, Azure NetApp Files et Google Cloud NetApp Volumes fournissent un stockage basé sur des fichiers dans le cloud.
+* Les systèmes de stockage NetApp Element permettent des cas d'utilisation basés sur des blocs (iSCSI) dans un environnement hautement évolutif.
+
+
+
+NOTE: Chaque système de stockage du portefeuille NetApp peut faciliter à la fois la gestion des données et le déplacement entre les sites sur site et le cloud, garantissant que vos données se trouvent là où se trouvent vos applications.
+
+Les pages suivantes contiennent des informations supplémentaires sur les systèmes de stockage NetApp validés dans la solution Red Hat OpenShift avec NetApp :
+
+* link:os-netapp-ontap.html["NetApp ONTAP"]
+* link:https://docs.netapp.com/us-en/netapp-solutions-containers/openshift/os-netapp-element.html["NetApp Element"^]
+

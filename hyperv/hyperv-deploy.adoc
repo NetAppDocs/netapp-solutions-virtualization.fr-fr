@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: hyperv/hyperv-deploy.html 
+keywords: hyperv, hyper-v, deploy, netapp, virtualization, overview 
+summary: 'La solution fournit les étapes nécessaires au déploiement d"Hyper-V sur le stockage NetApp' 
+---
+= En savoir plus sur le déploiement de Microsoft Hyper-V avec les systèmes de stockage ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+La virtualisation informatique avec Microsoft est activée via le rôle Hyper-V de Windows Server.  Découvrez comment créer et gérer un environnement informatique virtualisé à l’aide des systèmes de stockage ONTAP et des fonctionnalités de Windows Server.
+
+La plate-forme Windows Server utilise le rôle Hyper-V pour fournir la technologie de virtualisation.  Hyper-V est l’un des nombreux rôles facultatifs proposés avec Windows Server.
+
+
+
+== Aperçu
+
+Le rôle Hyper-V nous permet de créer et de gérer un environnement informatique virtualisé en utilisant la technologie de virtualisation intégrée à Windows Server.  La technologie Hyper-V virtualise le matériel pour fournir un environnement dans lequel vous pouvez exécuter plusieurs systèmes d’exploitation en même temps sur un ordinateur physique.  Hyper-V vous permet de créer et de gérer des machines virtuelles et leurs ressources.  Chaque machine virtuelle est un système informatique isolé et virtualisé qui peut exécuter son propre système d’exploitation.  Hyper-V fournit une infrastructure permettant de virtualiser des applications et des charges de travail qui prend en charge une variété d'objectifs commerciaux visant à améliorer l'efficacité et à réduire les coûts, ce qui constitue une alternative parfaite à VMware vSphere, en particulier lorsque les organisations recherchent la coexistence de plusieurs hyperviseurs dans les conditions actuelles du marché.
+
+
+
+== Public
+
+Ce document décrit l'architecture et les procédures de déploiement de la configuration du cluster Hyper-V avec les systèmes NetApp ONTAP .  Le public visé par ce document comprend les ingénieurs commerciaux, les consultants de terrain, les services professionnels, les responsables informatiques, les ingénieurs partenaires et les clients qui souhaitent déployer Hyper-V comme hyperviseur principal ou alternatif.
+
+
+
+== Architecture
+
+L’architecture décrite dans ce document inclut spécifiquement Microsoft Windows Server 2022 et la virtualisation Hyper-V.  NetApp recommande fortement l'utilisation de logiciels de virtualisation et de logiciels de gestion d'infrastructure dans le cadre de chaque déploiement.  La configuration utilise les meilleures pratiques pour chaque composant afin de permettre une infrastructure fiable de classe entreprise.
+
+
+
+== Résumé du cas d'utilisation
+
+Ce document décrit les procédures de déploiement et les meilleures pratiques pour configurer un cluster Hyper-V afin qu'il fonctionne de manière optimale en tant que charge de travail sur Microsoft Windows Server 2022 à l'aide des modèles de baies NetApp All-Flash FAS et ASA .  Le système d’exploitation/hyperviseur du serveur est Microsoft Windows Server 2022.  Les conseils couvrent les systèmes de stockage NetApp qui fournissent des données via des protocoles de réseau de stockage (SAN) et de stockage en réseau (NAS).

@@ -1,0 +1,79 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-mgmt-principal-nfs.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, nfs 
+summary:  
+---
+= Utiliser une banque de données NFS sur ONTAP comme stockage principal pour le domaine de gestion VCF
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dans ce cas d'utilisation, nous décrivons la procédure permettant d'utiliser une banque de données NFS existante sur ONTAP comme stockage principal pour les domaines de gestion VMware Cloud Foundation (VCF).  Cette procédure résume les composants requis, les étapes de configuration et le processus de déploiement.
+
+
+
+== Introduction
+
+Le cas échéant, nous ferons référence à la documentation externe pour les étapes qui doivent être effectuées dans le gestionnaire SDDC de VCF et ferons référence aux étapes spécifiques à la partie configuration du stockage.
+
+Pour plus d'informations sur la conversion d'un environnement vSphere basé sur NFS existant avec ONTAP, reportez-vous àlink:vmw-vcf-mgmt-nfs.html["Convertir l'environnement vSphere (banque de données NFS) en domaine de gestion VCF"] .
+
+
+NOTE: La version 5.2 de VCF a introduit la possibilité de convertir un environnement vSphere 8 existant en un domaine de gestion VCF ou de l'importer en tant que domaines de charge de travail VCF VI.  Avant cette version, VMware vSAN était la seule option de stockage principal pour le domaine de gestion VCF.
+
+
+NOTE: Cette solution est applicable aux plates-formes ONTAP prenant en charge le stockage NFS, notamment NetApp AFF et FAS.
+
+
+
+== Prérequis
+
+Les composants et configurations suivants sont utilisés dans ce scénario :
+
+* Système de stockage NetApp avec une machine virtuelle de stockage (SVM) configurée pour autoriser le trafic NFS.
+* L'interface logique (LIF) a été créée sur le réseau IP qui doit transporter le trafic NFS et est associée au SVM.
+* Un cluster vSphere 8 avec 4 hôtes ESXi et une appliance vCenter colocalisée sur le cluster.
+* Groupe de ports distribués configuré pour le trafic de stockage vMotion et NFS sur les VLAN ou segments de réseau établis à cet effet.
+* Téléchargez le logiciel requis pour la conversion VCF.
+
+
+Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.
+
+Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html["Documentation de VMware Cloud Foundation"] .
+
+
+
+== Étapes de déploiement
+
+
+
+=== Domaine de gestion - Cluster par défaut
+
+Le stockage principal NFS sur le cluster initial n'est pris en charge qu'avec l'outil d'importation Brownfield VCF.  Si VCF est déployé avec l'outil Cloud Builder (jusqu'à la version 5.2.x), seul VSAN est pris en charge.
+
+Pour plus d'informations sur l'utilisation d'un environnement vSphere existant, reportez-vous à https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["conversion de l'environnement vSphere existant en domaine de gestion"] pour plus d'infos.
+
+
+
+=== Domaine de gestion - Cluster supplémentaire
+
+Le cluster vSphere supplémentaire sur le domaine de gestion peut être déployé avec les options suivantes :
+
+* Disposez d'un cluster supplémentaire dans l'environnement vSphere et utilisez l'outil d'importation Brownfield VCF pour convertir l'environnement vSphere en domaine de gestion. https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["ONTAP tools for VMware vSphere"] https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["Gestionnaire de système ou API ONTAP"] peut être utilisé pour déployer la banque de données NFS sur un cluster vSphere.
+* Utilisez l’API SDDC pour déployer un cluster supplémentaire.  Les hôtes vSphere doivent avoir le magasin de données NFS configuré.  Utiliser https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["Gestionnaire de système ou API ONTAP"] pour déployer le LUN sur les hôtes vSphere.
+* Utilisez l’interface utilisateur de SDDC Manager pour déployer un cluster supplémentaire.  Mais cette option crée uniquement une banque de données vSAN avec des versions antérieures à 5.2.x.
+
+
+
+
+== Informations Complémentaires
+
+Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.
+
+Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["Documentation de VMware Cloud Foundation"] .

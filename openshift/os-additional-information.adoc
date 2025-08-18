@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-additional-information.html 
+keywords:  
+summary:  
+---
+= Ressources supplémentaires pour en savoir plus sur l'intégration de Red Hat OpenShift Virtualization avec le stockage NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Accédez à des ressources supplémentaires qui offrent plus d’informations sur la prise en charge du déploiement, de la gestion et de l’optimisation de Red Hat OpenShift Virtualization avec ONTAP sur différentes plates-formes et technologies.
+
+* https://docs.netapp.com/["Documentation NetApp"^]
+* https://docs.netapp.com/us-en/trident/index.html["Documentation Trident"^]
+* https://access.redhat.com/documentation/en-us/openshift_container_platform/4.7/["Documentation de Red Hat OpenShift"^]
+* https://access.redhat.com/documentation/en-us/red_hat_openstack_platform/16.1/["Documentation de la plateforme Red Hat OpenStack"^]
+* https://access.redhat.com/documentation/en-us/red_hat_virtualization/4.4/["Documentation sur la virtualisation Red Hat"^]
+* https://docs.vmware.com["Documentation VMware vSphere"^]
+

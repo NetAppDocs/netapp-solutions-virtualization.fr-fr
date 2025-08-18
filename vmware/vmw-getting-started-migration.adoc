@@ -1,0 +1,37 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-migration.html 
+keywords: vmware, getting, started, overview, netapp 
+summary:  
+---
+= Découvrez les machines virtuelles de VMware vSphere aux banques de données ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Les administrateurs VMware vSphere peuvent améliorer leur infrastructure en migrant les charges de travail vers les banques de données NetApp ONTAP .  ONTAP fournit des instantanés compatibles avec les machines virtuelles, des clones efficaces en termes de stockage et des opérations vMotion transparentes tout en prenant en charge la gestion basée sur les politiques de stockage (SPBM).  Qu'il s'agisse de migrer depuis vSAN, d'un stockage hérité ou de mettre en œuvre des déploiements de cloud hybride, ONTAP offre des performances améliorées et des opérations de stockage simplifiées pour les environnements VMware.
+
+Cette migration permet une intégration transparente, une meilleure protection des données et une plus grande flexibilité dans la gestion des environnements virtualisés, garantissant une transition en douceur avec un temps d'arrêt minimal.
+
+
+
+== Cas d'utilisation
+
+Il existe de nombreuses options de migration en termes de source et de destination lorsque l'on envisage de migrer vers des magasins de données basés sur ONTAP .
+
+* Migration de systèmes de stockage tiers (y compris vSAN) vers des banques de données ONTAP .
+* Migration de machines virtuelles dans le même cluster vSphere
+* Migration de machines virtuelles sur plusieurs clusters vSphere
+* Migration de machines virtuelles entre serveurs vCenter dans le même domaine SSO
+* Migration de machines virtuelles entre serveurs vCenter dans différents domaines SSO
+* Migration de machines virtuelles entre différents centres de données
+* Migration de systèmes de stockage tiers (y compris vSAN) vers des banques de données ONTAP .
+* Migration de machines virtuelles dans un environnement cloud hybride
+
+
+Pour plus d'informations sur la migration des charges de travail VMware vers des banques de données basées sur ONTAP , consultez lelink:migrate-vms-to-ontap-datastore.html["Migrer des machines virtuelles vers des banques de données ONTAP"] .

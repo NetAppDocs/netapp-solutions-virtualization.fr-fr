@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-hmc.html 
+keywords: vmware, getting, started, overview, netapp, hybrid, multicloud, multi, cloud 
+summary:  
+---
+= Découvrez les environnements multicloud hybrides avec NetApp et VMware
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Découvrez comment NetApp et VMware rationalisent les configurations multicloud hybrides en intégrant l'infrastructure sur site aux services de cloud public, permettant la migration des charges de travail, l'optimisation des ressources et des opérations cohérentes dans tous les environnements.
+
+
+
+== Introduction
+
+Cette approche permet aux entreprises de migrer facilement les charges de travail, d’optimiser l’utilisation des ressources et de maintenir des opérations cohérentes dans les deux environnements.
+
+Pour plus d'informations sur les scénarios de cloud hybride avec VMware et NetApp, consultezlink:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-overview.html#vmware-cloud-options-in-public-cloud["Présentation de NetApp Hybrid Multicloud avec VMware"^] .
+
+
+
+== Scénarios de déploiement VMware avec NetApp
+
+Cette section décrit différentes options de déploiement pour les environnements VMware sur site et dans les clouds publics.  Chacun des fournisseurs de cloud prend en charge une pile VMware Software Defined Data Center (SDDC) et/ou VMware Cloud Foundation (VCF) au sein de leurs offres de cloud public respectives.
+
+* *VMware sur site*
+
+
+L’utilisation de VMware avec le stockage NetApp sur site fournit un environnement de virtualisation robuste, évolutif et flexible.  En associant les fonctionnalités avancées de gestion des données de NetApp, telles que la déduplication, la compression et les snapshots efficaces, au système de stockage approprié optimisé par ONTAP, les clients peuvent choisir la plate-forme qui leur convient.  Cette combinaison garantit des performances élevées, une fiabilité et une gestion simplifiée pour les charges de travail virtualisées, améliorant ainsi l'efficacité globale du centre de données.
+
+* *Solution Azure VMware*
+
+
+Azure VMware Solution est un service cloud hybride qui permet des SDDC VMware entièrement fonctionnels au sein du cloud public Microsoft Azure. Azure VMware Solution est une solution propriétaire entièrement gérée et prise en charge par Microsoft, vérifiée par VMware s'appuyant sur l'infrastructure Azure. Cela signifie que lorsque Azure VMware Solution est déployé, les clients bénéficient de l'ESXi de VMware pour la virtualisation du calcul, de vSAN pour le stockage hyperconvergé et de NSX pour la mise en réseau et la sécurité, tout en profitant de la présence mondiale de Microsoft Azure, des installations de centre de données de pointe et de la proximité du riche écosystème de services et de solutions Azure natifs.
+
+* *VMware Cloud sur AWS*
+
+
+VMware Cloud sur AWS apporte le logiciel SDDC de classe entreprise de VMware au cloud AWS avec un accès optimisé aux services AWS natifs. Propulsé par VMware Cloud Foundation, VMware Cloud sur AWS intègre les produits de virtualisation de calcul, de stockage et de réseau de VMware (VMware vSphere, VMware vSAN et VMware NSX) ainsi que la gestion de VMware vCenter Server, optimisée pour fonctionner sur une infrastructure AWS dédiée, élastique et bare-metal.
+
+* *Google Cloud VMware Engine*
+
+
+Google Cloud VMware Engine est une offre IaaS (Infrastructure as a Service) basée sur l'infrastructure évolutive et performante de Google Cloud et la pile VMware Cloud Foundation (VMware vSphere, vCenter, vSAN et NSX-T). Ce service permet une transition rapide vers le cloud, en migrant ou en étendant de manière transparente les charges de travail VMware existantes depuis les environnements sur site vers Google Cloud Platform, sans les coûts, les efforts ni les risques liés à la réarchitecture des applications ou à la refonte des opérations. Il s'agit d'un service vendu et supporté par Google, en étroite collaboration avec VMware.

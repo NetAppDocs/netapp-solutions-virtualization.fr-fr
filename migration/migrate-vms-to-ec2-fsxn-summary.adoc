@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: migration/migrate-vms-to-ec2-fsxn-summary.html 
+keywords: netapp, vmware, amazon, ec2, fsxn, migration, iscsi, 
+summary: 'Ce rapport technique explique comment migrer des machines virtuelles VMware vSphere sur site vers une instance Amazon EC2 avec des disques de données placés sur des LUN iSCSI FSx ONTAP à l"aide de la fonctionnalité « mobilité des données en tant que code » de MigrateOps de Cirrus Migrate Cloud (CMC).' 
+---
+= Plus d'options pour migrer des machines virtuelles vers Amazon EC2 à l'aide d' Amazon FSx pour ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Explorez les options de migration des machines virtuelles vers Amazon EC2 à l’aide d’ Amazon FSx for NetApp ONTAP, y compris l’utilisation de la réplication de stockage en invité.
+
+
+
+== Autres possibilités
+
+La même approche peut être étendue pour migrer des machines virtuelles à l’aide du stockage invité sur des machines virtuelles sur site.  Le système d'exploitation VMDK peut être migré à l'aide de CMC et les LUN iSCSI invités peuvent être répliqués à l'aide de SnapMirror.  Le processus nécessite de briser le miroir et d’attacher le LUN à l’instance Amazon EC2 nouvellement migrée, comme illustré dans le diagramme ci-dessous.
+
+image:migrate-ec2-fsxn-013.png["Image montrant une possibilité supplémentaire pour cette solution de migration"]
+
+
+
+== Conclusion
+
+Ce document a fourni une procédure pas à pas complète de l'utilisation de la fonctionnalité MigrateOps de CMC pour migrer les données stockées dans les référentiels VMware sur site vers AWS à l'aide d'instances Amazon EC2 et de FSx ONTAP.
+
+La vidéo suivante montre le processus de migration du début à la fin :
+
+.Migrer des machines virtuelles VMware vers Amazon EC2
+video::317a0758-cba9-4bd8-a08b-b17000d88ae9[panopto]
+Pour découvrir l'interface graphique et la migration locale de base d'Amazon EBS vers FSx ONTAP , regardez cette vidéo de démonstration de cinq minutes :
+
+.Migration vers n'importe quel stockage à grande échelle avec Cirrus Migrate Cloud
+video::PeFNZxXeQAU[youtube]

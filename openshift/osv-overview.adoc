@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-overview.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP 
+---
+= En savoir plus sur la virtualisation Red Hat OpenShift avec ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Découvrez comment utiliser Red Hat OpenShift Virtualization et le stockage ONTAP pour exécuter et gérer des machines virtuelles.  Utilisez Trident pour activer la migration de machines virtuelles en direct, le clonage de disques de machines virtuelles et les instantanés de machines virtuelles, simplifiant ainsi la gestion de l'infrastructure et la protection des données.
+
+Selon le cas d’utilisation spécifique, les conteneurs et les machines virtuelles (VM) peuvent servir de plates-formes optimales pour différents types d’applications.  Par conséquent, de nombreuses organisations exécutent une partie de leurs charges de travail sur des conteneurs et une autre partie sur des machines virtuelles.  Souvent, cela conduit les organisations à faire face à des défis supplémentaires en devant gérer des plates-formes distinctes : un hyperviseur pour les machines virtuelles et un orchestrateur de conteneurs pour les applications.
+
+Pour relever ce défi, Red Hat a introduit OpenShift Virtualization (anciennement connu sous le nom de Container Native Virtualization) à partir de la version 4.6 d'OpenShift.  La fonctionnalité de virtualisation OpenShift vous permet d'exécuter et de gérer des machines virtuelles aux côtés de conteneurs sur la même installation OpenShift Container Platform, offrant une capacité de gestion hybride pour automatiser le déploiement et la gestion des machines virtuelles via les opérateurs.  En plus de créer des machines virtuelles dans OpenShift, avec OpenShift Virtualization, Red Hat prend également en charge l'importation de machines virtuelles à partir de déploiements VMware vSphere, Red Hat Virtualization et Red Hat OpenStack Platform.
+
+image:redhat-openshift-044.png["Virtualisation OpenShift"]
+
+Certaines fonctionnalités telles que la migration de machines virtuelles en direct, le clonage de disques de machines virtuelles, les instantanés de machines virtuelles, etc. sont également prises en charge par OpenShift Virtualization avec l'aide de Trident lorsqu'il est pris en charge par NetApp ONTAP.  Des exemples de chacun de ces flux de travail sont abordés plus loin dans ce document dans leurs sections respectives.
+
+Pour en savoir plus sur Red Hat OpenShift Virtualization, consultez la documentation https://www.openshift.com/learn/topics/virtualization/["ici"] .

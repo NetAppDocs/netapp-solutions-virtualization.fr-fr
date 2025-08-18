@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-getting-started-snapcenter.html 
+keywords: netapp, vmware, getting, started 
+summary:  
+---
+= En savoir plus sur la sauvegarde et la restauration des machines virtuelles à l'aide du plug-in SnapCenter pour VMware vSphere
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Le SnapCenter Plug-in for VMware vSphere permet des opérations de sauvegarde et de restauration rapides et cohérentes avec les machines virtuelles, les banques de données et les fichiers VMDK.  Ce plug-in VMware s'intègre à SnapCenter Server pour prendre en charge la sauvegarde et la restauration basées sur les applications pour les plug-ins spécifiques à l'application SnapCenter .
+
+
+
+== Ressources documentaires
+
+Reportez-vous aux ressources de documentation suivantes pour des informations détaillées.
+
+* link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["Documentation du SnapCenter Plug-in for VMware vSphere"]
+
+
+
+
+== Ressources de solutions
+
+Reportez-vous à la solution de sauvegarde 3-2-1 suivante comprenant le SnapCenter Plug-in for VMware vSphere et la BlueXP backup and recovery pour les machines virtuelles.
+
+Rapport technique :link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-321-dp-scv.html["Protection des données 3-2-1 pour VMware avec le plug-in SnapCenter et la BlueXP backup and recovery pour les machines virtuelles"^]
+
+Blog Tech ONTAP :link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["Protection des données 3-2-1 pour VMware avec le plug-in SnapCenter et la BlueXP backup and recovery pour les machines virtuelles"]
+
+
+
+== Ressources vidéo
+
+.SnapCenter Plug-in for VMware vSphere : conditions préalables à la solution
+video::38881de9-9ab5-4a8e-a17d-b01200fade6a[panopto]
+.SnapCenter Plug-in for VMware vSphere - Déploiement
+video::10cbcf2c-9964-41aa-ad7f-b01200faca01[panopto]
+.SnapCenter Plug-in for VMware vSphere - Workflow de sauvegarde
+video::b7272f18-c424-4cc3-bc0d-b01200faaf25[panopto]
+.SnapCenter Plug-in for VMware vSphere – Workflow de restauration
+video::ed41002e-585c-445d-a60c-b01200fb1188[panopto]
+.SnapCenter - Flux de travail de restauration SQL
+video::8df4ad1f-83ad-448b-9405-b01200fb2567[panopto]

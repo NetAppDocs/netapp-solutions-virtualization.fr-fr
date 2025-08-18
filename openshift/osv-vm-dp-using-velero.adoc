@@ -1,0 +1,82 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-vm-dp-using-velero.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP 
+---
+= Créer une sauvegarde à la demande pour les machines virtuelles dans Red Hat OpenShift Virtualization à l'aide de Velero
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sauvegardez les machines virtuelles dans OpenShift Virtualization à l'aide de Velero et NetApp ONTAP S3 ou StorageGRID.  Cette procédure inclut la création de ressources personnalisées de sauvegarde (CR) pour les sauvegardes à la demande et de CR planifiées pour les sauvegardes planifiées.  Chaque sauvegarde capture les métadonnées de la machine virtuelle et les volumes persistants, en les stockant dans l'emplacement de stockage d'objets spécifié à des fins de récupération ou de conformité.
+
+
+
+== Étapes pour créer une sauvegarde d'une machine virtuelle
+
+Pour créer une sauvegarde à la demande de l'intégralité de la VM (métadonnées de la VM et disques de la VM), cliquez sur l'onglet **Sauvegarde**.  Cela crée une ressource personnalisée de sauvegarde (CR). Un exemple de fichier yaml est fourni pour créer le CR de sauvegarde.  À l’aide de ce fichier yaml, la machine virtuelle et ses disques dans l’espace de noms spécifié seront sauvegardés. Des paramètres supplémentaires peuvent être définis comme indiqué dans lelink:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["documentation"] .
+
+Un instantané des volumes persistants soutenant les disques sera créé par le CSI.  Une sauvegarde de la machine virtuelle ainsi que l'instantané de ses disques sont créés et stockés dans l'emplacement de sauvegarde spécifié dans le fichier yaml. La sauvegarde restera dans le système pendant 30 jours comme spécifié dans le ttl.
+
+....
+apiVersion: velero.io/v1
+kind: Backup
+metadata:
+  name: backup1
+  namespace: openshift-adp
+spec:
+  includedNamespaces:
+  - virtual-machines-demo
+  snapshotVolumes: true
+  storageLocation: velero-demo-1 -->this is the backupStorageLocation previously created
+                                    when Velero is configured.
+  ttl: 720h0m0s
+....
+Une fois la sauvegarde terminée, sa phase s'affichera comme terminée.
+
+image:redhat-openshift-oadp-backup-001.png["Sauvegarde terminée"]
+
+Vous pouvez inspecter la sauvegarde dans le stockage d'objets à l'aide d'une application de navigateur S3. Le chemin de la sauvegarde s'affiche dans le bucket configuré avec le nom de préfixe (velero/demobackup).  Vous pouvez voir que le contenu de la sauvegarde comprend les instantanés de volume, les journaux et d’autres métadonnées de la machine virtuelle.
+
+
+NOTE: Dans StorageGrid, vous pouvez également utiliser la console S3 disponible à partir du gestionnaire de locataires pour afficher les objets de sauvegarde.
+
+image:redhat-openshift-oadp-backup-002.png["Sauvegarder des objets dans S3"]
+
+
+
+== Création de sauvegardes planifiées pour les machines virtuelles dans OpenShift Virtualization
+
+Pour créer des sauvegardes selon une planification, vous devez créer une CR de planification. La planification est simplement une expression Cron vous permettant de spécifier l'heure à laquelle vous souhaitez créer la sauvegarde. Un exemple de fichier yaml pour créer un CR de planification.
+
+....
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: <schedule>
+  namespace: openshift-adp
+spec:
+  schedule: 0 7 * * *
+  template:
+    hooks: {}
+    includedNamespaces:
+    - <namespace>
+    storageLocation: velero-demo-1
+    defaultVolumesToFsBackup: true
+    ttl: 720h0m0s
+....
+L'expression Cron 0 7 * * * signifie qu'une sauvegarde sera créée à 7h00 tous les jours. Les espaces de noms à inclure dans la sauvegarde et l'emplacement de stockage de la sauvegarde sont également spécifiés. Ainsi, au lieu d'un CR de sauvegarde, le CR planifié est utilisé pour créer une sauvegarde à l'heure et à la fréquence spécifiées.
+
+Une fois le calendrier créé, il sera activé.
+
+image:redhat-openshift-oadp-backup-003.png["Horaire créé"]
+
+Les sauvegardes seront créées selon ce calendrier et pourront être consultées à partir de l'onglet Sauvegarde.
+
+image:redhat-openshift-oadp-backup-004.png["Horaire créé"]

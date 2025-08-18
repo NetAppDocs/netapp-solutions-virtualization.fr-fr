@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-workflow-vm-from-snapshot.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP 
+---
+= Créer une machine virtuelle à partir d'une copie instantanée avec Red Hat OpenShift Virtualization
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Créez une machine virtuelle à partir d’un snapshot avec OpenShift Virtualization.  Cette procédure comprend la création d'un VolumeSnapshotClass, la prise d'un instantané de la revendication de volume persistant (PVC) de la machine virtuelle, la restauration de l'instantané sur un nouveau PVC et le déploiement d'une nouvelle machine virtuelle qui utilise le PVC restauré comme disque racine.
+
+
+
+== Créer une machine virtuelle à partir d'un instantané
+
+Avec Trident et Red Hat OpenShift, les utilisateurs peuvent prendre un instantané d'un volume persistant sur les classes de stockage provisionnées par celui-ci.  Grâce à cette fonctionnalité, les utilisateurs peuvent prendre une copie ponctuelle d’un volume et l’utiliser pour créer un nouveau volume ou restaurer le même volume à un état antérieur.  Cela permet ou prend en charge une variété de cas d'utilisation, de la restauration aux clones en passant par la restauration des données.
+
+Pour les opérations Snapshot dans OpenShift, les ressources VolumeSnapshotClass, VolumeSnapshot et VolumeSnapshotContent doivent être définies.
+
+* Un VolumeSnapshotContent est l’instantané réel pris à partir d’un volume du cluster.  Il s'agit d'une ressource à l'échelle du cluster analogue à PersistentVolume pour le stockage.
+* Un VolumeSnapshot est une demande de création d'un instantané d'un volume.  Il est analogue à un PersistentVolumeClaim.
+* VolumeSnapshotClass permet à l'administrateur de spécifier différents attributs pour un VolumeSnapshot.  Il vous permet d'avoir des attributs différents pour différents instantanés pris à partir du même volume.
+
+
+image:redhat-openshift-060.png["VM à partir de l'architecture Snapshot"]
+
+Pour créer un instantané d’une machine virtuelle, procédez comme suit :
+
+. Créez une VolumeSnapshotClass qui peut ensuite être utilisée pour créer un VolumeSnapshot.  Accédez à Stockage > VolumeSnapshotClasses et cliquez sur Créer VolumeSnapshotClass.
+. Saisissez le nom de la classe Snapshot, saisissez csi.trident.netapp.io pour le pilote et cliquez sur Créer.
++
+image:redhat-openshift-061.png["Créer une classe Snapshot"]
+
+. Identifiez le PVC attaché à la machine virtuelle source, puis créez un instantané de ce PVC.  Accéder à `Storage > VolumeSnapshots` et cliquez sur Créer des VolumeSnapshots.
+. Sélectionnez le PVC pour lequel vous souhaitez créer le snapshot, entrez le nom du snapshot ou acceptez la valeur par défaut, puis sélectionnez le VolumeSnapshotClass approprié.  Cliquez ensuite sur Créer.
++
+image:redhat-openshift-062.png["Créer un instantané"]
+
+. Cela crée l'instantané du PVC à ce moment précis.
+
+
+
+
+== Créer une nouvelle VM à partir du snapshot
+
+. Tout d’abord, restaurez l’instantané dans un nouveau PVC.  Accédez à Stockage > Instantanés de volume, cliquez sur les points de suspension en regard de l’instantané que vous souhaitez restaurer, puis cliquez sur Restaurer en tant que nouveau PVC.
+. Saisissez les détails du nouveau PVC et cliquez sur Restaurer.  Cela crée un nouveau PVC.
++
+image:redhat-openshift-063.png["Restaurer l'instantané sur un nouveau PVC"]
+
+. Ensuite, créez une nouvelle VM à partir de ce PVC.  Accédez à Virtualisation > Machines virtuelles et cliquez sur Créer > Avec YAML.
+. Dans la section spec > template > spec > volumes, spécifiez le nouveau PVC créé à partir de Snapshot plutôt qu'à partir du disque conteneur.  Fournissez tous les autres détails de la nouvelle machine virtuelle en fonction de vos besoins.
++
+[source, cli]
+----
+- name: rootdisk
+  persistentVolumeClaim:
+    claimName: rhel8-short-frog-rootdisk-28dvb-snapshot-restore
+----
+. Cliquez sur Créer pour créer la nouvelle VM.
+. Une fois la machine virtuelle créée avec succès, accédez à la nouvelle machine virtuelle et vérifiez qu'elle a le même état que la machine virtuelle dont le PVC a été utilisé pour créer l'instantané au moment de la création de l'instantané.
+

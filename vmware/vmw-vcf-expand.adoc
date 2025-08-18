@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-expand.html 
+keywords: vmware, vcf, expand, supplemental, storage 
+summary:  
+---
+= En savoir plus sur l'extension du stockage pour un environnement VCF à l'aide d'un stockage supplémentaire
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+VMware Cloud Foundation (VCF) prend en charge une large gamme d'options de stockage supplémentaires pour étendre le stockage sur les domaines de gestion VCF et les domaines de charge de travail d'infrastructure virtuelle (VI).
+
+Les outils ONTAP de NetApp pour VMware vSphere offrent une solution efficace pour cette extension en intégrant de manière transparente le stockage NetApp dans l'environnement VCF.  Les outils ONTAP simplifient la configuration et la gestion des banques de données, permettant aux administrateurs de provisionner et de gérer le stockage directement à partir du client vSphere.  Les fonctionnalités avancées d'ONTAP telles que les instantanés, le clonage et la protection des données améliorent les performances de stockage, l'efficacité et l'évolutivité au sein de l'environnement VCF.
+
+Veuillez vous référer aux solutions suivantes pour les détails techniques permettant d'étendre l'environnement VCF.
+
+* link:vmw-vcf-mgmt-supplemental-iscsi.html["Domaine de gestion avec iSCSI"]
+* link:vmw-vcf-mgmt-supplemental-fc.html["Domaine de gestion avec FC"]
+* link:vmw-vcf-viwld-supp-iscsi-vvols.html["Domaine de charge de travail d'infrastructure virtuelle avec vVols (iSCSI)"]
+* link:vmw-vcf-viwld-supp-nfs-vvols.html["Domaine de charge de travail d'infrastructure virtuelle avec vVols (NFS)"]
+* link:vmw-vcf-viwld-supp-nvme.html["Domaine de charge de travail d'infrastructure virtuelle avec NVMe/TCP"]
+* link:vmw-vcf-viwld-supp-fc.html["Domaine de charge de travail d'infrastructure virtuelle avec FC"]
+

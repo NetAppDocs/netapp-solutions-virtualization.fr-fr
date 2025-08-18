@@ -1,0 +1,127 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-migration.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox 
+summary:  
+---
+= Migrer des machines virtuelles à l'aide de Shift Toolkit
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Utilisez Shift Toolkit pour migrer des machines virtuelles de VMware ESXi vers Microsoft Hyper-V. Le processus comprend la préparation des machines virtuelles, la conversion des formats de disque et la configuration des paramètres réseau dans l'environnement cible.
+
+
+
+== Migration
+
+Une fois le plan créé, l'option « Migrer » peut être exercée.  Pendant l'option de migration, Shift Toolkit exécute une série d'étapes pour convertir le format du disque et utiliser le disque converti pour créer des machines virtuelles sur l'hôte Hyper-V comme défini dans le plan.
+
+Les étapes de haut niveau réalisées sont les suivantes :
+
+Prérequis : avant de lancer la migration, assurez-vous que les machines virtuelles (VM) sont correctement mises hors tension, que la migration soit ponctuelle ou planifiée en fonction du temps de maintenance prévu.  Confirmez que les machines virtuelles sont complètement arrêtées ; si le système d’exploitation est en attente de mises à jour, déclenchez la migration uniquement après l’arrêt complet des machines virtuelles.
+
+* Supprimer les snapshots existants pour toutes les machines virtuelles du plan
+* Déclencher des snapshots de VM pour Blueprint – à la source
+* Déclencher un instantané du volume avant la conversion du disque
+* Cloner et convertir VMDK au format VHDx pour toutes les machines virtuelles
+* Mettre sous tension les machines virtuelles du groupe de protection – au niveau de la cible
+* Enregistrer les réseaux sur chaque VM
+* Supprimez les outils VMware et attribuez les adresses IP à l'aide d'un script de déclenchement ou d'une tâche cron en fonction du type de système d'exploitation
+
+
+
+
+=== Facteurs à prendre en compte
+
+Avant de lancer la migration, assurez-vous que tous les prérequis sont remplis (ce qui est couvert en détail dans la section des prérequis de ce document).  Voici une liste de contrôle rapide pour un récapitulatif :
+
+* Assurez-vous que la machine virtuelle Shift fait partie du domaine
+* Assurez-vous que le partage CIFS est configuré avec les autorisations appropriées
+* Le qtree utilisé pour la migration ou la conversion a le bon style de sécurité
+* En guise de test rapide, essayez de créer une machine virtuelle à l’aide du gestionnaire Hyper-V à partir de n’importe quel hôte Hyper-V du cluster et placez le VHDX sur le partage CIFS (mentionné dans la puce – a).  Essayez la même chose à partir de Shift toolkit VM en ajoutant des outils de gestion Hyper-V (soit via « Programmes et fonctionnalités », soit en utilisant « PowerShell » - add-windowsfeature rsat-hyper-v-tools)
+
+
+
+NOTE: S'il y a des échecs,link:https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/manage/remotely-manage-hyper-v-hosts["activer la délégation à l'aide de n'importe quel protocole d'authentification"] .
+
+
+
+=== Conseils et considérations sur le réseau
+
+Les considérations réseau suivantes doivent être prises en compte :
+
+* Assurez-vous que les adresses IP statiques sont disponibles et non attribuées à une autre machine virtuelle
+
+
+Pour les machines virtuelles Windows :
+
+* Le script de préparation effectue une copie des détails de configuration du réseau (espace d'adressage IP, adresse de passerelle, serveurs DNS) et le script de déclenchement (pendant la migration) réappliquera les paramètres réseau, qu'il s'agisse d'une seule carte réseau ou de plusieurs cartes réseau en fonction du mappage du plan directeur.
+* Après la migration, le gestionnaire de périphériques Windows peut toujours afficher les anciennes informations de la carte réseau d’avant la migration.  Bien que cela n'affecte pas la nouvelle carte réseau créée après la migration et ne provoque pas de conflits IP, le script ne supprime pas actuellement cet ancien enregistrement, il reste donc visible.
+
+
+Pour les machines virtuelles Linux :
+
+* Le script de préparation effectue une copie des détails de configuration du réseau (espace d'adressage IP, itinéraires, serveurs DNS, noms des périphériques réseau) et, en fonction de la distribution Linux, identifie le type de réseau utilisé et applique les paramètres IP.  Le script de réaffectation du réseau est défini comme une tâche cron à l'aide de crontab et déclenché au démarrage.  Par exemple, le cronjob exécutera le script (après la migration) sur l'instance pour réappliquer les paramètres réseau, qu'il s'agisse d'une seule carte réseau ou de plusieurs cartes réseau en fonction du mappage du plan directeur.
+* Dans certains scénarios, les machines virtuelles Hyper-V converties auront des noms d’interface comme eth0 ou eth1 au lieu de ens192 ou 33 qui se trouvaient du côté source.  Dans ce cas, le script mettra à jour les détails de configuration du réseau pour qu'ils correspondent aux nouveaux noms d'interface.  Si des noms prévisibles sont utilisés (comme les systèmes modernes) et que le nom de l'interface est conservé côté Hyper-V, le script ignorera le côté réseau et supprimera uniquement les outils VMware, puis redémarrera la machine virtuelle.
+* La boîte à outils Shift prend actuellement en charge les mécanismes NetworkManager, Netplan et ifconfig et conserve l'IP comme spécifié dans le plan.
+
+
+
+
+=== Phases et options
+
+Voici les phases et options clés du processus de migration.
+
+. Préparer la VM – Préparez les VM pour la migration, assurez-vous que toutes les conditions préalables sont entièrement remplies.
+. Migration : une fois la préparation terminée, sélectionnez et migrez les machines virtuelles VMware vers Hyper-V. Une fois la migration terminée, vérifiez que les machines virtuelles ont démarré correctement et que les données ont été migrées correctement.
+. Test Migrate - Test Migration simule la migration en convertissant le VMDK en VHDX et en créant une machine virtuelle Hyper-V à l'aide d'un fichier VHDX converti résidant sur le partage SMB.  La migration de test ne permet pas la configuration du mappage réseau ; cette tâche doit généralement être effectuée manuellement sur un réseau à bulles.
+. Réessayer la migration – Si la migration échoue, la boîte à outils Shift fournit une option de nouvelle tentative.  Cette fonctionnalité permet de reprendre le travail de migration à partir du point d’échec.  Avant de réessayer l'opération, il est important de vérifier et de corriger les éventuels messages d'erreur.
+
+
+
+NOTE: La boîte à outils Shift ne modifie pas la machine virtuelle source, à l'exception de la copie des scripts nécessaires à la préparation de la machine virtuelle.  Cela permet une restauration rapide en cas d'échec de conversion.
+
+Pour déclencher le flux de travail Migrate avec la configuration spécifiée dans le Blueprint, cliquez sur Migrate.
+
+image:shift-toolkit-050.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+Une fois lancé, le flux de travail s'active et le processus de conversion suit les étapes décrites pour enregistrer la machine virtuelle.  Si les machines virtuelles du plan ne sont pas éteintes, la boîte à outils Shift demandera un arrêt progressif avant de continuer.
+
+image:shift-toolkit-051.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+
+NOTE: Nous recommandons de ne pas déclencher plus de dix conversions en parallèle depuis la même source ESXi vers la même destination Hyper-V
+
+image:shift-toolkit-052.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+La conversion de VMDK en VHDx se produit en quelques secondes, ce qui fait de cette approche la plus rapide de toutes les options disponibles moyennant un coût supplémentaire.  Cela permet également de réduire les temps d’arrêt des machines virtuelles pendant la migration.
+
+image:shift-toolkit-053.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+Une fois le travail terminé, le statut du plan passe à « migration terminée ».
+
+image:shift-toolkit-054.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+Une fois la migration terminée, il est temps de valider les machines virtuelles côté Hyper-V.  La capture d’écran ci-dessous montre les machines virtuelles exécutées sur l’hôte Hyper-V qui a été spécifié lors de la création du plan.
+
+image:shift-toolkit-055.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+
+NOTE: Shift Toolkit utilise une tâche cron qui s'exécute au démarrage.  Aucune connexion SSH ou équivalent n'est créée pour les machines virtuelles basées sur Linux une fois que les machines virtuelles sont achetées sur des hôtes Hyper-V.
+
+image:shift-toolkit-056.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+
+NOTE: Pour les machines virtuelles Windows, Shift Toolkit utilise PowerShell directement pour se connecter à ces machines virtuelles invitées basées sur Windows.  PowerShell Direct permet la connexion aux machines virtuelles invitées basées sur Windows, quelle que soit leur configuration réseau ou leurs paramètres de gestion à distance.
+
+
+NOTE: Après la conversion, tous les disques VM du système d'exploitation Windows, à l'exception du disque du système d'exploitation, seront hors ligne.  Cela est dû au fait que le paramètre NewDiskPolicy est défini sur offlineALL sur les machines virtuelles VMware par défaut.  Le problème est dû à la stratégie SAN par défaut de Microsoft Windows.  Cette politique est conçue pour empêcher l’activation des LUN lors du démarrage de Windows Server s’ils sont accessibles par plusieurs serveurs.  Ceci est fait pour éviter tout problème potentiel de corruption de données.  Cela peut être géré en exécutant une commande PowerShell : Set-StorageSetting -NewDiskPolicy OnlineAll
+
+
+NOTE: Utilisez plusieurs volumes pour la préparation des machines virtuelles, ce qui signifie que les machines virtuelles doivent être déplacées vers différents volumes selon les besoins.  Si le groupe de ressources inclut des machines virtuelles avec de grands VMDK, répartissez-les sur différents volumes pour la conversion.  Cette approche permet d'éviter les erreurs d'instantané occupé en exécutant des opérations de clonage sur des volumes distincts en parallèle, tandis que la division du clone se produit en arrière-plan.

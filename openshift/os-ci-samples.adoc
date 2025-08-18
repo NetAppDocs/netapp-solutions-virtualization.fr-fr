@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-ci-samples.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, cloud Insights 
+summary: Surveillance des machines virtuelles avec Cloud Insights dans Red Hat OpenShift Virtualization 
+---
+= Surveiller les machines virtuelles dans Red Hat OpenShift Virtualization à l'aide de Data Infrastructure Insights
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp Data Infrastructure Insights (anciennement Cloud Insights) fournit des fonctionnalités de surveillance robustes pour les machines virtuelles dans OpenShift Virtualization, notamment la surveillance basée sur les événements, la création d'alertes et le mappage du stockage back-end.  Il propose également des analyses de changement pour suivre les changements de cluster et aider au dépannage.
+
+
+
+== **Surveillance basée sur les événements et création d'alertes**
+
+Voici un exemple dans lequel l’espace de noms contenant une machine virtuelle dans OpenShift Virtualization est surveillé en fonction des événements.  Dans cet exemple, un moniteur est créé sur la base de **logs.kubernetes**.event pour l'espace de noms spécifié dans le cluster.
+
+image:redhat-openshift-ci-samples-001.png["Exemples de Cloud Insights"]
+
+Cette requête fournit tous les événements de la machine virtuelle dans l’espace de noms.  (Il n'y a qu'une seule machine virtuelle dans l'espace de noms).  Une requête avancée peut également être construite pour filtrer en fonction de l'événement dont la raison est « échec » ou « FailedMount ». Ces événements sont généralement créés lorsqu'il y a un problème lors de la création d'un PV ou du montage du PV sur un pod indiquant des problèmes dans le provisionneur dynamique pour la création de volumes persistants pour la machine virtuelle.  Lors de la création du moniteur d'alerte comme indiqué ci-dessus, vous pouvez également configurer la notification aux destinataires.  Vous pouvez également fournir des actions correctives ou des informations supplémentaires qui peuvent être utiles pour résoudre l'erreur.  Dans l'exemple ci-dessus, des informations supplémentaires pourraient consister à examiner la configuration du backend Trident et les définitions de classe de stockage pour résoudre le problème.
+
+
+
+== **Analyse des changements**
+
+Avec Change Analytics, vous pouvez obtenir une vue d'ensemble de ce qui a changé dans l'état de votre cluster, y compris qui a effectué cette modification, ce qui peut vous aider à résoudre les problèmes.
+
+image:redhat-openshift-ci-samples-002.png["Exemples de Cloud Insights"]
+
+Dans l’exemple ci-dessus, Change Analysis est configuré sur le cluster OpenShift pour l’espace de noms qui contient une machine virtuelle de virtualisation OpenShift.  Le tableau de bord affiche les changements par rapport à la chronologie.  Vous pouvez explorer en détail ce qui a changé et cliquer sur Toutes les modifications Diff pour voir la différence des manifestes.  À partir du manifeste, vous pouvez voir qu’une nouvelle sauvegarde des disques persistants a été créée.
+
+image:redhat-openshift-ci-samples-003.png["Exemples de Cloud Insights"]
+
+image:redhat-openshift-ci-samples-004.png["Exemples de Cloud Insights"]
+
+
+
+== **Mapping du stockage backend**
+
+Avec Cloud Insights, vous pouvez facilement voir le stockage backend des disques VM et plusieurs statistiques sur les PVC.
+
+image:redhat-openshift-ci-samples-005.png["Exemples de Cloud Insights"]
+
+Vous pouvez cliquer sur les liens sous la colonne backend, qui extrairont les données directement du stockage backend ONTAP .
+
+image:redhat-openshift-ci-samples-006.png["Exemples de Cloud Insights"]
+
+Une autre façon d'examiner l'ensemble du mappage du pod au stockage consiste à créer une requête Toutes les métriques à partir du menu Observabilité sous Explorer.
+
+image:redhat-openshift-ci-samples-007.png["Exemples de Cloud Insights"]
+
+En cliquant sur l’un des liens, vous obtiendrez les détails correspondants du stockage ONTP.  Par exemple, cliquer sur un nom de SVM dans la colonne storageVirtualMachine extraira les détails sur le SVM à partir d' ONTAP.  Cliquer sur le nom d'un volume interne permettra d'extraire les détails du volume dans ONTAP.
+
+image:redhat-openshift-ci-samples-008.png["Exemples de Cloud Insights"]
+
+image:redhat-openshift-ci-samples-009.png["Exemples de Cloud Insights"]

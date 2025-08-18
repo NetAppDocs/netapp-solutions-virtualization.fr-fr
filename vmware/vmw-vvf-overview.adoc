@@ -1,0 +1,270 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vvf-overview.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, san, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi, fc, fibre channel, nvme 
+summary:  
+---
+= Découvrez l'utilisation des banques de données NFS v3 sur les systèmes de stockage ONTAP avec VMware vSphere 8
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp ONTAP et VMware vSphere 8 fonctionnent ensemble pour fournir des solutions de stockage évolutives et sécurisées basées sur NFS v3 pour les environnements de cloud hybride utilisant des baies NetApp All-Flash.  Découvrez les options de stockage prises en charge pour VMware vSphere Foundation et les principaux cas d'utilisation, notamment VMware Live Site Recovery pour la reprise après sinistre et Autonomous Ransomware Protection (ARP) de NetApp pour le stockage NFS.
+
+
+
+== Utilisation de NFS v3 avec les systèmes de stockage vSphere 8 et ONTAP
+
+Ce document fournit des informations sur les options de stockage disponibles pour VMware Cloud vSphere Foundation à l'aide des baies NetApp All-Flash.  Les options de stockage prises en charge sont couvertes par des instructions spécifiques pour le déploiement de magasins de données NFS.  De plus, VMware Live Site Recovery pour la récupération après sinistre des banques de données NFS est démontré.  Enfin, la protection autonome contre les ransomwares de NetApp pour le stockage NFS est examinée.
+
+
+
+=== Cas d'utilisation
+
+Cas d'utilisation couverts dans cette documentation :
+
+* Options de stockage pour les clients recherchant des environnements uniformes sur les clouds privés et publics.
+* Déploiement d'infrastructures virtuelles pour les charges de travail.
+* Solution de stockage évolutive adaptée pour répondre aux besoins évolutifs, même lorsqu'elle n'est pas directement alignée sur les exigences en ressources de calcul.
+* Protégez les machines virtuelles et les banques de données à l’aide du SnapCenter Plug-in for VMware vSphere.
+* Utilisation de VMware Live Site Recovery pour la récupération après sinistre des banques de données NFS.
+* Stratégie de détection des ransomwares, incluant plusieurs couches de protection au niveau de l'hôte ESXi et de la machine virtuelle invitée.
+
+
+
+
+=== Public
+
+Cette solution est destinée aux personnes suivantes :
+
+* Les architectes de solutions recherchent des options de stockage plus flexibles pour les environnements VMware, conçues pour maximiser le coût total de possession.
+* Les architectes de solutions recherchent des options de stockage VVF offrant des options de protection des données et de reprise après sinistre avec les principaux fournisseurs de cloud.
+* Administrateurs de stockage souhaitant des instructions spécifiques sur la façon de configurer VVF avec le stockage NFS.
+* Administrateurs de stockage souhaitant des instructions spécifiques sur la manière de protéger les machines virtuelles et les banques de données résidant sur le stockage ONTAP .
+
+
+
+
+== Aperçu de la technologie
+
+Le guide de référence NFS v3 VVF pour vSphere 8 comprend les principaux composants suivants :
+
+
+
+=== Fondation VMware vSphere
+
+Composant central de vSphere Foundation, VMware vCenter est une plateforme de gestion centralisée permettant la configuration, le contrôle et l'administration des environnements vSphere. vCenter sert de base à la gestion des infrastructures virtualisées, permettant aux administrateurs de déployer, surveiller et gérer les machines virtuelles, les conteneurs et les hôtes ESXi au sein de l'environnement virtuel.
+
+La solution VVF prend en charge à la fois Kubernetes natif et les charges de travail basées sur des machines virtuelles.  Les principaux composants comprennent :
+
+* VMware vSphere
+* VMware vSAN
+* Aria Standard
+* Service VMware Tanzu Kubernetes Grid pour vSphere
+* Commutateur distribué vSphere
+
+
+Pour plus d'informations sur les composants inclus dans le VVF, reportez-vous à l'architecture et à la planification, reportez-vous à https://www.vmware.com/docs/vmw-datasheet-vsphere-product-line-comparison["Comparaison en direct des produits VMware vSphere"] .
+
+
+
+=== Options de stockage VVF
+
+Le stockage est au cœur d’un environnement virtuel performant et performant.  Le stockage, qu'il s'agisse de magasins de données VMware ou de cas d'utilisation connectés aux invités, libère les capacités de vos charges de travail, car vous pouvez choisir le meilleur prix par Go qui offre le plus de valeur tout en réduisant la sous-utilisation.  ONTAP est une solution de stockage leader pour les environnements VMware vSphere depuis près de deux décennies et continue d'ajouter des fonctionnalités innovantes pour simplifier la gestion tout en réduisant les coûts.
+
+Les options de stockage VMware sont généralement organisées en offres de stockage traditionnelles et de stockage défini par logiciel.  Les modèles de stockage traditionnels incluent le stockage local et en réseau, tandis que les modèles de stockage définis par logiciel incluent vSAN et VMware Virtual Volumes (vVols).
+
+image:vmware-nfs-overview-001.png["Options de stockage de machines virtuelles"]{nbsp}
+
+Se référer à https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-storage-8-0/introduction-to-storage-in-vsphere-environment.html["Introduction au stockage dans l'environnement vSphere"] pour plus d'informations sur les types de stockage pris en charge pour VMware vSphere Foundation.
+
+
+
+=== NetApp ONTAP
+
+Il existe de nombreuses raisons convaincantes pour lesquelles des dizaines de milliers de clients ont choisi ONTAP comme solution de stockage principale pour vSphere.  Il s’agit notamment des éléments suivants :
+
+. *Système de stockage unifié :* ONTAP propose un système de stockage unifié qui prend en charge les protocoles SAN et NAS.  Cette polyvalence permet une intégration transparente de diverses technologies de stockage au sein d’une solution unique.
+. *Protection robuste des données :* ONTAP offre des capacités de protection des données robustes grâce à des instantanés peu encombrants.  Ces instantanés permettent des processus de sauvegarde et de récupération efficaces, garantissant la sécurité et l'intégrité des données d'application.
+. *Outils de gestion complets :* ONTAP propose une multitude d’outils conçus pour vous aider à gérer efficacement les données d’application.  Ces outils rationalisent les tâches de gestion du stockage, améliorant l’efficacité opérationnelle et simplifiant l’administration.
+. *Efficacité du stockage :* ONTAP inclut plusieurs fonctionnalités d'efficacité du stockage, activées par défaut, conçues pour optimiser l'utilisation du stockage, réduire les coûts et améliorer les performances globales du système.
+
+
+L'utilisation ONTAP avec VMware offre une grande flexibilité en fonction des besoins des applications.  Les protocoles suivants sont pris en charge en tant que banque de données VMware avec ONTAP: * FCP * FCoE * NVMe/FC * NVMe/TCP * iSCSI * NFS v3 * NFS v4.1
+
+L’utilisation d’un système de stockage distinct de l’hyperviseur vous permet de décharger de nombreuses fonctions et de maximiser votre investissement dans les systèmes hôtes vSphere.  Cette approche garantit non seulement que vos ressources hôtes sont concentrées sur les charges de travail des applications, mais elle évite également les effets aléatoires sur les performances des applications dus aux opérations de stockage.
+
+L’utilisation ONTAP avec vSphere est une excellente combinaison qui vous permet de réduire les dépenses liées au matériel hôte et aux logiciels VMware. Vous pouvez également protéger vos données à moindre coût avec des performances élevées et constantes. Étant donné que les charges de travail virtualisées sont mobiles, vous pouvez explorer différentes approches à l’aide de Storage vMotion pour déplacer des machines virtuelles entre des banques de données VMFS, NFS ou vVols , le tout sur le même système de stockage.
+
+
+
+=== Baies NetApp All-Flash
+
+NetApp AFF (All Flash FAS) est une gamme de produits de baies de stockage entièrement flash.  Il est conçu pour fournir des solutions de stockage hautes performances et à faible latence pour les charges de travail d'entreprise.  La série AFF combine les avantages de la technologie flash avec les capacités de gestion des données de NetApp, offrant aux organisations une plate-forme de stockage puissante et efficace.
+
+La gamme AFF comprend des modèles de la série A et de la série C.
+
+Les baies flash entièrement NVMe NetApp série A sont conçues pour les charges de travail hautes performances, offrant une latence ultra-faible et une résilience élevée, ce qui les rend adaptées aux applications critiques.
+
+image:vmware-nfs-overview-002.png["Tableaux AFF"]{nbsp}
+
+Les baies flash QLC de la série C sont destinées aux cas d'utilisation de plus grande capacité, offrant la vitesse du flash avec l'économie du flash hybride.
+
+image:vmware-nfs-overview-003.png["Baies de la série C"]
+
+
+
+==== Prise en charge du protocole de stockage
+
+L' AFF prend en charge tous les protocoles standard utilisés pour la virtualisation, à la fois les banques de données et le stockage connecté aux invités, y compris NFS, SMB, iSCSI, Fibre Channel (FC), Fibre Channel sur Ethernet (FCoE), NVME sur fabrics et S3.  Les clients sont libres de choisir ce qui convient le mieux à leurs charges de travail et à leurs applications.
+
+*NFS* - NetApp AFF prend en charge NFS, permettant un accès basé sur des fichiers aux banques de données VMware.  Les banques de données connectées NFS à partir de nombreux hôtes ESXi dépassent de loin les limites imposées aux systèmes de fichiers VMFS.  L’utilisation de NFS avec vSphere offre une certaine facilité d’utilisation et des avantages en termes de visibilité de l’efficacité du stockage.  ONTAP inclut des fonctionnalités d'accès aux fichiers disponibles pour le protocole NFS.  Vous pouvez activer un serveur NFS et exporter des volumes ou des qtrees.
+
+Pour obtenir des conseils de conception sur les configurations NFS, reportez-vous au https://docs.netapp.com/us-en/ontap/nas-management/index.html["Documentation sur la gestion du stockage NAS"] .
+
+*iSCSI* - NetApp AFF fournit une prise en charge robuste pour iSCSI, permettant un accès au niveau des blocs aux périphériques de stockage sur les réseaux IP.  Il offre une intégration transparente avec les initiateurs iSCSI, permettant un provisionnement et une gestion efficaces des LUN iSCSI.  Les fonctionnalités avancées d'ONTAP, telles que le multi-chemin, l'authentification CHAP et la prise en charge ALUA.
+
+Pour obtenir des conseils de conception sur les configurations iSCSI, reportez-vous au https://docs.netapp.com/us-en/ontap/san-config/configure-iscsi-san-hosts-ha-pairs-reference.html["Documentation de référence sur la configuration SAN"] .
+
+*Fibre Channel* - NetApp AFF offre une prise en charge complète de Fibre Channel (FC), une technologie de réseau haut débit couramment utilisée dans les réseaux de stockage (SAN).  ONTAP s'intègre de manière transparente à l'infrastructure FC, offrant un accès fiable et efficace au niveau des blocs aux périphériques de stockage.  Il offre des fonctionnalités telles que le zonage, le multi-chemin et la connexion Fabric (FLOGI) pour optimiser les performances, améliorer la sécurité et garantir une connectivité transparente dans les environnements FC.
+
+Pour obtenir des conseils de conception sur les configurations Fibre Channel, reportez-vous au https://docs.netapp.com/us-en/ontap/san-config/configure-fc-nvme-hosts-ha-pairs-reference.html["Documentation de référence sur la configuration SAN"] .
+
+*NVMe sur Fabrics* - NetApp ONTAP prend en charge NVMe sur Fabrics.  NVMe/FC permet l'utilisation de périphériques de stockage NVMe sur une infrastructure Fibre Channel et NVMe/TCP sur des réseaux IP de stockage.
+
+Pour obtenir des conseils de conception sur NVMe, reportez-vous à https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["Configuration, prise en charge et limitations NVMe"] .
+
+
+
+==== Technologie active-active
+
+Les baies NetApp All-Flash permettent des chemins actifs-actifs via les deux contrôleurs, éliminant ainsi la nécessité pour le système d'exploitation hôte d'attendre qu'un chemin actif échoue avant d'activer le chemin alternatif.  Cela signifie que l'hôte peut utiliser tous les chemins disponibles sur tous les contrôleurs, garantissant que les chemins actifs sont toujours présents, que le système soit dans un état stable ou qu'il subisse une opération de basculement du contrôleur.
+
+Pour plus d'informations, voir https://docs.netapp.com/us-en/ontap/data-protection-disaster-recovery/index.html["Protection des données et reprise après sinistre"] documentation.
+
+
+
+==== Garanties de stockage
+
+NetApp propose un ensemble unique de garanties de stockage avec les baies NetApp All-Flash.  Les avantages uniques comprennent :
+
+*Garantie d'efficacité de stockage :* obtenez des performances élevées tout en minimisant les coûts de stockage grâce à la garantie d'efficacité de stockage.  4:1 pour les charges de travail SAN.  *Garantie de récupération de ransomware :* Récupération de données garantie en cas d'attaque de ransomware.
+
+Pour des informations détaillées, consultez le https://www.netapp.com/data-storage/aff-a-series/["Page de destination NetApp AFF"] .
+
+
+
+=== Outils NetApp ONTAP pour VMware vSphere
+
+Un composant puissant de vCenter est la possibilité d’intégrer des plug-ins ou des extensions qui améliorent encore ses fonctionnalités et fournissent des fonctionnalités et des capacités supplémentaires.  Ces plug-ins étendent les capacités de gestion de vCenter et permettent aux administrateurs d’intégrer des solutions, des outils et des services tiers dans leur environnement vSphere.
+
+Les outils NetApp ONTAP pour VMware sont une suite complète d’outils conçus pour faciliter la gestion du cycle de vie des machines virtuelles dans les environnements VMware via son architecture de plug-in vCenter.  Ces outils s’intègrent parfaitement à l’écosystème VMware, permettant un provisionnement efficace des banques de données et offrant une protection essentielle aux machines virtuelles.  Avec ONTAP Tools pour VMware vSphere, les administrateurs peuvent gérer sans effort les tâches de gestion du cycle de vie du stockage.
+
+Outils ONTAP complets 10 ressources peuvent être trouvées https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["Ressources de documentation sur les ONTAP tools for VMware vSphere"] .
+
+Consultez la solution de déploiement des outils ONTAP 10 surlink:vmw-nfs-otv10.html["Utilisez les outils ONTAP 10 pour configurer les banques de données NFS pour vSphere 8"]
+
+
+
+=== Plug-in NetApp NFS pour VMware VAAI
+
+Le plug-in NetApp NFS pour VAAI (API vStorage pour l'intégration de baies) améliore les opérations de stockage en déchargeant certaines tâches sur le système de stockage NetApp , ce qui améliore les performances et l'efficacité.  Cela inclut des opérations telles que la copie complète, la remise à zéro des blocs et le verrouillage assisté par matériel.  De plus, le plugin VAAI optimise l’utilisation du stockage en réduisant la quantité de données transférées sur le réseau pendant les opérations de provisionnement et de clonage de machines virtuelles.
+
+Le plug-in NetApp NFS pour VAAI peut être téléchargé à partir du site de support NetApp et est téléchargé et installé sur les hôtes ESXi à l'aide des ONTAP tools for VMware vSphere.
+
+Se référer à https://docs.netapp.com/us-en/nfs-plugin-vmware-vaai/["Documentation du plug-in NetApp NFS pour VMware VAAI"] pour plus d'informations.
+
+
+
+=== SnapCenter Plug-in for VMware vSphere
+
+Le SnapCenter Plug-in for VMware vSphere (SCV) est une solution logicielle de NetApp qui offre une protection complète des données pour les environnements VMware vSphere.  Il est conçu pour simplifier et rationaliser le processus de protection et de gestion des machines virtuelles (VM) et des banques de données.  SCV utilise un instantané basé sur le stockage et une réplication vers des baies secondaires pour répondre aux objectifs de temps de récupération plus courts.
+
+Le SnapCenter Plug-in for VMware vSphere fournit les fonctionnalités suivantes dans une interface unifiée, intégrée au client vSphere :
+
+*Instantanés basés sur des stratégies* - SnapCenter vous permet de définir des stratégies pour la création et la gestion d'instantanés cohérents avec les applications de machines virtuelles (VM) dans VMware vSphere.
+
+*Automatisation* - La création et la gestion automatisées de snapshots basées sur des politiques définies contribuent à garantir une protection des données cohérente et efficace.
+
+*Protection au niveau de la machine virtuelle* - La protection granulaire au niveau de la machine virtuelle permet une gestion et une récupération efficaces des machines virtuelles individuelles.
+
+*Fonctionnalités d'efficacité du stockage* - L'intégration avec les technologies de stockage NetApp offre des fonctionnalités d'efficacité du stockage telles que la déduplication et la compression des instantanés, minimisant ainsi les besoins de stockage.
+
+Le plug-in SnapCenter orchestre la mise au repos des machines virtuelles en conjonction avec des snapshots basés sur le matériel sur les baies de stockage NetApp .  La technologie SnapMirror est utilisée pour répliquer des copies de sauvegardes sur des systèmes de stockage secondaires, y compris dans le cloud.
+
+Pour plus d'informations, reportez-vous à la https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere["Documentation du SnapCenter Plug-in for VMware vSphere"] .
+
+L'intégration de BlueXP permet des stratégies de sauvegarde 3-2-1 qui étendent les copies de données au stockage d'objets dans le cloud.
+
+Pour plus d'informations sur les stratégies de sauvegarde 3-2-1 avec BlueXP, visitezlink:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-321-dp-scv.html["Protection des données 3-2-1 pour VMware avec le plug-in SnapCenter et la BlueXP backup and recovery pour les machines virtuelles"^] .
+
+Pour obtenir des instructions de déploiement étape par étape pour le plug-in SnapCenter , reportez-vous à la solutionlink:vmw-vcf-scv-viwld.html["Utilisez le SnapCenter Plug-in for VMware vSphere pour protéger les machines virtuelles sur les domaines de charge de travail VCF"] .
+
+
+
+=== Considérations relatives au stockage
+
+L'exploitation des banques de données ONTAP NFS avec VMware vSphere produit un environnement performant, facile à gérer et évolutif qui fournit des ratios VM/banque de données inaccessibles avec les protocoles de stockage basés sur des blocs.  Cette architecture peut entraîner une multiplication par dix de la densité des banques de données, accompagnée d’une réduction correspondante du nombre de banques de données.
+
+*nConnect pour NFS :* un autre avantage de l'utilisation de NFS est la possibilité d'exploiter la fonctionnalité *nConnect*. nConnect permet plusieurs connexions TCP pour les volumes de banque de données NFS v3, obtenant ainsi un débit plus élevé.  Cela contribue à augmenter le parallélisme et les magasins de données NFS.  Les clients déployant des banques de données avec NFS version 3 peuvent augmenter le nombre de connexions au serveur NFS, maximisant ainsi l'utilisation des cartes d'interface réseau haut débit.
+
+Pour des informations détaillées sur nConnect, reportez-vous àlink:vmw-vsphere8-nfs-nconnect.html["Fonctionnalité NFS nConnect avec VMware et NetApp"] .
+
+*Jonction de session pour NFS :* à partir d' ONTAP 9.14.1, les clients utilisant NFSv4.1 peuvent exploiter la jonction de session pour établir plusieurs connexions à différents LIF sur le serveur NFS.  Cela permet un transfert de données plus rapide et améliore la résilience en utilisant le multivoie.  La jonction s'avère particulièrement bénéfique lors de l'exportation de volumes FlexVol vers des clients prenant en charge la jonction, tels que les clients VMware et Linux, ou lors de l'utilisation de NFS sur les protocoles RDMA, TCP ou pNFS.
+
+Se référer à https://docs.netapp.com/us-en/ontap/nfs-trunking/["Présentation de la jonction NFS"] pour plus d'informations.
+
+* Volumes FlexVol :* NetApp recommande d'utiliser des volumes * FlexVol* pour la plupart des banques de données NFS.  Bien que des banques de données plus volumineuses puissent améliorer l'efficacité du stockage et les avantages opérationnels, il est conseillé d'envisager d'utiliser au moins quatre banques de données (volumes FlexVol ) pour stocker des machines virtuelles sur un seul contrôleur ONTAP .  En règle générale, les administrateurs déploient des banques de données soutenues par des volumes FlexVol avec des capacités allant de 4 To à 8 To.  Cette taille offre un bon équilibre entre performances, facilité de gestion et protection des données.  Les administrateurs peuvent commencer petit et faire évoluer le magasin de données selon les besoins (jusqu'à un maximum de 100 To).  Les magasins de données plus petits facilitent une récupération plus rapide après des sauvegardes ou des catastrophes et peuvent être rapidement déplacés dans le cluster.  Cette approche permet une utilisation maximale des performances des ressources matérielles et permet des banques de données avec différentes politiques de récupération.
+
+* Volumes FlexGroup :* pour les scénarios nécessitant une banque de données volumineuse, NetApp recommande l'utilisation de volumes * FlexGroup*.  Les volumes FlexGroup n'ont pratiquement aucune contrainte de capacité ou de nombre de fichiers, ce qui permet aux administrateurs de provisionner facilement un espace de noms unique et massif.  L’utilisation des volumes FlexGroup n’entraîne pas de frais de maintenance ou de gestion supplémentaires.  Plusieurs banques de données ne sont pas nécessaires pour les performances avec les volumes FlexGroup , car elles évoluent de manière inhérente.  En utilisant les volumes ONTAP et FlexGroup avec VMware vSphere, vous pouvez établir des banques de données simples et évolutives qui exploitent toute la puissance de l'ensemble du cluster ONTAP .
+
+
+
+=== Protection contre les ransomwares
+
+Le logiciel de gestion des données NetApp ONTAP propose une suite complète de technologies intégrées pour vous aider à protéger, détecter et récupérer des attaques de ransomware.  La fonctionnalité de conformité NetApp SnapLock Compliance intégrée à ONTAP empêche la suppression des données stockées dans un volume activé à l'aide de la technologie WORM (écriture unique, lecture multiple) avec conservation avancée des données.  Une fois la période de conservation établie et la copie Snapshot verrouillée, même un administrateur de stockage disposant de tous les privilèges système ou un membre de l'équipe de support NetApp ne peut pas supprimer la copie Snapshot.  Mais, plus important encore, un pirate informatique dont les informations d’identification sont compromises ne peut pas supprimer les données.
+
+NetApp garantit que nous serons en mesure de récupérer vos copies NetApp Snapshot protégées sur des baies éligibles, et si nous ne le pouvons pas, nous indemniserons votre organisation.
+
+Pour plus d'informations sur la garantie de récupération des ransomwares, consultez : https://www.netapp.com/media/103031-SB-4279-Ransomware_Recovery_Guarantee.pdf["Garantie de récupération après un ransomware"] .
+
+Se référer à la https://docs.netapp.com/us-en/ontap/anti-ransomware/["Présentation de la protection autonome contre les ransomwares"] pour des informations plus approfondies.
+
+Consultez la solution complète dans le centre de documentation NetApps Solutions :link:vmw-nfs-arp.html["Protection autonome contre les ransomwares pour le stockage NFS"]
+
+
+
+=== Considérations relatives à la reprise après sinistre
+
+NetApp fournit le stockage le plus sécurisé de la planète.  NetApp peut aider à protéger les données et l’infrastructure des applications, à déplacer les données entre le stockage sur site et le cloud et à garantir la disponibilité des données dans les clouds.  ONTAP est doté de puissantes technologies de protection et de sécurité des données qui aident à protéger les clients contre les catastrophes en détectant de manière proactive les menaces et en récupérant rapidement les données et les applications.
+
+*VMware Live Site Recovery*, anciennement connu sous le nom de VMware Site Recovery Manager, offre une automatisation simplifiée et basée sur des politiques pour la protection des machines virtuelles dans le client Web vSphere.  Cette solution exploite les technologies avancées de gestion des données de NetApp via l'adaptateur de réplication de stockage dans le cadre des outils ONTAP pour VMware.  En exploitant les capacités de NetApp SnapMirror pour la réplication basée sur une baie, les environnements VMware peuvent bénéficier de l'une des technologies les plus fiables et les plus matures d'ONTAP.  SnapMirror garantit des transferts de données sécurisés et très efficaces en copiant uniquement les blocs de système de fichiers modifiés, plutôt que des machines virtuelles ou des banques de données entières.  De plus, ces blocs bénéficient de techniques d’économie d’espace telles que la déduplication, la compression et le compactage.  Avec l'introduction de SnapMirror indépendant de la version dans les systèmes ONTAP modernes, vous gagnez en flexibilité dans la sélection de vos clusters source et de destination.  SnapMirror est véritablement devenu un outil puissant pour la reprise après sinistre et, lorsqu'il est combiné à Live Site Recovery, il offre une évolutivité, des performances et des économies de coûts améliorées par rapport aux alternatives de stockage local.
+
+Pour plus d'informations, reportez-vous à la https://techdocs.broadcom.com/us/en/vmware-cis/live-recovery/site-recovery-manager/8-7/site-recovery-manager-installation-and-configuration-8-7/overview-of-vmware-site-recovery-manager.html["Présentation de VMware Site Recovery Manager"] .
+
+Consultez la solution complète dans le centre de documentation NetApps Solutions :link:vmw-nfs-vlsr.html["Protection autonome contre les ransomwares pour le stockage NFS"]
+
+* BlueXP DRaaS* (Disaster Recovery as a Service) pour NFS est une solution de reprise après sinistre économique conçue pour les charges de travail VMware exécutées sur des systèmes ONTAP sur site avec des banques de données NFS.  Il exploite la réplication NetApp SnapMirror pour se protéger contre les pannes de site et les événements de corruption de données, tels que les attaques de ransomware.  Intégré à la console NetApp BlueXP , ce service permet une gestion facile et une découverte automatisée des VMware vCenters et du stockage ONTAP .  Les organisations peuvent créer et tester des plans de reprise après sinistre, atteignant un objectif de point de récupération (RPO) allant jusqu'à 5 minutes grâce à la réplication au niveau des blocs.  BlueXP DRaaS utilise la technologie FlexClone d'ONTAP pour des tests peu encombrants sans impact sur les ressources de production.  Le service orchestre les processus de basculement et de restauration, permettant aux machines virtuelles protégées d'être mises en place sur le site de reprise après sinistre désigné avec un minimum d'effort.  Comparé à d'autres alternatives bien connues, BlueXP DRaaS offre ces fonctionnalités à une fraction du coût, ce qui en fait une solution efficace pour les organisations pour configurer, tester et exécuter des opérations de reprise après sinistre pour leurs environnements VMware à l'aide des systèmes de stockage ONTAP .
+
+Consultez la solution complète dans le centre de documentation NetApps Solutions :link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-nfs.html["DR avec BlueXP DRaaS pour les banques de données NFS"^]
+
+
+
+=== Aperçu des solutions
+
+Solutions abordées dans cette documentation :
+
+* *Fonctionnalité NFS nConnect avec NetApp et VMware*.  Cliquezlink:vmw-vsphere8-nfs-nconnect.html["*ici*"] pour les étapes de déploiement.
++
+** *Utilisez les outils ONTAP 10 pour configurer les banques de données NFS pour vSphere 8*.  Cliquezlink:vmw-nfs-otv10.html["*ici*"] pour les étapes de déploiement.
+** *Déployez et utilisez le SnapCenter Plug-in for VMware vSphere pour protéger et restaurer les machines virtuelles*.  Cliquezlink:vmw-vcf-scv-viwld.html["*ici*"] pour les étapes de déploiement.
+** *Récupération après sinistre des banques de données NFS avec VMware Site Recovery Manager*.  Cliquezlink:vmw-nfs-vlsr.html["*ici*"] pour les étapes de déploiement.
+** *Protection autonome contre les ransomwares pour le stockage NFS*.  Cliquezlink:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-nfs.html["*ici*"^] pour les étapes de déploiement.
+
+
+

@@ -1,0 +1,307 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-principal-nfs.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
+summary:  
+---
+= Utiliser une banque de données NFS sur ONTAP comme stockage principal pour un domaine de charge de travail VI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dans ce cas d'utilisation, nous décrivons la procédure de configuration d'une banque de données NFS sur ONTAP comme solution de stockage principale pour un domaine de charge de travail d'infrastructure virtuelle (VI) VMware Cloud Foundation (VCF).  Cette procédure résume les composants requis, les étapes de configuration et le processus de déploiement.
+
+
+
+== Avantages du NFS
+
+*Simplicité et facilité d'utilisation :* NFS est simple à configurer et à gérer, ce qui en fait un excellent choix pour les environnements qui nécessitent un partage de fichiers rapide et facile.
+
+*Évolutivité :* l'architecture d'ONTAP permet à NFS d'évoluer efficacement, prenant en charge les besoins croissants en données sans modifications significatives de l'infrastructure.
+
+*Flexibilité :* NFS prend en charge une large gamme d'applications et de charges de travail, ce qui le rend polyvalent pour divers cas d'utilisation, y compris les environnements virtualisés.
+
+Pour plus d’informations, reportez-vous au Guide de référence NFS v3 pour vSphere 8.
+
+Pour plus d'informations sur l'utilisation de Fibre Channel avec les systèmes de stockage NetApp , reportez-vous àlink:vmw-vvf-overview.html["Guide de référence NFS v3 pour vSphere 8"] .
+
+
+
+== Aperçu du scénario
+
+Ce scénario couvre les étapes de haut niveau suivantes :
+
+* Créer une machine virtuelle de stockage (SVM) avec une interface logique (LIF) pour le trafic NFS
+* Vérifiez la mise en réseau de la machine virtuelle de stockage ONTAP (SVM) et qu'une interface logique (LIF) est présente pour transporter le trafic NFS.
+* Créez une politique d’exportation pour permettre aux hôtes ESXi d’accéder au volume NFS.
+* Créez un volume NFS sur le système de stockage ONTAP .
+* Créez un pool réseau pour le trafic NFS et vMotion dans SDDC Manager.
+* Hôtes de commission dans VCF pour une utilisation dans un domaine de charge de travail VI.
+* Déployez un domaine de charge de travail VI dans VCF à l’aide d’une banque de données NFS comme stockage principal.
+* Installer le plug-in NetApp NFS pour VMware VAAI
+
+
+
+NOTE: Cette solution est applicable aux plates-formes ONTAP prenant en charge le stockage NFS, notamment NetApp AFF et FAS.
+
+
+
+== Prérequis
+
+Les composants et configurations suivants sont utilisés dans ce scénario :
+
+* Système de stockage NetApp AFF avec une machine virtuelle de stockage (SVM) configurée pour autoriser le trafic NFS.
+* L'interface logique (LIF) a été créée sur le réseau IP qui doit transporter le trafic NFS et est associée au SVM.
+* Le déploiement du domaine de gestion VCF est terminé et l'interface SDDC Manager est accessible.
+* 4 hôtes ESXi configurés pour la communication sur le réseau de gestion VCF.
+* Adresses IP réservées au trafic de stockage vMotion et NFS sur le VLAN ou le segment de réseau établi à cet effet.
+
+
+
+NOTE: Lors du déploiement d'un domaine de charge de travail VI, VCF valide la connectivité au serveur NFS.  Cela se fait à l’aide de l’adaptateur de gestion sur les hôtes ESXi avant qu’un adaptateur vmkernel supplémentaire ne soit ajouté avec l’adresse IP NFS.  Par conséquent, il est nécessaire de s'assurer que 1) le réseau de gestion est routable vers le serveur NFS ou 2) qu'un LIF pour le réseau de gestion a été ajouté au SVM hébergeant le volume de la banque de données NFS, pour garantir que la validation peut se poursuivre.
+
+Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.
+
+Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentation de VMware Cloud Foundation"] .
+
+Pour plus d'informations sur l'utilisation de NFS avec les clusters vSphere, reportez-vous aulink:vmw-vvf-overview.html["Guide de référence NFS v3 pour vSphere 8"] .
+
+{nbsp}image:vmware-vcf-aff-070.png["Diagramme d'architecture NFS"] {nbsp}
+
+
+
+== Étapes de déploiement
+
+Pour déployer un domaine de charge de travail VI avec une banque de données NFS comme stockage principal, procédez comme suit :
+
+.Vérifier la mise en réseau pour ONTAP SVM
+[%collapsible%open]
+====
+Vérifiez que les interfaces logiques requises ont été établies pour le réseau qui transportera le trafic NFS entre le cluster de stockage ONTAP et le domaine de charge de travail VI.
+
+. Depuis ONTAP System Manager, accédez à *Storage VMs* dans le menu de gauche et cliquez sur la SVM à utiliser pour le trafic NFS.  Dans l'onglet *Aperçu*, sous *INTERFACES IP RÉSEAU*, cliquez sur le chiffre à droite de *NFS*.  Dans la liste, vérifiez que les adresses IP LIF requises sont répertoriées.
++
+image:vmware-vcf-aff-003.png["Vérifier les LIF pour SVM"]
+
+
+
+Vous pouvez également vérifier les LIF associés à un SVM à partir de l'interface de ligne de commande ONTAP avec la commande suivante :
+
+[source, cli]
+----
+network interface show -vserver <SVM_NAME>
+----
+. Vérifiez que les hôtes ESXi peuvent communiquer avec le serveur NFS ONTAP .  Connectez-vous à l'hôte ESXi via SSH et envoyez une requête ping au LIF SVM :
+
+
+[source, cli]
+----
+vmkping <IP Address>
+----
+
+NOTE: Lors du déploiement d'un domaine de charge de travail VI, VCF valide la connectivité au serveur NFS.  Cela se fait à l’aide de l’adaptateur de gestion sur les hôtes ESXi avant qu’un adaptateur vmkernel supplémentaire ne soit ajouté avec l’adresse IP NFS.  Par conséquent, il est nécessaire de s'assurer que 1) le réseau de gestion est routable vers le serveur NFS ou 2) qu'un LIF pour le réseau de gestion a été ajouté au SVM hébergeant le volume de la banque de données NFS, pour garantir que la validation peut se poursuivre.
+
+====
+.Créer une politique d'exportation pour le partage du volume NFS
+[%collapsible%open]
+====
+Créez une politique d’exportation dans ONTAP System Manager pour définir le contrôle d’accès pour les volumes NFS.
+
+. Dans ONTAP System Manager, cliquez sur *Storage VMs* dans le menu de gauche et sélectionnez une SVM dans la liste.
+. Dans l'onglet *Paramètres*, recherchez *Politiques d'exportation* et cliquez sur la flèche pour y accéder.
++
+image:vmware-vcf-aff-006.png["Accéder aux politiques d'exportation"]
+
++
+{nbsp}
+
+. Dans la fenêtre *Nouvelle politique d'exportation*, ajoutez un nom pour la politique, cliquez sur le bouton *Ajouter de nouvelles règles*, puis sur le bouton *+Ajouter* pour commencer à ajouter une nouvelle règle.
++
+image:vmware-vcf-aff-007.png["Nouvelle politique d'exportation"]
+
++
+{nbsp}
+
+. Renseignez les adresses IP, la plage d’adresses IP ou le réseau que vous souhaitez inclure dans la règle.  Décochez les cases *SMB/Cifs* et * FlexCache* et effectuez des sélections pour les détails d'accès ci-dessous.  La sélection des cases UNIX suffit pour accéder à l'hôte ESXi.
++
+image:vmware-vcf-aff-008.png["Enregistrer la nouvelle règle"]
+
++
+
+NOTE: Lors du déploiement d'un domaine de charge de travail VI, VCF valide la connectivité au serveur NFS.  Cela se fait à l’aide de l’adaptateur de gestion sur les hôtes ESXi avant qu’un adaptateur vmkernel supplémentaire ne soit ajouté avec l’adresse IP NFS.  Il est donc nécessaire de s’assurer que la politique d’exportation inclut le réseau de gestion VCF afin de permettre la validation.
+
+. Une fois toutes les règles saisies, cliquez sur le bouton *Enregistrer* pour enregistrer la nouvelle politique d'exportation.
+. Vous pouvez également créer des politiques et des règles d’exportation dans l’interface de ligne de commande ONTAP .  Reportez-vous aux étapes de création d’une politique d’exportation et d’ajout de règles dans la documentation ONTAP .
++
+** Utilisez l'interface de ligne de commande ONTAP pourlink:https://docs.netapp.com/us-en/ontap/nfs-config/create-export-policy-task.html["Créer une politique d'exportation"] .
+** Utilisez l'interface de ligne de commande ONTAP pourlink:https://docs.netapp.com/us-en/ontap/nfs-config/add-rule-export-policy-task.html["Ajouter une règle à une politique d'exportation"] .
+
+
+
+
+====
+.Créer un volume NFS
+[%collapsible%open]
+====
+Créez un volume NFS sur le système de stockage ONTAP à utiliser comme banque de données dans le déploiement du domaine de charge de travail.
+
+. Depuis ONTAP System Manager, accédez à *Stockage > Volumes* dans le menu de gauche et cliquez sur *+Ajouter* pour créer un nouveau volume.
++
+image:vmware-vcf-aff-009.png["Ajouter un nouveau volume"]
+
++
+{nbsp}
+
+. Ajoutez un nom pour le volume, renseignez la capacité souhaitée et sélectionnez la VM de stockage qui hébergera le volume.  Cliquez sur *Plus d'options* pour continuer.
++
+image:vmware-vcf-aff-010.png["Ajouter des détails sur le volume"]
+
++
+{nbsp}
+
+. Sous Autorisations d'accès, sélectionnez la stratégie d'exportation qui inclut le réseau de gestion VCF ou l'adresse IP et les adresses IP du réseau NFS qui seront utilisées pour la validation du serveur NFS et du trafic NFS.
++
+image:vmware-vcf-aff-011.png["Ajouter des détails sur le volume"]
+
++
++ {nbsp}
+
++
+
+NOTE: Lors du déploiement d'un domaine de charge de travail VI, VCF valide la connectivité au serveur NFS.  Cela se fait à l’aide de l’adaptateur de gestion sur les hôtes ESXi avant qu’un adaptateur vmkernel supplémentaire ne soit ajouté avec l’adresse IP NFS.  Par conséquent, il est nécessaire de s'assurer que 1) le réseau de gestion est routable vers le serveur NFS ou 2) qu'un LIF pour le réseau de gestion a été ajouté au SVM hébergeant le volume de la banque de données NFS, pour garantir que la validation peut se poursuivre.
+
+. Alternativement, les volumes ONTAP peuvent être créés dans l'interface de ligne de commande ONTAP .  Pour plus d'informations, reportez-vous à lalink:https://docs.netapp.com/us-en/ontap-cli-9141//lun-create.html["création de lun"] commande dans la documentation des commandes ONTAP .
+
+
+====
+.Créer un pool réseau dans SDDC Manager
+[%collapsible%open]
+====
+Un pool réseau doit être créé dans SDDC Manager avant la mise en service des hôtes ESXi, en préparation de leur déploiement dans un domaine de charge de travail VI.  Le pool réseau doit inclure les informations réseau et les plages d'adresses IP pour les adaptateurs VMkernel à utiliser pour la communication avec le serveur NFS.
+
+. Depuis l'interface Web de SDDC Manager, accédez à *Paramètres réseau* dans le menu de gauche et cliquez sur le bouton *+ Créer un pool réseau*.
++
+image:vmware-vcf-aff-004.png["Créer un pool réseau"]
+
++
+{nbsp}
+
+. Renseignez un nom pour le pool réseau, cochez la case NFS et renseignez tous les détails du réseau.  Répétez cette opération pour les informations du réseau vMotion.
++
+image:vmware-vcf-aff-005.png["Configuration du pool réseau"]
+
++
+{nbsp}
+
+. Cliquez sur le bouton *Enregistrer* pour terminer la création du pool réseau.
+
+
+====
+.Hôtes de la Commission
+[%collapsible%open]
+====
+Avant que les hôtes ESXi puissent être déployés en tant que domaine de charge de travail, ils doivent être ajoutés à l’inventaire du gestionnaire SDDC.  Il s’agit de fournir les informations requises, de passer la validation et de démarrer le processus de mise en service.
+
+Pour plus d'informations, voirlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/commission-hosts.html["Hôtes de la Commission"] dans le Guide d'administration du VCF.
+
+. Depuis l'interface SDDC Manager, accédez à *Hôtes* dans le menu de gauche et cliquez sur le bouton *Mettre en service les hôtes*.
++
+image:vmware-vcf-aff-016.png["Démarrer les hôtes de la commission"]
+
++
+{nbsp}
+
+. La première page est une liste de contrôle des prérequis.  Vérifiez toutes les conditions préalables et cochez toutes les cases pour continuer.
++
+image:vmware-vcf-aff-017.png["Confirmer les prérequis"]
+
++
+{nbsp}
+
+. Dans la fenêtre *Ajout et validation d'hôte*, renseignez le *Nom de domaine complet de l'hôte*, le *Type de stockage*, le nom du *Pool réseau* qui inclut les adresses IP de stockage vMotion et NFS à utiliser pour le domaine de charge de travail, ainsi que les informations d'identification pour accéder à l'hôte ESXi.  Cliquez sur *Ajouter* pour ajouter l'hôte au groupe d'hôtes à valider.
++
+image:vmware-vcf-aff-018.png["Fenêtre d'ajout et de validation de l'hôte"]
+
++
+{nbsp}
+
+. Une fois tous les hôtes à valider ajoutés, cliquez sur le bouton *Valider tout* pour continuer.
+. En supposant que tous les hôtes soient validés, cliquez sur *Suivant* pour continuer.
++
+image:vmware-vcf-aff-019.png["Validez tout et cliquez sur Suivant"]
+
++
+{nbsp}
+
+. Consultez la liste des hôtes à commissionner et cliquez sur le bouton *Commission* pour démarrer le processus.  Surveillez le processus de mise en service à partir du volet Tâches du gestionnaire SDDC.
++
+image:vmware-vcf-aff-020.png["Validez tout et cliquez sur Suivant"]
+
+
+
+====
+.Déployer le domaine de charge de travail VI
+[%collapsible%open]
+====
+Le déploiement des domaines de charge de travail VI s'effectue à l'aide de l'interface VCF Cloud Manager.  Seules les étapes liées à la configuration du stockage seront présentées ici.
+
+Pour obtenir des instructions étape par étape sur le déploiement d'un domaine de charge de travail VI, reportez-vous àlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/working-with-workload-domains-admin/about-virtual-infrastructure-workload-domains-admin/deploy-a-vi-workload-domain-using-the-sddc-manager-ui-admin.html["Déployer un domaine de charge de travail VI à l'aide de l'interface utilisateur du gestionnaire SDDC"] .
+
+. Depuis le tableau de bord du gestionnaire SDDC, cliquez sur *+ Domaine de charge de travail* dans le coin supérieur droit pour créer un nouveau domaine de charge de travail.
++
+image:vmware-vcf-aff-012.png["Créer un nouveau domaine de charge de travail"]
+
++
+{nbsp}
+
+. Dans l'assistant de configuration VI, remplissez les sections *Informations générales, Cluster, Calcul, Réseau* et *Sélection d'hôte* selon vos besoins.
+
+
+Pour plus d'informations sur la manière de remplir les informations requises dans l'assistant de configuration VI, reportez-vous àlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/working-with-workload-domains-admin/about-virtual-infrastructure-workload-domains-admin/deploy-a-vi-workload-domain-using-the-sddc-manager-ui-admin.html["Déployer un domaine de charge de travail VI à l'aide de l'interface utilisateur du gestionnaire SDDC"] .
+
++image:vmware-vcf-aff-013.png["Assistant de configuration VI"]
+
+. Dans la section Stockage NFS, renseignez le nom du magasin de données, le point de montage du dossier du volume NFS et l'adresse IP de la machine virtuelle de stockage NFS ONTAP LIF.
++
+image:vmware-vcf-aff-014.png["Ajouter des informations de stockage NFS"]
+
++
+{nbsp}
+
+. Dans l'assistant de configuration VI, terminez les étapes de configuration du commutateur et de licence, puis cliquez sur *Terminer* pour démarrer le processus de création du domaine de charge de travail.
++
+image:vmware-vcf-aff-015.png["assistant de configuration VI complet"]
+
++
+{nbsp}
+
+. Surveillez le processus et résolvez tous les problèmes de validation qui surviennent au cours du processus.
+
+
+====
+.Installer le plug-in NetApp NFS pour VMware VAAI
+[%collapsible%open]
+====
+Le plug-in NetApp NFS pour VMware VAAI intègre les bibliothèques de disques virtuels VMware installées sur l'hôte ESXi et fournit des opérations de clonage plus performantes qui se terminent plus rapidement.  Il s’agit d’une procédure recommandée lors de l’utilisation de systèmes de stockage ONTAP avec VMware vSphere.
+
+Pour obtenir des instructions étape par étape sur le déploiement du plug-in NetApp NFS pour VMware VAAI, suivez les instructions à l'adresselink:https://docs.netapp.com/us-en/nfs-plugin-vmware-vaai/task-install-netapp-nfs-plugin-for-vmware-vaai.html["Installer le plug-in NetApp NFS pour VMware VAAI"] .
+
+====
+
+
+== Démo vidéo de cette solution
+
+.Banques de données NFS comme stockage principal pour les domaines de charge de travail VCF
+video::9b66ac8d-d2b1-4ac4-a33c-b16900f67df6[panopto,width=360]
+
+
+== Informations Complémentaires
+
+Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.
+
+Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentation de VMware Cloud Foundation"] .

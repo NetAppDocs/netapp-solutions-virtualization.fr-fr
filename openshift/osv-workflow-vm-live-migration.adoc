@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-workflow-vm-live-migration.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP 
+---
+= Migrer une machine virtuelle entre deux nœuds dans un cluster Red Hat OpenShift
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Migrez une machine virtuelle dans OpenShift Virtualization entre deux nœuds du cluster sans temps d’arrêt.  Cette procédure comprend la confirmation que les disques utilisent des classes de stockage compatibles RWX, le lancement de la migration et la surveillance de la progression.
+
+
+
+== Migration en direct de machines virtuelles
+
+La migration en direct est un processus de migration d'une instance de machine virtuelle d'un nœud à un autre dans un cluster OpenShift sans temps d'arrêt.  Pour que la migration en direct fonctionne dans un cluster OpenShift, les machines virtuelles doivent être liées à des PVC avec un mode d'accès ReadWriteMany partagé.  Les backends Trident configurés à l'aide des pilotes ontap-nas prennent en charge le mode d'accès RWX pour les protocoles FileSystem nfs et smb.  Se référer à la documentationlink:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["ici"] .  Les backends Trident configurés à l'aide des pilotes ontap-san prennent en charge le mode d'accès RWX pour le mode volume de bloc pour les protocoles iSCSI et NVMe/TCP.  Se référer à la documentationlink:https://docs.netapp.com/us-en/trident/trident-use/ontap-san.html["ici"] .
+
+Par conséquent, pour que la migration en direct réussisse, les machines virtuelles doivent être provisionnées avec des disques (disques de démarrage et disques enfichables à chaud supplémentaires) avec des PVC utilisant les classes de stockage ontap-nas ou ontap-san (volumeMode : Block).  Lorsque les PVC sont créés, Trident crée des volumes ONTAP dans un SVM compatible NFS ou iSCSI.
+
+image:redhat-openshift-055.png["Architecture de migration en direct de machines virtuelles"]
+
+Pour effectuer une migration en direct d'une machine virtuelle qui a été créée précédemment et qui est en état d'exécution, procédez comme suit :
+
+. Sélectionnez la machine virtuelle que vous souhaitez migrer en direct.
+. Cliquez sur l'onglet *Configuration*.
+. Assurez-vous que tous les disques de la machine virtuelle sont créés à l’aide de classes de stockage pouvant prendre en charge le mode d’accès RWX.
+. Cliquez sur *Actions* dans le coin droit, puis sélectionnez *Migrer*.
+. Pour suivre la progression de la migration, accédez à Virtualisation > Présentation dans le menu de gauche, puis cliquez sur l'onglet *Migrations*.  La migration de la machine virtuelle passera de *En attente* à *Planification* puis à *Réussie*
+
+
+
+NOTE: Une instance de machine virtuelle dans un cluster OpenShift migre automatiquement vers un autre nœud lorsque le nœud d’origine est placé en mode maintenance si evictionStrategy est défini sur LiveMigrate.
+
+image:rh-os-n-use-case-vm-live-migrate-001.png["Démarrer la migration en direct de la machine virtuelle"]
+
+image:rh-os-n-use-case-vm-live-migrate-002.png["Migration en direct de la machine virtuelle réussie"]

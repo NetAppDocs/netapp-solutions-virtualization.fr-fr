@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-overview.html 
+keywords: OpenShift, deploy, baremetal, private cloud, virtual 
+summary: 'La plateforme de conteneurs Red Hat OpenShift réunit les opérations de développement et informatiques sur une plateforme unique pour créer, déployer et gérer des applications de manière cohérente sur les infrastructures cloud sur site et hybrides. Red Hat OpenShift s"appuie sur l"innovation open source et les normes industrielles, notamment Kubernetes et Red Hat Enterprise Linux CoreOS, la principale distribution Linux d"entreprise conçue pour les charges de travail basées sur des conteneurs.' 
+---
+= Présentation d'OpenShift
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+La plateforme de conteneurs Red Hat OpenShift réunit les opérations de développement et informatiques sur une plateforme unique pour créer, déployer et gérer des applications de manière cohérente sur les infrastructures cloud sur site et hybrides. Red Hat OpenShift s'appuie sur l'innovation open source et les normes industrielles, notamment Kubernetes et Red Hat Enterprise Linux CoreOS, la distribution Linux d'entreprise leader au monde conçue pour les charges de travail basées sur des conteneurs. OpenShift fait partie du programme Kubernetes certifié de la Cloud Native Computing Foundation (CNCF), offrant la portabilité et l'interopérabilité des charges de travail des conteneurs.
+
+
+
+== Red Hat OpenShift offre les fonctionnalités suivantes :
+
+* *Provisionnement en libre-service* Les développeurs peuvent créer rapidement et facilement des applications à la demande à partir des outils qu'ils utilisent le plus, tandis que les opérations conservent un contrôle total sur l'ensemble de l'environnement.
+* *Stockage persistant* En fournissant la prise en charge du stockage persistant, OpenShift Container Platform vous permet d'exécuter à la fois des applications avec état et des applications sans état natives du cloud.
+* *Intégration continue et développement continu (CI/CD)* Cette plateforme de code source gère les images de build et de déploiement à grande échelle.
+* *Normes open source* Ces normes intègrent l'Open Container Initiative (OCI) et Kubernetes pour l'orchestration des conteneurs, en plus d'autres technologies open source. Vous n’êtes pas limité à la technologie ou à la feuille de route commerciale d’un fournisseur spécifique.
+* *Pipelines CI/CD* OpenShift fournit une prise en charge prête à l'emploi pour les pipelines CI/CD afin que les équipes de développement puissent automatiser chaque étape du processus de livraison de l'application et s'assurer qu'elle est exécutée à chaque modification apportée au code ou à la configuration de l'application.
+* *Contrôle d'accès basé sur les rôles (RBAC)* Cette fonctionnalité fournit un suivi des équipes et des utilisateurs pour aider à organiser un grand groupe de développeurs.
+* *Création et déploiement automatisés* OpenShift offre aux développeurs la possibilité de créer leurs applications conteneurisées ou de laisser la plateforme créer les conteneurs à partir du code source de l'application ou même des binaires. La plateforme automatise ensuite le déploiement de ces applications sur l’infrastructure en fonction des caractéristiques définies pour les applications. Par exemple, quelle quantité de ressources doit être allouée et où sur l’infrastructure elles doivent être déployées pour qu’elles soient conformes aux licences tierces.
+* *Environnements cohérents* OpenShift s'assure que l'environnement mis à disposition des développeurs et tout au long du cycle de vie de l'application est cohérent, du système d'exploitation aux bibliothèques, en passant par la version d'exécution (par exemple, Java Runtime) et même l'exécution de l'application en cours d'utilisation (par exemple, Tomcat) afin d'éliminer les risques provenant d'environnements incohérents.
+* *Gestion de la configuration* La gestion de la configuration et des données sensibles est intégrée à la plateforme pour garantir qu'une configuration d'application cohérente et indépendante de l'environnement est fournie à l'application, quelles que soient les technologies utilisées pour créer l'application ou l'environnement dans lequel elle est déployée.
+* *Journaux d'application et métriques.* Un retour d’information rapide est un aspect important du développement d’applications. La surveillance intégrée et la gestion des journaux d'OpenShift fournissent des mesures immédiates aux développeurs afin qu'ils puissent étudier le comportement de l'application à travers les changements et être en mesure de résoudre les problèmes le plus tôt possible dans le cycle de vie de l'application.
+* *Catalogue de sécurité et de conteneurs* OpenShift offre une multilocation et protège l'utilisateur contre l'exécution de code nuisible en utilisant une sécurité établie avec Security-Enhanced Linux (SELinux), CGroups et Secure Computing Mode (seccomp) pour isoler et protéger les conteneurs. Il fournit également un cryptage via des certificats TLS pour les différents sous-systèmes et un accès aux conteneurs certifiés Red Hat (access.redhat.com/containers) qui sont analysés et classés avec un accent particulier sur la sécurité pour fournir des conteneurs d'applications certifiés, fiables et sécurisés aux utilisateurs finaux.
+
+
+image:redhat-openshift-004.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+
+
+== Méthodes de déploiement pour Red Hat OpenShift
+
+À partir de Red Hat OpenShift 4, les méthodes de déploiement pour OpenShift incluent des déploiements manuels à l'aide de l'infrastructure provisionnée par l'utilisateur (UPI) pour des déploiements hautement personnalisés ou des déploiements entièrement automatisés à l'aide de l'infrastructure provisionnée par l'installateur (IPI).
+
+La méthode d’installation IPI est la méthode préférée dans la plupart des cas car elle permet le déploiement rapide de clusters OpenShift pour les environnements de développement, de test et de production.
+
+
+
+=== Installation IPI de Red Hat OpenShift
+
+Le déploiement de l'infrastructure provisionnée par l'installateur (IPI) d'OpenShift implique les étapes de haut niveau suivantes :
+
+. Visitez Red Hat OpenShiftlink:https://www.openshift.com["site web"^] et connectez-vous avec vos identifiants SSO.
+. Sélectionnez l’environnement dans lequel vous souhaitez déployer Red Hat OpenShift.
++
+image:redhat-openshift-008.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+. Sur l'écran suivant, téléchargez le programme d'installation, le secret d'extraction unique et les outils CLI pour la gestion.
++
+image:redhat-openshift-009.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+. Suivez lelink:https://docs.openshift.com/container-platform/4.7/installing/index.html["instructions d'installation"] fourni par Red Hat pour être déployé dans l'environnement de votre choix.
+
+
+
+
+=== Déploiements OpenShift validés par NetApp
+
+NetApp a testé et validé le déploiement de Red Hat OpenShift dans ses laboratoires à l'aide de la méthode de déploiement Installer Provisioned Infrastructure (IPI) dans chacun des environnements de centre de données suivants :
+
+* link:https://docs.netapp.com/us-en/netapp-solutions-containers/openshift/os-on-bm.html["OpenShift sur Bare Metal"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions-containers/openshift/os-on-openstack.html["OpenShift sur la plateforme Red Hat OpenStack"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions-containers/openshift/os-on-rhv.html["OpenShift sur Red Hat Virtualization"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions-containers/openshift/os-on-vmw.html["OpenShift sur VMware vSphere"^]
+

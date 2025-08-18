@@ -1,0 +1,64 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-vmsc-viwld-smas.html 
+keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, iscsi 
+summary:  
+---
+= Configurer un cluster extensible pour un domaine de charge de travail VI à l'aide de SnapMirror Active Sync
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dans ce cas d'utilisation, nous décrivons la procédure de configuration d'un cluster extensible pour un domaine de charge de travail d'infrastructure virtuelle (VI) à l'aide de SnapMirror Active Sync avec les ONTAP tools for VMware vSphere.  Cette procédure comprend la création d'un domaine de charge de travail VCF avec VMFS sur Fibre Channel, l'enregistrement du vCenter avec les outils ONTAP , l'enregistrement des systèmes de stockage et la protection du cluster vSphere.
+
+image:vmware-vcf-asa-mgmt-stretchcluster-001.png["Instance unique - Zones de disponibilité multiples"]
+
+
+
+== Aperçu du scénario
+
+Les banques de données sur le domaine de charge de travail VCF peuvent être protégées avec SnapMirror Active Sync pour fournir une solution de cluster extensible.  La protection est activée au niveau du cluster vSphere et tous les magasins de données de blocs ONTAP du cluster seront protégés.
+
+.Stockage principal sur le domaine de charge de travail
+[%collapsible%open]
+====
+Le domaine de charge de travail peut être créé soit en important à l'aide de l'outil d'importation VCF, soit en le déployant à l'aide du gestionnaire SDDC.  Le déploiement avec le gestionnaire SDDC offrira plus d’options de mise en réseau que l’importation d’un environnement existant.
+
+. Créer un domaine de charge de travail avec VMFS sur FC
+. link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["Enregistrez le domaine de charge de travail vCenter dans le gestionnaire d'outils ONTAP pour déployer le plug-in vCenter"]
+. link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["Enregistrer les systèmes de stockage sur les outils ONTAP"]
+. link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/protect-cluster.html["Protéger le cluster vSphere"]
+
+
+
+NOTE: Chaque fois que le cluster est étendu ou réduit, vous devez mettre à jour la relation du cluster hôte sur les outils ONTAP pour que le cluster indique les modifications apportées à la source ou à la cible.
+
+====
+.Stockage supplémentaire sur le domaine de charge de travail
+[%collapsible%open]
+====
+Une fois le domaine de charge de travail opérationnel, des banques de données supplémentaires peuvent être créées à l'aide des outils ONTAP , ce qui déclenchera l'extension du groupe de cohérence.
+
+
+TIP: Si un cluster vSphere est protégé, toutes les banques de données du cluster seront protégées.
+
+====
+
+
+== Informations Complémentaires
+
+Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.
+
+Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentation de VMware Cloud Foundation"] .
+
+
+
+== Démo vidéo de cette solution
+
+.Cluster extensible pour VCF avec outils ONTAP
+video::569a91a9-2679-4414-b6dc-b25d00ff0c5a[panopto,width=360]

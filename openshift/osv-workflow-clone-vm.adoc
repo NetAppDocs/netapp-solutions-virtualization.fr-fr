@@ -1,0 +1,78 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-workflow-clone-vm.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP 
+---
+= Cloner une machine virtuelle avec Red Hat OpenShift Virtualization
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cloner une machine virtuelle dans OpenShift Virtualization à l'aide de Trident.  Cette procédure inclut l’exploitation du clonage de volume Trident CSI, vous permettant de créer une nouvelle machine virtuelle en arrêtant la machine virtuelle source ou en la maintenant en cours d’exécution.
+
+
+
+== Clonage de VM
+
+Le clonage d'une machine virtuelle existante dans OpenShift est réalisé avec la prise en charge de la fonction de clonage Volume CSI de Trident.  Le clonage de volume CSI permet de créer un nouveau PVC en utilisant un PVC existant comme source de données en dupliquant son PV.  Une fois le nouveau PVC créé, il fonctionne comme une entité distincte et sans aucun lien ni dépendance avec le PVC source.
+
+image:redhat-openshift-057.png["Architecture de clonage de VM"]
+
+Il existe certaines restrictions à prendre en compte lors du clonage de volume CSI :
+
+. Le PVC source et le PVC de destination doivent être dans le même projet.
+. Le clonage est pris en charge au sein de la même classe de stockage.
+. Le clonage ne peut être effectué que lorsque les volumes source et de destination utilisent le même paramètre VolumeMode ; par exemple, un volume de bloc ne peut être cloné que vers un autre volume de bloc.
+
+
+Les machines virtuelles d'un cluster OpenShift peuvent être clonées de deux manières :
+
+. En arrêtant la VM source
+. En gardant la VM source en direct
+
+
+
+
+=== En arrêtant la machine virtuelle source
+
+Le clonage d'une machine virtuelle existante en arrêtant la machine virtuelle est une fonctionnalité native d'OpenShift qui est implémentée avec le support de Trident.  Suivez les étapes suivantes pour cloner une machine virtuelle.
+
+. Accédez à Charges de travail > Virtualisation > Machines virtuelles et cliquez sur les points de suspension en regard de la machine virtuelle que vous souhaitez cloner.
+. Cliquez sur Cloner la machine virtuelle et fournissez les détails de la nouvelle machine virtuelle.
++
+image:redhat-openshift-058.png["cloner une machine virtuelle"]
+
+. Cliquez sur Cloner la machine virtuelle ; cela arrête la machine virtuelle source et lance la création de la machine virtuelle clonée.
+. Une fois cette étape terminée, vous pouvez accéder au contenu de la machine virtuelle clonée et le vérifier.
+
+
+
+
+=== En gardant la VM source en direct
+
+Une machine virtuelle existante peut également être clonée en clonant le PVC existant de la machine virtuelle source, puis en créant une nouvelle machine virtuelle à l'aide du PVC cloné.  Cette méthode ne nécessite pas d’arrêter la machine virtuelle source.  Suivez les étapes suivantes pour cloner une machine virtuelle sans l’arrêter.
+
+. Accédez à Stockage > PersistentVolumeClaims et cliquez sur les points de suspension en regard du PVC attaché à la machine virtuelle source.
+. Cliquez sur Cloner le PVC et fournissez les détails du nouveau PVC.
++
+image:redhat-openshift-059.png["cloner du pvc"]
+
+. Cliquez ensuite sur Cloner.  Cela crée un PVC pour la nouvelle VM.
+. Accédez à Charges de travail > Virtualisation > Machines virtuelles et cliquez sur Créer > Avec YAML.
+. Dans la section spec > template > spec > volumes, attachez le PVC cloné au lieu du disque conteneur.  Fournissez tous les autres détails de la nouvelle machine virtuelle en fonction de vos besoins.
++
+[source, cli]
+----
+- name: rootdisk
+  persistentVolumeClaim:
+    claimName: rhel8-short-frog-rootdisk-28dvb-clone
+----
+. Cliquez sur Créer pour créer la nouvelle VM.
+. Une fois la machine virtuelle créée avec succès, accédez à la nouvelle machine virtuelle et vérifiez qu'elle est un clone de la machine virtuelle source.
+

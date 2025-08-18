@@ -1,0 +1,538 @@
+= Exigences réseau
+:allow-uri-read: 
+
+
+VMware vSphere by Broadcom prend en charge les banques de données VMFS, NFS et vVol pour l'hébergement de machines virtuelles.  Les clients ont la possibilité de créer ces magasins de données avec des infrastructures hyperconvergées ou avec des systèmes de stockage partagés centralisés.
+
+Les clients voient souvent l'intérêt d'héberger des systèmes de stockage basés sur ONTAP pour fournir des instantanés et des clones de machines virtuelles à faible encombrement, la flexibilité de choisir différents modèles de déploiement dans les centres de données et les clouds, l'efficacité opérationnelle avec des outils de surveillance et d'alerte, la sécurité, la gouvernance et des outils de conformité optionnels pour inspecter les données des machines virtuelles, etc.
+
+Les machines virtuelles hébergées sur des banques de données ONTAP peuvent être protégées à l’aide du plug-in SnapCenter pour VMware vSphere (SCV).  SCV crée des instantanés basés sur le stockage et les réplique également sur un système de stockage ONTAP distant.  Les restaurations peuvent être effectuées à partir de systèmes de stockage principaux ou secondaires.
+
+Les clients ont la possibilité de choisir Cloud Insights ou Aria Operations ou une combinaison des deux ou d'autres outils tiers qui utilisent l'API ONTAP pour le dépannage, la surveillance des performances, la création de rapports et les fonctionnalités de notification d'alerte.
+
+Les clients peuvent facilement provisionner la banque de données à l'aide du plug-in ONTAP Tools vCenter ou de son API et les machines virtuelles peuvent être migrées vers les banques de données ONTAP même lorsqu'elles sont sous tension.
+
+
+NOTE: Certaines machines virtuelles déployées avec un outil de gestion externe comme Aria Automation, Tanzu (ou d'autres versions de Kubernetes) dépendent généralement de la politique de stockage de la machine virtuelle.  Si vous effectuez une migration entre les banques de données au sein de la même stratégie de stockage de machine virtuelle, l'impact sur les applications devrait être moindre.  Vérifiez auprès des propriétaires d'applications pour migrer correctement ces machines virtuelles vers une nouvelle banque de données. vSphere 8 introduit https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/how-to-prepare-an-application-for-vsphere-vmotion.html#:~:text=vSphere%208.0%20introduces%20a%20notification,the%20necessary%20steps%20to%20prepare.["Notifications vSphere vMotion pour les applications sensibles à la latence"] pour préparer les applications pour vMotion.
+
+
+
+== Exigences réseau
+
+.Migration de VM avec vMotion
+[%collapsible%open]
+====
+On suppose qu'un réseau de stockage double est déjà en place pour la banque de données ONTAP afin de fournir une connectivité, une tolérance aux pannes et une amélioration des performances.
+
+La migration des machines virtuelles sur les hôtes vSphere est également gérée par l'interface VMKernel de l'hôte vSphere.  Pour la migration à chaud (machines virtuelles sous tension), l'interface VMKernel avec le service vMotion activé est utilisée et pour la migration à froid (machines virtuelles hors tension), l'interface VMKernel avec le service de provisionnement activé est utilisée pour déplacer les données.  Si aucune interface valide n'a été trouvée, l'interface de gestion sera utilisée pour déplacer les données, ce qui peut ne pas être souhaitable pour certains cas d'utilisation.
+
+image:migrate-vms-to-ontap-002.png["VMKernel avec services activés"]
+
+Lorsque vous modifiez l'interface VMKernel, voici l'option permettant d'activer les services requis.
+
+image:migrate-vms-to-ontap-001.png["Options de service VMKernel"]
+
+
+TIP: Assurez-vous qu'au moins deux cartes réseau de liaison montante actives à haut débit sont disponibles pour le groupe de ports utilisé par les interfaces vMotion et Provisioning VMkernel.
+
+====
+
+
+== Scénarios de migration de machines virtuelles
+
+vMotion est souvent utilisé pour migrer les machines virtuelles quel que soit leur état d'alimentation.  Des considérations supplémentaires et une procédure de migration pour des scénarios spécifiques sont disponibles ci-dessous.
+
+
+NOTE: Comprendre https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vcenter-and-host-management-8-0/migrating-virtual-machines-host-management/migration-with-vmotion-host-management/virtual-machine-conditions-and-limitation-for-vmotion-host-management.html["Conditions et limitations de vSphere vMotion"] avant de procéder à toute option de migration de machine virtuelle.
+
+.Migration de machines virtuelles à partir d'un datastore vSphere spécifique
+[%collapsible%open]
+====
+Suivez la procédure ci-dessous pour migrer des machines virtuelles vers un nouveau magasin de données à l’aide de l’interface utilisateur.
+
+. Avec vSphere Web Client, sélectionnez le magasin de données dans l’inventaire de stockage et cliquez sur l’onglet VM.
++
+image:migrate-vms-to-ontap-003.png["Machines virtuelles sur un magasin de données spécifique"]
+
+. Sélectionnez les machines virtuelles qui doivent être migrées et faites un clic droit pour sélectionner l’option Migrer.
++
+image:migrate-vms-to-ontap-004.png["Machines virtuelles à migrer"]
+
+. Choisissez l'option pour modifier uniquement le stockage, cliquez sur Suivant
++
+image:migrate-vms-to-ontap-005.png["Modifier le stockage uniquement"]
+
+. Sélectionnez la stratégie de stockage de machine virtuelle souhaitée et choisissez le magasin de données compatible. Cliquez sur Suivant.
++
+image:migrate-vms-to-ontap-006.png["Banque de données conforme à la politique de stockage des machines virtuelles"]
+
+. Vérifiez et cliquez sur Terminer.
++
+image:migrate-vms-to-ontap-007.png["Examen de la migration du stockage"]
+
+
+
+Pour migrer des machines virtuelles à l’aide de PowerCLI, voici l’exemple de script.
+
+[source, powershell]
+----
+#Authenticate to vCenter
+Connect-VIServer -server vcsa.sddc.netapp.local -force
+
+# Get all VMs with filter applied for a specific datastore
+$vm = Get-DataStore 'vSanDatastore' | Get-VM Har*
+
+#Gather VM Disk info
+$vmdisk = $vm | Get-HardDisk
+
+#Gather the desired Storage Policy to set for the VMs. Policy should be available with valid datastores.
+$storagepolicy = Get-SPBMStoragePolicy 'NetApp Storage'
+
+#set VM Storage Policy for VM config and its data disks.
+$vm, $vmdisk | Get-SPBMEntityConfiguration | Set-SPBMEntityConfiguration -StoragePolicy $storagepolicy
+
+#Migrate VMs to Datastore specified by Policy
+$vm | Move-VM -Datastore (Get-SPBMCompatibleStorage -StoragePolicy $storagepolicy)
+
+#Ensure VM Storage Policy remains compliant.
+$vm, $vmdisk | Get-SPBMEntityConfiguration
+----
+====
+.Migration de machines virtuelles dans le même cluster vSphere
+[%collapsible%open]
+====
+Suivez la procédure ci-dessous pour migrer des machines virtuelles vers un nouveau magasin de données à l’aide de l’interface utilisateur.
+
+. Avec vSphere Web Client, sélectionnez le cluster dans l’inventaire Hôte et cluster et cliquez sur l’onglet VM.
++
+image:migrate-vms-to-ontap-008.png["Machines virtuelles sur un cluster spécifique"]
+
+. Sélectionnez les machines virtuelles qui doivent être migrées et faites un clic droit pour sélectionner l’option Migrer.
++
+image:migrate-vms-to-ontap-004.png["Machines virtuelles à migrer"]
+
+. Choisissez l'option pour modifier uniquement le stockage, cliquez sur Suivant
++
+image:migrate-vms-to-ontap-005.png["Modifier le stockage uniquement"]
+
+. Sélectionnez la stratégie de stockage de machine virtuelle souhaitée et choisissez le magasin de données compatible. Cliquez sur Suivant.
++
+image:migrate-vms-to-ontap-006.png["Banque de données conforme à la politique de stockage des machines virtuelles"]
+
+. Vérifiez et cliquez sur Terminer.
++
+image:migrate-vms-to-ontap-007.png["Examen de la migration du stockage"]
+
+
+
+Pour migrer des machines virtuelles à l’aide de PowerCLI, voici l’exemple de script.
+
+[source, powershell]
+----
+#Authenticate to vCenter
+Connect-VIServer -server vcsa.sddc.netapp.local -force
+
+# Get all VMs with filter applied for a specific cluster
+$vm = Get-Cluster 'vcf-m01-cl01' | Get-VM Aria*
+
+#Gather VM Disk info
+$vmdisk = $vm | Get-HardDisk
+
+#Gather the desired Storage Policy to set for the VMs. Policy should be available with valid datastores.
+$storagepolicy = Get-SPBMStoragePolicy 'NetApp Storage'
+
+#set VM Storage Policy for VM config and its data disks.
+$vm, $vmdisk | Get-SPBMEntityConfiguration | Set-SPBMEntityConfiguration -StoragePolicy $storagepolicy
+
+#Migrate VMs to Datastore specified by Policy
+$vm | Move-VM -Datastore (Get-SPBMCompatibleStorage -StoragePolicy $storagepolicy)
+
+#Ensure VM Storage Policy remains compliant.
+$vm, $vmdisk | Get-SPBMEntityConfiguration
+----
+
+TIP: Lorsque le cluster de banques de données est utilisé avec un stockage DRS (Dynamic Resource Scheduling) entièrement automatisé et que les deux banques de données (source et cible) sont du même type (VMFS/NFS/vVol), conservez les deux banques de données dans le même cluster de stockage et migrez les machines virtuelles à partir de la banque de données source en activant le mode de maintenance sur la source.  L’expérience sera similaire à la manière dont les hôtes de calcul sont gérés pour la maintenance.
+
+====
+.Migration de machines virtuelles sur plusieurs clusters vSphere
+[%collapsible%open]
+====
+
+NOTE: Référer https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vcenter-and-host-management-8-0/migrating-virtual-machines-host-management/cpu-compatibility-and-evc-host-management.html["Compatibilité CPU et compatibilité vSphere Enhanced vMotion"] lorsque les hôtes source et cible appartiennent à des familles ou des modèles de processeurs différents.
+
+Suivez la procédure ci-dessous pour migrer des machines virtuelles vers un nouveau magasin de données à l’aide de l’interface utilisateur.
+
+. Avec vSphere Web Client, sélectionnez le cluster dans l’inventaire Hôte et cluster et cliquez sur l’onglet VM.
++
+image:migrate-vms-to-ontap-008.png["Machines virtuelles sur un cluster spécifique"]
+
+. Sélectionnez les machines virtuelles qui doivent être migrées et faites un clic droit pour sélectionner l’option Migrer.
++
+image:migrate-vms-to-ontap-004.png["Machines virtuelles à migrer"]
+
+. Choisissez l'option pour modifier la ressource de calcul et le stockage, cliquez sur Suivant
++
+image:migrate-vms-to-ontap-009.png["Changer à la fois le calcul et le stockage"]
+
+. Naviguez et choisissez le bon cluster à migrer.
++
+image:migrate-vms-to-ontap-012.png["Sélectionnez le cluster cible"]
+
+. Sélectionnez la stratégie de stockage de machine virtuelle souhaitée et choisissez le magasin de données compatible. Cliquez sur Suivant.
++
+image:migrate-vms-to-ontap-013.png["Banque de données conforme à la politique de stockage des machines virtuelles"]
+
+. Sélectionnez le dossier VM pour placer les VM cibles.
++
+image:migrate-vms-to-ontap-014.png["Sélection du dossier de la machine virtuelle cible"]
+
+. Sélectionnez le groupe de ports cible.
++
+image:migrate-vms-to-ontap-015.png["Sélection du groupe de ports cibles"]
+
+. Vérifiez et cliquez sur Terminer.
++
+image:migrate-vms-to-ontap-007.png["Examen de la migration du stockage"]
+
+
+
+Pour migrer des machines virtuelles à l’aide de PowerCLI, voici l’exemple de script.
+
+[source, powershell]
+----
+#Authenticate to vCenter
+Connect-VIServer -server vcsa.sddc.netapp.local -force
+
+# Get all VMs with filter applied for a specific cluster
+$vm = Get-Cluster 'vcf-m01-cl01' | Get-VM Aria*
+
+#Gather VM Disk info
+$vmdisk = $vm | Get-HardDisk
+
+#Gather the desired Storage Policy to set for the VMs. Policy should be available with valid datastores.
+$storagepolicy = Get-SPBMStoragePolicy 'NetApp Storage'
+
+#set VM Storage Policy for VM config and its data disks.
+$vm, $vmdisk | Get-SPBMEntityConfiguration | Set-SPBMEntityConfiguration -StoragePolicy $storagepolicy
+
+#Migrate VMs to another cluster and Datastore specified by Policy
+$vm | Move-VM -Destination (Get-Cluster 'Target Cluster') -Datastore (Get-SPBMCompatibleStorage -StoragePolicy $storagepolicy)
+
+#When Portgroup is specific to each cluster, replace the above command with
+$vm | Move-VM -Destination (Get-Cluster 'Target Cluster') -Datastore (Get-SPBMCompatibleStorage -StoragePolicy $storagepolicy) -PortGroup (Get-VirtualPortGroup 'VLAN 101')
+
+#Ensure VM Storage Policy remains compliant.
+$vm, $vmdisk | Get-SPBMEntityConfiguration
+----
+====
+.Migration de machines virtuelles entre serveurs vCenter dans le même domaine SSO
+[#vmotion-same-sso%collapsible%open]
+====
+Suivez la procédure ci-dessous pour migrer les machines virtuelles vers le nouveau serveur vCenter répertorié sur la même interface utilisateur du client vSphere.
+
+
+NOTE: Pour des exigences supplémentaires telles que les versions source et cible de vCenter, etc., consultez https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vcenter-and-host-management-8-0/migrating-virtual-machines-host-management/vmotion-across-vcenter-server-systems-host-management/requirements-for-migration-across-vcenter-servers-host-management.html["Documentation vSphere sur les exigences de vMotion entre les instances de serveur vCenter"]
+
+. Avec vSphere Web Client, sélectionnez le cluster dans l’inventaire Hôte et cluster et cliquez sur l’onglet VM.
++
+image:migrate-vms-to-ontap-008.png["Machines virtuelles sur un cluster spécifique"]
+
+. Sélectionnez les machines virtuelles qui doivent être migrées et faites un clic droit pour sélectionner l’option Migrer.
++
+image:migrate-vms-to-ontap-004.png["Machines virtuelles à migrer"]
+
+. Choisissez l'option pour modifier la ressource de calcul et le stockage, cliquez sur Suivant
++
+image:migrate-vms-to-ontap-009.png["Changer à la fois le calcul et le stockage"]
+
+. Sélectionnez le cluster cible dans le serveur vCenter cible.
++
+image:migrate-vms-to-ontap-012.png["Sélectionnez le cluster cible"]
+
+. Sélectionnez la stratégie de stockage de machine virtuelle souhaitée et choisissez le magasin de données compatible. Cliquez sur Suivant.
++
+image:migrate-vms-to-ontap-013.png["Banque de données conforme à la politique de stockage des machines virtuelles"]
+
+. Sélectionnez le dossier VM pour placer les VM cibles.
++
+image:migrate-vms-to-ontap-014.png["Sélection du dossier de la machine virtuelle cible"]
+
+. Sélectionnez le groupe de ports cible.
++
+image:migrate-vms-to-ontap-015.png["Sélection du groupe de ports cibles"]
+
+. Passez en revue les options de migration et cliquez sur Terminer.
++
+image:migrate-vms-to-ontap-007.png["Examen de la migration du stockage"]
+
+
+
+Pour migrer des machines virtuelles à l’aide de PowerCLI, voici l’exemple de script.
+
+[source, powershell]
+----
+#Authenticate to Source vCenter
+$sourcevc = Connect-VIServer -server vcsa01.sddc.netapp.local -force
+$targetvc = Connect-VIServer -server vcsa02.sddc.netapp.local -force
+
+# Get all VMs with filter applied for a specific cluster
+$vm = Get-Cluster 'vcf-m01-cl01'  -server $sourcevc| Get-VM Win*
+
+#Gather the desired Storage Policy to set for the VMs. Policy should be available with valid datastores.
+$storagepolicy = Get-SPBMStoragePolicy 'iSCSI' -server $targetvc
+
+#Migrate VMs to target vCenter
+$vm | Move-VM -Destination (Get-Cluster 'Target Cluster' -server $targetvc) -Datastore (Get-SPBMCompatibleStorage -StoragePolicy $storagepolicy -server $targetvc) -PortGroup (Get-VirtualPortGroup 'VLAN 101' -server $targetvc)
+
+$targetvm = Get-Cluster 'Target Cluster' -server $targetvc | Get-VM Win*
+
+#Gather VM Disk info
+$targetvmdisk = $targetvm | Get-HardDisk
+
+#set VM Storage Policy for VM config and its data disks.
+$targetvm, $targetvmdisk | Get-SPBMEntityConfiguration | Set-SPBMEntityConfiguration -StoragePolicy $storagepolicy
+
+#Ensure VM Storage Policy remains compliant.
+$targetvm, $targetvmdisk | Get-SPBMEntityConfiguration
+----
+====
+.Migration de machines virtuelles entre serveurs vCenter dans différents domaines SSO
+[%collapsible%open]
+====
+
+NOTE: Ce scénario suppose que la communication existe entre les serveurs vCenter.  Sinon, vérifiez le scénario d'emplacement du centre de données répertorié ci-dessous.  Pour les prérequis, consultez https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-1960B6A6-59CD-4B34-8FE5-42C19EE8422A.html["Documentation vSphere sur Advanced Cross vCenter vMotion"]
+
+Suivez la procédure ci-dessous pour migrer des machines virtuelles vers un serveur vCenter différent à l’aide de l’interface utilisateur.
+
+. Avec vSphere Web Client, sélectionnez le serveur vCenter source et cliquez sur l’onglet VM.
++
+image:migrate-vms-to-ontap-010.png["Machines virtuelles sur vCenter source"]
+
+. Sélectionnez les machines virtuelles qui doivent être migrées et faites un clic droit pour sélectionner l’option Migrer.
++
+image:migrate-vms-to-ontap-004.png["Machines virtuelles à migrer"]
+
+. Choisissez l'option Exportation inter-serveurs vCenter, cliquez sur Suivant
++
+image:migrate-vms-to-ontap-011.png["Exportation entre serveurs vCenter"]
+
++
+
+TIP: La machine virtuelle peut également être importée à partir du serveur vCenter cible.  Pour cette procédure, vérifiez https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vcenter-and-host-management-8-0/migrating-virtual-machines-host-management/vmotion-across-vcenter-server-systems-host-management/migrate-a-virtual-machine-from-an-external-vcenter-server-instance-host-management.html["Importer ou cloner une machine virtuelle avec Advanced Cross vCenter vMotion"]
+
+. Fournissez les informations d’identification vCenter et cliquez sur Connexion.
++
+image:migrate-vms-to-ontap-023.png["Informations d'identification vCenter"]
+
+. Confirmer et accepter l'empreinte du certificat SSL du serveur vCenter
++
+image:migrate-vms-to-ontap-024.png["Empreinte numérique SSL"]
+
+. Développez le vCenter cible et sélectionnez le cluster de calcul cible.
++
+image:migrate-vms-to-ontap-025.png["Sélectionner le cluster de calcul cible"]
+
+. Sélectionnez le magasin de données cible en fonction de la stratégie de stockage de la machine virtuelle.
++
+image:migrate-vms-to-ontap-026.png["sélectionner le magasin de données cible"]
+
+. Sélectionnez le dossier de la machine virtuelle cible.
++
+image:migrate-vms-to-ontap-027.png["Sélectionnez le dossier de la machine virtuelle cible"]
+
+. Sélectionnez le groupe de ports VM pour chaque mappage de carte d’interface réseau.
++
+image:migrate-vms-to-ontap-028.png["Sélectionnez le groupe de ports cible"]
+
+. Vérifiez et cliquez sur Terminer pour démarrer vMotion sur les serveurs vCenter.
++
+image:migrate-vms-to-ontap-029.png["Examen du fonctionnement de Cross vMotion"]
+
+
+
+Pour migrer des machines virtuelles à l’aide de PowerCLI, voici l’exemple de script.
+
+[source, powershell]
+----
+#Authenticate to Source vCenter
+$sourcevc = Connect-VIServer -server vcsa01.sddc.netapp.local -force
+$targetvc = Connect-VIServer -server vcsa02.sddc.netapp.local -force
+
+# Get all VMs with filter applied for a specific cluster
+$vm = Get-Cluster 'Source Cluster'  -server $sourcevc| Get-VM Win*
+
+#Gather the desired Storage Policy to set for the VMs. Policy should be available with valid datastores.
+$storagepolicy = Get-SPBMStoragePolicy 'iSCSI' -server $targetvc
+
+#Migrate VMs to target vCenter
+$vm | Move-VM -Destination (Get-Cluster 'Target Cluster' -server $targetvc) -Datastore (Get-SPBMCompatibleStorage -StoragePolicy $storagepolicy -server $targetvc) -PortGroup (Get-VirtualPortGroup 'VLAN 101' -server $targetvc)
+
+$targetvm = Get-Cluster 'Target Cluster' -server $targetvc | Get-VM Win*
+
+#Gather VM Disk info
+$targetvmdisk = $targetvm | Get-HardDisk
+
+#set VM Storage Policy for VM config and its data disks.
+$targetvm, $targetvmdisk | Get-SPBMEntityConfiguration | Set-SPBMEntityConfiguration -StoragePolicy $storagepolicy
+
+#Ensure VM Storage Policy remains compliant.
+$targetvm, $targetvmdisk | Get-SPBMEntityConfiguration
+----
+====
+.Migration de machines virtuelles entre différents centres de données
+[%collapsible%open]
+====
+* Lorsque le trafic de couche 2 est réparti sur plusieurs centres de données à l'aide de NSX Federation ou d'autres options, suivez la procédure de migration des machines virtuelles sur les serveurs vCenter.
+* HCX fournit divers https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-11/vmware-hcx-user-guide-4-11/migrating-virtual-machines-with-vmware-hcx/vmware-hcx-migration-types.html["types de migration"] y compris la réplication assistée vMotion à travers les centres de données pour déplacer les machines virtuelles sans aucun temps d'arrêt.
+* https://docs.vmware.com/en/Site-Recovery-Manager/index.html["Gestionnaire de récupération de site (SRM)"]est généralement destiné à des fins de reprise après sinistre et également souvent utilisé pour la migration planifiée utilisant une réplication basée sur une baie de stockage.
+* Utilisation des produits de protection continue des données (CDP) https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-storage-7-0/filtering-virtual-machine-i-o-in-vsphere/about-i-o-filters/classes-of-vaio-filters.html["API vSphere pour E/S (VAIO)"] pour intercepter les données et envoyer une copie à un emplacement distant pour une solution RPO proche de zéro.
+* Les produits de sauvegarde et de récupération peuvent également être utilisés.  Mais cela entraîne souvent un RTO plus long.
+* https://docs.netapp.com/us-en/bluexp-disaster-recovery/get-started/dr-intro.html["BlueXP Reprise après sinistre en tant que service (DRaaS)"]utilise la réplication basée sur une baie de stockage et automatise certaines tâches pour récupérer les machines virtuelles sur le site cible.
+
+
+====
+.Migration de machines virtuelles dans un environnement cloud hybride
+[%collapsible%open]
+====
+* https://techdocs.broadcom.com/us/en/vmware-cis/cloud/vmware-cloud/cloud/vmware-cloud-gateway-administration/about-hybrid-linked-mode.html["Configurer le mode hybride lié"]et suivez la procédure delink:#vmotion-same-sso["Migration de machines virtuelles entre serveurs vCenter dans le même domaine SSO"]
+* HCX fournit divers https://docs.vmware.com/en/VMware-HCX/4.8/hcx-user-guide/GUID-8A31731C-AA28-4714-9C23-D9E924DBB666.html["types de migration"] y compris la réplication assistée vMotion dans les centres de données pour déplacer la machine virtuelle pendant qu'elle est sous tension.
++
+** link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-aws-vmc-migrate-hcx.html["TR 4942 : Migration des charges de travail vers la banque de données FSx ONTAP à l'aide de VMware HCX"^]
+** link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-azure-avs-migrate-hcx.html["TR-4940 : Migrer des charges de travail vers une banque de données Azure NetApp Files à l'aide de VMware HCX - Guide de démarrage rapide"^]
+** link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-gcp-gcve-migrate-hcx.html["Migrer des charges de travail vers la banque de données Google Cloud NetApp Volumes sur Google Cloud VMware Engine à l'aide de VMware HCX - Guide de démarrage rapide"^]
+
+
+* https://docs.netapp.com/us-en/bluexp-disaster-recovery/get-started/dr-intro.html["BlueXP Reprise après sinistre en tant que service (DRaaS)"]utilise la réplication basée sur une baie de stockage et automatise certaines tâches pour récupérer les machines virtuelles sur le site cible.
+* Avec les produits de protection continue des données (CDP) pris en charge qui utilisent https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-storage-7-0/filtering-virtual-machine-i-o-in-vsphere/about-i-o-filters/classes-of-vaio-filters.html["API vSphere pour E/S (VAIO)"] pour intercepter les données et envoyer une copie à un emplacement distant pour une solution RPO proche de zéro.
+
+
+
+TIP: Lorsque la machine virtuelle source réside sur une banque de données vVol en mode bloc, elle peut être répliquée avec SnapMirror vers Amazon FSx ONTAP ou Cloud Volumes ONTAP (CVO) chez d'autres fournisseurs de cloud pris en charge et consommée en tant que volume iSCSI avec des machines virtuelles natives du cloud.
+
+====
+
+
+== Scénarios de migration de modèles de machines virtuelles
+
+Les modèles de machine virtuelle peuvent être gérés par vCenter Server ou par une bibliothèque de contenu.  La distribution des modèles VM, des modèles OVF et OVA, d'autres types de fichiers sont gérés en les publiant dans la bibliothèque de contenu locale et les bibliothèques de contenu distantes peuvent s'y abonner.
+
+* Les modèles de machine virtuelle stockés sur l’inventaire vCenter peuvent être convertis en machine virtuelle et utiliser les options de migration de machine virtuelle.
+* Les modèles OVF et OVA, ainsi que d'autres types de fichiers stockés dans la bibliothèque de contenu, peuvent être clonés vers d'autres bibliothèques de contenu.
+* Les modèles de VM de bibliothèque de contenu peuvent être hébergés sur n'importe quel magasin de données et doivent être ajoutés à la nouvelle bibliothèque de contenu.
+
+
+.Migration des modèles de machines virtuelles hébergés sur le datastore
+[%collapsible%open]
+====
+. Dans vSphere Web Client, cliquez avec le bouton droit sur le modèle de machine virtuelle sous la vue du dossier Machine virtuelle et modèles et sélectionnez l'option de conversion en machine virtuelle.
++
+image:migrate-vms-to-ontap-016.png["Convertir un modèle de machine virtuelle en machine virtuelle"]
+
+. Une fois converti en VM, suivez les options de migration de VM.
+
+
+====
+.Clone d'éléments de la bibliothèque de contenu
+[%collapsible%open]
+====
+. Dans vSphere Web Client, sélectionnez Bibliothèques de contenu
++
+image:migrate-vms-to-ontap-017.png["Sélection de la bibliothèque de contenu"]
+
+. Sélectionnez la bibliothèque de contenu dans laquelle se trouve l'élément que vous souhaitez cloner
+. Faites un clic droit sur l'élément et cliquez sur Cloner l'élément.
++
+image:migrate-vms-to-ontap-018.png["Cloner un élément de la bibliothèque de contenu"]
+
++
+
+WARNING: Si vous utilisez le menu d'action, assurez-vous que l'objet cible correct est répertorié pour effectuer l'action.
+
+. Sélectionnez la bibliothèque de contenu cible et cliquez sur OK.
++
+image:migrate-vms-to-ontap-019.png["Sélection de la bibliothèque de contenu cible"]
+
+. Valider que l'élément est disponible dans la bibliothèque de contenu cible.
++
+image:migrate-vms-to-ontap-020.png["Vérification de l'élément cloné"]
+
+
+
+Voici l'exemple de script PowerCLI pour copier les éléments de la bibliothèque de contenu de la bibliothèque de contenu CL01 vers CL02.
+
+[source, powershell]
+----
+#Authenticate to vCenter Server(s)
+$sourcevc = Connect-VIServer -server 'vcenter01.domain' -force
+$targetvc = Connect-VIServer -server 'vcenter02.domain' -force
+
+#Copy content library items from source vCenter content library CL01 to target vCenter content library CL02.
+Get-ContentLibaryItem -ContentLibary (Get-ContentLibary 'CL01' -Server $sourcevc) | Where-Object { $_.ItemType -ne 'vm-template' } | Copy-ContentLibaryItem -ContentLibrary (Get-ContentLibary 'CL02' -Server $targetvc)
+----
+====
+.Ajout de VM en tant que modèles dans la bibliothèque de contenu
+[%collapsible%open]
+====
+. Dans vSphere Web Client, sélectionnez la machine virtuelle et cliquez avec le bouton droit pour choisir Cloner comme modèle dans la bibliothèque
++
+image:migrate-vms-to-ontap-021.png["Cloner une machine virtuelle comme modèle dans la bibliothèque"]
+
++
+
+TIP: Lorsque le modèle de machine virtuelle est sélectionné pour être cloné dans la bibliothèque, il ne peut le stocker qu'en tant que modèle OVF et OVA et non en tant que modèle de machine virtuelle.
+
+. Confirmez que le type de modèle est sélectionné comme modèle de machine virtuelle et suivez les réponses de l'assistant pour terminer l'opération.
++
+image:migrate-vms-to-ontap-022.png["Sélection du type de modèle"]
+
++
+
+NOTE: Pour plus de détails sur les modèles de VM dans la bibliothèque de contenu, consultez https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-virtual-machine-administration-guide-8-0.html["Guide d'administration de la machine virtuelle vSphere"]
+
+
+
+====
+
+
+== Cas d'utilisation
+
+.Migration de systèmes de stockage tiers (y compris vSAN) vers des banques de données ONTAP .
+[%collapsible%open]
+====
+* En fonction de l’emplacement où la banque de données ONTAP est provisionnée, choisissez les options de migration de machine virtuelle ci-dessus.
+
+
+====
+.Migration de la version précédente vers la dernière version de vSphere.
+[%collapsible%open]
+====
+* Si la mise à niveau sur place n'est pas possible, vous pouvez créer un nouvel environnement et utiliser les options de migration ci-dessus.
++
+
+TIP: Dans l'option de migration Cross vCenter, importez depuis la cible si l'option d'exportation n'est pas disponible sur la source.  Pour cette procédure, vérifiezlink:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vcenter-and-host-management-8-0/migrating-virtual-machines-host-management/vmotion-across-vcenter-server-systems-host-management/migrate-a-virtual-machine-from-an-external-vcenter-server-instance-host-management.html["Importer ou cloner une machine virtuelle avec Advanced Cross vCenter vMotion"]
+
+
+
+====
+.Migration vers le domaine de charge de travail VCF.
+[%collapsible%open]
+====
+* Migrez les machines virtuelles de chaque cluster vSphere vers le domaine de charge de travail cible.
++
+
+NOTE: Pour permettre la communication réseau avec les machines virtuelles existantes sur d'autres clusters sur vCenter source, étendez le segment NSX en ajoutant les hôtes vSphere vCenter source à la zone de transport ou utilisez le pont L2 sur le bord pour autoriser la communication L2 dans le VLAN.  Consultez la documentation NSX de https://techdocs.broadcom.com/us/en/vmware-cis/nsx/vmware-nsx/4-2/administration-guide/segments/edge-bridging-extending-overlay-segments-to-vlan/configure-an-edge-vm-for-bridging.html["Configurer une machine virtuelle Edge pour le pontage"]
+
+
+
+====
+
+
+== Ressources supplémentaires
+
+* https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vcenter-and-host-management-8-0/migrating-virtual-machines-host-management.html["Migration de machines virtuelles vSphere"]
+* https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vcenter-and-host-management-8-0/migrating-virtual-machines-host-management/migration-with-vmotion-host-management.html["Migration de machines virtuelles avec vSphere vMotion"]
+* https://techdocs.broadcom.com/us/en/vmware-cis/nsx/vmware-nsx/4-2/administration-guide/managing-nsx-t-in-multiple-locations/nsx-t-federation/networking-topologies-in-nsx-federation/tier-0-in-federation.html["Configurations de passerelle de niveau 0 dans NSX Federation"]
+* https://techdocs.broadcom.com/us/en/vmware-cis/hcx/vmware-hcx/4-11/vmware-hcx-user-guide-4-11.html["Guide de l'utilisateur HCX 4.8"]
+* https://techdocs.broadcom.com/us/en/vmware-cis/live-recovery.html["Documentation sur VMware Live Recovery"]
+* https://docs.netapp.com/us-en/bluexp-disaster-recovery/get-started/dr-intro.html["BlueXP disaster recovery pour VMware"]
+

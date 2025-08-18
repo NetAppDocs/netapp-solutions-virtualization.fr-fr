@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-deployment-prerequisites.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP 
+---
+= Conditions requises pour déployer Red Hat OpenShift Virtualization avec ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Passez en revue les exigences pour installer et déployer la virtualisation OpenShift avec les systèmes de stockage ONTAP .
+
+
+
+== Prérequis
+
+* Un cluster Red Hat OpenShift (version ultérieure à la version 4.6) installé sur une infrastructure bare-metal avec des nœuds de travail RHCOS
+* Déployer des contrôles de santé des machines pour maintenir la haute disponibilité des machines virtuelles
+* Un cluster NetApp ONTAP , avec SVM configuré avec le protocole correct.
+* Trident installé sur le cluster OpenShift
+* Une configuration backend Trident créée
+* Une StorageClass configurée sur le cluster OpenShift avec Trident comme provisionneur
+
+
+Pour les prérequis Trident ci-dessus, voirlink:osv-trident-install.html["Section d'installation du Trident"] pour plus de détails.
+
+* Accès administrateur du cluster au cluster Red Hat OpenShift
+* Accès administrateur au cluster NetApp ONTAP
+* Un poste de travail administrateur avec les outils tridentctl et oc installés et ajoutés à $PATH
+
+
+Étant donné qu'OpenShift Virtualization est géré par un opérateur installé sur le cluster OpenShift, il impose une surcharge supplémentaire sur la mémoire, le processeur et le stockage, qui doit être prise en compte lors de la planification des exigences matérielles du cluster. Voir la documentation https://docs.openshift.com/container-platform/4.7/virt/install/preparing-cluster-for-virt.html#virt-cluster-resource-requirements_preparing-cluster-for-virt["ici"] pour plus de détails.
+
+En option, vous pouvez également spécifier un sous-ensemble de nœuds de cluster OpenShift pour héberger les opérateurs, contrôleurs et machines virtuelles de virtualisation OpenShift en configurant des règles de placement de nœuds.  Pour configurer les règles de placement des nœuds pour OpenShift Virtualization, suivez la documentation https://docs.openshift.com/container-platform/4.7/virt/install/virt-specifying-nodes-for-virtualization-components.html["ici"] .
+
+Pour le stockage prenant en charge OpenShift Virtualization, NetApp recommande d'avoir une StorageClass dédiée qui demande du stockage à partir d'un backend Trident particulier, qui à son tour est pris en charge par une SVM dédiée.  Cela maintient un niveau de multilocation en ce qui concerne les données servies pour les charges de travail basées sur des machines virtuelles sur le cluster OpenShift.

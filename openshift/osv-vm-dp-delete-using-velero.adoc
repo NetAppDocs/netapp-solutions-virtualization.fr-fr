@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-vm-dp-delete-using-velero.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP 
+---
+= Supprimer un CR de sauvegarde ou restaurer un CR dans Red Hat OpenShift Virtualization à l'aide de Velero
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Supprimez les ressources de sauvegarde et de restauration pour les machines virtuelles dans OpenShift Virtualization à l'aide de Velero.  Utilisez l'interface de ligne de commande OpenShift pour supprimer les sauvegardes tout en conservant les données de stockage d'objets, ou l'interface de ligne de commande Velero pour supprimer à la fois la ressource personnalisée de sauvegarde (CR) et les données de stockage associées.
+
+
+
+== Supprimer une sauvegarde
+
+Vous pouvez supprimer un CR de sauvegarde sans supprimer les données de stockage d'objets à l'aide de l'outil OC CLI.
+
+....
+oc delete backup <backup_CR_name> -n <velero_namespace>
+....
+Si vous souhaitez supprimer le CR de sauvegarde et supprimer les données de stockage d'objets associées, vous pouvez le faire à l'aide de l'outil Velero CLI.
+
+Téléchargez la CLI comme indiqué dans les instructions dulink:https://velero.io/docs/v1.3.0/basic-install/#install-the-cli["Documentation Velero"] .
+
+Exécutez la commande de suppression suivante à l'aide de la CLI Velero
+
+....
+velero backup delete <backup_CR_name> -n <velero_namespace>
+....
+
+
+== Suppression d'une restauration
+
+Vous pouvez supprimer le CR de restauration à l'aide de la CLI Velero
+
+....
+velero restore delete restore --namespace openshift-adp
+....
+Vous pouvez utiliser la commande oc ainsi que l'interface utilisateur pour supprimer le CR de restauration
+
+....
+oc delete backup <backup_CR_name> -n <velero_namespace>
+....

@@ -1,0 +1,27 @@
+---
+indexpage:
+  title: Solutions de virtualisation NetApp Proxmox
+  summary: Les solutions NetApp Proxmox VE sont un ensemble de fonctionnalités stratégiques
+    et technologiques qui démontrent les capacités du stockage NetApp pour la virtualisation
+    à l'aide de Proxmox.
+  lead: Les solutions NetApp Proxmox VE sont un ensemble de fonctionnalités stratégiques
+    et technologiques qui démontrent les capacités du stockage NetApp pour la virtualisation
+    à l'aide de Proxmox.
+  tiles:
+  - title: Commencer
+    links:
+    - title: À propos de Proxmox VE
+      url: proxmox-overview.html
+    - title: Provisionner le stockage ONTAP pour Proxmox VE
+      url: proxmox-ontap.html
+  - title: Ressources supplémentaires
+    links:
+    - title: Stockage NetApp et NVMe-oF pour des performances exceptionnelles dans
+        les environnements de virtualisation Proxmox
+      url: https://www.credativ.de/en/blog/credativ-inside/netapp-storage-and-nvme-of-for-breakthrough-performance-in-proxmox-virtualization-environments/
+    - title: Documentation de Proxmox VE
+      url: https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#external_metric_server
+    - title: Sauvegarder et restaurer Proxmox VE
+      url: https://pve.proxmox.com/pve-docs/chapter-vzdump.html
+    - title: Stockage pour Proxmox VE
+      url: https://pve.proxmox.com/pve-docs/chapter-storage.html

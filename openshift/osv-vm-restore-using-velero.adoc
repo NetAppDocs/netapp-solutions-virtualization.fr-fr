@@ -1,0 +1,124 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-vm-restore-using-velero.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization, OADP operator, Openshift Data Protection Application operator, velero 
+summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP 
+---
+= Restaurer une machine virtuelle à partir d'une sauvegarde dans Red Hat OpenShift Virtualization à l'aide de Velero
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Restaurez les machines virtuelles dans OpenShift Virtualization à l'aide de Velero et de l'API OpenShift pour la protection des données (OADP).  Cette procédure inclut la création d'une ressource personnalisée de restauration (CR) pour récupérer les machines virtuelles et leurs volumes persistants à partir de sauvegardes, avec des options de restauration vers l'espace de noms d'origine, un espace de noms différent ou l'utilisation d'une classe de stockage alternative.
+
+
+
+== Prérequis
+
+Pour restaurer à partir d’une sauvegarde, supposons que l’espace de noms où la machine virtuelle existait a été supprimé accidentellement.
+
+.Restaurer vers le même espace de noms
+[%collapsible%open]
+====
+Pour restaurer à partir de la sauvegarde que nous venons de créer, nous devons créer une ressource personnalisée de restauration (CR). Nous devons lui donner un nom, fournir le nom de la sauvegarde à partir de laquelle nous voulons restaurer et définir restorePVs sur true. Des paramètres supplémentaires peuvent être définis comme indiqué dans lelink:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentation"] . Cliquez sur le bouton Créer.
+
+image:redhat-openshift-oadp-restore-001.png["Créer Restaurer CR"]
+
+....
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: restore1
+  namespace: openshift-adp
+spec:
+  backupName: backup1
+  restorePVs: true
+....
+Lorsque la phase est terminée, vous pouvez voir que les machines virtuelles ont été restaurées à l’état dans lequel l’instantané a été pris.  (Si la sauvegarde a été créée lorsque la machine virtuelle était en cours d'exécution, la restauration de la machine virtuelle à partir de la sauvegarde démarrera la machine virtuelle restaurée et la ramènera à un état d'exécution).  La machine virtuelle est restaurée dans le même espace de noms.
+
+image:redhat-openshift-oadp-restore-002.png["Restauration terminée"]
+
+====
+.Restaurer vers un espace de noms différent
+[%collapsible%open]
+====
+Pour restaurer la machine virtuelle dans un espace de noms différent, vous pouvez fournir un namespaceMapping dans la définition yaml du CR de restauration.
+
+L'exemple de fichier yaml suivant crée un CR de restauration pour restaurer une machine virtuelle et ses disques dans l'espace de noms virtual-machines-demo lorsque la sauvegarde a été effectuée dans l'espace de noms virtual-machines.
+
+....
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: restore-to-different-ns
+  namespace: openshift-adp
+spec:
+  backupName: backup
+  restorePVs: true
+  includedNamespaces:
+  - virtual-machines-demo
+  namespaceMapping:
+    virtual-machines-demo: virtual-machines
+....
+Lorsque la phase est terminée, vous pouvez voir que les machines virtuelles ont été restaurées à l’état dans lequel l’instantané a été pris.  (Si la sauvegarde a été créée lorsque la machine virtuelle était en cours d'exécution, la restauration de la machine virtuelle à partir de la sauvegarde démarrera la machine virtuelle restaurée et la ramènera à un état d'exécution).  La machine virtuelle est restaurée dans un espace de noms différent comme spécifié dans le fichier yaml.
+
+image:redhat-openshift-oadp-restore-003.png["Restauration terminée vers un nouvel espace de noms"]
+
+====
+.Restaurer vers une classe de stockage différente
+[%collapsible%open]
+====
+Velero fournit une capacité générique pour modifier les ressources pendant la restauration en spécifiant des correctifs json. Les correctifs JSON sont appliqués aux ressources avant leur restauration. Les correctifs json sont spécifiés dans une configmap et la configmap est référencée dans la commande de restauration. Cette fonctionnalité vous permet de restaurer à l’aide de différentes classes de stockage.
+
+Dans l'exemple ci-dessous, la machine virtuelle, lors de sa création, utilise ontap-nas comme classe de stockage pour ses disques.  Une sauvegarde de la machine virtuelle nommée backup1 est créée.
+
+image:redhat-openshift-oadp-restore-004.png["Machine virtuelle utilisant ontap-nas"]
+
+image:redhat-openshift-oadp-restore-005.png["Sauvegarde de machine virtuelle ontap-nas"]
+
+Simulez une perte de la VM en supprimant la VM.
+
+Pour restaurer la machine virtuelle à l'aide d'une classe de stockage différente, par exemple, la classe de stockage ontap-nas-eco, vous devez effectuer les deux étapes suivantes :
+
+**Étape 1**
+
+Créez une carte de configuration (console) dans l'espace de noms openshift-adp comme suit : Remplissez les détails comme indiqué dans la capture d'écran : Sélectionnez l'espace de noms : openshift-adp Nom : change-storage-class-config (peut être n'importe quel nom) Clé : change-storage-class-config.yaml : Valeur :
+
+....
+version: v1
+    resourceModifierRules:
+    - conditions:
+         groupResource: persistentvolumeclaims
+         resourceNameRegex: "^rhel*"
+         namespaces:
+         - virtual-machines-demo
+      patches:
+      - operation: replace
+        path: "/spec/storageClassName"
+        value: "ontap-nas-eco"
+....
+image:redhat-openshift-oadp-restore-006.png["interface utilisateur de la carte de configuration"]
+
+L'objet de carte de configuration résultant devrait ressembler à ceci (CLI) :
+
+image:redhat-openshift-oadp-restore-007.png["carte de configuration CLI"]
+
+Cette carte de configuration appliquera la règle de modification des ressources lors de la création de la restauration. Un correctif sera appliqué pour remplacer le nom de la classe de stockage par ontap-nas-eco pour toutes les revendications de volume persistant commençant par rhel.
+
+**Étape 2**
+
+Pour restaurer la machine virtuelle, utilisez la commande suivante depuis la CLI Velero :
+
+....
+#velero restore create restore1 --from-backup backup1 --resource-modifier-configmap change-storage-class-config -n openshift-adp
+....
+La machine virtuelle est restaurée dans le même espace de noms avec les disques créés à l’aide de la classe de stockage ontap-nas-eco.
+
+image:redhat-openshift-oadp-restore-008.png["Restauration de VM ontap-nas-eco"]
+
+====

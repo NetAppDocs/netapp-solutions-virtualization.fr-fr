@@ -1,0 +1,197 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vvol-overview.html 
+keywords: netapp, vmware, getting, started, vvol, ONTAP tools 
+summary:  
+---
+= En savoir plus sur l'utilisation de VMware Virtual Volumes (vVols) avec le stockage ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Découvrez les avantages de VMware Virtual Volumes (vVols), le provisionnement des ONTAP tools for VMware vSphere, les stratégies de protection des données et les directives de migration des machines virtuelles.
+
+
+
+== Aperçu
+
+L'API vSphere pour Storage Awareness (VASA) permet à un administrateur de machines virtuelles d'utiliser facilement les fonctionnalités de stockage nécessaires pour provisionner des machines virtuelles sans avoir à interagir avec son équipe de stockage.  Avant VASA, les administrateurs de machines virtuelles pouvaient définir des stratégies de stockage de machines virtuelles, mais devaient travailler avec leurs administrateurs de stockage pour identifier les banques de données appropriées, souvent en utilisant la documentation ou les conventions de dénomination.  Avec VASA, les administrateurs vCenter disposant des autorisations appropriées peuvent définir une gamme de capacités de stockage que les utilisateurs vCenter peuvent ensuite utiliser pour provisionner des machines virtuelles.  Le mappage entre la politique de stockage de la machine virtuelle et le profil de capacité de stockage de la banque de données permet à vCenter d'afficher une liste de banques de données compatibles pour la sélection, ainsi que de permettre à d'autres technologies comme Aria (anciennement connu sous le nom de vRealize) Automation ou Tanzu Kubernetes Grid de sélectionner automatiquement le stockage à partir d'une politique attribuée.  Cette approche est connue sous le nom de gestion basée sur les politiques de stockage.  Bien que les profils et les politiques de capacité de stockage puissent également être utilisés avec les magasins de données traditionnels, nous nous concentrons ici sur les magasins de données vVols .  Le fournisseur VASA pour ONTAP est inclus dans les ONTAP tools for VMware vSphere.
+
+Les avantages d'avoir VASA Provider hors de Storage Array incluent :
+
+* Une instance unique peut gérer plusieurs baies de stockage.
+* Le cycle de publication ne doit pas nécessairement dépendre de la version du système d'exploitation de stockage.
+* Les ressources sur la baie de stockage sont très coûteuses.
+
+
+Chaque banque de données vVol est sauvegardée par un conteneur de stockage qui est une entrée logique dans le fournisseur VASA pour définir la capacité de stockage.  Le conteneur de stockage avec les outils ONTAP est construit avec des volumes ONTAP .  Le conteneur de stockage peut être étendu en ajoutant des volumes ONTAP dans le même SVM.
+
+Le point de terminaison du protocole (PE) est principalement géré par les outils ONTAP .  Dans le cas de vVols basés sur iSCSI, un PE est créé pour chaque volume ONTAP qui fait partie de ce conteneur de stockage ou de cette banque de données vVol.  Le PE pour iSCSI est un LUN de petite taille (4 Mio pour 9.x et 2 Gio pour 10.x) qui est présenté à l'hôte vSphere et les stratégies de multi-accès sont appliquées au PE.
+
+image:vmware-vvol-overview-001.png["Architecture iSCSI PE"]
+
+image:vmware-vvol-overview-005.png["Taille du PE iSCSI à partir de la CLI"]
+
+Pour NFS, un PE est créé pour l'exportation du système de fichiers racine avec chaque fichier de données NFS sur SVM sur lequel réside le conteneur de stockage ou la banque de données vVol.
+
+image:vmware-vvol-overview-002.png["Architecture NFS PE"]
+
+image:vmware-vvol-overview-006.png["NFS PE depuis l'interface utilisateur vSphere"]
+
+Les outils ONTAP gèrent le cycle de vie de PE ainsi que la communication de l'hôte vSphere avec l'extension et la réduction du cluster vSphere.  L'API des outils ONTAP est disponible pour s'intégrer à l'outil d'automatisation existant.
+
+Actuellement, les ONTAP tools for VMware vSphere sont disponibles en deux versions.
+
+
+
+== Outils ONTAP 9.x
+
+* Lorsque la prise en charge vVol pour NVMe/FC est requise
+* Exigences réglementaires fédérales américaines ou européennes
+* Plus de cas d'utilisation intégrés au SnapCenter Plug-in for VMware vSphere
+
+
+
+
+== Outils ONTAP 10.x
+
+* Haute disponibilité
+* Multi-location
+* Grande échelle
+* Prise en charge de la synchronisation active SnapMirror pour la banque de données VMFS
+* Intégration à venir pour certains cas d'utilisation avec le SnapCenter Plug-in for VMware vSphere
+
+
+
+
+== Pourquoi vVols?
+
+VMware Virtual Volumes (vVols) offre les avantages suivants :
+
+* Provisionnement simplifié (pas besoin de s'inquiéter des limites maximales de LUN par hôte vSphere ou de créer les exportations NFS pour chaque volume)
+* Minimise le nombre de chemins iSCSI/FC (pour les vVol basés sur le bloc SCSI)
+* Les instantanés, les clones et autres opérations de stockage sont généralement déchargés vers une baie de stockage et s'exécutent beaucoup plus rapidement.
+* Migrations de données simplifiées pour les machines virtuelles (pas besoin de coordination avec d'autres propriétaires de machines virtuelles dans le même LUN)
+* Les politiques QoS sont appliquées au niveau du disque de la machine virtuelle plutôt qu'au niveau du volume.
+* Simplicité opérationnelle (les fournisseurs de stockage fournissent leurs fonctionnalités différenciées dans le fournisseur VASA)
+* Prend en charge une grande échelle de machines virtuelles.
+* Prise en charge de la réplication vVol pour migrer entre les vCenters.
+* Les administrateurs de stockage ont la possibilité de surveiller au niveau du disque de la machine virtuelle.
+
+
+
+
+== Options de connectivité
+
+Un environnement à double structure est généralement recommandé pour les réseaux de stockage afin de répondre aux exigences de haute disponibilité, de performances et de tolérance aux pannes.  Les vVols sont pris en charge avec iSCSI, FC, NFSv3 et NVMe/FC.  REMARQUE : reportez-vous àlink:https://imt.netapp.com/matrix["Outil de matrice d'interopérabilité (IMT)"] pour la version de l'outil ONTAP prise en charge
+
+L'option de connectivité reste cohérente avec les options de banque de données VMFS ou NFS.  Un exemple de réseau vSphere de référence est présenté ci-dessous pour iSCSI et NFS.
+
+image:vmware-vvol-overview-003.png["réseau iSCSI"]
+
+image:vmware-vvol-overview-004.png["réseau NFS"]
+
+
+
+== Provisionnement à l'aide des ONTAP tools for VMware vSphere
+
+Le magasin de données vVol peut être provisionné de la même manière que le magasin de données VMFS ou NFS à l'aide des outils ONTAP .  Si le plug-in des outils ONTAP n’est pas disponible sur l’interface utilisateur du client vSphere, reportez-vous à la section Comment démarrer ci-dessous.
+
+
+
+=== Avec les outils ONTAP 9.13
+
+. Cliquez avec le bouton droit sur le cluster ou l’hôte vSphere et sélectionnez Provision Datastore sous Outils NetApp ONTAP .
+. Conservez le type vVols, indiquez le nom du magasin de données et sélectionnez le protocole souhaitéimage:vmware-vvol-overview-007.png["Banque de données iSCSI vVol avec 9.13"]
++
+image:vmware-vvol-overview-008.png["Banque de données NFS vVol avec 9.13"]
+
+. Sélectionnez le profil de capacité de stockage souhaité, choisissez le système de stockage et le SVM.image:vmware-vvol-overview-009.png["Système de stockage et SVM avec 9.13"]
+. Créez de nouveaux volumes ONTAP ou sélectionnez-en un existant pour la banque de données vVol.image:vmware-vvol-overview-010.png["Volumes vVol avec 9,13"]
++
+Les volumes ONTAP peuvent être visualisés ou modifiés ultérieurement à partir de l'option de banque de données.
+
++
+image:vmware-vvol-overview-011.png["Extension vVol avec 9.13"]
+
+. Consultez le résumé et cliquez sur Terminer pour créer la banque de données vVol.image:vmware-vvol-overview-012.png["Résumé du magasin de données iSCSI vVol avec 9.13"]
+. Une fois le magasin de données vVol créé, il peut être consommé comme n’importe quel autre magasin de données.  Voici un exemple d’attribution d’une banque de données en fonction de la politique de stockage de la machine virtuelle à une machine virtuelle en cours de création.image:vmware-vvol-overview-013.png["Politique de stockage de la machine virtuelle vVol"]
+. Les détails vVol peuvent être récupérés à l'aide de l'interface CLI basée sur le Web.  L'URL du portail est la même que l'URL du fournisseur VASA sans le nom de fichier version.xml.image:vmware-vvol-overview-014.png["Informations sur le fournisseur VASA pour 9.13"]
++
+Les informations d'identification doivent correspondre aux informations utilisées lors de la fourniture des outils ONTAPimage:vmware-vvol-overview-015.png["Interface utilisateur du client VASA"]
+
++
+ou utilisez un mot de passe mis à jour avec la console de maintenance des outils ONTAP . image:vmware-vvol-overview-016.png["Interface utilisateur de la console des outils ONTAP"] Sélectionnez l'interface CLI basée sur le Web. image:vmware-vvol-overview-017.png["Console de contrôle des outils ONTAP"] Tapez la commande souhaitée dans la liste des commandes disponibles.  Pour répertorier les détails vVol ainsi que les informations de stockage sous-jacentes, essayez vvol list -verbose=trueimage:vmware-vvol-overview-018.png["Informations vVol avec 9.13"] Pour les LUN, l'interface de ligne de commande ONTAP ou le gestionnaire de système peuvent également être utilisés. image:vmware-vvol-overview-019.png["Informations sur le LUN vVol avec ONTAP CLI"] image:vmware-vvol-overview-020.png["Informations sur le LUN vVol avec System Manager"] Pour les systèmes basés sur NFS, le gestionnaire système peut être utilisé pour parcourir le magasin de données.image:vmware-vvol-overview-021.png["Informations NFS vVol avec System Manager"]
+
+
+
+
+
+=== Avec les outils ONTAP 10.1
+
+. Cliquez avec le bouton droit sur le cluster ou l’hôte vSphere et sélectionnez Créer une banque de données (10.1) sous Outils NetApp ONTAP .
+. Sélectionnez le type de banque de données comme vVols. image:vmware-vvol-overview-022.png["Sélection du magasin de données vVol avec 10.1"] Si l'option vVols n'est pas disponible, assurez-vous que le fournisseur VASA est enregistré.image:vmware-vvol-overview-023.png["Enregistrement VASA avec 10.1"]
+. Fournissez le nom du magasin de données vVol et sélectionnez le protocole de transport.image:vmware-vvol-overview-024.png["Nom du magasin de données vVol et protocole de transport avec 10.1"]
+. Sélectionnez la plate-forme et la machine virtuelle de stockage.image:vmware-vvol-overview-025.png["Sélection SVM de la banque de données vVol avec 10.1"]
+. Créez ou utilisez des volumes ONTAP existants pour la banque de données vVol. image:vmware-vvol-overview-026.png["Sélection du volume de la banque de données vVol avec 10.1"] Les volumes ONTAP peuvent être visualisés ou mis à jour ultérieurement à partir de la configuration de la banque de données.image:vmware-vvol-overview-027.png["Extension de la banque de données vVol avec 10.1"]
+. Une fois le magasin de données vVol provisionné, il peut être consommé comme n’importe quel autre magasin de données.
+. Les outils ONTAP fournissent le rapport VM et Datastore.image:vmware-vvol-overview-028.png["Rapport VM avec 10.1"] image:vmware-vvol-overview-029.png["Rapport de magasin de données avec 10.1"]
+
+
+
+
+== Protection des données des machines virtuelles sur le datastore vVol
+
+Un aperçu de la protection des données des machines virtuelles sur le magasin de données vVol est disponible à l'adresselink:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-protect.html["protection des vVols"] .
+
+. Enregistrez le système de stockage hébergeant la banque de données vVol et tous les partenaires de réplication.image:vmware-vvol-overview-030.png["Enregistrement du système de stockage auprès du SCV"]
+. Créez une politique avec les attributs requis.image:vmware-vvol-overview-031.png["Création de politiques avec SCV"]
+. Créez un groupe de ressources et associez-le à une ou plusieurs politiques. image:vmware-vvol-overview-032.png["Création de groupe de ressources avec SCV"] REMARQUE : pour la banque de données vVol, la protection doit être assurée par une machine virtuelle, une balise ou un dossier. La banque de données vVol ne peut pas être incluse dans le groupe de ressources.
+. L'état de sauvegarde spécifique de la machine virtuelle peut être visualisé à partir de son onglet de configuration.image:vmware-vvol-overview-033.png["État de sauvegarde d'une VM avec SCV"]
+. La machine virtuelle peut être restaurée à partir de son emplacement principal ou secondaire.
+
+
+Référerlink:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_attach_vmdks_to_a_vm.html["Documentation du plug-in SnapCenter"] pour des cas d'utilisation supplémentaires.
+
+
+
+== Migration de machines virtuelles depuis des banques de données traditionnelles vers des banques de données vVol
+
+Pour migrer des machines virtuelles d’autres banques de données vers une banque de données vVol, différentes options sont disponibles en fonction du scénario.  Cela peut varier d’une simple opération de stockage vMotion à une migration à l’aide de HCX.  Référerlink:../migration/migrate-vms-to-ontap-datastore.html["migrer les machines virtuelles vers la banque de données ONTAP"] pour plus de détails.
+
+
+
+== Migration de machines virtuelles entre les banques de données vVol
+
+Pour la migration en masse de machines virtuelles entre les banques de données vVol, veuillez vérifierlink:../migration/migrate-vms-to-ontap-datastore.html["migrer les machines virtuelles vers la banque de données ONTAP"] .
+
+
+
+== Exemple d'architecture de référence
+
+Les ONTAP tools for VMware vSphere et SCV peuvent être installés sur le même vCenter qu'ils gèrent ou sur un serveur vCenter différent.  Il est préférable d'éviter d'héberger sur le datastore vVol qu'il gère.
+
+image:vmware-vvol-overview-034.png["Outils ONTAP un par vCenter"]
+
+Étant donné que de nombreux clients hébergent leurs serveurs vCenter sur un serveur différent plutôt que de le gérer, une approche similaire est également conseillée pour les outils ONTAP et SCV.
+
+image:vmware-vvol-overview-035.png["Outils ONTAP sur vCenter de gestion"]
+
+Avec les outils ONTAP 10.x, une seule instance peut gérer plusieurs environnements vCenter.  Les systèmes de stockage sont enregistrés globalement avec les informations d'identification du cluster et les SVM sont attribuées à chaque serveur vCenter locataire.
+
+image:vmware-vvol-overview-036.png["Prise en charge de Multi vCenter avec les outils ONTAP 10.x"]
+
+Un mélange de modèles dédiés et partagés est également pris en charge.
+
+image:vmware-vvol-overview-037.png["Mélange d'outils ONTAP partagés et dédiés"]
+
+
+
+== Comment commencer
+
+Si les outils ONTAP ne sont pas installés sur votre environnement, veuillez les télécharger à partir delink:https://support.netapp.com["Site de support NetApp"] et suivez les instructions disponibles surlink:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-ontap.html["utilisation de vVols avec ONTAP"] .

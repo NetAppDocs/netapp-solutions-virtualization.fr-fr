@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: migration/migrate-vms-to-ec2-fsxn-arch.html 
+keywords: netapp, vmware, amazon, ec2, fsxn, migration, iscsi, 
+summary: 'Ce rapport technique explique comment migrer des machines virtuelles VMware vSphere sur site vers une instance Amazon EC2 avec des disques de données placés sur des LUN iSCSI FSx ONTAP à l"aide de la fonctionnalité « mobilité des données en tant que code » de MigrateOps de Cirrus Migrate Cloud (CMC).' 
+---
+= Architecture et exigences pour migrer des machines virtuelles vers Amazon EC2
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Découvrez l’architecture et les conditions préalables clés pour migrer des machines virtuelles vers Amazon EC2 à l’aide d’ Amazon FSx for NetApp ONTAP.
+
+
+
+== Architecture de haut niveau
+
+Le diagramme ci-dessous illustre l'architecture de haut niveau de la migration des données de disque de machine virtuelle (VMDK) sur VMware vers AWS à l'aide de CMC MigrateOps :
+
+image:migrate-ec2-fsxn-001.png["Diagramme d'architecture de migration de machines virtuelles vers Amazon EC2 à l'aide de FSx ONTAP"]
+
+
+
+== Comment migrer vos machines virtuelles VMware vers AWS à l'aide d'Amazon EC2 et de FSx ONTAP iSCSI
+
+
+
+=== Prérequis
+
+Avant de commencer les étapes de la procédure pas à pas, assurez-vous que les conditions préalables suivantes sont remplies :
+
+*Sur AWS*
+
+* Un compte AWS.  Cela inclut les autorisations pour les sous-réseaux, la configuration VPC, les tables de routage, la migration des règles de sécurité, les groupes de sécurité et d’autres exigences de mise en réseau telles que l’équilibrage de charge.  Comme pour toute migration, les efforts et la réflexion les plus importants doivent être consacrés à la mise en réseau.
+* Rôles IAM appropriés qui vous permettent de provisionner les instances FSx ONTAP et Amazon EC2.
+* Les tables de routage et les groupes de sécurité sont autorisés à communiquer avec FSx ONTAP.
+* Ajoutez une règle entrante au groupe de sécurité approprié (voir ci-dessous pour plus de détails) pour permettre le transfert sécurisé des données de votre centre de données sur site vers AWS.
+* Un DNS valide capable de résoudre les noms de domaine Internet publics.
+* Vérifiez que votre résolution DNS est fonctionnelle et vous permet de résoudre les noms d’hôtes.
+* Pour des performances et un dimensionnement optimaux, utilisez les données de performances de votre environnement source pour dimensionner correctement votre stockage FSx ONTAP .
+* Chaque session MigrateOps utilise un EIP, par conséquent le quota pour EIP doit être augmenté pour plus de parallélisme.  Gardez à l’esprit que le quota EIP par défaut est de 5.
+* (Si des charges de travail basées sur Active Directory sont migrées) Un domaine Windows Active Directory sur Amazon EC2.
+
+
+*Pour Cirrus Migrate Cloud*
+
+* Un compte Cirrus Data Cloud chezlink:http://cloud.cirrusdata.com/["cloud.cirrusdata.com"] doit être créé avant d'utiliser CMC.  La communication sortante avec le CDN, les points de terminaison Cirrus Data et le référentiel de logiciels via HTTPS doit être autorisée.
+* Autoriser la communication (sortante) avec les services Cirrus Data Cloud via le protocole HTTPS (port 443).
+* Pour qu'un hôte soit géré par le projet CMC, le logiciel CMC déployé doit initier une connexion TCP sortante unidirectionnelle vers Cirrus Data Cloud.
+* Autoriser l'accès au protocole TCP, port 443 à portal-gateway.cloud.cirrusdata.com qui se trouve actuellement à 208.67.222.222.
+* Autoriser les requêtes HTTP POST (via une connexion HTTPS) avec une charge utile de données binaires (application/octet-stream).  Ceci est similaire à un téléchargement de fichier.
+* Assurez-vous que portal-gateway.cloud.cirrusdata.com peut être résolu par votre DNS (ou via le fichier hôte du système d'exploitation).
+* Si vous avez des règles strictes interdisant aux instances de produit d'établir des connexions sortantes, la fonctionnalité « Relais de gestion » de CMC peut être utilisée lorsque la connexion sortante 443 provient d'un seul hôte non productif sécurisé.
+
+
+*Remarque* : aucune donnée de stockage n’est jamais envoyée au point de terminaison Cirrus Data Cloud.  Seules les métadonnées de gestion sont envoyées et peuvent être éventuellement masquées afin qu'aucun nom d'hôte réel, nom de volume ou adresse IP réseau ne soit inclus.
+
+Pour migrer des données depuis des référentiels de stockage sur site vers AWS, MigrateOps automatise la gestion d'une connexion hôte à hôte (H2H).  Il s’agit de connexions réseau optimisées, unidirectionnelles et basées sur TCP que CMC utilise pour faciliter la migration à distance.  Ce processus comprend une compression et un cryptage permanents qui peuvent réduire le volume de trafic jusqu'à huit fois, selon la nature des données.
+
+*Remarque* : CMC est conçu de manière à ce qu'aucune donnée de production/E/S ne quitte le réseau de production pendant toute la phase de migration.  Par conséquent, une connectivité directe entre l’hôte source et l’hôte de destination est requise.

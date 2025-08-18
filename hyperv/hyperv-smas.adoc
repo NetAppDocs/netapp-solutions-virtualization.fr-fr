@@ -1,0 +1,291 @@
+---
+sidebar: sidebar 
+permalink: hyperv/hyperv-smas.html 
+keywords: hyperv, hyper-v, snapmirror, active, sync, stretch, cluster, netapp, virtualization 
+summary: 'Cet article documente la technologie de synchronisation active SnapMirror , la réplication bidirectionnelle synchrone entre les clusters extensibles Microsoft, permettant aux données d"application multisites, par exemple MSSQL et Oracle, d"être activement accessibles et synchronisées sur les deux sites.' 
+---
+= Configurer la réplication synchrone avec NetApp SnapMirror Active Sync et les clusters extensibles Microsoft
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Utilisez SnapMirror Active Sync pour configurer la réplication synchrone et bidirectionnelle entre les clusters de basculement extensibles Microsoft.  Cette procédure comprend l'installation d'un cluster de basculement extensible, la création d'un peering intercluster, la configuration d'un médiateur avec ONTAP, l'activation de la protection active/active symétrique et l'exécution de tests de validation de basculement de cluster.
+
+
+
+== Introduction
+
+À partir d' ONTAP 9.15.1, SnapMirror Active Sync prend en charge les déploiements symétriques actif/actif, permettant des opérations d'E/S de lecture et d'écriture à partir des deux copies d'un LUN protégé avec réplication synchrone bidirectionnelle.  Un cluster Windows Stretch est une extension de la fonctionnalité de cluster de basculement Windows qui s'étend sur plusieurs emplacements géographiques pour assurer une haute disponibilité et une reprise après sinistre.  Grâce aux applications actives/actives symétriques et en cluster de synchronisation active SnapMirror , telles que le clustering de basculement Windows, nous pouvons garantir une disponibilité continue pour les applications critiques Microsoft Hyper-V afin d'atteindre un RTO et un RPO nuls en cas d'incidents inattendus.  Cette solution offre les avantages suivants :
+
+* Zéro perte de données : garantit que les données sont répliquées de manière synchrone, atteignant ainsi un objectif de point de récupération (RPO) nul.
+* Haute disponibilité et équilibrage de charge : les deux sites peuvent gérer activement les demandes, offrant ainsi un équilibrage de charge et une haute disponibilité.
+* Continuité des activités : implémentez une configuration active/active symétrique pour garantir que les deux centres de données servent activement les applications et peuvent prendre le relais de manière transparente en cas de panne.
+* Améliorez les performances : utilisez une configuration active/active symétrique pour répartir la charge sur plusieurs systèmes de stockage, améliorant ainsi les temps de réponse et les performances globales du système.
+
+
+Cet article documente la technologie de synchronisation active SnapMirror , la réplication bidirectionnelle synchrone entre les clusters de basculement extensibles Microsoft, permettant aux données d'application multisites, par exemple MSSQL et Oracle, d'être activement accessibles et synchronisées sur les deux sites.  En cas de panne, les applications sont immédiatement redirigées vers le site actif restant, sans perte de données ni perte d'accès, offrant ainsi une haute disponibilité, une reprise après sinistre et une redondance géographique.
+
+
+
+== Cas d'utilisation
+
+En cas de perturbation telle qu'une cyberattaque, une panne de courant ou une catastrophe naturelle, un environnement commercial connecté à l'échelle mondiale exige une récupération rapide des données d'application critiques pour l'entreprise sans aucune perte de données.  Ces exigences sont renforcées dans des domaines tels que la finance et ceux qui adhèrent à des mandats réglementaires tels que le Règlement général sur la protection des données (RGPD).  Déployez une configuration active/active symétrique pour répliquer les données entre des emplacements géographiquement dispersés, offrant un accès local aux données et garantissant la continuité en cas de pannes régionales.
+
+La synchronisation active de SnapMirror fournit les cas d'utilisation suivants :
+
+.Déploiement d'applications pour un objet à temps de récupération nul (RTO)
+Dans un déploiement de synchronisation active SnapMirror , vous disposez d’un cluster principal et d’un cluster miroir.  Un LUN dans le cluster principal (L1P) possède un miroir (L1S) sur le cluster secondaire ; les lectures et les écritures sont assurées par le site local des hôtes en fonction des paramètres de proximité à chaud.
+
+.Déploiement d'applications pour un RTO ou un TAF nul
+Le basculement d'application transparent (TAF) est basé sur le basculement de chemin basé sur le logiciel MPIO de l'hôte pour obtenir un accès non perturbateur au stockage.  Les deux copies LUN, par exemple la copie principale (L1P) et la copie miroir (L1S), ont la même identité (numéro de série) et sont signalées comme étant accessibles en lecture-écriture à l'hôte.
+
+.Applications en cluster
+Les applications en cluster, notamment VMware vSphere Metro Storage Cluster (vMSC), Oracle RAC et Windows Failover Clustering avec SQL, nécessitent un accès simultané afin que les machines virtuelles puissent basculer vers l'autre site sans aucune surcharge de performances.  SnapMirror Active Sync symétrique actif/actif sert les E/S localement avec une réplication bidirectionnelle pour répondre aux exigences des applications en cluster.
+
+.Scénario de catastrophe
+Répliquez de manière synchrone plusieurs volumes pour une application entre des sites situés à des emplacements géographiquement dispersés.  Vous pouvez basculer automatiquement vers la copie secondaire en cas de perturbation de la copie principale, permettant ainsi la continuité des activités pour les applications de premier niveau.
+
+.Basculement Windows
+SnapMirror Active Sync offre une flexibilité avec une granularité au niveau de l'application facile à utiliser et un basculement automatique pour obtenir une haute disponibilité des données et une réplication rapide des données pour vos applications critiques telles qu'Oracle, Microsoft SQL Server, etc., dans des environnements virtuels et physiques.
+
+
+
+== Architecture de la solution
+
+Le cluster extensible Microsoft dispose de deux nœuds Hyper-V sur chaque site.  Ces deux nœuds partagent le stockage NetApp et utilisent SnapMirror Active Sync symétrique actif-actif pour répliquer les volumes entre les deux sites. Un groupe de cohérence garantit que tous les volumes d'un ensemble de données sont suspendus, puis réinitialisés exactement au même instant.  Cela fournit un point de restauration cohérent en termes de données sur les volumes prenant en charge l'ensemble de données.  Le médiateur ONTAP reçoit des informations sur l'état de santé des clusters et nœuds ONTAP homologues, orchestrant les échanges entre les deux et déterminant si chaque nœud/cluster est sain et en cours d'exécution.
+
+Composants de la solution :
+
+* Deux systèmes de stockage NetApp ONTAP 9.15.1 : premier et deuxième domaine de défaillance
+* Une machine virtuelle Redhat 8.7 pour le médiateur ONTAP
+* Trois clusters de basculement Hyper-V sur Windows 2022 :
++
+** site1, site2 pour les applications
+** site 3 pour médiateur
+
+
+* Machine virtuelle sur Hyper-V : contrôleur de domaine Microsoft, instance de cluster de basculement MSSQL Always On, médiateur ONTAP
+
+
+image:hyperv-smas-001.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+
+
+=== Installer un cluster de basculement Microsoft Stretch
+
+Vous pouvez utiliser le Centre d’administration Windows, PowerShell ou la console du Gestionnaire de serveur pour installer la fonctionnalité de clustering de basculement et ses applets de commande PowerShell associées.  Pour plus de détails sur les conditions préalables et les étapes, consultez Créer un cluster de basculement.
+
+Voici un guide étape par étape pour configurer un cluster Windows Stretch :
+
+. Installez Windows 2022 sur les quatre serveurs hyperv1, hyperv2, hyperv3 et hyperv4
+. Joignez les quatre serveurs au même domaine Active Directory : hyperv.local.
+. Installez les fonctionnalités Windows failover-clustering, Hyper-V, Hyper-V_Powershell et MPIO sur chaque serveur.
++
+[source, shell]
+----
+Install-WindowsFeature –Name "Failover-Clustering", "Hyper-V", "Hyper-V-Powershell", "MPIO" –IncludeManagementTools
+----
+. Configurez MPIO, ajoutez la prise en charge des périphériques iSCSI.
++
+image:hyperv-smas-002.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+. Sur le site 1 et le site 2 du stockage ONTAP , créez deux LUN iSCSI (SQLdata et SQLlog) et mappez-les au groupe iqn des serveurs Windows.  Utilisez l’initiateur logiciel Microsoft iSCSI pour connecter les LUN.  Pour plus de détails, consultezlink:https://docs.netapp.com/us-en/ontap-sm-classic/iscsi-config-windows/index.html["Configuration iSCSI pour Windows"] .
+. Exécutez le rapport de validation du cluster pour détecter toute erreur ou tout avertissement.
++
+[source, shell]
+----
+Test-Cluster –Node hyperv1, hyperv2, hyperv3, hyperv4
+----
+. Créez un cluster de basculement, attribuez une adresse IP statique,
++
+[source, shell]
+----
+New-Cluster –Name <clustername> –Node hyperv1, hyperv2, hyperv3, hyperv4, StaticAddress <IPaddress>
+----
++
+image:hyperv-smas-003.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+. Ajoutez les stockages iSCSI mappés au cluster de basculement.
+. Configurez un témoin pour le quorum, cliquez avec le bouton droit sur le cluster -> Plus d'actions -> Configurer les paramètres de quorum du cluster, choisissez le témoin de disque.
++
+Le diagramme ci-dessous montre quatre LUN partagés en cluster : deux sites sqldata et sqllog et un témoin de disque en quorum.
+
++
+image:hyperv-smas-004.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+
+
+.Instance de cluster de basculement permanent
+Une instance de cluster de basculement Always On (FCI) est une instance SQL Server installée sur des nœuds avec un stockage sur disque partagé SAN dans un WSFC.  Lors d'un basculement, le service WSFC transfère la propriété des ressources de l'instance à un nœud de basculement désigné.  L'instance SQL Server est ensuite redémarrée sur le nœud de basculement et les bases de données sont récupérées comme d'habitude.  Pour plus de détails sur la configuration, consultez le clustering de basculement Windows avec SQL.  Créez deux machines virtuelles Hyper-V SQL FCI sur chaque site et définissez la priorité.  Utilisez hyperv1 et hyperv2 comme propriétaires préférés pour les machines virtuelles du site 1 et hyperv3 et hyperv4 comme propriétaires préférés pour les machines virtuelles du site 2.
+
+image:hyperv-smas-005.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+
+
+=== Créer un peering intercluster
+
+Vous devez créer des relations homologues entre les clusters source et de destination avant de pouvoir répliquer des copies Snapshot à l'aide de SnapMirror.
+
+. Ajouter des interfaces réseau intercluster sur les deux clusters
++
+image:hyperv-smas-006.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+. Vous pouvez utiliser la commande cluster peer create pour créer une relation homologue entre un cluster local et un cluster distant.  Une fois la relation homologue créée, vous pouvez exécuter cluster peer create sur le cluster distant pour l'authentifier auprès du cluster local.
++
+image:hyperv-smas-007.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+
+
+
+
+=== Configurer Mediator avec ONTAP
+
+Le médiateur ONTAP reçoit des informations sur l'état de santé des clusters et nœuds ONTAP homologues, orchestrant les échanges entre les deux et déterminant si chaque nœud/cluster est sain et en cours d'exécution.  SM-as permet de répliquer les données vers la cible dès qu'elles sont écrites sur le volume source.  Le médiateur doit être déployé au niveau du troisième domaine de défaillance. Prérequis
+
+* Spécifications matérielles : 8 Go de RAM, 2 processeurs à 2 GHz, 1 Go de réseau (< 125 ms RTT)
+* Système d'exploitation Red Hat 8.7 installé, vérifiezlink:https://docs.netapp.com/us-en/ontap/mediator/index.html["Version ONTAP Mediator et version Linux prise en charge"] .
+* Configurer l'hôte Linux Mediator : configuration réseau et ports de pare-feu 31784 et 3260
+* Installer le paquet yum-utils
+* link:https://docs.netapp.com/us-en/ontap/mediator/index.html#register-a-security-key-when-uefi-secure-boot-is-enabled["Enregistrer une clé de sécurité lorsque le démarrage sécurisé UEFI est activé"]
+
+
+.Étapes
+. Téléchargez le package d'installation de Mediator à partir dulink:https://mysupport.netapp.com/site/products/all/details/ontap-mediator/downloads-tab["Page de téléchargement du médiateur ONTAP"] .
+. Vérifiez la signature du code du médiateur ONTAP .
+. Exécutez le programme d’installation et répondez aux invites comme requis :
++
+[source, shell]
+----
+./ontap-mediator-1.8.0/ontap-mediator-1.8.0 -y
+----
+. Lorsque le démarrage sécurisé est activé, vous devez effectuer des étapes supplémentaires pour enregistrer la clé de sécurité après l'installation :
++
+.. Suivez les instructions du fichier README pour signer le module du noyau SCST :
++
+[source, shell]
+----
+/opt/netapp/lib/ontap_mediator/ontap_mediator/SCST_mod_keys/README.module-signing
+----
+.. Localisez les clés requises :
++
+[source, shell]
+----
+/opt/netapp/lib/ontap_mediator/ontap_mediator/SCST_mod_keys
+----
+
+
+. Vérifier l'installation
++
+.. Confirmer les processus :
++
+[source, shell]
+----
+systemctl status ontap_mediator mediator-scst
+----
++
+image:hyperv-smas-008.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+.. Confirmez les ports utilisés par le service ONTAP Mediator :
++
+image:hyperv-smas-009.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+
+
+. Initialiser le médiateur ONTAP pour la synchronisation active SnapMirror à l'aide de certificats auto-signés
++
+.. Recherchez le certificat CA ONTAP Mediator à partir de l'emplacement d'installation du logiciel hôte/machine virtuelle Linux ONTAP Mediator cd /opt/netapp/lib/ontap_mediator/ontap_mediator/server_config.
+.. Ajoutez le certificat CA ONTAP Mediator à un cluster ONTAP .
++
+[source, shell]
+----
+security certificate install -type server-ca -vserver <vserver_name>
+----
+
+
+. Ajoutez le médiateur, accédez au Gestionnaire de système, protéger> Présentation> médiateur, entrez l'adresse IP du médiateur, le nom d'utilisateur (l'utilisateur API par défaut est mediatoradmin), le mot de passe et le port 31784.
++
+Le diagramme suivant montre que l'interface réseau intercluster, les homologues du cluster, le médiateur et l'homologue SVM sont tous configurés.
+
++
+image:hyperv-smas-010.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+
+
+
+
+=== Configurer la protection symétrique active/active
+
+Les groupes de cohérence facilitent la gestion de la charge de travail des applications, en fournissant des politiques de protection locales et distantes facilement configurables et des copies instantanées simultanées cohérentes en cas de panne ou d'application d'une collection de volumes à un moment donné.  Pour plus de détails, reportez-vous àlink:https://docs.netapp.com/us-en/ontap/consistency-groups/index.html["aperçu du groupe de cohérence"] .  Nous utilisons une configuration uniforme pour cette configuration.
+
+.Étapes pour une configuration uniforme
+. Lors de la création du groupe de cohérence, spécifiez les initiateurs hôtes pour créer des igroups.
+. Cochez la case pour activer SnapMirror , puis choisissez la stratégie AutomatedFailoverDuplex.
+. Dans la boîte de dialogue qui s'affiche, cochez la case Répliquer les groupes initiateurs pour répliquer les igroups.  Dans Modifier les paramètres proximaux, définissez les SVM proximaux pour vos hôtes.
++
+image:hyperv-smas-011.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+. Sélectionnez Enregistrer
++
+La relation de protection s’établit entre la source et la destination.
+
++
+image:hyperv-smas-012.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+
+
+
+
+=== Effectuer un test de validation de basculement de cluster
+
+Nous vous recommandons d'effectuer des tests de basculement planifiés pour effectuer une vérification de validation du cluster, les bases de données SQL ou tout logiciel en cluster sur les deux sites (le site principal ou en miroir doit continuer à être accessible pendant les tests).
+
+Les exigences du cluster de basculement Hyper-V incluent :
+
+* La relation de synchronisation active SnapMirror doit être synchronisée.
+* Vous ne pouvez pas lancer un basculement planifié lorsqu'une opération non perturbatrice est en cours.  Les opérations non perturbatrices incluent les déplacements de volumes, les relocalisations d'agrégats et les basculements de stockage.
+* Le médiateur ONTAP doit être configuré, connecté et en quorum.
+* Au moins deux nœuds de cluster Hyper-V sur chaque site avec les processeurs CPU appartiennent à la même famille de CPU pour optimiser le processus de migration de VM.  Les processeurs doivent être des processeurs prenant en charge la virtualisation assistée par matériel et la prévention de l'exécution des données (DEP) basée sur le matériel.
+* Les nœuds de cluster Hyper-V doivent être les mêmes membres du domaine Active Directory pour garantir la résilience.
+* Les nœuds de cluster Hyper-V et les nœuds de stockage NetApp doivent être connectés par des réseaux redondants pour éviter un point de défaillance unique.
+* Stockage partagé, accessible par tous les nœuds du cluster via le protocole iSCSI, Fibre Channel ou SMB 3.0.
+
+
+
+
+==== Scénarios de test
+
+Il existe de nombreuses manières de déclencher un basculement sur un hôte, un stockage ou un réseau.
+
+image:hyperv-smas-013.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
+
+.Nœud ou site Hyper-V défaillant
+* Panne de nœud Un nœud de cluster de basculement peut prendre en charge la charge de travail d'un nœud défaillant, un processus appelé basculement.  Action : mettre hors tension un nœud Hyper-V Résultat attendu : l’autre nœud du cluster prendra en charge la charge de travail.  Les machines virtuelles seront migrées vers l’autre nœud.
+* Panne d'un site Nous pouvons également faire échouer l'ensemble du site et déclencher le basculement du site principal vers le site miroir : Action : désactivez les deux nœuds Hyper-V sur un site.  Résultat attendu : les machines virtuelles du site principal migreront vers le cluster Hyper-V du site miroir, car SnapMirror Active Sync symétrique actif/actif sert les E/S localement avec une réplication bidirectionnelle, sans impact sur la charge de travail avec zéro RPO et zéro RTO.
+
+
+.Panne de stockage sur un site
+* Arrêter une SVM sur le site principal Action : Arrêter la SVM iSCSI Résultats attendus : Le cluster principal Hyper-V s'est déjà connecté au site en miroir et avec SnapMirror Active Sync symétrique actif/actif, aucun impact sur la charge de travail avec zéro RPO et zéro RTO.
+
+
+.Critères de réussite
+Pendant les tests, observez les points suivants :
+
+* Observez le comportement du cluster et assurez-vous que les services sont transférés vers les nœuds restants.
+* Vérifiez s’il y a des erreurs ou des interruptions de service.
+* Assurez-vous que le cluster peut gérer les pannes de stockage et continuer à fonctionner.
+* Vérifiez que les données de la base de données restent accessibles et que les services continuent de fonctionner.
+* Vérifiez que l’intégrité des données de la base de données est maintenue.
+* Validez que des applications spécifiques peuvent basculer vers un autre nœud sans impact sur l'utilisateur.
+* Vérifiez que le cluster peut équilibrer la charge et maintenir les performances pendant et après un basculement.
+
+
+
+
+== Résumé
+
+La synchronisation active de SnapMirror peut aider les données d'application multisites, par exemple MSSQL et Oracle, à être activement accessibles et synchronisées sur les deux sites.  En cas de panne, les applications sont immédiatement redirigées vers le site actif restant, sans perte de données ni perte d'accès.
