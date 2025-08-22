@@ -1,0 +1,156 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-design.html 
+keywords: netapp, vmware, cloud, foundation, vcf, flexpod 
+summary: 'Vous pouvez repartir à zéro avec VCF 9 ou réutiliser les déploiements existants pour créer un environnement de cloud privé à l"aide de VCF 9 et ONTAP.  Découvrez les plans de conception populaires pour VCF 9 et comment les produits NetApp ajoutent de la valeur.' 
+---
+= Options de conception avec VMware Cloud Foundation et ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vous pouvez repartir à zéro avec VCF 9 ou réutiliser les déploiements existants pour créer un environnement de cloud privé à l'aide de VCF 9 et ONTAP.  Découvrez les plans de conception populaires pour VCF 9 et comment les produits NetApp ajoutent de la valeur.
+
+
+
+== Options de stockage
+
+VMware Cloud Foundation avec ONTAP prend en charge une variété de configurations de stockage pour répondre à différentes exigences de performances, d'évolutivité et de disponibilité.  Les tableaux suivants résument les options de stockage principales et supplémentaires disponibles pour votre environnement.
+
+[cols="4,2,2"]
+|===
+| Famille de produits | VMFS sur FC | NFSv3 
+
+
+| ASA Série A et Série C | Oui | Non 
+
+
+| AFF Série A et Série C | Oui | Oui 
+
+
+| FAS | Oui | Oui 
+|===
+[cols="4,2,2,2,2,2"]
+|===
+| Famille de produits | VMFS sur FC | VMFS sur iSCSI | VMFS sur NVMe-oF | NFSv3 | NFSv4.1 
+
+
+| ASA Série A et Série C | Oui | Oui | Oui | Non | Non 
+
+
+| AFF Série A et Série C | Oui | Oui | Oui | Oui | Oui 
+
+
+| FAS | Oui | Oui | Oui | Oui | Oui 
+|===
+
+
+== Plans
+
+Les plans suivants illustrent les modèles de déploiement courants pour VMware Cloud Foundation et ONTAP dans divers scénarios de site et de ressources.
+
+
+
+=== Flotte VCF sur un seul site avec une empreinte minimale
+
+Ce plan de conception est destiné au déploiement de composants de gestion et de charge de travail dans un cluster vSphere unique avec des ressources minimales.  Il prend en charge les magasins de données principaux VMFS et NFSv3 et une option de déploiement simple avec une configuration à deux nœuds.  Si vous prévoyez d’utiliser VCF Automation avec le modèle d’organisation de toutes les applications, vous avez besoin d’un deuxième cluster pour déployer les nœuds vSphere Supervisor et NSX Edge.
+
+image::vmw-vcf-design-001.png[Flotte VCF sur un seul site avec un encombrement minimal]
+
+Pour minimiser la consommation de ressources, utilisez si possible une instance d’outils ONTAP existante.  Si non disponible, un seul nœud avec un profil petit convient.  Le SnapCenter Plug-in for VMware vSphere protège les machines virtuelles et les banques de données à l'aide de snapshots natifs et de réplication vers une autre baie de stockage ONTAP .
+
+
+NOTE: Si vous manquez de ressources pour explorer VCF, de nombreux fournisseurs de cloud proposent VCF en tant que service, et ONTAP est disponible en tant que service propriétaire auprès des fournisseurs de cloud.
+
+Pour plus de détails sur cette conception, reportez-vous à lalink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/vcf-fleet-basic-management-design.html["Documentation technique Broadcom sur la flotte VCF sur un site unique avec un encombrement minimal"] .
+
+
+
+=== Flotte VCF sur un seul site
+
+Ce plan de conception est destiné aux clients disposant d'un seul centre de données principal s'appuyant sur la haute disponibilité des applications.  En général, il s’agit d’un seul environnement VCF.  Vous pouvez utiliser ASA pour les charges de travail en bloc et AFF pour les charges de travail en fichier/unifiées.
+
+Le référentiel de contenu partage les modèles de machines virtuelles et les registres de conteneurs entre les domaines VCF.  Lorsqu'elle est hébergée sur un volume FlexGroup , la fonctionnalité FlexCache est disponible pour le magasin de données d'abonnement.
+
+
+CAUTION: L'hébergement de machines virtuelles sur FlexCache Datastore n'est pas pris en charge.
+
+image::vmw-vcf-design-002.png[Flotte VCF sur un seul site]
+
+Une seule instance des outils ONTAP en mode HA peut gérer tous les vCenters de la flotte VCF.  Se référer à lalink:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/prerequisites.html#configuration-limits-to-deploy-ontap-tools-for-vmware-vsphere["Limites de configuration des outils ONTAP"] pour plus d'infos.  Les outils ONTAP s'intègrent au regroupement intelligent VCF SSO et VCF OPS pour un accès multi-vCenter dans la même interface utilisateur.
+
+.Banque de données supplémentaire VCF avec outils ONTAP
+video::e7cf90b9-2744-404b-9831-b33f00164626[panopto]
+Vous devez déployer le plug-in SnapCenter sur chaque instance vCenter pour la protection de la machine virtuelle et du magasin de données.
+
+La gestion basée sur les politiques de stockage est utilisée avec vSphere Supervisor pour héberger les machines virtuelles de contrôle de VKS.  Les balises sont gérées de manière centralisée chez VCF Ops.  NetApp Trident CSI est utilisé avec VKS pour la protection de sauvegarde des applications à l'aide de fonctionnalités de baie natives.  Lorsque vous utilisez vSphere CSI, les détails du volume persistant apparaissent sur VCF Automation.
+
+Pour plus de détails sur ce plan, reportez-vous aulink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/vcf-fleet-management-design-with-multiple-availability-zones.html["Documentation technique Broadcom sur la flotte VCF sur un seul site"] .
+
+
+
+=== Flotte VCF avec plusieurs sites dans une seule région
+
+Cette conception est destinée aux clients fournissant des services de type cloud avec une disponibilité plus élevée en répartissant les charges de travail sur différents domaines de pannes.
+
+Pour les banques de données VMFS, SnapMirror Active Sync fournit une unité de stockage active-active à utiliser avec vSphere Metro Storage Cluster.  Le mode d'accès uniforme offre un basculement de stockage transparent, tandis que le mode d'accès non uniforme nécessite un redémarrage de la machine virtuelle en cas de défaillance du domaine d'erreur.
+
+Pour les banques de données NFS, ONTAP MetroCluster avec vSphere Metro Storage Cluster garantit une haute disponibilité.  Un médiateur évite les scénarios de split-brain et peut désormais être hébergé sur BlueXP.
+
+Les règles de placement de machines virtuelles contrôlent les machines virtuelles dans le même domaine de pannes pour les composants du domaine de gestion.
+
+image::vmw-vcf-design-003.png[Flotte VCF avec plusieurs sites dans une seule région]
+
+Les outils ONTAP fournissent une interface utilisateur pour configurer les relations de synchronisation active SnapMirror .  Les systèmes de stockage des deux domaines de pannes doivent être enregistrés dans les outils ONTAP et SnapCenter Plug-in for VMware vSphere.
+
+Vous pouvez implémenter des stratégies de sauvegarde 3-2-1 à l'aide de BlueXP Backup and Recovery pour les machines virtuelles via SnapMirror et SnapMirror to Cloud.  Vous pouvez effectuer des restaurations à partir de n’importe lequel des trois emplacements.
+
+Trident Protect ou BlueXP Backup and Recovery pour Kubernetes protègent les applications de cluster VKS.
+
+Pour plus d'informations, consultez lelink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/vsphere-only-to-vcf-fleet-upgrade-blueprint.html["Documentation technique Broadcom sur la flotte VCF avec plusieurs sites dans une seule région"] .
+
+
+
+=== Flotte VCF avec plusieurs sites dans plusieurs régions
+
+Cette conception est destinée aux clients répartis dans le monde entier, fournissant des services de proximité et des solutions de reprise après sinistre.
+
+Vous pouvez gérer la reprise après sinistre pour les machines virtuelles avec VMware Live Site Recovery ou BlueXP Disaster Recovery as a Service.  Les outils ONTAP offrent le SRA (Storage Replication Adapter) pour orchestrer les opérations de stockage avec ONTAP.
+
+[cols="4,2,2"]
+|===
+| Famille de produits | Synchronisation active de SnapMirror | MetroCluster 
+
+
+| ASA Série A et Série C | Oui | Oui 
+
+
+| AFF Série A et Série C | Oui | Oui 
+
+
+| FAS | Non | Oui 
+|===
+image::vmw-vcf-design-004.png[Flotte VCF avec plusieurs sites dans plusieurs régions]
+
+Les outils ONTAP fournissent une interface utilisateur pour la configuration de la réplication de la banque de données.  BlueXP peut également être utilisé pour la réplication entre les baies de stockage.  Le SnapCenter Plug-in for VMware vSphere utilise les relations SnapMirror existantes pour les SnapShots.
+
+Pour plus d'informations, consultez lelink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/blueprint-4.html["Documentation technique Broadcom sur la flotte VCF avec plusieurs sites répartis dans plusieurs régions"] .
+
+
+
+=== Flotte VCF avec plusieurs sites dans une seule région et des régions supplémentaires
+
+Cette conception aborde à la fois la disponibilité et la reprise après sinistre des machines virtuelles et des applications VKS.
+
+ASA, AFF et FAS prennent en charge cette option de conception.
+
+image::vmw-vcf-design-005.png[Flotte VCF avec plusieurs sites dans une seule région et des régions supplémentaires]
+
+Vous pouvez utiliser les outils ONTAP ou BlueXP pour configurer la relation de réplication.
+
+Pour plus d'informations, consultez le link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/blueprint-5.html["Documentation technique Broadcom sur la flotte VCF avec plusieurs sites dans une seule région et des régions supplémentaires"] .
