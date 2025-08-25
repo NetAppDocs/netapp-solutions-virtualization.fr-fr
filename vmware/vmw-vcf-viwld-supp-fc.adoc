@@ -72,7 +72,7 @@ Pour déployer les outils ONTAP et les utiliser pour créer une banque de donné
 
 * link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["Enregistrez la charge de travail VI vCenter pour activer le plug-in vCenter"]
 * link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["Définir le backend de stockage à l'aide de l'interface client vSphere"]
-* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["Provisionner VMFS sur FC"]
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-datastore.html["Provisionner VMFS sur FC"]
 
 
 

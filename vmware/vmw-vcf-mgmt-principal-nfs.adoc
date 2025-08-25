@@ -65,7 +65,7 @@ Pour plus d'informations sur l'utilisation d'un environnement vSphere existant, 
 
 Le cluster vSphere supplémentaire sur le domaine de gestion peut être déployé avec les options suivantes :
 
-* Disposez d'un cluster supplémentaire dans l'environnement vSphere et utilisez l'outil d'importation Brownfield VCF pour convertir l'environnement vSphere en domaine de gestion. https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["ONTAP tools for VMware vSphere"] https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["Gestionnaire de système ou API ONTAP"] peut être utilisé pour déployer la banque de données NFS sur un cluster vSphere.
+* Disposez d'un cluster supplémentaire dans l'environnement vSphere et utilisez l'outil d'importation Brownfield VCF pour convertir l'environnement vSphere en domaine de gestion. https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-datastore.html["ONTAP tools for VMware vSphere"] https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["Gestionnaire de système ou API ONTAP"] peut être utilisé pour déployer la banque de données NFS sur un cluster vSphere.
 * Utilisez l’API SDDC pour déployer un cluster supplémentaire.  Les hôtes vSphere doivent avoir le magasin de données NFS configuré.  Utiliser https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["Gestionnaire de système ou API ONTAP"] pour déployer le LUN sur les hôtes vSphere.
 * Utilisez l’interface utilisateur de SDDC Manager pour déployer un cluster supplémentaire.  Mais cette option crée uniquement une banque de données vSAN avec des versions antérieures à 5.2.x.
 
