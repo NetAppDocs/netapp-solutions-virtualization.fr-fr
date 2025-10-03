@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-nfs-vvols-svm-lifs.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
+summary: 'Créez une machine virtuelle de stockage (SVM) et plusieurs interfaces logiques (LIF) sur un système ONTAP pour prendre en charge le trafic NFS pour les banques de données vVols dans un domaine de charge de travail VMware Cloud Foundation VI.' 
+---
+= Créer des SVM et des LIF pour les banques de données NFS vVols dans un domaine de charge de travail VCF VI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Créez une machine virtuelle de stockage (SVM) et plusieurs interfaces logiques (LIF) sur un système ONTAP pour prendre en charge le trafic NFS pour les banques de données vVols dans un domaine de charge de travail VMware Cloud Foundation VI.
+
+Pour ajouter de nouveaux LIF à un SVM existant, reportez-vous à la documentation ONTAP :link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["Créer des LIF ONTAP"^] .
+
+.Étapes
+. Dans ONTAP System Manager, accédez à *Machines virtuelles de stockage* dans le menu de gauche et cliquez sur *+ Ajouter* pour démarrer.
+. Dans l'assistant *Ajouter une machine virtuelle de stockage*, indiquez un *Nom* pour la SVM, sélectionnez l'*Espace IP* puis, sous *Protocole d'accès*, cliquez sur l'onglet *SMB/CIFS, NFS, S3* et cochez la case *Activer NFS*.
++
+
+TIP: Vous n'avez pas besoin de cocher la case *Autoriser l'accès client NFS*.  Les ONTAP tools for VMware vSphere seront utilisés pour automatiser le processus de déploiement de la banque de données, qui inclut la fourniture d’un accès client pour les hôtes ESXi.
+
+. Dans la section *Interface réseau*, renseignez l'*adresse IP*, le *masque de sous-réseau* et le *domaine de diffusion et le port* pour le premier LIF.  Pour les LIF suivants, vous pouvez soit utiliser des paramètres individuels, soit activer la case à cocher pour utiliser des paramètres communs à tous les LIF restants.
+. Choisissez d'activer ou non le compte d'administration de la machine virtuelle de stockage (pour les environnements multi-locataires) et cliquez sur *Enregistrer* pour créer la SVM.
+
+
+
+
+== Quelle est la prochaine étape ?
+
+Après avoir créé le SVM et les LIF,link:vmw-vcf-viwld-supp-nfs-vvols-network.html["configurer la mise en réseau pour NFS sur les hôtes ESXi"] .

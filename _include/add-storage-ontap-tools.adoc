@@ -1,0 +1,28 @@
+= 
+:allow-uri-read: 
+
+
+.Étapes
+. Dans le client vSphere, accédez au menu principal et sélectionnez * Outils NetApp ONTAP *.
++
+image:vmware-vcf-asa-014.png["Accéder aux outils ONTAP"]
+
+. Une fois dans * Outils ONTAP *, depuis la page de démarrage (ou depuis * Systèmes de stockage*), cliquez sur * Ajouter * pour ajouter un nouveau système de stockage.
++
+image:vmware-vcf-asa-015.png["Ajouter un système de stockage"]
+
++
+{nbsp}
+
+. Fournissez l'adresse IP et les informations d'identification du système de stockage ONTAP et cliquez sur *Ajouter*.
++
+image:vmware-vcf-asa-016.png["Fournir l'adresse IP et les informations d'identification du système ONTAP"]
+
++
+{nbsp}
+
+. Cliquez sur *Oui* pour autoriser le certificat de cluster et ajouter le système de stockage.
++
+image:vmware-vcf-asa-017.png["Autoriser le certificat de cluster"]
+
+

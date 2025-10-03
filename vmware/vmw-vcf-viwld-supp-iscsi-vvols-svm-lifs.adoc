@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-iscsi-vvols-svm-lifs.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
+summary: 'Créez une machine virtuelle de stockage (SVM) et plusieurs interfaces logiques (LIF) sur un système ONTAP pour prendre en charge le trafic iSCSI pour les banques de données vVols dans un domaine de charge de travail VMware Cloud Foundation VI.  Vous ajouterez un nouveau SVM, activerez iSCSI, configurerez les LIF et activerez éventuellement le compte d"administration de la machine virtuelle de stockage.' 
+---
+= Créer des SVM et des LIF pour les banques de données iSCSI vVols dans un domaine de charge de travail VCF VI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Créez une machine virtuelle de stockage (SVM) et plusieurs interfaces logiques (LIF) sur un système ONTAP pour prendre en charge le trafic iSCSI pour les banques de données vVols dans un domaine de charge de travail VMware Cloud Foundation VI.  Vous ajouterez un nouveau SVM, activerez iSCSI, configurerez les LIF et activerez éventuellement le compte d'administration de la machine virtuelle de stockage.
+
+Pour ajouter de nouveaux LIF à un SVM existant, reportez-vous à la documentation ONTAP :link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["Créer des LIF ONTAP"^] .
+
+.Étapes
+. Depuis ONTAP System Manager, accédez à *Machines virtuelles de stockage* dans le menu de gauche et cliquez sur *+ Ajouter* pour démarrer.
++
+image:vmware-vcf-asa-001.png["Cliquez sur +Ajouter pour commencer à créer SVM"]
+
++
+{nbsp}
+
+. Dans l'assistant *Ajouter une machine virtuelle de stockage*, indiquez un *Nom* pour la SVM, sélectionnez l'*Espace IP*, puis, sous *Protocole d'accès*, cliquez sur l'onglet *iSCSI* et cochez la case *Activer iSCSI*.
++
+image:vmware-vcf-asa-002.png["Assistant d'ajout de machine virtuelle de stockage - activer iSCSI"]
+
++
+{nbsp}
+
+. Dans la section *Interface réseau*, renseignez l'*adresse IP*, le *masque de sous-réseau* et le *domaine de diffusion et le port* pour le premier LIF. Pour les LIF suivants, vous pouvez soit utiliser des paramètres individuels, soit activer la case à cocher pour utiliser des paramètres communs à tous les LIF restants.
++
+
+NOTE: Pour le multivoie et le basculement sur plusieurs chemins, créez au moins deux LIF par nœud de stockage dans des réseaux Ethernet distincts pour tous les SVM dans les configurations iSCSI.
+
++
+image:vmware-vcf-asa-003.png["Remplissez les informations réseau pour les LIF"]
+
++
+{nbsp}
+
+. Choisissez d'activer ou non le compte d'administration de la machine virtuelle de stockage (pour les environnements multi-locataires), puis cliquez sur *Enregistrer* pour créer la SVM.
++
+image:vmware-vcf-asa-004.png["Activer le compte SVM et terminer"]
+
+
+
+
+
+== Quelle est la prochaine étape ?
+
+Après avoir créé le SVM et les LIF,link:vmw-vcf-viwld-supp-iscsi-vvols-network.html["configurer la mise en réseau pour iSCSI sur les hôtes ESXi"] .

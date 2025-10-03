@@ -40,15 +40,18 @@ indexpage:
       url: osv-workflow-vm-migration-mtv.html
     - title: Migrer des machines virtuelles entre deux nœuds de cluster
       url: osv-workflow-vm-live-migration.html
-  - title: Protégez vos données avec Trident Protect
+  - title: Protégez les machines virtuelles à l'aide de Trident et Trident Protect
     links:
     - title: Installer Trident
       url: osv-trident-install.html
+    - title: Protégez les machines virtuelles à l'aide de snapshots de groupes de
+        volumes
+      url: osv-vm-dp-using-vgs.html
     - title: Protégez les machines virtuelles avec des instantanés et des sauvegardes
       url: osv-vm-dp-using-tp.html
     - title: Configurer le basculement et la restauration automatique
       url: osv-vm-dr-using-tp.html
-  - title: Protégez vos données à l'aide d'outils tiers
+  - title: Protégez les machines virtuelles à l'aide d'outils tiers
     links:
     - title: Protégez les machines virtuelles à l'aide d'OADP et de Velero
       url: osv-vm-dp-using-velero-overview.html

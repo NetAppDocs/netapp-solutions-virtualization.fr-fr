@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-iscsi-vvols-requirements.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
+summary: 'Pour déployer des vVols iSCSI dans un domaine de charge de travail VMware Cloud Foundation VI, vous avez besoin d"un système de stockage ONTAP AFF ou ASA entièrement configuré, d"un domaine de gestion VCF terminé et d"un domaine de charge de travail VI existant.  Passez en revue la conception réseau recommandée et les exigences d’infrastructure pour garantir une intégration de stockage fiable et hautes performances.' 
+---
+= Exigences de déploiement pour les vVols iSCSI dans un domaine de charge de travail VI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Passez en revue la conception réseau recommandée et les exigences d’infrastructure pour déployer des vVols iSCSI dans un domaine de charge de travail VMware Cloud Foundation VI.  Vous avez besoin d'un système de stockage ONTAP AFF ou ASA entièrement configuré, d'un domaine de gestion VCF complet et d'un domaine de charge de travail VI existant.
+
+
+
+== Exigences en matière d'infrastructure
+
+Assurez-vous que les composants et configurations suivants sont en place.
+
+* Un système de stockage ONTAP AFF ou ASA avec des ports de données physiques sur des commutateurs Ethernet dédiés au trafic de stockage.
+* Le déploiement du domaine de gestion VCF est terminé et le client vSphere est accessible.
+* Un domaine de charge de travail VI a été précédemment déployé.
+
+
+
+
+== Conception de réseau iSCSI recommandée
+
+Vous devez configurer des conceptions de réseau entièrement redondantes pour iSCSI.  Le diagramme suivant illustre un exemple de configuration redondante.  Il offre une tolérance aux pannes pour les systèmes de stockage, les commutateurs, les adaptateurs réseau et les systèmes hôtes.  Pour plus d'informations, reportez-vous à la NetApplink:https://docs.netapp.com/us-en/ontap/san-config/index.html["Référence de configuration SAN"^] .
+
+image:vmware-vcf-asa-074.png["Conception de réseau NVMe-tcp"]
+
+{nbsp}
+
+Pour le multivoie et le basculement sur plusieurs chemins, créez au moins deux LIF par nœud de stockage dans des réseaux Ethernet distincts pour tous les SVM dans les configurations iSCSI.
+
+
+NOTE: Dans les situations où plusieurs adaptateurs VMkernel sont configurés sur le même réseau IP, utilisez la liaison de port iSCSI logicielle sur les hôtes ESXi pour garantir l'équilibrage de charge entre les adaptateurs. Se référer à l'article de la base de connaissanceslink:https://knowledge.broadcom.com/external/article?legacyId=2038869["Considérations relatives à l'utilisation de la liaison de port iSCSI logicielle dans ESX/ESXi"^] .
+
+
+
+== Quelle est la prochaine étape ?
+
+Après avoir examiné les exigences de déploiement,link:vmw-vcf-viwld-supp-iscsi-vvols-svm-lifs.html["créer les SVM et les LIF"] .

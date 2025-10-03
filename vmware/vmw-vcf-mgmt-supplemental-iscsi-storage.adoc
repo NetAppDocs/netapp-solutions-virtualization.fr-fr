@@ -1,0 +1,153 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-mgmt-supplemental-iscsi-storage.html 
+keywords: netapp, vmware, cloud, foundation, vcf, iscsi, create, svm, lif 
+summary: Configurez un stockage iSCSI supplémentaire pour étendre les domaines de gestion VMware Cloud Foundation.  Vous déploierez les outils ONTAP , configurerez une banque de données iSCSI sur le domaine de gestion et migrerez les machines virtuelles de gestion vers la nouvelle banque de données. 
+---
+= Configurer le stockage iSCSI dans un domaine de gestion VCF à l'aide des outils ONTAP
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Configurez un stockage iSCSI supplémentaire pour étendre les domaines de gestion VMware Cloud Foundation.  Vous déploierez les outils ONTAP , configurerez une banque de données iSCSI sur le domaine de gestion et migrerez les machines virtuelles de gestion vers la nouvelle banque de données.
+
+Effectuez les étapes suivantes sur le cluster de domaine de gestion VCF à l’aide du client vSphere.
+
+
+
+== Étape 1 : Déployer les ONTAP tools for VMware vSphere
+
+Les ONTAP tools for VMware vSphere (OTV) sont déployés en tant qu’appliance VM et fournissent une interface utilisateur vCenter intégrée pour la gestion du stockage ONTAP .
+
+.Étapes
+. Obtenez l'image OVA des outils ONTAP à partir dulink:https://mysupport.netapp.com/site/products/all/details/otv/downloads-tab["Site d'assistance NetApp"] et téléchargez-le dans un dossier local.
+. Connectez-vous à l’appliance vCenter pour le domaine de gestion VCF.
+. Depuis l'interface de l'appliance vCenter, cliquez avec le bouton droit sur le cluster de gestion et sélectionnez *Déployer le modèle OVF…*
++
+image:vmware-vcf-aff-021.png["Déployer le modèle OVF..."]
+
++
+{nbsp}
+
+. Dans l'assistant *Déployer le modèle OVF*, cliquez sur le bouton radio *Fichier local* et sélectionnez le fichier OVA des outils ONTAP téléchargé à l'étape précédente.
++
+image:vmware-vcf-aff-022.png["Sélectionnez le fichier OVA"]
+
++
+{nbsp}
+
+. Pour les étapes 2 à 5 de l’assistant, sélectionnez un nom et un dossier pour la machine virtuelle, sélectionnez la ressource de calcul, vérifiez les détails et acceptez le contrat de licence.
+. Pour l'emplacement de stockage des fichiers de configuration et de disque, sélectionnez la banque de données vSAN du cluster de domaine de gestion VCF.
++
+image:vmware-vcf-aff-023.png["Sélectionnez le fichier OVA"]
+
++
+{nbsp}
+
+. Sur la page *Sélectionner un réseau*, sélectionnez le réseau utilisé pour le trafic de gestion.
++
+image:vmware-vcf-aff-024.png["Sélectionnez le réseau"]
+
++
+{nbsp}
+
+. Sur la page *Personnaliser le modèle*, saisissez toutes les informations requises :
++
+** Mot de passe à utiliser pour l'accès administratif aux outils ONTAP .
+** Adresse IP du serveur NTP.
+** Mot de passe du compte de maintenance des outils ONTAP .
+** Mot de passe Derby DB des outils ONTAP .
+** Ne cochez pas la case *Activer VMware Cloud Foundation (VCF)*.  Le mode VCF n'est pas requis pour le déploiement de stockage supplémentaire.
+** Nom de domaine complet ou adresse IP de l'appliance vCenter pour le *domaine de charge de travail VI*
+** Informations d'identification pour l'appliance vCenter du *domaine de charge de travail VI*
+** Propriétés réseau requises.
+
+
+. Cliquez sur *Suivant* pour continuer.
++
+image:vmware-vcf-aff-025.png["Personnaliser le modèle OTV 1"]
+
++
+image:vmware-vcf-asa-035.png["Personnaliser le modèle OTV 2"]
+
+. Vérifiez toutes les informations sur la page *Prêt à terminer* et cliquez sur *Terminer* pour commencer à déployer l'appliance des outils ONTAP .
+
+
+
+
+== Étape 2 : ajouter un système de stockage
+
+Procédez comme suit pour ajouter un système de stockage à l’aide des outils ONTAP .
+
+.Étapes
+. Dans le client vSphere, accédez au menu principal et sélectionnez * Outils NetApp ONTAP *.
++
+image:vmware-vcf-asa-014.png["Accéder aux outils ONTAP"]
+
+. Une fois dans * Outils ONTAP *, depuis la page de démarrage (ou depuis * Systèmes de stockage*), cliquez sur * Ajouter * pour ajouter un nouveau système de stockage.
++
+image:vmware-vcf-asa-015.png["Ajouter un système de stockage"]
+
++
+{nbsp}
+
+. Fournissez l'adresse IP et les informations d'identification du système de stockage ONTAP et cliquez sur *Ajouter*.
++
+image:vmware-vcf-asa-016.png["Fournir l'adresse IP et les informations d'identification du système ONTAP"]
+
++
+{nbsp}
+
+. Cliquez sur *Oui* pour autoriser le certificat de cluster et ajouter le système de stockage.
++
+image:vmware-vcf-asa-017.png["Autoriser le certificat de cluster"]
+
+
+
+
+
+== Facultatif : migrer les machines virtuelles de gestion vers la banque de données iSCSI
+
+Dans les cas où vous préférez utiliser le stockage ONTAP pour protéger les machines virtuelles de gestion VCF, utilisez vMotion pour migrer les machines virtuelles vers la banque de données iSCSI nouvellement créée.
+
+.Étapes
+. Depuis le client vSphere, accédez au cluster de domaine de gestion et cliquez sur l’onglet *VM*.
+. Sélectionnez les machines virtuelles à migrer vers le magasin de données iSCSI, faites un clic droit et sélectionnez *Migrer..*.
++
+image:vmware-vcf-asa-018.png["Sélectionnez les machines virtuelles à migrer"]
+
++
+{nbsp}
+
+. Dans l'assistant *Machines virtuelles - Migrer*, sélectionnez *Modifier le stockage uniquement* comme type de migration et cliquez sur *Suivant* pour continuer.
++
+image:vmware-vcf-asa-019.png["Sélectionnez le type de migration"]
+
++
+{nbsp}
+
+. Sur la page *Sélectionner le stockage*, sélectionnez la banque de données iSCSi et sélectionnez *Suivant* pour continuer.
++
+image:vmware-vcf-asa-020.png["Sélectionner le magasin de données de destination"]
+
++
+{nbsp}
+
+. Vérifiez les sélections et cliquez sur *Terminer* pour démarrer la migration.
+. L'état de la relocalisation peut être consulté à partir du volet *Tâches récentes*.
++
+image:vmware-vcf-asa-021.png["Volet des tâches récentes du client vSphere"]
+
+
+
+
+
+== Informations Complémentaires
+
+* Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous àlink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"^] .
+* Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https://techdocs.broadcom.com/us-en/vmware-cis/vcf.html["Documentation de VMware Cloud Foundation"^] .
+* Pour plus d'informations sur l'utilisation des banques de données iSCSI VMFS avec VMware, reportez-vous àlink:vmw-vmfs-iscsi.html["Banque de données vSphere VMFS - Backend de stockage iSCSI avec ONTAP"] .
+* Pour des démonstrations vidéo de cette solution, reportez-vous àlink:../videos/vmware-videos.html#vmware-datastore-provisioning-with-ontap["Provisionnement de la banque de données VMware"] .
+

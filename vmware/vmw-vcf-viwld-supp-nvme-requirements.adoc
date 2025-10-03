@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-nvme-requirements.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
+summary: 'Pour déployer des NVMe vVols dans un domaine de charge de travail VMware Cloud Foundation VI, vous avez besoin d"un système de stockage ONTAP AFF ou ASA entièrement configuré, d"un domaine de gestion VCF terminé et d"un domaine de charge de travail VI existant.  Passez en revue la conception réseau recommandée et les exigences d’infrastructure pour garantir une intégration de stockage fiable et hautes performances.' 
+---
+= Exigences de déploiement pour NVMe vVols dans un domaine de charge de travail VI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Passez en revue les exigences de conception et d’infrastructure réseau recommandées pour déployer NVMe vVols dans un domaine de charge de travail VMware Cloud Foundation VI.  Vous avez besoin d'un système de stockage ONTAP AFF ou ASA entièrement configuré, d'un domaine de gestion VCF déployé et d'un domaine de charge de travail VI existant.
+
+
+
+== Exigences en matière d'infrastructure
+
+* Un système de stockage ONTAP AFF ou ASA avec des ports de données physiques sur des commutateurs Ethernet dédiés au trafic de stockage.
+* Le déploiement du domaine de gestion VCF est terminé et le client vSphere est accessible.
+* Un domaine de charge de travail VI a été précédemment déployé.
+
+
+
+
+== Conception de réseau NVMe/TCP recommandée
+
+NetApp recommande des conceptions de réseau entièrement redondantes pour NVMe/TCP. Le diagramme suivant illustre un exemple de configuration redondante, offrant une tolérance aux pannes pour les systèmes de stockage, les commutateurs, les adaptateurs réseau et les systèmes hôtes.
+
+image:vmware-vcf-asa-074.png["Conception de réseau NVMe-tcp"]
+
+Pour le multivoie et le basculement sur plusieurs chemins, configurez au moins deux LIF par nœud de stockage dans des réseaux Ethernet distincts pour toutes les SVM dans les configurations NVMe/TCP.
+
+
+
+== Quelle est la prochaine étape ?
+
+Après avoir examiné les exigences de déploiement,link:vmw-vcf-viwld-supp-nvme-svm-lifs.html["créer les SVM et les LIF"] .

@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-viwld-supp-nfs-vvols-network.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
+summary: 'Configurez la mise en réseau NFS sur les hôtes ESXi dans les domaines de gestion VMware Cloud Foundation pour activer la connectivité aux systèmes de stockage ONTAP .  Vous créerez des groupes de ports distribués avec séparation VLAN, configurerez l"association de liaisons montantes pour la redondance et configurerez des adaptateurs VMkernel sur chaque hôte ESXi pour établir des chemins NFS dédiés aux capacités de basculement.' 
+---
+= Configurer la mise en réseau pour NFS sur les hôtes ESXi dans un domaine de charge de travail VCF VI
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Configurez la mise en réseau NFS sur les hôtes ESXi dans les domaines de gestion VMware Cloud Foundation pour activer la connectivité aux systèmes de stockage ONTAP .  Vous créerez des groupes de ports distribués avec séparation VLAN, configurerez l'association de liaisons montantes pour la redondance et configurerez des adaptateurs VMkernel sur chaque hôte ESXi pour établir des chemins NFS dédiés aux capacités de basculement.
+
+Effectuez les étapes suivantes sur le cluster de domaine de charge de travail VI à l’aide du client vSphere. Dans ce cas, vCenter Single Sign-On est utilisé, de sorte que le client vSphere est commun aux domaines de gestion et de charge de travail.
+
+
+
+== Étape 1 : créer un groupe de ports distribués pour le trafic NFS
+
+Suivez les étapes suivantes pour créer un nouveau groupe de ports distribués pour le réseau afin de transporter le trafic NFS.
+
+.Étapes
+. Depuis le client vSphere, accédez à *Inventaire > Réseau* pour le domaine de charge de travail.  Accédez au commutateur distribué existant et choisissez l'action pour créer *Nouveau groupe de ports distribués...*.
+. Dans l'assistant *Nouveau groupe de ports distribués*, saisissez un nom pour le nouveau groupe de ports et cliquez sur *Suivant* pour continuer.
+. Sur la page *Configurer les paramètres*, remplissez tous les paramètres. Si des VLAN sont utilisés, assurez-vous de fournir l'ID VLAN correct. Cliquez sur *Suivant* pour continuer.
+. Sur la page *Prêt à terminer*, vérifiez les modifications et cliquez sur *Terminer* pour créer le nouveau groupe de ports distribués.
+. Une fois le groupe de ports créé, accédez au groupe de ports et sélectionnez l'action *Modifier les paramètres...*.
+. Sur la page *Groupe de ports distribués - Modifier les paramètres*, accédez à *Teaming et basculement* dans le menu de gauche. Activez le regroupement des liaisons montantes à utiliser pour le trafic NFS en vous assurant qu'elles sont regroupées dans la zone *Liaisons montantes actives*. Déplacez toutes les liaisons montantes inutilisées vers *Liaisons montantes inutilisées*.
+. Répétez ce processus pour chaque hôte ESXi du cluster.
+
+
+
+
+== Étape 2 : créer un adaptateur VMkernel sur chaque hôte ESXi
+
+Créez un adaptateur VMkernel sur chaque hôte ESXi dans le domaine de charge de travail.
+
+.Étapes
+. À partir du client vSphere, accédez à l’un des hôtes ESXi dans l’inventaire du domaine de charge de travail. Dans l'onglet *Configurer*, sélectionnez *Adaptateurs VMkernel* et cliquez sur *Ajouter un réseau...* pour démarrer.
+. Dans la fenêtre *Sélectionner le type de connexion*, choisissez *Adaptateur réseau VMkernel* et cliquez sur *Suivant* pour continuer.
+. Sur la page *Sélectionner le périphérique cible*, choisissez l’un des groupes de ports distribués pour NFS qui a été créé précédemment.
+. Sur la page *Propriétés du port*, conservez les valeurs par défaut (aucun service activé) et cliquez sur *Suivant* pour continuer.
+. Sur la page *Paramètres IPv4*, renseignez l'*adresse IP*, le *masque de sous-réseau* et fournissez une nouvelle adresse IP de passerelle (uniquement si nécessaire). Cliquez sur *Suivant* pour continuer.
+. Vérifiez vos sélections sur la page *Prêt à terminer* et cliquez sur *Terminer* pour créer l'adaptateur VMkernel.
+
+
+
+
+== Quelle est la prochaine étape ?
+
+Après avoir configuré la mise en réseau pour NFS sur tous les hôtes ESXi du domaine de charge de travail,link:vmw-vcf-viwld-supp-nfs-vvols-storage.html["configurer le stockage pour NFS vVols"] .

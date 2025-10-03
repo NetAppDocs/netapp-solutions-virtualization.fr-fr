@@ -72,18 +72,58 @@ entries:
       url: "/vmware/vmw-vcf-viwld-principal-nfs.html"
   - title: Développez VCF avec un stockage supplémentaire
     entries:
-    - title: À propos de l'extension du stockage
+    - title: En savoir plus sur l'extension du stockage
       url: "/vmware/vmw-vcf-expand.html"
     - title: Développez les domaines de gestion avec iSCSI
-      url: "/vmware/vmw-vcf-mgmt-supplemental-iscsi.html"
+      entries:
+      - title: Flux de travail de déploiement
+        url: "/vmware/vmw-vcf-mgmt-supplemental-iscsi.html"
+      - title: Exigences en matière d'examen
+        url: "/vmware/vmw-vcf-mgmt-supplemental-iscsi-requirements.html"
+      - title: Créer des SVM et des LIF
+        url: "/vmware/vmw-vcf-mgmt-supplemental-iscsi-svm-lifs.html"
+      - title: Configurer le réseau
+        url: "/vmware/vmw-vcf-mgmt-supplemental-iscsi-network.html"
+      - title: Configurer le stockage
+        url: "/vmware/vmw-vcf-mgmt-supplemental-iscsi-storage.html"
     - title: Développez les domaines de gestion avec FC
       url: "/vmware/vmw-vcf-mgmt-supplemental-fc.html"
     - title: Développez les domaines de charge de travail VI avec vVols iSCSI
-      url: "/vmware/vmw-vcf-viwld-supp-iscsi-vvols.html"
+      entries:
+      - title: Flux de travail de déploiement
+        url: "/vmware/vmw-vcf-viwld-supp-iscsi-vvols.html"
+      - title: Exigences en matière d'examen
+        url: "/vmware/vmw-vcf-viwld-supp-iscsi-vvols-requirements.html"
+      - title: Créer des SVM et des LIF
+        url: "/vmware/vmw-vcf-viwld-supp-iscsi-vvols-svm-lifs.html"
+      - title: Configurer le réseau
+        url: "/vmware/vmw-vcf-viwld-supp-iscsi-vvols-network.html"
+      - title: Configurer le stockage
+        url: "/vmware/vmw-vcf-viwld-supp-iscsi-vvols-storage.html"
     - title: Développez les domaines de charge de travail VI avec vVols NFS
-      url: "/vmware/vmw-vcf-viwld-supp-nfs-vvols.html"
+      entries:
+      - title: Flux de travail de déploiement
+        url: "/vmware/vmw-vcf-viwld-supp-nfs-vvols.html"
+      - title: Exigences en matière d'examen
+        url: "/vmware/vmw-vcf-viwld-supp-nfs-vvols-requirements.html"
+      - title: Créer des SVM et des LIF
+        url: "/vmware/vmw-vcf-viwld-supp-nfs-vvols-svm-lifs.html"
+      - title: Configurer le réseau
+        url: "/vmware/vmw-vcf-viwld-supp-nfs-vvols-network.html"
+      - title: Configurer le stockage
+        url: "/vmware/vmw-vcf-viwld-supp-nfs-vvols-storage.html"
     - title: Développez les domaines de charge de travail VI avec NVMe/TCP
-      url: "/vmware/vmw-vcf-viwld-supp-nvme.html"
+      entries:
+      - title: Flux de travail de déploiement
+        url: "/vmware/vmw-vcf-viwld-supp-nvme.html"
+      - title: Exigences en matière d'examen
+        url: "/vmware/vmw-vcf-viwld-supp-nvme-requirements.html"
+      - title: Créer des SVM et des LIF
+        url: "/vmware/vmw-vcf-viwld-supp-nvme-svm-lifs.html"
+      - title: Configurer le réseau
+        url: "/vmware/vmw-vcf-viwld-supp-nvme-network.html"
+      - title: Configurer le stockage
+        url: "/vmware/vmw-vcf-viwld-supp-nvme-storage.html"
     - title: Développez les domaines de charge de travail VI avec FC
       url: "/vmware/vmw-vcf-viwld-supp-fc.html"
   - title: Protégez VCF avec SnapCenter

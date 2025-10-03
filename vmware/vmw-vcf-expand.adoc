@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-expand.html 
 keywords: vmware, vcf, expand, supplemental, storage 
-summary:  
+summary: 'VMware Cloud Foundation (VCF) prend en charge une large gamme d"options de stockage supplémentaires pour étendre le stockage sur les domaines de gestion VCF et les domaines de charge de travail d"infrastructure virtuelle (VI).' 
 ---
 = En savoir plus sur l'extension du stockage pour un environnement VCF à l'aide d'un stockage supplémentaire
 :hardbreaks:
@@ -16,9 +16,68 @@ summary:
 [role="lead"]
 VMware Cloud Foundation (VCF) prend en charge une large gamme d'options de stockage supplémentaires pour étendre le stockage sur les domaines de gestion VCF et les domaines de charge de travail d'infrastructure virtuelle (VI).
 
-Les outils ONTAP de NetApp pour VMware vSphere offrent une solution efficace pour cette extension en intégrant de manière transparente le stockage NetApp dans l'environnement VCF.  Les outils ONTAP simplifient la configuration et la gestion des banques de données, permettant aux administrateurs de provisionner et de gérer le stockage directement à partir du client vSphere.  Les fonctionnalités avancées d'ONTAP telles que les instantanés, le clonage et la protection des données améliorent les performances de stockage, l'efficacité et l'évolutivité au sein de l'environnement VCF.
+Les ONTAP tools for VMware vSphere offrent une solution efficace pour cette extension en intégrant de manière transparente le stockage NetApp dans l'environnement VCF.
 
-Veuillez vous référer aux solutions suivantes pour les détails techniques permettant d'étendre l'environnement VCF.
+Les outils ONTAP simplifient la configuration et la gestion des banques de données, permettant aux administrateurs de provisionner et de gérer le stockage directement à partir du client vSphere.  Les fonctionnalités avancées d'ONTAP, telles que les instantanés, le clonage et la protection des données, améliorent les performances de stockage, l'efficacité et l'évolutivité au sein de l'environnement VCF.
+
+
+
+== Protocoles pris en charge pour l'extension du stockage
+
+Les environnements VCF peuvent être étendus à l’aide de plusieurs protocoles de stockage, chacun offrant des avantages et des cas d’utilisation uniques.
+
+Vous pouvez utiliser les protocoles suivants pour étendre le stockage dans les domaines de gestion VCF et les domaines de charge de travail VI.  Choisissez la meilleure option pour votre environnement afin d’intégrer de manière transparente un stockage supplémentaire dans votre déploiement VCF.
+
+.iSCSI
+Protocole basé sur des blocs qui utilise des réseaux Ethernet standard.  Idéal pour les environnements qui nécessitent des performances élevées, de la flexibilité et une mise à l'échelle rentable.
+
+iSCSI est largement utilisé pour les banques de données VMFS et prend en charge les fonctionnalités ONTAP avancées, telles que les instantanés et le clonage.
+
+* *Haute performance :* offre des performances élevées pour fournir des taux de transfert de données rapides et efficaces et une faible latence.  Idéal pour les applications d'entreprise exigeantes et les environnements virtualisés.
+* *Facilité de gestion :* simplifie la gestion du stockage en utilisant des outils et des protocoles IP familiers.
+* *Rentable :* utilise l'infrastructure Ethernet existante, réduisant ainsi le besoin de matériel spécialisé et permettant aux organisations d'obtenir des solutions de stockage fiables et évolutives.
+
+
+Pour plus d'informations sur l'utilisation d'iSCSI avec les systèmes de stockage NetApp , reportez-vous à https://docs.netapp.com/us-en/ontap/san-admin/san-host-provisioning-concept.html["Provisionnement SAN avec iSCSI"] .
+
+.Fibre Channel (FC)
+Protocole à haut débit et à faible latence qui utilise des réseaux FC dédiés.  FC est privilégié pour les charges de travail critiques qui exigent fiabilité, bande passante dédiée et correction d'erreurs robuste.  Il est couramment utilisé pour les banques de données VMFS dans les environnements d’entreprise.
+
+* *Hautes performances :* FC offre des taux de transfert de données à haut débit, ce qui le rend idéal pour les applications nécessitant un accès rapide et fiable à de grandes quantités de données.
+* *Faible latence :* très faible latence, ce qui est crucial pour les applications sensibles aux performances telles que les bases de données et les environnements virtualisés.
+* *Fiabilité :* les réseaux FC sont connus pour leur robustesse et leur fiabilité, avec des fonctionnalités telles que la redondance intégrée et la correction d'erreurs.
+* *Bande passante dédiée :* FC fournit une bande passante dédiée au trafic de stockage, réduisant ainsi le risque de congestion du réseau.
+
+
+Pour plus d'informations sur l'utilisation de Fibre Channel avec les systèmes de stockage NetApp , reportez-vous à https://docs.netapp.com/us-en/ontap/san-admin/san-provisioning-fc-concept.html["Provisionnement SAN avec FC"] .
+
+.NFS (système de fichiers réseau)
+Protocole basé sur des fichiers qui permet un partage et une gestion faciles des fichiers entre les hôtes.  NFS est simple à configurer et s'adapte efficacement, ce qui le rend adapté aux charges de travail et aux environnements virtualisés qui nécessitent un accès flexible aux fichiers.
+
+Les banques de données NFS sont prises en charge par ONTAP et vSphere pour les domaines de gestion et de charge de travail.
+
+* *Simplicité et facilité d'utilisation :* NFS est simple à configurer et à gérer, ce qui en fait un excellent choix pour les environnements qui nécessitent un partage de fichiers rapide et facile.
+* *Évolutivité :* l'architecture d'ONTAP permet à NFS d'évoluer efficacement, prenant en charge les besoins croissants en données sans modifications significatives de l'infrastructure.
+* *Flexibilité :* NFS prend en charge une large gamme d'applications et de charges de travail, ce qui le rend polyvalent pour divers cas d'utilisation, y compris les environnements virtualisés.
+
+
+Pour plus d'informations, reportez-vous à la link:vmw-vvf-overview.html["Guide de référence NFS v3 pour vSphere 8"] .
+
+.NVMe/TCP
+Protocole moderne offrant des performances élevées et une faible latence sur les réseaux Ethernet standard utilisant TCP/IP.  NVMe/TCP est idéal pour les applications exigeantes et les opérations de données à grande échelle, offrant évolutivité et rentabilité sans nécessiter de matériel spécialisé.
+
+* *Hautes performances :* offre des performances exceptionnelles avec une faible latence et des taux de transfert de données élevés.  Ceci est crucial pour les applications exigeantes et les opérations de données à grande échelle.
+* *Évolutivité :* prend en charge les configurations évolutives, permettant aux administrateurs informatiques d'étendre leur infrastructure de manière transparente à mesure que les besoins en données augmentent.
+* *Rentable :* fonctionne sur des commutateurs Ethernet standard et est encapsulé dans des datagrammes TCP. Aucun équipement spécial n'est requis pour sa mise en œuvre.
+
+
+Pour plus d'informations sur les avantages du NVMe, reportez-vous à https://www.netapp.com/data-storage/nvme/what-is-nvme/["Qu'est-ce que NVME ?"] .
+
+
+
+== Cas d'utilisation pour l'ajout de stockage supplémentaire
+
+Les cas d’utilisation suivants montrent comment ajouter du stockage supplémentaire aux domaines de gestion VCF et aux domaines de charge de travail d’infrastructure virtuelle (VI) à l’aide de différents protocoles et configurations.
 
 * link:vmw-vcf-mgmt-supplemental-iscsi.html["Domaine de gestion avec iSCSI"]
 * link:vmw-vcf-mgmt-supplemental-fc.html["Domaine de gestion avec FC"]
