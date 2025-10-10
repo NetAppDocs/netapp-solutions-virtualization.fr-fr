@@ -26,11 +26,39 @@ Suivez les étapes suivantes pour créer un nouveau groupe de ports distribués 
 
 .Étapes
 . Depuis le client vSphere, accédez à *Inventaire > Réseau* pour le domaine de charge de travail.  Accédez au commutateur distribué existant et choisissez l'action pour créer *Nouveau groupe de ports distribués...*.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-asa-022.png["Choisissez de créer un nouveau groupe de ports"]
+
+====
 . Dans l'assistant *Nouveau groupe de ports distribués*, saisissez un nom pour le nouveau groupe de ports et cliquez sur *Suivant* pour continuer.
 . Sur la page *Configurer les paramètres*, remplissez tous les paramètres. Si des VLAN sont utilisés, assurez-vous de fournir l'ID VLAN correct. Cliquez sur *Suivant* pour continuer.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-asa-023.png["Remplissez l'ID VLAN"]
+
+====
 . Sur la page *Prêt à terminer*, vérifiez les modifications et cliquez sur *Terminer* pour créer le nouveau groupe de ports distribués.
 . Une fois le groupe de ports créé, accédez au groupe de ports et sélectionnez l'action *Modifier les paramètres...*.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-037.png["DPG - modifier les paramètres"]
+
+====
 . Sur la page *Groupe de ports distribués - Modifier les paramètres*, accédez à *Teaming et basculement* dans le menu de gauche. Activez le regroupement des liaisons montantes à utiliser pour le trafic NFS en vous assurant qu'elles sont regroupées dans la zone *Liaisons montantes actives*. Déplacez toutes les liaisons montantes inutilisées vers *Liaisons montantes inutilisées*.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-038.png["DPG - liaisons montantes d'équipe"]
+
+====
 . Répétez ce processus pour chaque hôte ESXi du cluster.
 
 
@@ -42,11 +70,46 @@ Créez un adaptateur VMkernel sur chaque hôte ESXi dans le domaine de charge de
 
 .Étapes
 . À partir du client vSphere, accédez à l’un des hôtes ESXi dans l’inventaire du domaine de charge de travail. Dans l'onglet *Configurer*, sélectionnez *Adaptateurs VMkernel* et cliquez sur *Ajouter un réseau...* pour démarrer.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-asa-030.png["Démarrer l'assistant d'ajout de réseau"]
+
+====
 . Dans la fenêtre *Sélectionner le type de connexion*, choisissez *Adaptateur réseau VMkernel* et cliquez sur *Suivant* pour continuer.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-asa-008.png["Choisir l'adaptateur réseau VMkernel"]
+
+====
 . Sur la page *Sélectionner le périphérique cible*, choisissez l’un des groupes de ports distribués pour NFS qui a été créé précédemment.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-039.png["Choisissez le groupe de ports cible"]
+
+====
 . Sur la page *Propriétés du port*, conservez les valeurs par défaut (aucun service activé) et cliquez sur *Suivant* pour continuer.
 . Sur la page *Paramètres IPv4*, renseignez l'*adresse IP*, le *masque de sous-réseau* et fournissez une nouvelle adresse IP de passerelle (uniquement si nécessaire). Cliquez sur *Suivant* pour continuer.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-040.png["Paramètres IPv4 de VMkernel"]
+
+====
 . Vérifiez vos sélections sur la page *Prêt à terminer* et cliquez sur *Terminer* pour créer l'adaptateur VMkernel.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-041.png["Examiner les sélections VMkernel"]
+
+====
 
 
 

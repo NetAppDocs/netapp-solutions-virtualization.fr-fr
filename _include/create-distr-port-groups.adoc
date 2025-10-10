@@ -2,36 +2,47 @@
 :allow-uri-read: 
 
 
-. Depuis le client vSphere, accédez à *Inventaire > Réseau* pour le domaine de charge de travail.  Accédez au commutateur distribué existant et choisissez l'action pour créer *Nouveau groupe de ports distribués...*.
+. Depuis le client vSphere, accédez à *Inventaire > Réseau* pour le domaine de charge de travail. Accédez au commutateur distribué existant et choisissez l'action pour créer un nouveau *Groupe de ports distribués...*.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-022.png["Choisissez de créer un nouveau groupe de ports"]
 
-+
-{nbsp}
-
-. Dans l'assistant *Nouveau groupe de ports distribués*, saisissez un nom pour le nouveau groupe de ports et cliquez sur *Suivant* pour continuer.
+====
+. Dans l'assistant *Nouveau groupe de ports distribués*, saisissez un nom pour le nouveau groupe de ports, puis cliquez sur *Suivant* pour continuer.
 . Sur la page *Configurer les paramètres*, remplissez tous les paramètres. Si des VLAN sont utilisés, assurez-vous de fournir l'ID VLAN correct. Cliquez sur *Suivant* pour continuer.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-023.png["Remplissez l'ID VLAN"]
 
-+
-{nbsp}
-
+====
 . Sur la page *Prêt à terminer*, vérifiez les modifications et cliquez sur *Terminer* pour créer le nouveau groupe de ports distribués.
 . Répétez ce processus pour créer un groupe de ports distribués pour le deuxième réseau iSCSI utilisé et assurez-vous d'avoir saisi le *ID VLAN* correct.
 . Une fois les deux groupes de ports créés, accédez au premier groupe de ports et sélectionnez l'action *Modifier les paramètres...*.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-024.png["DPG - modifier les paramètres"]
 
-+
-{nbsp}
-
+====
 . Sur la page *Groupe de ports distribués - Modifier les paramètres*, accédez à *Teaming et basculement* dans le menu de gauche et cliquez sur *uplink2* pour le déplacer vers *Liaisons montantes inutilisées*.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-025.png["déplacer la liaison montante 2 vers la zone inutilisée"]
 
+====
 . Répétez cette étape pour le deuxième groupe de ports iSCSI.  Cependant, cette fois, déplacez *uplink1* vers *Liaisons montantes inutilisées*.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-026.png["déplacer la liaison montante 1 vers la liaison inutilisée"]
 
+====
 

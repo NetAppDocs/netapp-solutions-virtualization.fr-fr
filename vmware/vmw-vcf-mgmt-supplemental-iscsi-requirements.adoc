@@ -14,7 +14,7 @@ summary: Passez en revue les exigences pour l’ajout d’une banque de données
 
 
 [role="lead"]
-Passez en revue les exigences d’ajout de banques de données iSCSI en tant que stockage supplémentaire à un domaine de gestion VMware Cloud Foundation (VCF).  Pour déployer des vVols iSCSI dans un domaine de gestion VMware Cloud Foundation, vous avez besoin d'un système de stockage ONTAP AFF ou ASA entièrement configuré et d'un domaine de gestion VCF déployé.
+Passez en revue les exigences d’ajout de banques de données iSCSI en tant que stockage supplémentaire à un domaine de gestion VMware Cloud Foundation (VCF).
 
 
 

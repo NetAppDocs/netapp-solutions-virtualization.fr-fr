@@ -29,33 +29,37 @@ Les ONTAP tools for VMware vSphere sont déployés en tant qu’appliance VM et 
 . Connectez-vous à l’appliance vCenter pour le domaine de gestion VCF.
 . Depuis l'interface de l'appliance vCenter, cliquez avec le bouton droit sur le cluster de gestion et sélectionnez *Déployer le modèle OVF…*
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-aff-021.png["Déployer le modèle OVF..."]
 
+====
+. Dans l'assistant *Déployer le modèle OVF*, cliquez sur le bouton radio *Fichier local* et sélectionnez le fichier OVA des outils ONTAP que vous avez téléchargé à l'étape précédente.
 +
-{nbsp}
-
-. Dans l'assistant *Déployer le modèle OVF*, cliquez sur le bouton radio *Fichier local* et sélectionnez le fichier OVA des outils ONTAP téléchargé à l'étape précédente.
-+
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-aff-022.png["Sélectionnez le fichier OVA"]
 
-+
-{nbsp}
-
+====
 . Pour les étapes 2 à 5 de l’assistant, sélectionnez un nom et un dossier pour la machine virtuelle, sélectionnez la ressource de calcul, vérifiez les détails et acceptez le contrat de licence.
 . Pour l'emplacement de stockage des fichiers de configuration et de disque, sélectionnez la banque de données vSAN du cluster de domaine de gestion VCF.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-aff-023.png["Sélectionnez le fichier OVA"]
 
-+
-{nbsp}
-
+====
 . Sur la page *Sélectionner un réseau*, sélectionnez le réseau utilisé pour le trafic de gestion.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-aff-024.png["Sélectionnez le réseau"]
 
-+
-{nbsp}
-
+====
 . Sur la page *Personnaliser le modèle*, saisissez toutes les informations requises :
 +
 ** Mot de passe à utiliser pour l'accès administratif aux outils ONTAP .
@@ -70,12 +74,15 @@ image:vmware-vcf-aff-024.png["Sélectionnez le réseau"]
 
 . Cliquez sur *Suivant* pour continuer.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-aff-025.png["Personnaliser le modèle OTV 1"]
 
-+
 image:vmware-vcf-asa-035.png["Personnaliser le modèle OTV 2"]
 
-. Vérifiez toutes les informations sur la page *Prêt à terminer* et cliquez sur *Terminer* pour commencer à déployer l'appliance des outils ONTAP .
+====
+. Vérifiez toutes les informations sur la page *Prêt à terminer*, puis cliquez sur *Terminer* pour commencer à déployer l'appliance des outils ONTAP .
 
 
 
@@ -90,26 +97,36 @@ NOTE: vVol nécessite des informations d'identification de cluster ONTAP plutôt
 .Étapes
 . Dans le client vSphere, accédez au menu principal et sélectionnez * Outils NetApp ONTAP *.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-014.png["Accéder aux outils ONTAP"]
 
+====
 . Une fois dans * Outils ONTAP *, depuis la page de démarrage (ou depuis * Systèmes de stockage*), cliquez sur * Ajouter * pour ajouter un nouveau système de stockage.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-015.png["Ajouter un système de stockage"]
 
-+
-{nbsp}
-
+====
 . Fournissez l'adresse IP et les informations d'identification du système de stockage ONTAP et cliquez sur *Ajouter*.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-016.png["Fournir l'adresse IP et les informations d'identification du système ONTAP"]
 
-+
-{nbsp}
-
+====
 . Cliquez sur *Oui* pour autoriser le certificat de cluster et ajouter le système de stockage.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-017.png["Autoriser le certificat de cluster"]
 
+====
 
 
 
@@ -120,6 +137,13 @@ Suivez les étapes suivantes pour déployer une banque de données ONTAP exécut
 
 .Étapes
 . Dans les outils ONTAP , sélectionnez *Aperçu* et dans l'onglet *Mise en route*, cliquez sur *Provision* pour démarrer l'assistant.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-asa-041.png["Provisionner le magasin de données"]
+
+====
 . Sur la page *Général* de l'assistant Nouveau magasin de données, sélectionnez la destination du centre de données ou du cluster vSphere.
 . Sélectionnez *NFS* comme type de banque de données, entrez un nom pour la banque de données et sélectionnez le protocole.
 . Choisissez si vous souhaitez utiliser des volumes FlexGroup et si vous souhaitez utiliser un fichier de capacité de stockage pour le provisionnement.
@@ -128,9 +152,37 @@ Suivez les étapes suivantes pour déployer une banque de données ONTAP exécut
 
 NOTE: La sélection de *Distribuer les données de la banque de données sur le cluster* créera le volume sous-jacent en tant que volume FlexGroup , ce qui empêche l'utilisation de profils de capacité de stockage. Se référer à https://docs.netapp.com/us-en/ontap/flexgroup/supported-unsupported-config-concept.html["Configurations prises en charge et non prises en charge pour les volumes FlexGroup"^] pour plus d'informations sur l'utilisation des volumes FlexGroup .
 
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-042.png["Page générale"]
+
+====
 . Sur la page *Système de stockage*, sélectionnez un profil de capacité de stockage, le système de stockage et le SVM. Cliquez sur *Suivant* pour continuer.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-043.png["Système de stockage"]
+
+====
 . Sur la page *Attributs de stockage*, sélectionnez l’agrégat à utiliser, puis cliquez sur *Suivant* pour continuer.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-044.png["Attributs de stockage"]
+
+====
 . Consultez le *Résumé* et cliquez sur *Terminer* pour commencer à créer la banque de données NFS.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-045.png["Résumé et conclusion de l'examen"]
+
+====
 
 
 
@@ -141,14 +193,56 @@ Pour créer une banque de données vVols dans les outils ONTAP , procédez comme
 
 .Étapes
 . Dans les outils ONTAP , sélectionnez *Vue d'ensemble* et dans l'onglet *Mise en route*, cliquez sur *Provision* pour démarrer l'assistant.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-asa-041.png["Provisionner le magasin de données"]
+
+====
 . Sur la page *Général* de l'assistant Nouveau magasin de données, sélectionnez la destination du centre de données ou du cluster vSphere.
 . Sélectionnez * vVols* comme type de banque de données, entrez un nom pour la banque de données et sélectionnez * NFS * comme protocole.
 . Cliquez sur *Suivant* pour continuer.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-046.png["Page générale"]
+
+====
 . Sur la page *Système de stockage*, sélectionnez un profil de capacité de stockage, le système de stockage et le SVM.
 . Cliquez sur *Suivant* pour continuer.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-043.png["Système de stockage"]
+
+====
 . Sur la page *Attributs de stockage*, sélectionnez *Créer un nouveau volume* et saisissez les attributs de stockage du volume à créer.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-047.png["Attributs de stockage"]
+
+====
 . Cliquez sur *Ajouter* pour créer le volume, puis sur *Suivant* pour continuer.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-048.png["Attributs de stockage - Suivant"]
+
+====
 . Consultez la page *Résumé* et cliquez sur *Terminer* pour démarrer le processus de création de la banque de données vVol.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:vmware-vcf-aff-049.png["Page de résumé"]
+
+====
 
 
 

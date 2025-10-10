@@ -19,35 +19,39 @@ Configurez le stockage NVMe/TCP vVols dans un domaine de charge de travail VMwar
 .Étapes
 . Dans le client vSphere, accédez à l’un des hôtes ESXi du cluster de domaine de charge de travail. Dans le menu *Actions*, sélectionnez *Stockage > Nouvelle banque de données...*.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-104.png["Ajouter un adaptateur NVMe/TCP"]
 
-+
-{nbsp}
-
+====
 . Dans l'assistant *Nouveau magasin de données*, sélectionnez *VMFS* comme type. Cliquez sur *Suivant* pour continuer.
 . Sur la page *Sélection du nom et du périphérique*, indiquez un nom pour le magasin de données et sélectionnez l'espace de noms NVMe dans la liste des périphériques disponibles.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-105.png["Sélection du nom et de l'appareil"]
 
-+
-{nbsp}
-
+====
 . Sur la page *Version VMFS*, sélectionnez la version de VMFS pour la banque de données.
 . Sur la page *Configuration de la partition*, apportez les modifications souhaitées au schéma de partition par défaut. Cliquez sur *Suivant* pour continuer.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-106.png["Configuration de la partition NVMe"]
 
-+
-{nbsp}
-
+====
 . Sur la page *Prêt à terminer*, examinez le résumé et cliquez sur *Terminer* pour créer la banque de données.
 . Accédez au nouveau magasin de données dans l’inventaire et cliquez sur l’onglet *Hôtes*. Si configuré correctement, tous les hôtes ESXi du cluster doivent être répertoriés et avoir accès au nouveau magasin de données.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-asa-107.png["Hôtes connectés au magasin de données"]
 
-+
-{nbsp}
-
+====
 
 
 

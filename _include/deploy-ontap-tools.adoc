@@ -6,33 +6,37 @@
 . Connectez-vous à l’appliance vCenter pour le domaine de gestion VCF.
 . Depuis l'interface de l'appliance vCenter, cliquez avec le bouton droit sur le cluster de gestion et sélectionnez *Déployer le modèle OVF…*
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-aff-021.png["Déployer le modèle OVF..."]
 
+====
+. Dans l'assistant *Déployer le modèle OVF*, cliquez sur le bouton radio *Fichier local* et sélectionnez le fichier OVA des outils ONTAP que vous avez téléchargé à l'étape précédente.
 +
-{nbsp}
-
-. Dans l'assistant *Déployer le modèle OVF*, cliquez sur le bouton radio *Fichier local* et sélectionnez le fichier OVA des outils ONTAP téléchargé à l'étape précédente.
-+
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-aff-022.png["Sélectionnez le fichier OVA"]
 
-+
-{nbsp}
-
+====
 . Pour les étapes 2 à 5 de l’assistant, sélectionnez un nom et un dossier pour la machine virtuelle, sélectionnez la ressource de calcul, vérifiez les détails et acceptez le contrat de licence.
 . Pour l'emplacement de stockage des fichiers de configuration et de disque, sélectionnez la banque de données vSAN du cluster de domaine de gestion VCF.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-aff-023.png["Sélectionnez le fichier OVA"]
 
-+
-{nbsp}
-
+====
 . Sur la page *Sélectionner un réseau*, sélectionnez le réseau utilisé pour le trafic de gestion.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-aff-024.png["Sélectionnez le réseau"]
 
-+
-{nbsp}
-
+====
 . Sur la page *Personnaliser le modèle*, saisissez toutes les informations requises :
 +
 ** Mot de passe à utiliser pour l'accès administratif aux outils ONTAP .
@@ -47,10 +51,13 @@ image:vmware-vcf-aff-024.png["Sélectionnez le réseau"]
 
 . Cliquez sur *Suivant* pour continuer.
 +
+.Afficher un exemple
+[%collapsible]
+====
 image:vmware-vcf-aff-025.png["Personnaliser le modèle OTV 1"]
 
-+
 image:vmware-vcf-asa-035.png["Personnaliser le modèle OTV 2"]
 
-. Vérifiez toutes les informations sur la page *Prêt à terminer* et cliquez sur *Terminer* pour commencer à déployer l'appliance des outils ONTAP .
+====
+. Vérifiez toutes les informations sur la page *Prêt à terminer*, puis cliquez sur *Terminer* pour commencer à déployer l'appliance des outils ONTAP .
 

@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vcf-mgmt-nfs-requirements.html 
+keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, array, ontap tools, otv, sddc, sddc manager, ontap tools, ontap tools 10 
+summary: Passez en revue les exigences de conversion d’un cluster vSphere 8 avec des banques de données NetApp ONTAP NFS en un domaine de gestion VMware Cloud Foundation. 
+---
+= Exigences de déploiement pour la conversion d'instances de serveur vCenter en domaines de gestion VCF à l'aide de banques de données NFS
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Passez en revue les exigences de conversion d’un cluster vSphere 8 avec des banques de données NetApp ONTAP NFS en un domaine de gestion VMware Cloud Foundation.
+
+Le processus de conversion nécessite un système de stockage AFF ou ASA , des SVM et des LIF pour le trafic FC, un zonage NFS sur les commutateurs, un cluster vSphere avec des hôtes ESXi et vCenter, et des segments de réseau dédiés pour vMotion.
+
+
+
+== Exigences en matière d'infrastructure
+
+Assurez-vous que les composants et configurations suivants sont en place.
+
+* Système de stockage NetApp AFF avec une machine virtuelle de stockage (SVM) configurée pour autoriser le trafic NFS.
+* Interface logique (LIF) créée sur le réseau IP pour transporter le trafic NFS et associée au SVM.
+* Un cluster vSphere avec 4 hôtes ESXi et une appliance vCenter colocalisée sur le cluster.
+* Groupe de ports distribués configuré pour le trafic de stockage vMotion et NFS sur les VLAN ou segments de réseau établis à cet effet.
+* Logiciel pour la conversion VCF. Pour les logiciels requis, accédez au https://support.broadcom.com/["Portail d'assistance Broadcom"] .
+* Prérequis pour les outils ONTAP .
++
+Pour obtenir des informations complètes sur les prérequis pour les outils ONTAP , reportez-vous à https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/prerequisites.html#system-requirements["Prérequis pour les ONTAP tools for VMware vSphere"] .
+
++
+Les ONTAP tools for VMware vSphere peuvent être installés dans des configurations HA ou non HA.
+
+
+
+
+
+== Ressources supplémentaires
+
+* Pour le stockage pris en charge et d'autres considérations pour la conversion ou l'importation de vSphere vers VCF 5.2, reportez-vous à https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf-admin.html["Considérations avant de convertir ou d'importer des environnements vSphere existants dans VMware Cloud Foundation"] .
+* Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] .
+* Pour plus d'informations sur la configuration de VCF, reportez-vous aulink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["Documentation de VMware Cloud Foundation 5.2"] .
+
+
+
+
+== Quelle est la prochaine étape ?
+
+Après avoir examiné les exigences de déploiement,link:vmw-vcf-mgmt-nfs-deploy.html["déployer les outils ONTAP et provisionner la banque de données NFS"] .
