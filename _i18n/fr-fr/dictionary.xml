@@ -1887,7 +1887,6 @@
   <block id="5858ee4031acd7b896faa2d3d2c1a299" category="inline-link">Documentation Cloud Insights</block>
   <block id="00911ced9034aa731093735d56a2e06c" category="paragraph">NetApp Cloud Insights est un outil de surveillance de l'infrastructure cloud qui vous offre une visibilité sur l'ensemble de votre infrastructure.  Avec Cloud Insights, vous pouvez surveiller, dépanner et optimiser toutes vos ressources, y compris vos clouds publics et vos centres de données privés.  Pour plus d'informations sur NetApp Cloud Insights, reportez-vous au<block ref="68693b67403a80c90005e9f7b1aea49c" category="inline-link-rx"></block> .</block>
   <block id="695d7a391bb9043561bcc3c254868311" category="inline-link-macro">Intégration de Cloud Insights</block>
-  <block id="cb637fe731d8f11e987efcc1f79cfb92" category="paragraph">Pour commencer à utiliser Cloud Insights, vous devez vous inscrire sur le portail NetApp BlueXP .  Pour plus de détails, reportez-vous à la<block ref="3eafb0740656ee40f537cc91680fcad7" category="inline-link-macro-rx"></block></block>
   <block id="ca2b06c0229201c6bba975ee591eaee2" category="inline-link-macro">tutoriels vidéo</block>
   <block id="f42ccee1558b3f9e0eae968dc12af1af" category="paragraph">Cloud Insights dispose de plusieurs fonctionnalités qui vous permettent de trouver rapidement et facilement des données, de résoudre les problèmes et de fournir des informations sur votre environnement.  Vous pouvez trouver facilement des données avec des requêtes puissantes, vous pouvez visualiser les données dans des tableaux de bord et envoyer des alertes par e-mail pour les seuils de données que vous définissez.  Se référer à la<block ref="641d67cbeba767c6e6b6cd386cc73a79" category="inline-link-macro-rx"></block> pour vous aider à comprendre ces fonctionnalités.</block>
   <block id="16c85c2f0f86fe481df1b62b9a61ca0a" category="paragraph">Pour que Cloud Insights commence à collecter des données, vous avez besoin des éléments suivants</block>
@@ -7733,4 +7732,6 @@
   <block id="28425bdbdef396f1aec8883562967014" category="sidebar">Convertir un cluster vSphere en VCF</block>
   <block id="ab5febdae5f3f0c5a30a718689093234" category="sidebar">Convertir un cluster vSphere avec des magasins de données FC</block>
   <block id="d8b72d69741e3404fbbca9934e6e1693" category="sidebar">Déployer les outils ONTAP et provisionner le datastore FC</block>
+  <block id="3c031b939f6ec312ee601d021e7a6644" category="inline-link-macro">NetApp Console</block>
+  <block id="4a6d449241d20161e4eaa333c42fc179" category="paragraph">Pour commencer à utiliser Cloud Insights, vous devez vous inscrire sur le <block ref="04ae21d04d9a279324faf4ed210bd5b7" category="inline-link-macro-rx"></block>. Pour plus de détails, reportez-vous à la <block ref="3eafb0740656ee40f537cc91680fcad7" category="inline-link-macro-rx"></block></block>
 </blocks>
