@@ -132,30 +132,30 @@ En résumé, libvirt fournit une couche de gestion complète pour les aspects in
 
 Les disques de la machine virtuelle peuvent être provisionnés dynamiquement sur un pool de stockage ou peuvent être pré-provisionnés pour la machine virtuelle par l'administrateur de stockage.  Il existe différents types de pools pris en charge par libvirt.  Voici la liste des types de pools applicables ainsi que le protocole de stockage pris en charge.  Le choix le plus courant est dir. Ensuite, netfs et logical. iscsi et iscsi-direct utilisent une cible unique et n'offrent pas de tolérance aux pannes. mpath fournit un multipath, mais n'est pas alloué dynamiquement.  Il est davantage utilisé comme mappage de périphériques bruts dans vSphere.  Pour les protocoles de fichiers (NFS/SMB/CIFS), les options de montage peuvent être spécifiées dans https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/managing_file_systems/mounting-file-systems-on-demand#the-autofs-service["monteur automatique"] ou le type de pool fstab et dir est utilisé.  Dans le cas de protocoles de blocs (iSCSI, FC, NVMe-oF), un système de fichiers partagé comme ocfs2 ou gfs2 est utilisé.
 
-[cols="20% 10% 10% 10% 10% 10% 10% 10%"]
+[cols="20%, 10%, 10%, 10%, 10%, 10%, 10%, 10%"]
 |===
-| Protocole de stockage | dir | fs | netfs | logique | disque | iscsi | iscsi-direct | chemin mpath 
+| Protocole de stockage | dir | fs | netfs | logique | disque | iscsi | iscsi-direct 
 
 
-| PME/CIFS | Oui | Non | Oui | Non | Non | Non | Non | Non 
+| chemin mpath | PME/CIFS | Oui | Non | Oui | Non | Non | Non 
 
 
-| NFS | Oui | Non | Oui | Non | Non | Non | Non | Non 
+| Non | Non | NFS | Oui | Non | Oui | Non | Non 
 
 
-| iSCSI | Oui | Oui | Non | Oui | Oui | Oui | Oui | Oui 
+| Non | Non | Non | iSCSI | Oui | Oui | Non | Oui 
 
 
-| FC | Oui | Oui | Non | Oui | Oui | Non | Non | Oui 
+| Oui | Oui | Oui | Oui | FC | Oui | Oui | Non 
 
 
-| NVMe-oF | Oui | Oui | Non | Oui | Oui | Non | Non | Non^1^ 
+| Oui | Oui | Non | Non | Oui | NVMe-oF | Oui | Oui 
 |===
 *Remarques :* 1 - Une configuration supplémentaire peut être requise.
 
 En fonction du protocole de stockage utilisé, des packages supplémentaires doivent être disponibles sur l'hôte.  Voici la liste d'échantillons.
 
-[cols="40% 20% 20% 20%"]
+[cols="40%, 20%, 20%, 20%"]
 |===
 | Protocole de stockage | Feutre | Debian | Pac-Man 
 

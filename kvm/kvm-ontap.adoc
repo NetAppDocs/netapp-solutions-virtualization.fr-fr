@@ -122,29 +122,32 @@ En substance, l’utilisation de Libvirt avec ONTAP vous permet de combiner la f
 
 Les pools de stockage de type dir et netfs sont applicables au stockage basé sur des fichiers.
 
-[cols="20% 10% 10% 10% 10% 10% 10% 10%"]
+[cols="30%, 10%, 10% ,10%, 10%, 10,% 10%, 10%"]
 |===
-| Protocole de stockage | dir | fs | netfs | logique | disque | iscsi | iscsi-direct | chemin mpath 
+| Protocole de stockage | dir | fs | netfs | logique | disque | iscsi 
 
 
-| PME/CIFS | Oui | Non | Oui | Non | Non | Non | Non | Non 
+| iscsi-direct | chemin mpath | PME/CIFS | Oui | Non | Oui | Non 
 
 
-| NFS | Oui | Non | Oui | Non | Non | Non | Non | Non 
+| Non | Non | Non | Non | NFS | Oui | Non 
 |===
 Avec netfs, libvirt montera le système de fichiers et les options de montage prises en charge sont limitées.  Avec le pool de stockage dir, le montage du système de fichiers doit être géré en externe sur l'hôte. fstab ou automounter peuvent être utilisés à cette fin.  Pour utiliser automounter, le package autofs doit être installé.  Autofs est particulièrement utile pour monter des partages réseau à la demande, ce qui peut améliorer les performances du système et l'utilisation des ressources par rapport aux montages statiques dans fstab.  Il démonte automatiquement les partages après une période d'inactivité.
 
 En fonction du protocole de stockage utilisé, validez que les packages requis sont installés sur l'hôte.
 
-[cols="40% 20% 20% 20%"]
+[cols="40%, 20,% 20%, 20%"]
 |===
-| Protocole de stockage | Feutre | Debian | Pac-Man 
+| Protocole de stockage | Feutre | Debian 
 
 
-| PME/CIFS | samba-client/cifs-utils | smbclient/cifs-utils | smbclient/cifs-utils 
+| Pac-Man | PME/CIFS | samba-client/cifs-utils 
 
 
-| NFS | utilitaires nfs | nfs-commun | utilitaires nfs 
+| smbclient/cifs-utils | smbclient/cifs-utils | NFS 
+
+
+| utilitaires nfs | nfs-commun | utilitaires nfs 
 |===
 NFS est un choix populaire en raison de sa prise en charge native et de ses performances sous Linux, tandis que SMB est une option viable pour l'intégration avec les environnements Microsoft.  Vérifiez toujours la matrice de support avant de l'utiliser en production.
 
@@ -241,7 +244,7 @@ Un type de pool de répertoires est souvent utilisé sur un système de fichiers
 
 Validez que l'hôte dispose des packages nécessaires installés en fonction du protocole de stockage utilisé.
 
-[cols="40% 20% 20% 20%"]
+[cols="40%, 20%, 20%, 20%"]
 |===
 | Protocole de stockage | Feutre | Debian | Pac-Man 
 

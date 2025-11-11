@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-monitor.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox 
+summary: 'Utilisez le tableau de bord de surveillance des tâches de Shift Toolkit pour suivre en temps réel les opérations de migration, de conversion et de planification, permettant ainsi aux administrateurs d"identifier rapidement l"état des tâches et de résoudre les problèmes.' 
+---
+= Surveillez les tâches de migration avec le tableau de bord Shift Toolkit
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Utilisez le tableau de bord de surveillance des tâches de Shift Toolkit pour suivre en temps réel les opérations de migration, de conversion et de conception, ce qui vous permet d'identifier rapidement l'état des tâches et de résoudre les problèmes.
+
+
+
+== Tableau de bord de suivi des tâches
+
+Le tableau de bord de suivi des tâches offre une vue centralisée de toutes les opérations actives et terminées au sein de la boîte à outils Shift Toolkit.  Utilisez ce tableau de bord pour suivre l'avancement de vos tâches de migration, de conversion et de conception.
+
+image::shift-toolkit-190.png[Tableau de bord de suivi des tâches affichant les tâches actives dans Shift Toolkit]
+
+Le tableau de bord affiche les informations clés pour chaque tâche :
+
+* Type de tâche (migration, conversion ou plan directeur)
+* État actuel (en cours d'exécution, réussi, échoué ou partiellement échoué)
+* Indicateurs de progrès et pourcentage d'achèvement
+* Nombre de machines virtuelles traitées
+* Heures de début et de fin
+
+
+
+
+== Comprendre le statut professionnel
+
+L'interface intuitive permet d'évaluer rapidement l'état de toutes les opérations et d'identifier les tâches qui requièrent une attention particulière.
+
+image::shift-toolkit-191.png[Détails de l'état des tâches dans le tableau de bord Shift Toolkit]
+
+Les indicateurs d'état des tâches vous aident à comprendre le résultat de chaque opération :
+
+* *Réussite* : Toutes les machines virtuelles de la tâche ont été exécutées sans erreur.
+* Échec : La tâche a rencontré des erreurs et n'a pas pu se terminer.
+* *Échec partiel* : Certaines machines virtuelles ont fonctionné correctement, tandis que d’autres ont rencontré des erreurs.
+* *En cours* : Le travail est actuellement en cours.
+
+
+Utilisez les informations d'état pour prioriser les efforts de dépannage et garantir des flux de travail de migration fluides.

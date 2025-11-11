@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-san.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox 
+summary: 'Migrez les machines virtuelles des banques de données SAN vers le NAS avant de les convertir avec Shift Toolkit, en utilisant VMware Storage vMotion et Hyper-V Storage Live Migration pour maintenir la continuité de l"activité.' 
+---
+= Migrez les machines virtuelles depuis des environnements SAN pour les convertir avec Shift Toolkit.
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Migrez les machines virtuelles des banques de données SAN vers le NAS avant de les convertir avec Shift Toolkit, en utilisant VMware Storage vMotion et Hyper-V Storage Live Migration pour maintenir la continuité de l'activité.
+
+
+
+== Configuration requise pour les machines virtuelles basées sur un SAN
+
+Le kit d'outils Shift Toolkit exige que les machines virtuelles résident dans un environnement NAS (NFS pour VMware ESXi) avant la conversion.  Si vos machines virtuelles sont actuellement stockées sur des banques de données SAN utilisant iSCSI, Fibre Channel (FC), Fibre Channel over Ethernet (FCoE) ou NVMe over Fibre Channel (NVMe/FC), vous devez d'abord les migrer vers une banque de données NFS.
+
+
+
+== Flux de travail de migration pour les environnements SAN
+
+Le diagramme suivant illustre le flux de travail complet de migration des machines virtuelles stockées dans un environnement SAN.
+
+image::shift-toolkit-260.png[Diagramme de flux de migration illustrant le déplacement de machines virtuelles du SAN vers le NAS et inversement.]
+
+Le processus de migration se compose de trois phases principales :
+
+.Migration d'un SAN vers un NAS (environnement VMware)*
+Utilisez VMware vSphere Storage vMotion pour migrer les machines virtuelles et leurs disques du datastore SAN vers un datastore NFS.  Cette opération peut être effectuée sans interruption de service de la machine virtuelle.
+
+.Convertissez les machines virtuelles avec Shift Toolkit*
+Une fois les machines virtuelles installées sur la banque de données NFS, Shift Toolkit utilise la technologie NetApp FlexClone pour les convertir de VMware ESXi vers Hyper-V. Les machines virtuelles converties et leurs disques sont ensuite placés sur un partage CIFS accessible par l'hôte Hyper-V.
+
+.Migrer vers un SAN (environnement Hyper-V)*
+Après la conversion, utilisez Hyper-V Storage Live Migration pour déplacer les machines virtuelles converties et leurs disques du partage CIFS vers un volume partagé de cluster (CSV) compatible SAN.  Cela vous permet de maintenir votre infrastructure SAN dans l'environnement Hyper-V.
+
+
+
+== Gestion des problèmes de compatibilité du processeur
+
+Lors de la migration en direct de machines virtuelles entre des nœuds dotés de capacités de processeur différentes, la migration peut échouer en raison de contrôles de compatibilité des processeurs.
+
+Pour résoudre ce problème :
+
+. Activez l'option « Migrer vers un ordinateur physique doté d'un processeur différent » dans Hyper-V.
+. Utilisez le script de compatibilité processeur disponible dans le bloc de script Shift Toolkit pour configurer les machines virtuelles en vue d'une migration interprocesseur.
+
+
+Ce paramètre permet aux machines virtuelles de migrer entre des hôtes dotés de processeurs aux caractéristiques différentes tout en maintenant la compatibilité.

@@ -1,0 +1,349 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-settings.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox 
+summary: 'Configurez les paramètres avancés de Shift Toolkit pour gérer l"authentification CredSSP, activer la journalisation et le débogage, accéder aux API REST et configurer les notifications par e-mail pour les tâches de migration.' 
+---
+= Configurez les paramètres avancés dans Shift Toolkit
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Configurez les paramètres avancés de Shift Toolkit pour gérer l'authentification CredSSP, activer la journalisation et le débogage, accéder aux API REST et configurer les notifications par e-mail pour les tâches de migration.
+
+Accédez aux paramètres avancés en cliquant sur l'icône *Paramètres* dans la barre d'outils supérieure.
+
+image::shift-toolkit-250.png[Icône Paramètres dans la barre d'outils Shift Toolkit]
+
+
+
+== Fournisseur de services de sécurité des identifiants (CredSSP)
+
+Le Shift Toolkit utilise Credential Security Service Provider (CredSSP) pour gérer les transferts d'identifiants pendant le processus de conversion.  Le serveur Shift exécute des scripts sur le système d'exploitation invité de la machine virtuelle en cours de conversion, en transmettant les informations d'identification via un « double saut » du serveur Shift au système d'exploitation invité via le serveur Hyper-V.
+
+image::shift-toolkit-251.png[paramètres de configuration de CredSSP]
+
+
+
+=== Configurez le serveur Shift en tant que client CredSSP
+
+L'assistant Paramètres avancés configure automatiquement le serveur Shift en tant que client CredSSP, lui permettant de déléguer des informations d'identification aux serveurs Hyper-V.
+
+
+
+==== Dans les coulisses
+
+L'outil Shift Toolkit exécute les commandes et configurations de stratégie suivantes pour s'établir en tant que client :
+
+*Commandes exécutées :*
+
+* `Set-Item WSMan:\localhost\Client\TrustedHosts -Value "fqdn-of-hyper-v-host"`
+* `Enable-WSManCredSSP -Role client -DelegateComputer "fqdn-of-hyper-v-host"`
+
+
+*Stratégie de groupe configurée :*
+
+* Configuration ordinateur > Modèles d'administration > Système > Délégation des informations d'identification > Autoriser la délégation de nouvelles informations d'identification avec l'authentification serveur NTLM uniquement
++
+Activez cette stratégie et ajoutez `wsman/fqdn-of-hyper-v-host` .
+
+
+
+
+
+=== Configurez le serveur Hyper-V en tant que serveur CredSSP.
+
+Utilisez le `Enable-WSManCredSSP` cmdlet sur le serveur Hyper-V pour le configurer en tant que serveur CredSSP, lui permettant de recevoir des informations d'identification du serveur Shift.
+
+.Étapes
+. Sur l'hôte Hyper-V où les machines virtuelles seront provisionnées par le serveur Shift Toolkit, ouvrez une session Windows PowerShell en tant qu'administrateur.
+. Exécutez les commandes suivantes :
++
+[listing]
+----
+Enable-PSRemoting
+Enable-WSManCredSSP -Role server
+----
+
+
+
+
+== Journalisation et débogage
+
+Le kit d'outils Shift inclut une journalisation par défaut avec une période de conservation de 30 jours.  Le mode de débogage de la journalisation peut être activé sur demande du support technique à des fins de dépannage.
+
+image::shift-toolkit-252.png[Paramètres de configuration de la journalisation]
+
+
+
+== fanfaronnade
+
+La page Swagger dans les paramètres avancés vous permet d'interagir avec les API REST de Shift Toolkit.
+
+image::shift-toolkit-253.png[Interface de documentation de l'API Swagger]
+
+L'API REST de Shift Toolkit offre un accès programmatique aux fonctionnalités de migration, de conversion et d'automatisation.  Les API sont organisées par flux de travail fonctionnel pour vous aider à trouver rapidement les ressources dont vous avez besoin pour des tâches spécifiques.
+
+image::shift-toolkit-254.png[catégories de ressources API]
+
+
+
+=== API d'authentification et de configuration
+
+Utilisez ces API pour établir des connexions, gérer les utilisateurs et configurer l'authentification du serveur Shift Toolkit.
+
+*Session*
+
+Gérer l'authentification des utilisateurs et obtenir des jetons d'autorisation pour les requêtes API :
+
+* Démarrer une session
+* Valider une session
+* Récupérer tous les identifiants de session
+* Terminer une session
+
+
+*Utilisateur*
+
+Gérer les comptes utilisateurs et les autorisations :
+
+* Ajouter un utilisateur
+* Obtenir tous les utilisateurs
+* Modifier le mot de passe utilisateur
+* Accepter le CLUF
+
+
+*CredSSP*
+
+Configurer le fournisseur de services de sécurité des informations d'identification pour la délégation des informations d'identification :
+
+* Activer CredSSP
+* Obtenir le statut CredSSP
+
+
+*Connecteur*
+
+Gérer les connexions aux composants d'infrastructure :
+
+* Ajouter un connecteur
+* Obtenez des détails sur tous les connecteurs
+* Mettre à jour les détails du connecteur par ID
+* Obtenir les détails du connecteur par ID
+
+
+*Locataire*
+
+Gérer les configurations multi-locataires :
+
+* Ajouter un locataire
+* Récupérez tous les locataires
+
+
+
+
+=== API de gestion d'infrastructure
+
+Utilisez ces API pour configurer et découvrir vos environnements source et cible.
+
+*Site*
+
+Gérer les sites de migration et leurs environnements virtuels et de stockage associés :
+
+* Obtenez le nombre de sites
+* Obtenez tous les détails du site
+* Ajouter un site
+* Obtenir les détails du site par identifiant
+* Supprimer un site par ID
+* Ajouter un environnement virtuel à un site
+* Ajouter un environnement de stockage à un site
+* Obtenez les détails de l'environnement virtuel d'un site
+* Mettre à jour les détails de l'environnement virtuel d'un site
+* Supprimer les détails de l'environnement virtuel d'un site
+* Obtenez des informations sur l'environnement de stockage d'un site.
+* Mettre à jour les détails de l'environnement de stockage d'un site
+* Supprimer les détails de l'environnement de stockage d'un site
+
+
+*Découverte*
+
+Découvrir et inventorier les machines virtuelles et les ressources sur les sites source et cible :
+
+* Découvrir le site source
+* Obtenez toutes les demandes de découverte pour le site source
+* Découvrir le site cible
+* Obtenez toutes les demandes de découverte pour le site cible
+* Obtenez les étapes de découverte pour le site source par ID
+* Obtenez les étapes de découverte pour le site cible par ID
+
+
+
+
+=== API de gestion des machines virtuelles et des ressources
+
+Utilisez ces API pour inventorier, organiser et gérer les machines virtuelles et les ressources en vue de leur migration.
+
+*VM*
+
+Interroger et gérer des machines virtuelles :
+
+* Obtenir des machines virtuelles pour un site et un environnement virtuel dans la source
+* Obtenez des machines virtuelles non protégées pour un site et un environnement virtuel
+* Obtenir le nombre de machines virtuelles
+* Obtenir le nombre de machines virtuelles protégées
+
+
+*Ressource*
+
+Afficher l'utilisation et la disponibilité des ressources :
+
+* Obtenez des détails sur les ressources d'un site et d'un environnement virtuel
+* Obtenir le nombre de ressources du site source
+
+
+*Groupe de ressources*
+
+Organisez les machines virtuelles en groupes de protection pour la migration :
+
+* Obtenir le nombre de groupes de protection
+* Obtenez tous les détails du groupe de protection
+* Ajouter un groupe de protection
+* Obtenez les détails du groupe de protection par identifiant
+* Supprimer un groupe de protection par son ID
+* Mettre à jour les détails du groupe de protection par ID
+* Récupérer les machines virtuelles d'un groupe de protection par ID
+* Obtenez des plans contenant le groupe de protection
+
+
+
+
+=== API de migration et de récupération
+
+Utilisez ces API pour exécuter des migrations, surveiller la conformité et gérer les opérations de récupération.
+
+*Plan*
+
+Définir et gérer les plans de migration :
+
+* Obtenez le nombre de plans
+* Obtenez tous les détails du plan
+* Ajouter un plan
+* Obtenez les détails du plan par identifiant
+* Supprimer le plan par son ID
+* Mise à jour des détails du plan pour l'identification
+* Obtenir les machines virtuelles d'un plan
+* Obtenir l'état d'alimentation des machines virtuelles présentes dans le plan
+
+
+*Conformité*
+
+Vérifiez la préparation et la compatibilité avant la migration :
+
+* Obtenir le résultat du contrôle de conformité pour un plan
+* Obtenir le statut final du contrôle de conformité pour un plan
+* Ajouter un contrôle de conformité à la demande pour un plan
+
+
+*Exécution*
+
+Surveiller l'exécution des tâches de migration et de conversion :
+
+* Obtenez tous les détails d'exécution
+* Obtenez des détails sur l'exécution en cours
+* Obtenir le nombre d'exécutions
+* Obtenir le nombre d'exécutions en cours
+* Obtenir les étapes pour l'ID d'exécution
+
+
+*Récupération*
+
+Exécuter et gérer les opérations de migration et de récupération :
+
+* Ajouter une nouvelle requête d'exécution pour un plan
+* Ajouter une requête de nouvelle tentative d'exécution pour un blueprint
+* Obtenir l'état d'exécution de tous les plans
+* Obtenir l'état d'exécution pour l'ID du plan
+
+
+
+
+=== API d'automatisation
+
+Utilisez ces API pour étendre et automatiser les fonctionnalités de Shift Toolkit.
+
+*Bloc de script*
+
+Accéder aux scripts d'automatisation et les exécuter :
+
+* Obtenir toutes les métadonnées des scripts
+* Récupérer les métadonnées du script par son ID
+* Obtenir toutes les métadonnées d'actualisation
+* Exécuter le script
+
+
+
+
+== Bloc de script et automatisation
+
+Le bloc de script du Shift Toolkit fournit des exemples de code pour vous aider à automatiser, intégrer et développer des fonctionnalités à l'aide d'API internes et externes.  Parcourez et téléchargez des exemples dans la section Exemples de code, rédigés par l'équipe d'automatisation de Shift Toolkit et les membres de la communauté.  Utilisez ces exemples pour démarrer vos tâches d'automatisation, de gestion ou d'intégration.
+
+image::shift-toolkit-255.png[interface de bloc de script]
+
+image::shift-toolkit-256.png[Exemples de code disponibles]
+
+L'exemple suivant illustre un script PowerShell qui supprime une tâche spécifique dans l'interface utilisateur de Shift Toolkit.  Bien que cette fonctionnalité ne soit pas accessible via le flux de travail standard, elle peut être mise en œuvre à l'aide du bloc de script.  Le script est également disponible sous forme de script batch, facile à télécharger et à exécuter.
+
+image::shift-toolkit-257.png[Exemple de script PowerShell pour la suppression de tâches]
+
+L'objectif du bloc de script est de fournir des exemples de scripts pour les opérations initiales et continues sur des hyperviseurs spécifiques utilisant les API du Shift Toolkit et les API publiées respectives de l'hyperviseur.
+
+L'objectif du bloc de script est de fournir des exemples de scripts pour les opérations initiales et continues sur des hyperviseurs spécifiques utilisant les API du Shift Toolkit et les API publiées respectives de l'hyperviseur.
+
+
+
+== notifications et alertes par e-mail
+
+Configurez les notifications par e-mail pour envoyer des alertes concernant les tâches de découverte, de conversion ou de migration aux destinataires spécifiés.  Les notifications d'interface utilisateur (alertes au sein de l'interface) sont également disponibles et conservées pendant 7 jours.
+
+Accédez aux paramètres de notification par e-mail via Paramètres > Paramètres de la plateforme > Configuration des e-mails.
+
+.Étapes
+. Connectez-vous à l'interface utilisateur de Shift Toolkit.
+. Accédez à Paramètres > Paramètres de la plateforme.
+. Sélectionnez Notifications par e-mail et mettez à jour les paramètres SMTP :
++
+** Adresse du serveur SMTP
+** Port
+** Nom d'utilisateur
+** Mot de passe
+
+
+. Mettez à jour le champ du destinataire et sélectionnez les événements parmi les catégories disponibles.
+. Cliquez sur *Appliquer*.
+
+
+image::shift-toolkit-258.png[paramètres de configuration des notifications par e-mail]
+
+La capture d'écran montre le détail pour chaque catégorie de notification et événement.
+
+
+NOTE: Dans cette version, la notification par e-mail utilise l'authentification SMTP de base et SendGrid.  Une version ultérieure prendra en charge l'authentification moderne.
+
+
+NOTE: Dans cette version, la notification par e-mail utilise l'authentification SMTP de base et SendGrid.  Une version ultérieure prendra en charge l'authentification moderne.
+
+
+
+== Fonctionnalités d'annulation et de restauration
+
+L'outil Shift Toolkit offre la possibilité d'annuler une tâche en cours à n'importe quelle étape du flux de travail.  Lorsqu'une tâche est annulée, tous les composants orphelins sont automatiquement supprimés, notamment :
+
+* Mise hors tension des machines virtuelles sur l'hyperviseur si elles étaient allumées.
+* Suppression des entrées de disque de l'arbre de requêtes approprié
+* Suppression des revendications de volume persistantes (PVC)
+
+
+Étant donné que Shift Toolkit ne modifie en aucune façon la machine virtuelle source, la restauration est simple : il suffit de mettre sous tension la machine virtuelle source.  Aucune autre action de restauration n'est requise.

@@ -4,7 +4,7 @@ title: Solutions de migration de machines virtuelles
 url: "/migration/index.html"
 entries:
 - title: Utilisez Shift Toolkit pour migrer ou convertir des machines virtuelles
-  pdf-filename: Utilisez Shift Toolkit pour migrer ou convertir des machines virtuelles
+  pdf-filename: Guide d'utilisation de Shift Toolkit
   entries:
   - title: À propos de Shift Toolkit
     url: "/migration/shift-toolkit-overview.html"
@@ -13,9 +13,27 @@ entries:
   - title: Configurer Shift Toolkit
     url: "/migration/shift-toolkit-ui.html"
   - title: Migrer des machines virtuelles à l'aide de Shift Toolkit
-    url: "/migration/shift-toolkit-migration.html"
+    entries:
+    - title: Aperçu
+      url: "/migration/shift-toolkit-migration.html"
+    - title: Migrer des machines virtuelles de VMware ESXi vers Microsoft Hyper-V
+      url: "/migration/shift-toolkit-migrate-esxi2hyperv.html"
+    - title: Migrer des machines virtuelles de Microsoft Hyper-V vers VMware ESXi
+      url: "/migration/shift-toolkit-migrate-hyperv2esxi.html"
+    - title: Migration des machines virtuelles de VMware ESXi vers Red Hat OpenShift
+        Virtualization
+      url: "/migration/shift-toolkit-migrate-esxi2osv.html"
+    - title: Migration des machines virtuelles de VMware ESXi vers Oracle Linux Virtualization
+        Manager (OLVM)
+      url: "/migration/shift-toolkit-migrate-esxi2olvm.html"
   - title: Convertir des machines virtuelles à l'aide de Shift Toolkit
     url: "/migration/shift-toolkit-conversion.html"
+  - title: Surveillance et tableau de bord
+    url: "/migration/shift-toolkit-monitor.html"
+  - title: Paramètres avancés
+    url: "/migration/shift-toolkit-settings.html"
+  - title: Migration depuis des environnements SAN
+    url: "/migration/shift-toolkit-san.html"
   - title: Prochaines étapes
     url: "/migration/shift-toolkit-summary.html"
 - title: Migrer des machines virtuelles vers ONTAP
