@@ -7946,11 +7946,6 @@
   <block id="1facd068da39e1bf7d7e5a544f626c65" category="list-text">Déclencher des instantanés de machine virtuelle pour le modèle à la source</block>
   <block id="29fd6f4750e7b933e938884fffc25da5" category="list-text">Mettez sous tension les machines virtuelles du groupe de protection sur la cible</block>
   <block id="2a1a26bc619017344dc5b9b7e958804f" category="list-text">Supprimez VMware Tools et attribuez des adresses IP à l'aide de scripts de déclenchement ou de tâches cron, selon le type de système d'exploitation.</block>
-  <block id="c76ea8983c3a55a70b23de3fa5b413fd" category="paragraph">Les machines virtuelles doivent être mises hors tension correctement pendant la fenêtre de maintenance planifiée.  Avant de lancer la migration, vérifiez que toutes les conditions préalables sont remplies :</block>
-  <block id="99573373f032c22be6aa58ab65dff2d9" category="list-text">Assurez-vous que la machine virtuelle Shift Toolkit fait partie du domaine</block>
-  <block id="b8bd13b1cdb16bb62bd27dab0cc399d8" category="list-text">Vérifiez que le qtree utilisé pour la migration ou la conversion possède le style de sécurité approprié.</block>
-  <block id="2bc4cbd7afcf7c95865d637266313c07" category="list-text">Créez une machine virtuelle de test à l'aide du Gestionnaire Hyper-V depuis n'importe quel hôte Hyper-V du cluster et placez le fichier VHDx sur le partage CIFS.</block>
-  <block id="90e27a49f647299890af53c04b750b85" category="list-text">Testez la création d'une machine virtuelle à partir de la machine virtuelle Shift Toolkit en ajoutant des outils de gestion Hyper-V à l'aide de Programmes et fonctionnalités ou de PowerShell :<block ref="a0f83f1a0348c0e6f7032dc3b247ecbf" prefix=" " category="inline-code"></block></block>
   <block id="15f5783455648e1798d7dfb81ef15b1e" category="section-title">Conseils et considérations relatifs au réseau</block>
   <block id="3f4c9c4460717d5de6edda4628be4030" category="paragraph">Lors de la planification de votre migration, tenez compte des exigences et comportements réseau suivants.  L'outil Shift Toolkit copie automatiquement les paramètres réseau des machines virtuelles sources et les réapplique aux machines virtuelles migrées, mais la dénomination des interfaces et les configurations des cartes réseau peuvent varier entre les systèmes Windows et Linux.</block>
   <block id="a12934d86bf9a6485e2118f57091c312" category="list-title">Exigences générales</block>
@@ -8057,12 +8052,7 @@
   <block id="6f8fb0a98f1a5ce00a33fe46f14dadf3" category="paragraph">Le diagramme suivant illustre le flux de travail complet de migration des machines virtuelles stockées dans un environnement SAN.</block>
   <block id="5a6713c6db95639be9360147457e362d" category="image-alt">Diagramme de flux de migration illustrant le déplacement de machines virtuelles du SAN vers le NAS et inversement.</block>
   <block id="19e36a66de22c564af02cb3b376f2bdb" category="paragraph">Le processus de migration se compose de trois phases principales :</block>
-  <block id="7e8e2f36bf540ee01063cd8222584161" category="paragraph-title">Migration d'un SAN vers un NAS (environnement VMware)*</block>
   <block id="5ba0cdc7d5b0343e9cab5b793f279a77" category="paragraph">Utilisez VMware vSphere Storage vMotion pour migrer les machines virtuelles et leurs disques du datastore SAN vers un datastore NFS.  Cette opération peut être effectuée sans interruption de service de la machine virtuelle.</block>
-  <block id="c286b5e422075c01da80477de77489b5" category="paragraph-title">Convertissez les machines virtuelles avec Shift Toolkit*</block>
-  <block id="18e24c111186a4241855f6cda6342917" category="paragraph">Une fois les machines virtuelles installées sur la banque de données NFS, Shift Toolkit utilise la technologie NetApp FlexClone pour les convertir de VMware ESXi vers Hyper-V. Les machines virtuelles converties et leurs disques sont ensuite placés sur un partage CIFS accessible par l'hôte Hyper-V.</block>
-  <block id="be685bf5d2853279999d24ce20ae633e" category="paragraph-title">Migrer vers un SAN (environnement Hyper-V)*</block>
-  <block id="3a1559f648048b6194473fff565382be" category="paragraph">Après la conversion, utilisez Hyper-V Storage Live Migration pour déplacer les machines virtuelles converties et leurs disques du partage CIFS vers un volume partagé de cluster (CSV) compatible SAN.  Cela vous permet de maintenir votre infrastructure SAN dans l'environnement Hyper-V.</block>
   <block id="a55c5d632b929176a47d17980054a1e1" category="section-title">Gestion des problèmes de compatibilité du processeur</block>
   <block id="f22ef0f9f9009bf76cb5446738c5633f" category="paragraph">Lors de la migration en direct de machines virtuelles entre des nœuds dotés de capacités de processeur différentes, la migration peut échouer en raison de contrôles de compatibilité des processeurs.</block>
   <block id="4d76376d1fdfa802843702a2b8cfb46f" category="paragraph">Pour résoudre ce problème :</block>
@@ -8279,4 +8269,10 @@
   <block id="c0863c498eaa64dd2a5c733b6398ee72" category="sidebar">Migration des machines virtuelles de VMware ESXi vers Oracle Linux Virtualization Manager (OLVM)</block>
   <block id="08220a43248d1ba1b88418efb8f95640" category="sidebar">Surveillance et tableau de bord</block>
   <block id="820e55a9dc8a6560f61b34f7fcfb3044" category="sidebar">Migration depuis des environnements SAN</block>
+  <block id="849beccf26e1a892be3294671fc9091c" category="paragraph">Migrez les machines virtuelles des datastores SAN vers le NAS avant de les convertir avec Shift Toolkit, en utilisant VMware Storage vMotion et Storage Live Migration pour maintenir la continuité des activités.</block>
+  <block id="332d5a3a53b682cf522efd104929f670" category="paragraph-title">Migration d'un SAN vers un NAS (environnement VMware)</block>
+  <block id="82909e7cc2324a036d56875ad4616492" category="paragraph-title">Convertissez les machines virtuelles avec le kit d'outils Shift</block>
+  <block id="b03b448779a771783f7b05ae88457a85" category="paragraph">Une fois les machines virtuelles installées sur la banque de données NFS, Shift Toolkit utilise la technologie NetApp FlexClone pour convertir les machines virtuelles de VMware ESXi vers n'importe quel hyperviseur. Les machines virtuelles converties et leurs disques sont placés sur un qtree accessible par l'hôte hyperviseur respectif.</block>
+  <block id="28bed22cb4d0030cf58eb18a11ba3f8e" category="paragraph-title">Migrer vers SAN</block>
+  <block id="8fb14a772174f772115b35707d3c4a41" category="paragraph">Après la conversion, utilisez la migration de stockage pour déplacer les machines virtuelles converties et leurs disques de l'arborescence qtree vers un volume compatible SAN. Cela vous permet de maintenir votre infrastructure SAN dans l'environnement hyperviseur respectif.</block>
 </blocks>
