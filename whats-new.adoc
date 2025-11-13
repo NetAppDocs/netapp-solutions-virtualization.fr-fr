@@ -15,6 +15,21 @@ Découvrez les nouveautés en matière de solutions de virtualisation.
 
 
 
+== 12 novembre 2025
+
+* J'ai fourni les liens de téléchargement corrects pour le kit d'outils NetApp Shift.
+* Ajout de solutions de migration pour NetApp Shift Toolkit
++
+** link:migration/shift-toolkit-migrate-esxi2hyperv.html["Migrez des machines virtuelles de VMware ESXi vers Microsoft Hyper-V à l'aide du kit d'outils Shift."]
+** link:migration/shift-toolkit-migrate-esxi2olvm.html["Migrer les machines virtuelles de VMware ESXi vers Oracle Linux Virtualization Manager"]
+** link:migration/shift-toolkit-migrate-esxi2osv.html["Migration des machines virtuelles de VMware ESXi vers Red Hat OpenShift Virtualization"]
+** link:migration/shift-toolkit-migrate-hyperv2esxi.html["Migrez des machines virtuelles de Microsoft Hyper-V vers VMware ESXi à l'aide du kit d'outils Shift."]
+
+
+
+
+
+
 == 18 août 2025
 
 Le site NetApp Solutions est désormais lelink:https://docs.netapp.com/us-en/netapp-solutions-family/index.html["Famille de solutions NetApp"^] , qui comprend les sites suivants :

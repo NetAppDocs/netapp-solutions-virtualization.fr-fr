@@ -22,17 +22,20 @@ Configurer Shift Toolkit pour automatiser la migration ou la conversion des mach
 
 * Utilisez le navigateur pour accéder à l'interface utilisateur de Shift Toolkit en saisissant le `http://<IP address specified during installation>:3001`
 +
-Remarque : Pour une expérience optimale, utilisez Google Chrome ou Internet Explorer.
+
+NOTE: Utilisez Google Chrome ou Internet Explorer pour une meilleure expérience.
 
 * Accédez à l'interface utilisateur en utilisant les identifiants par défaut suivants : Nom d'utilisateur : admin Mot de passe : admin
 +
 image::shift-toolkit-050.png[Diagramme de l'écran de connexion de NetApp Shift Toolkit]
 
 +
-Remarque : Les administrateurs sont tenus de modifier leurs identifiants lors de la première connexion.
+
+NOTE: Les administrateurs sont tenus de modifier leurs identifiants lors de leur première connexion.
 
 +
-Remarque : après la modification obligatoire du mot de passe, les identifiants d’administrateur peuvent également être modifiés à l’aide de l’option « Modifier le mot de passe » après s’être connecté à l’interface graphique.
+
+NOTE: Après la modification obligatoire du mot de passe, les identifiants d'administrateur peuvent également être modifiés à l'aide de l'option « Changer le mot de passe » après s'être connecté à l'interface graphique.
 
 +
 image::shift-toolkit-051.png[Diagramme de l'écran de changement de mot de passe de NetApp Shift Toolkit]
@@ -59,7 +62,8 @@ La première étape consiste à découvrir et à ajouter les détails de l'hyper
 
 image::shift-toolkit-053.png[Boîte de dialogue Ajouter des sites de Shift Toolkit]
 
-Remarque : Il est également possible d’ajouter des sites via l’option Découvrir.
+
+NOTE: Les sites peuvent également être ajoutés à l'aide de l'option Découvrir.
 
 Ajoutez les plateformes suivantes :
 
@@ -105,9 +109,11 @@ image::shift-toolkit-055.png[Boîte de dialogue « Ajouter un nouveau site » 
 
 Une fois ajouté, Shift Toolkit effectuera une découverte automatique et affichera les machines virtuelles ainsi que les informations de métadonnées pertinentes. L'outil Shift détectera automatiquement les réseaux et les VLAN utilisés par les machines virtuelles et les renseignera.
 
-Remarque : Si des modifications sont apportées au site source, assurez-vous d'exécuter la recherche pour récupérer les informations les plus récentes.  Pour cela, il suffit de cliquer sur les trois points en regard du nom du site, puis de cliquer sur « Découvrir le site ».
 
-Remarque : L'inventaire des machines virtuelles est automatiquement actualisé toutes les 24 heures.
+NOTE: Si des modifications sont apportées au site source, assurez-vous d'exécuter la découverte pour récupérer les informations les plus récentes. Pour cela, il suffit de cliquer sur les trois points en regard du nom du site, puis de cliquer sur « Découvrir le site ».
+
+
+NOTE: L'inventaire de la machine virtuelle est actualisé automatiquement toutes les 24 heures.
 
 image::shift-toolkit-056.png[Boîte de dialogue Ajouter un nouveau site de Shift Toolkit pour découvrir un site]
 
@@ -160,7 +166,8 @@ Sélectionnez « Accepter le certificat auto-signé ».
 * Une fois terminé, cliquez sur « Créer un site ».
 
 
-Remarque : Le système de stockage source et le système de stockage de destination doivent être identiques, car la conversion du format de disque s'effectue au niveau du volume et au sein du même volume.
+
+NOTE: Le système de stockage source et de destination doit être le même, car la conversion du format de disque se produit au niveau du volume et dans le même volume.
 
 image::shift-toolkit-060.png[Boîte de dialogue Ajouter un site de Shift Toolkit pour les détails de la destination]
 
@@ -172,7 +179,8 @@ L’étape suivante consiste à regrouper les machines virtuelles requises dans 
 
 Une fois les plateformes ajoutées, regroupez les machines virtuelles que vous souhaitez migrer ou convertir en groupes de ressources.  Les groupes de ressources de la boîte à outils Shift vous permettent de regrouper un ensemble de machines virtuelles dépendantes en groupes logiques contenant leurs ordres de démarrage et leurs délais de démarrage.
 
-Remarque : assurez-vous que les Qtrees sont provisionnés (comme indiqué dans la section des prérequis) avant de créer les groupes de ressources.
+
+NOTE: Assurez-vous que les Qtrees sont provisionnés (comme mentionné dans la section prérequise) avant de créer les groupes de ressources.
 
 Pour commencer à créer des groupes de ressources, cliquez sur l'élément de menu « Créer un nouveau groupe de ressources ».
 
@@ -193,16 +201,19 @@ image::shift-toolkit-062.png[Boîte de dialogue de l'interface utilisateur Crée
 . Cliquez sur « Continuer »
 . Sélectionnez les machines virtuelles appropriées à l’aide de l’option de recherche. L'option de filtre par défaut est « Datastore ».
 +
-Remarque : Déplacez les machines virtuelles à convertir ou à migrer vers un datastore désigné sur une SVM ONTAP nouvellement créée avant la conversion. Cela permet d'isoler le magasin de données NFS de production et le magasin de données désigné peut être utilisé pour la préparation des machines virtuelles.
+
+NOTE: Déplacez les machines virtuelles à convertir ou à migrer vers une banque de données désignée sur une SVM ONTAP nouvellement créée avant la conversion. Cela permet d'isoler le magasin de données NFS de production et le magasin de données désigné peut être utilisé pour la préparation des machines virtuelles.
 
 +
-Remarque : Dans un environnement OpenShift, les VMDK doivent être déplacés vers leurs volumes correspondants afin de reproduire la structure PVC (Persistent Volume Claim) à l’aide du pilote de stockage ONTAP NAS.  Dans les prochaines versions, des améliorations supplémentaires seront intégrées pour tirer parti du pilote économique ONTAP NAS.
+
+NOTE: Dans un environnement OpenShift, les VMDK doivent être déplacés vers leurs volumes correspondants afin de répliquer la structure PVC (Persistent Volume Claim) à l'aide du pilote de stockage ONTAP NAS. Dans les prochaines versions, des améliorations supplémentaires seront intégrées pour tirer parti du pilote économique ONTAP NAS.
 
 +
 image::shift-toolkit-063.png[Boîte de dialogue de l'interface utilisateur Créer un nouveau groupe de ressources]
 
 +
-Remarque : Dans ce contexte, la liste déroulante des banques de données n'affichera que les banques de données NFSv3. Les banques de données NFSv4 ne seront pas affichées.
+
+NOTE: La liste déroulante du magasin de données dans ce contexte affichera uniquement les magasins de données NFSv3. Les banques de données NFSv4 ne seront pas affichées.
 
 +
 image::shift-toolkit-064.png[Boîte de dialogue de l'interface utilisateur Créer un nouveau groupe de ressources]
@@ -212,13 +223,16 @@ image::shift-toolkit-064.png[Boîte de dialogue de l'interface utilisateur Crée
 image::shift-toolkit-065.png[Boîte de dialogue de l'interface utilisateur Créer un nouveau groupe de ressources]
 
 +
-Remarque : lors de la conversion des machines virtuelles, assurez-vous que le chemin de destination (où sont stockées les machines virtuelles converties) est défini sur un qtree.  Définissez le chemin de destination vers l'arbre qtree approprié.
+
+NOTE: Lors de la conversion des machines virtuelles, assurez-vous que le chemin de destination (où sont stockées les machines virtuelles converties) est défini sur un qtree. Définissez le chemin de destination vers l'arbre qtree approprié.
 
 +
-Remarque : Plusieurs qtrees peuvent être créés et utilisés pour stocker les disques de VM convertis.
+
+NOTE: Plusieurs qtrees peuvent être créés et utilisés pour stocker les disques VM convertis en conséquence.
 
 +
-Remarque : Les machines virtuelles peuvent s’exécuter sur des datastores étendus, et Shit toolkit les détectera automatiquement ; toutefois, un qtree doit être mappé pour chaque volume.
+
+NOTE: Les machines virtuelles peuvent s'exécuter sur des datastores étendus, et Shit toolkit les détectera automatiquement ; toutefois, un qtree doit être mappé pour chaque volume.
 
 +
 Possibilité de migrer des machines virtuelles avec des VMDK étendus sur plusieurs volumes. L'interface utilisateur de l'outil Shift sélectionne automatiquement tous les volumes étendus qui font partie d'une ou plusieurs machines virtuelles sélectionnées pour ce groupe de ressources spécifique.  Cette page listera tous les volumes présents sur le RG où nous effectuons le mappage datastore – qtree.
@@ -235,7 +249,8 @@ image::shift-toolkit-067.png[Boîte de dialogue de l'interface utilisateur Crée
 image::shift-toolkit-068.png[Boîte de dialogue de l'interface utilisateur Créer un nouveau groupe de ressources]
 
 +
-Remarque : Si vous devez modifier le groupe de ressources pour ajouter ou supprimer des machines virtuelles, utilisez cette option en regard du nom du groupe de ressources et sélectionnez « Modifier le groupe de ressources ».
+
+NOTE: Si vous devez modifier le groupe de ressources pour ajouter ou supprimer des machines virtuelles, utilisez cette option en regard du nom du groupe de ressources et sélectionnez « Modifier le groupe de ressources ».
 
 
 
@@ -266,14 +281,16 @@ image::shift-toolkit-071.png[Boîte de dialogue de l'interface utilisateur Crée
 image::shift-toolkit-072.png[Boîte de dialogue de l'interface utilisateur Créer de nouveaux plans]
 
 +
-Remarque : pour les tests de migration, l’option « Ne pas configurer le réseau » est sélectionnée par défaut et Shift Toolkit n’effectue pas d’attribution d’adresse IP.  Une fois le disque converti et la machine virtuelle achetée côté hyperviseur respectif, assignez manuellement les commutateurs réseau de type bulle pour éviter tout conflit avec le réseau de production.
+
+NOTE: Pour la migration de test, l'option « Ne pas configurer le réseau » est sélectionnée par défaut et Shift Toolkit n'effectue aucune attribution d'adresse IP. Une fois le disque converti et la machine virtuelle achetée côté hyperviseur respectif, assignez manuellement les commutateurs réseau de type bulle pour éviter tout conflit avec le réseau de production.
 
 +
 image::shift-toolkit-073.png[Boîte de dialogue de l'interface utilisateur Créer de nouveaux plans]
 
 . En fonction de la sélection des machines virtuelles, les mappages de stockage seront automatiquement sélectionnés.
 +
-Remarque : assurez-vous que le qtree est provisionné au préalable et que les autorisations nécessaires sont attribuées afin que la machine virtuelle puisse être créée et mise sous tension.  Remarque : Dans le cas d’OpenShift, les PVC sont créés à l’aide de Trident CSI et il n’est pas nécessaire de pré-créer des qtrees.
+
+NOTE: Assurez-vous que le qtree est provisionné au préalable et que les autorisations nécessaires sont attribuées afin que la machine virtuelle puisse être créée et mise sous tension.  REMARQUE : Dans le cas d’OpenShift, les PVC sont créés à l’aide de Trident CSI et il n’est pas nécessaire de pré-créer des qtrees.
 
 . Sous les détails de la machine virtuelle, indiquez le compte de service et les informations d’identification utilisateur valides pour chaque type de système d’exploitation.  Ceci est utilisé pour se connecter à la machine virtuelle afin de créer et d'exécuter certains scripts nécessaires à la suppression des outils VMware et à la sauvegarde des détails de configuration IP.
 +
@@ -327,7 +344,8 @@ image::shift-toolkit-075.png[Boîte de dialogue de l'interface utilisateur du gr
 image::shift-toolkit-076.png[Boîte de dialogue de l'interface utilisateur du groupe de ressources]
 
 +
-Remarque : lors de la planification, choisissez une date qui est au moins 30 minutes avant l'heure actuelle de la machine virtuelle Shift. Cela permet de garantir que le flux de travail dispose de suffisamment de temps pour préparer les machines virtuelles au sein du groupe de ressources.
+
+NOTE: Lors de la planification, choisissez une date qui est au moins 30 minutes en avance sur l'heure actuelle de Shift VM. Cela permet de garantir que le flux de travail dispose de suffisamment de temps pour préparer les machines virtuelles au sein du groupe de ressources.
 
 . Une fois le plan créé, une tâche prepareVM est lancée et exécute automatiquement des scripts sur les machines virtuelles sources pour les préparer à la migration.
 +
@@ -346,10 +364,12 @@ image::shift-toolkit-078.png[Boîte de dialogue de l'interface utilisateur du gr
 image::shift-toolkit-079.png[Boîte de dialogue de l'interface utilisateur du groupe de ressources]
 
 +
-Remarque : Pour une machine virtuelle Linux exécutant CentOS ou Red Hat, Shift Toolkit installe automatiquement les pilotes Hyper-V nécessaires. Ces pilotes doivent être présents dans la machine virtuelle source avant la conversion du disque pour garantir que la machine virtuelle puisse démarrer avec succès après la conversion.
+
+NOTE: Pour une machine virtuelle source Linux exécutant CentOS ou Red Hat, la boîte à outils Shift est intelligente pour installer automatiquement les pilotes Hyper-V nécessaires. Ces pilotes doivent être présents dans la machine virtuelle source avant la conversion du disque pour garantir que la machine virtuelle puisse démarrer avec succès après la conversion.
 
 +
-Remarque : Pour plus d'informations, veuillez consulterlink:https://access.redhat.com/solutions/3465011["Système bloqué en dracut après la migration d'une VM RHEL vers hyper-v"] .
+
+NOTE: Pour plus d'informations, veuillez consulterlink:https://access.redhat.com/solutions/3465011["Système bloqué en dracut après la migration d'une VM RHEL vers hyper-v"] .
 
 +
 Une fois la tâche prepareVM terminée avec succès (comme indiqué dans la capture d'écran ci-dessous), les machines virtuelles sont prêtes pour la migration et l'état du plan sera mis à jour sur « Actif ».

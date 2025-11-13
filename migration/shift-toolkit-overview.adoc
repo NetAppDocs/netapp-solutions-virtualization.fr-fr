@@ -48,7 +48,7 @@ Shift Toolkit prend en charge les conversions au niveau du disque des disques vi
 
 image::shift-toolkit-001.png[Présentation du kit d'outils NetApp Shift]
 
-Le kit d'outils Shift peut être téléchargélink:https://mysupport.netapp.com/site/tools/tool-eula/vm-data-collector["ici"] et est disponible uniquement pour les systèmes Windows.
+Le kit d'outils Shift peut être téléchargélink:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["ici"] et est disponible uniquement pour les systèmes Windows.
 
 
 
