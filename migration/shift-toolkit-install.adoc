@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: migration/shift-toolkit-install.html 
 keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, hyper-v, proxmox 
-summary:  
+summary: Installez ou mettez à niveau le NetApp Shift Toolkit après avoir vérifié que votre environnement répond aux exigences de préparation et aux prérequis. 
 ---
-= Installez le kit d'outils NetApp Shift pour le stockage ONTAP
+= Installez ou mettez à niveau le kit d'outils NetApp Shift pour le stockage ONTAP.
 :allow-uri-read: 
 :nofooter: 
 :icons: font
@@ -13,281 +13,157 @@ summary:
 
 
 [role="lead"]
-Installez Shift Toolkit sur une machine virtuelle dédiée exécutant un système d’exploitation Windows, en utilisant des options d’installation en ligne ou hors ligne.  Ce processus implique l’examen des exigences d’installation, la configuration des machines virtuelles de stockage ONTAP (SVM), des qtrees et des partages CIFS, le téléchargement du package d’installation et l’exécution du programme d’installation.
+Installez ou mettez à niveau le NetApp Shift Toolkit après avoir vérifié que votre environnement répond aux exigences de préparation et aux prérequis.
 
 
 
-== Préparation de l'installation
+== Installez le kit d'outils de changement de vitesse
 
-Pour commencer à utiliser la boîte à outils, utilisez un système d'exploitation Windows sur une machine virtuelle dédiée et assurez-vous de respecter les prérequis, puis installez le package.
+Téléchargez et exécutez le programme d'installation pour configurer Shift Toolkit sur votre serveur Windows.
 
-Le kit d'outils Shift peut être exécuté sur les versions Windows 2019, 2022 et 2025. Téléchargez le package d'outils Shift depuislink:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["Coffre à outils NetApp"] Décompressez ensuite le package et exécutez le fichier exe pour installer et démarrer le service. Le kit d'outils Shift propose 2 packages : en ligne (environ 130 Mo) et hors ligne (environ 1,2 Go). Comme son nom l'indique, le package d'installation en ligne télécharge et installe les prérequis nécessaires depuis Internet.
-
-image::shift-toolkit-010.png[Diagramme illustrant la sélection de téléchargement de Shift Toolkit]
-
-Alors que l’installation en ligne offre une certaine commodité, l’installation hors ligne offre davantage de contrôle sur le processus d’installation.  Avec le package d'installation hors ligne, tous les prérequis nécessaires sont regroupés dans le package pour installer Shift Toolkit.  L’un des principaux avantages de l’installation hors ligne est qu’elle permet d’installer Shift Toolkit sur des machines virtuelles sans connexion Internet.
-
-
-TIP: Utilisez le package approprié pour le déploiement. Avec le mode hors ligne, il n'est pas nécessaire de modifier les paramètres proxy car tous les prérequis et fichiers requis sont regroupés.
-
-Shift Toolkit peut être installé sur une machine virtuelle exécutant VMware ou un serveur Microsoft Hyper-V à condition qu'il existe une connectivité entre les environnements source et cible, et il est recommandé d'installer Shift Toolkit sur sa propre machine virtuelle.  Cette approche vous permet de cibler différents serveurs Microsoft Hyper-V ou serveurs VMware ESXi avec un seul serveur Shift Toolkit.
-
-
-NOTE: Installez Shift Toolkit sur une machine virtuelle dédiée.
-
-
-
-== Prérequis
-
-
-
-=== Configuration matérielle requise
-
-Assurez-vous que l'hôte du serveur Shift répond aux exigences matérielles minimales.
-
-* Processeur – 4 vCPU
-* Mémoire – 8 Go minimum
-* Espace disque – minimum 100 Go
-
-
-
-NOTE: Vous devez disposer de 900 Mo d'espace disque disponible pour l'installation.
-
-
-
-=== Exigences de connectivité
-
-* Assurez-vous que l’hyperviseur et l’environnement de stockage sont configurés de manière à ce que la boîte à outils Shift puisse interagir correctement avec tous les composants de l’environnement.
-* Shift Toolkit doit être installé sur un serveur Windows autonome (physique ou virtuel).
-* Pour les migrations basées sur Hyper-V, le serveur Shift, le serveur Data ONTAP CIFS et les serveurs Hyper-V doivent se trouver sur le même domaine Windows Active Directory.
-* Plusieurs LIF pour CIFS et NFS sont pris en charge pour une utilisation avec la machine virtuelle de stockage lors des conversions de machines virtuelles. Le serveur Hyper-V et les hôtes ESXi accèdent à la machine virtuelle de stockage (SVM) en utilisant les adresses IP de ces LIF.
-* Pour les opérations CIFS, les paramètres d’heure du contrôleur de domaine Windows et du contrôleur de stockage NetApp doivent être synchronisés.
-
-
-
-
-=== Configurations de stockage ONTAP
-
-
-
-==== Créer un nouveau SVM (recommandé)
-
-Bien que la boîte à outils Shift permette l'utilisation d'une SVM existante, il s'agit d'une bonne pratique NetApp de créer une nouvelle SVM.  Déplacez les machines virtuelles à migrer ou à convertir vers une nouvelle banque de données NFS v3 désignée résidant sur une machine virtuelle de stockage Data ONTAP dédiée (SVM) à l'aide de Storage vMotion.  Cette migration basée sur svmotion est effectuée sans aucun temps d'arrêt pour la VM.  Avec cette approche, les machines virtuelles désignées pour être migrées ne résident pas sur la SVM de production.  Utilisez l’interface de ligne de commande ONTAP , la boîte à outils NetApp PowerShell ou System Manager pour créer la nouvelle SVM.
-
-Suivez les étapes indiquées dans ce lien pour configurer une nouvelle SVM prenant en charge les protocoles NFS et SMB.
-
-
-NOTE: Il est recommandé de créer un nouveau SVM pour s'assurer que le SVM répond aux exigences de la boîte à outils Shift sans avoir à modifier le SVM de production de manière à ce qu'il soit perturbateur.
-
-
-NOTE: Pour une migration bidirectionnelle entre VMware et Hyper-V, la nouvelle SVM doit avoir les protocoles NFS et SMB activés. Le volume provisionné doit également avoir NFS et SMB activés.
-
-
-
-==== Exigences de Qtree
-
-Un qtree doit être créé sur le volume qui sera utilisé pour héberger les machines virtuelles à convertir de VMware vers Hyper-V afin de séparer et de stocker les fichiers VHDX ou pour les fichiers qcow2 ou VHDX qui seront convertis à partir des VMDK.
-
-* Pour la conversion d'ESX vers Hyper-V, Shift Toolkit place les VHDX convertis sur un qtree (avec le style de sécurité NTFS) au sein du même volume.
-* Pour la conversion Hyper-V vers ESX, Shift Toolkit place les VMDK convertis sur un qtree (avec un style de sécurité UNIX) au sein du même volume.
-* Pour les conversions ESX VMDK vers QCOW2, un qtree avec un style de sécurité UNIX doit être utilisé.
-* Pour les conversions ESX VMDK vers RAW, il convient d'utiliser un qtree avec un style de sécurité UNIX.
-
-
-L'outil Shift ne vérifie pas le style de sécurité des qtrees.  Il est donc important de créer des qtrees avec le style de sécurité approprié en fonction de l'hyperviseur cible et du type de disque.
-
-
-NOTE: Le chemin de destination doit se trouver sur le même volume que la machine virtuelle source.
-
-
-NOTE: Attribuez le style de sécurité correct au qtree en fonction du type d’hyperviseur cible et du format de disque.
-
-
-NOTE: Si les fichiers qcow2 convertis sont destinés à être utilisés avec la virtualisation OpenShift, il existe une exception : ces fichiers peuvent être placés directement sur le volume sans utiliser de qtree. Pour ce faire, utilisez l'interface graphique de Shift Toolkit ou les API de Shift Toolkit pour convertir les fichiers VMDK au format qcow2 et les placer directement dans le volume.
-
-image::shift-toolkit-011.png[Diagramme du type d'arbre q à créer en fonction du type de migration]
-
-Suivez les étapes fournies dans celink:https://docs.netapp.com/us-en/ontap/nfs-config/create-qtree-task.html["lien"] pour créer un qtree avec le bon style de sécurité.
-
-image::shift-toolkit-012.png[Boîte de dialogue affichant le type d'arbre q à créer]
-
-
-
-==== Exigences relatives aux actions CIFS
-
-Pour les migrations Hyper-V, créez un partage où les données de la machine virtuelle convertie seront stockées. Assurez-vous que le partage NFS (utilisé pour stocker les machines virtuelles à convertir) et le partage de destination (utilisé pour stocker les machines virtuelles converties) résident sur le même volume.
-
-Suivez les étapes fournies dans celink:https://docs.netapp.com/us-en/ontap/smb-config/create-share-task.html["lien"] pour créer le partage avec les propriétés appropriées.  Assurez-vous de sélectionner la propriété de disponibilité continue avec les autres propriétés par défaut.
-
-image::shift-toolkit-013.png[Boîte de dialogue affichant le partage CIFS à créer]
-
-image::shift-toolkit-014.png[Boîte de dialogue affichant les résultats de la création d'actions CIFS]
-
-
-NOTE: SMB 3.0 doit être activé, il est activé par défaut.
-
-
-NOTE: Assurez-vous que la propriété disponible en continu est activée.
-
-
-NOTE: Les politiques d'exportation pour SMB doivent être désactivées sur la machine virtuelle de stockage (SVM)
-
-
-NOTE: Le domaine auquel appartiennent le serveur CIFS et les serveurs Hyper-V doit autoriser l’authentification Kerberos et NTLMv2.
-
-
-NOTE: ONTAP crée le partage avec l'autorisation de partage par défaut de Windows Tout le monde / Contrôle total.
-
-
-
-=== Systèmes d'exploitation pris en charge
-
-Assurez-vous que des versions prises en charge des systèmes d'exploitation invités Windows et Linux sont utilisées pour la conversion et que la boîte à outils Shift prend en charge la version d' ONTAP.
-
-
-
-=== Systèmes d'exploitation invités VM pris en charge
-
-Les versions suivantes de Windows sont prises en charge en tant que systèmes d’exploitation invités pour les conversions de machines virtuelles :
-
-* Windows 10
-* Windows 11
-* Windows Server 2016
-* Windows Server 2019
-* Windows Server 2022
-* Windows Server 2025
-
-
-Les versions suivantes de Linux sont prises en charge en tant que systèmes d’exploitation invités pour les conversions de machines virtuelles :
-
-* CentOS Linux 7.x
-* Alma Linux 7.x
-* Red Hat Enterprise Linux 7.2 ou version ultérieure
-* Red Hat Enterprise Linux 8.x
-* Red Hat Enterprise Linux 9.x
-* Ubuntu 2018
-* Ubuntu 2022
-* Ubuntu 2024
-* Debian 12
-* SuSe 12
-* SuSe 15
-
-
-
-NOTE: CentOS Linux/RedHat pour Red Hat Enterprise Linux 5 et 6 ne sont pas pris en charge.
-
-
-NOTE: Windows Server 2008 n'est pas pris en charge, mais le processus de conversion devrait fonctionner correctement. Procédez à vos propres risques ; cependant, nous avons reçu des rapports de clients qui ont utilisé avec succès la boîte à outils Shift pour convertir des machines virtuelles Windows 2008. Il est important de mettre à jour l’adresse IP après la migration, car la version PowerShell utilisée pour automatiser l’attribution IP n’est pas compatible avec l’ancienne version exécutée sur Windows Server 2008.
-
-
-
-=== Versions prises en charge de ONTAP
-
-Shift Toolkit prend en charge les plates-formes exécutant ONTAP 9.14.1 ou une version ultérieure
-
-
-
-=== Versions d'hyperviseurs prises en charge
-
-* Le kit d'outils VMware Shift est validé pour vSphere 7.0.3 et versions ultérieures.
-* Hyper-V – Shift toolkit est validé pour le rôle Hyper-V exécuté sur Windows Server 2019, Windows Server 2022 et Windows Server 2025.
-* OpenShift - Red Hat OpenShift et OpenShift Virtualization fonctionnant sous la version 4.17 et ultérieures
-* Oracle Linux KVM - Oracle Linux Virtualization Manager est >= 4.5
-* Le paquet RPM ovirt-engine-4.5.4-1.el8 ou une version supérieure est installé sur l'hôte Oracle Linux Virtualization Manager.
-
-
-
-NOTE: Dans la version actuelle, la migration de bout en bout des machines virtuelles est prise en charge uniquement avec Hyper-V, VMware, OpenShift et Oracle Virtualization.
-
-
-NOTE: Dans la version actuelle, pour KVM comme destination, la conversion VMDK vers qcow2 ou RAW est le seul flux de travail pris en charge. Par conséquent, si KVM est sélectionné dans la liste déroulante, les détails de l’hyperviseur ne sont pas requis. Le disque qcow2 peut être utilisé pour provisionner une machine virtuelle sur des variantes KVM.
-
-
-
-== Installation
-
-. Téléchargerlink:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["Boîte à outils de changement de vitesse"] Emballez-le et décompressez-le.
+.Étapes
+. Téléchargez le link:https://mysupport.netapp.com/site/tools/tool-eula/netapp-shift-toolkit["Boîte à outils Shift"] Emballez-le et décompressez-le.
 +
-image::shift-toolkit-015.png[Boîte de dialogue affichant les options de téléchargement de Shift Toolkit]
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-015.png[Options de téléchargement de Shift Toolkit]
 
-. Lancez l’installation de la boîte à outils Shift en double-cliquant sur le fichier .exe téléchargé.
+====
+. Double-cliquez sur le fichier .exe téléchargé pour lancer l'installation de Shift Toolkit.
 +
-image::shift-toolkit-016.png[Boîte de dialogue affichant le package Shift Toolkit à exécuter]
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-016.png[package d'installation de Shift Toolkit]
 
+====
 +
 
-NOTE: Toutes les vérifications préalables sont effectuées et si les exigences minimales ne sont pas respectées, des messages d'erreur ou d'avertissement appropriés sont affichés.
+NOTE: Tous les contrôles préalables sont effectués lors de l'installation. Si les exigences minimales ne sont pas respectées, des messages d'erreur ou d'avertissement appropriés s'affichent.
 
-. L'installateur commencera le processus d'installation.  Sélectionnez l’emplacement approprié ou utilisez l’emplacement par défaut et cliquez sur Suivant.
+. Sélectionnez l'emplacement d'installation ou utilisez l'emplacement par défaut et cliquez sur *Suivant*.
 +
-image::shift-toolkit-017.png[Boîte de dialogue affichant le dossier de destination de Shift Toolkit]
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-017.png[Dossier de destination de Shift Toolkit]
 
-. Le programme d'installation vous demandera de sélectionner l'adresse IP qui sera utilisée pour accéder à l'interface utilisateur de Shift Toolkit.
+====
+. Sélectionnez l'adresse IP qui sera utilisée pour accéder à l'interface utilisateur de Shift Toolkit.
 +
-image::shift-toolkit-018.png[Boîte de dialogue affichant l'adresse IP permettant de lancer Shift Toolkit]
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-018.png[Sélection de l'adresse IP pour Shift Toolkit]
 
-+
-
-NOTE: Le processus de configuration permet de sélectionner la bonne adresse IP à l'aide d'une option déroulante si la machine virtuelle est affectée à plusieurs cartes réseau.
-
-. À cette étape, le programme d’installation affiche tous les composants requis qui seront automatiquement téléchargés et installés dans le cadre du processus.  Voici les composants obligatoires qui doivent être installés pour le bon fonctionnement de Shift Toolkit : MongoDB, Windows PowerShell 7, NetApp ONTAP PowerShell Toolkit, l'éditeur de fichiers de stratégie, Credential Manage, le package VMware.PowerCLI et Java OpenJDK qui sont tous inclus dans le package.
-+
-Cliquez sur Suivant.
-
-+
-image::shift-toolkit-019.png[Boîte de dialogue affichant les paquets à installer]
-
-. Consultez les informations de licence JAVA OpenJDK GNU. Cliquez sur Suivant.
-+
-image::shift-toolkit-020.png[Boîte de dialogue affichant les informations de licence Java]
-
-. Conservez la valeur par défaut pour créer le raccourci sur le bureau et cliquez sur Suivant.
-+
-image::shift-toolkit-021.png[Boîte de dialogue affichant les options supplémentaires de Shift Toolkit]
-
-. Le programme d’installation est maintenant prêt à procéder à l’installation.  Cliquez sur Installer.
-+
-image::shift-toolkit-022.png[Boîte de dialogue affichant les options d'installation de Shift Toolkit]
-
-. L'installation démarre et le processus téléchargera les composants requis et les installera.  Une fois terminé, cliquez sur Terminer.
-+
-image::shift-toolkit-023.png[Boîte de dialogue affichant la progression de l'installation de Shift Toolkit]
-
-. L'outil Shift utilise par défaut un certificat auto-signé.  Acceptez l'invite relative au certificat et cliquez sur Suivant.
+====
 +
 
-NOTE: Le certificat peut être facilement remplacé par un certificat tiers ou un certificat généré par une autorité de certification. Il suffit de remplacer le certificat dans le dossier certs. Le dossier certs se trouve dans <répertoire d'installation>Stockage>Certs.
+NOTE: Si la machine virtuelle possède plusieurs cartes réseau, le processus d'installation vous permet de sélectionner l'adresse IP appropriée dans une liste déroulante.
+
+. Vérifiez les composants requis qui seront automatiquement téléchargés et installés, puis cliquez sur *Suivant*.
++
+Ces composants obligatoires sont nécessaires au bon fonctionnement de Shift Toolkit :
 
 +
-image::shift-toolkit-024.png[Boîte de dialogue affichant la sélection du certificat SSL de Shift Toolkit]
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-019.png[Paquets à installer]
 
-. Une fois cela fait, l'installation est terminée.
+====
+. Consultez les informations relatives à la licence GNU de Java OpenJDK et cliquez sur *Suivant*.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-020.png[Informations sur la licence Java]
 
+====
+. Conservez les paramètres par défaut pour la création d'un raccourci sur le bureau et cliquez sur *Suivant*.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-021.png[Options supplémentaires de la boîte à outils Shift]
 
+====
+. Cliquez sur *Installer* pour démarrer l'installation.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-022.png[Confirmation d'installation de Shift Toolkit]
 
-NOTE: Si la machine virtuelle Shift Toolkit ne dispose pas d'Internet, le programme d'installation hors ligne effectuera les mêmes étapes mais installera les composants à l'aide des packages inclus dans l'exécutable.
+====
+. Attendez que l'installation soit terminée. Le programme d'installation télécharge et installe tous les composants requis. Cliquez sur *Terminer* une fois terminé.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-023.png[progression de l'installation de Shift Toolkit]
 
-image::shift-toolkit-025.png[Boîte de dialogue affichant l'assistant Shift Toolkit]
-
+====
++
 
 NOTE: L'installation peut prendre 10 à 15 minutes.
 
+. Acceptez l'invite relative au certificat auto-signé et cliquez sur *Suivant*.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-024.png[Certificat SSL Shift Toolkit]
+
+====
++
+
+NOTE: Le certificat auto-signé peut être remplacé par un certificat tiers ou un certificat généré par une autorité de certification. Remplacez le certificat dans le dossier certs situé à l'emplacement suivant : `<installation directory>\Storage\Certs`.
 
 
-== Effectuer une mise à niveau
 
-Les mises à niveau sont désormais entièrement automatisées et peuvent être effectuées en un seul clic.  Un service supplémentaire permet des mises à niveau en toute transparence.  Le service de mise à jour de la boîte à outils Shit, qui écoute sur le port 3002, effectue les étapes suivantes :
+.Résultat
+L'installation de Shift Toolkit est terminée.
 
-. Téléchargez le package de mise à jour.
-. Service de boîte à outils Stop the Shift
-. Extraire les fichiers et remplacer les fichiers nécessaires.
-. Exécutez la mise à jour en utilisant la même adresse IP (en conservant les métadonnées telles quelles).
-. Une fois l'opération terminée, l'interface utilisateur est redirigée vers l'interface utilisateur de Shift Toolkit qui écoute sur le port 3001.
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-025.png[Assistant d'installation de Shift Toolkit terminé]
+
+====
+
+NOTE: Pour les machines virtuelles sans accès à Internet, le programme d'installation hors ligne effectue les mêmes étapes, mais installe les composants à l'aide des packages inclus dans l'exécutable.
 
 
-image::shift-toolkit-026.png[Boîte de dialogue affichant l'option de mise à niveau de Shift Toolkit]
+
+== Mettre à niveau le kit d'outils de changement de vitesse
+
+Les mises à niveau sont entièrement automatisées et peuvent être effectuées en un seul clic.
+
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-026.png[Option de mise à niveau de Shift Toolkit]
+
+====
+Le service de mise à jour de Shift Toolkit écoute sur le port 3002 et effectue les étapes suivantes :
+
+. Télécharge le package de mise à niveau
+. Arrête le service Shift Toolkit
+. Extrait les fichiers et écrase les fichiers requis
+. Effectue la mise à jour en utilisant la même adresse IP (en conservant les métadonnées).
+. Redirige l'interface utilisateur vers l'interface utilisateur de Shift Toolkit qui écoute sur le port 3001
 
 
-NOTE: Pour les déploiements sans connexion Internet, téléchargez manuellement le package de mise à niveau commençant par « update » depuis NetApp Toolchest et placez-le dans un dossier désigné (C:\NetApp_Shift). Ce chemin d'accès au dossier doit être créé et spécifié lors du processus de mise à jour. Toutes les autres étapes restent identiques à celles de la procédure de mise à niveau en ligne.
+.Pour les déploiements sans connexion Internet
+Téléchargez manuellement le package de mise à niveau (dont le nom de fichier commence par « update ») depuis NetApp Toolchest et placez-le dans le dossier désigné. `C:\NetApp_Shift`.
 
-image::shift-toolkit-027.png[Boîte de dialogue affichant l'option de mise à niveau de Shift Toolkit]
+Créez ce chemin d'accès s'il n'existe pas. Toutes les autres étapes restent identiques à la procédure de mise à niveau en ligne.
+
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-027.png[option de mise à niveau manuelle de Shift Toolkit]
+
+====
