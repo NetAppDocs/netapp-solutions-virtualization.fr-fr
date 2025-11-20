@@ -60,7 +60,7 @@ Les hôtes Proxmox VE doivent disposer d'interfaces FC, Ethernet ou autres prise
 
 *SAN*
 
-* Étirez le cluster sur les domaines de pannes avec la synchronisation active SnapMirror .
+* Étirez le cluster sur les domaines de pannes avec la synchronisation active SnapMirror . Vérifiez toujours https://mysupport.netapp.com/matrix/#welcome["Outil de matrice d'interopérabilité"] pour les configurations prises en charge.
 * Les modèles ASA offrent un multi-accès actif/actif et un basculement de chemin rapide.
 * Prise en charge des protocoles FC, iSCSI, NVMe-oF.
 * Prise en charge de l'authentification mutuelle iSCSI CHAP.
@@ -237,14 +237,7 @@ image:proxmox-ontap-009.png["Navigation dans le stockage NFS"]
 +
 image:proxmox-ontap-010.png["Ajout de stockage NFS"]
 
-. Pour la jonction de session, sur chaque hôte Proxmox VE, mettez à jour le fichier /etc/fstab pour monter la même exportation NFS en utilisant une adresse lif différente avec max_connect et l'option de version NFS.
-+
-image:proxmox-ontap-011.png["entrées fstab pour le tronc de session"]
-
-. Voici le contenu de /etc/pve/storage.cfg pour NFS.
-+
-image:proxmox-ontap-012.png["fichier de configuration de stockage pour NFS"]
-
+. Pour activer l'option nConnect, accédez à l'interface de ligne de commande sur l'un des nœuds du cluster et tapez pvesm set pvenfs01 --options nconnect=4 où pvenfs01 est l'identifiant de stockage créé à l'étape précédente. Notez que si vous prévoyez d'utiliser la fonctionnalité de trunking, assurez-vous d'utiliser au moins NFS v4.1 et de définir l'option trunkdiscovery. pvesm set pvenfs01 --options vers=4.1,trunkdiscovery
 
 
 ====

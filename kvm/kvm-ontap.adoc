@@ -63,7 +63,7 @@ Les hôtes KVM doivent disposer d'interfaces FC, Ethernet ou autres prises en ch
 
 *SAN*
 
-* Étirez le cluster sur les domaines de pannes avec la synchronisation active SnapMirror .
+* Étirez le cluster sur les domaines de pannes avec la synchronisation active SnapMirror . Vérifiez toujours https://mysupport.netapp.com/matrix/#welcome["Outil de matrice d'interopérabilité"] pour les configurations prises en charge.
 * Les modèles ASA offrent un multi-accès actif/actif et un basculement de chemin rapide.
 * Prise en charge des protocoles FC, iSCSI, NVMe-oF.
 * Prise en charge de l'authentification mutuelle iSCSI CHAP.
