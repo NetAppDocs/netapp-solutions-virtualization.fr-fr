@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: vmware/vmw-dr-gs.html 
-keywords: vmware, getting, started, overview, netapp, bluexp, disaster, recovery, draas 
+keywords: vmware, getting, started, overview, netapp, console, disaster, recovery 
 summary:  
 ---
-= En savoir plus sur la reprise après sinistre des machines virtuelles à l'aide de la BlueXP disaster recovery
+= Découvrez comment reprendre les activités de vos machines virtuelles après sinistre à l'aide de NetApp Disaster Recovery.
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-La BlueXP disaster recovery automatise la réplication et la récupération des machines virtuelles VMware à l'aide du stockage ONTAP .  Il prend en charge la récupération à partir d'une configuration sur site vers VMware Cloud sur AWS avec Amazon FSx for NetApp ONTAP ou un autre environnement VMware sur site.
+NetApp Disaster Recovery automatise la réplication et la récupération des machines virtuelles VMware à l'aide du stockage ONTAP . Il prend en charge la récupération à partir d'une configuration sur site vers VMware Cloud on AWS avec Amazon FSx for NetApp ONTAP ou un autre environnement VMware sur site.
 
 
 
@@ -22,9 +22,9 @@ La BlueXP disaster recovery automatise la réplication et la récupération des 
 
 Disposer d’un plan et d’une combinaison de technologies efficaces garantit la protection des données, des applications et des machines virtuelles critiques.  Le défi avec la DR est de déterminer le niveau de protection approprié et les coûts associés.
 
-Les baies ONTAP offrent une réplication intégrée pour transférer les données de volume, et donc les machines virtuelles résidant sur les LUN de banque de données désignés, d'un site à un autre. BlueXP DRaaS s'intègre à vSphere et automatise l'ensemble du flux de travail pour un basculement et une restauration transparents en cas de sinistre.
+Les baies ONTAP offrent une réplication intégrée pour transférer les données de volume, et donc les machines virtuelles résidant sur les LUN de la banque de données désignée, d'un site à un autre. NetApp Disaster Recovery s'intègre à vSphere et automatise l'ensemble du flux de travail pour un basculement et un retour à la normale transparents en cas de sinistre.
 
-Pour plus d'informations sur BlueXP DRaaS, consultezlink:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-overview.html["Présentation de BlueXP DRaaS"^] .
+Pour plus d'informations sur la NetApp Disaster Recovery, consultezlink:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-overview.html["Présentation de la NetApp Disaster Recovery"^] .
 
 
 
@@ -41,6 +41,6 @@ Pour concevoir une solution de reprise après sinistre, gardez à l’esprit les
 
 Pour plus d'informations techniques sur les solutions disponibles, veuillez consulter :
 
-* link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-nfs.html["DR avec BlueXP DRaaS pour les banques de données NFS"^]
-* link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-vmfs.html["DR avec BlueXP DRaaS pour les banques de données VMFS"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-nfs.html["Reprise après sinistre avec NetApp Disaster Recovery pour les datastores NFS"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-vmfs.html["Reprise après sinistre avec NetApp Disaster Recovery pour les datastores VMFS"^]
 

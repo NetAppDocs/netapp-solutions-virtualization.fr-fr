@@ -73,7 +73,7 @@ Les principales fonctionnalités de continuité des activités ONTAP incluent :
 ** Réplication des données avec SnapMirror: En tirant parti des copies instantanées, SnapMirror permet la réplication asynchrone et synchrone des données vers des sites distants ou des environnements cloud pour la reprise après sinistre
 ** MetroCluster: la technologie MetroCluster d'ONTAP fournit une réplication synchrone entre des sites géographiquement séparés, garantissant une perte de données nulle et une récupération rapide en cas de panne du site.
 ** Cloud Tiering : Cloud Tiering identifie automatiquement les données froides (données auxquelles on accède rarement) sur le stockage principal et les déplace vers un stockage d'objets à moindre coût, soit dans le cloud, soit sur site.
-** BlueXP DRaaS : NetApp BlueXP Disaster Recovery as a Service (DRaaS) est une solution complète conçue pour fournir des capacités de reprise après sinistre robustes aux entreprises, garantissant la protection des données, une récupération rapide et la continuité des activités en cas de sinistre.
+** NetApp Disaster Recovery: NetApp Disaster Recovery est une solution complète conçue pour fournir aux entreprises des capacités de reprise après sinistre robustes, garantissant la protection des données, une reprise rapide et la continuité des activités en cas de sinistre.
 
 
 

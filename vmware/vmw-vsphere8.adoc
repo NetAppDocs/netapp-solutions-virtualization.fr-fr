@@ -20,7 +20,7 @@ Le partenariat entre NetApp et VMware est le seul partenariat dans lequel un sys
 
 == Mémoire flash moderne et connectée au cloud pour vSphere 8
 
-Les implémentations ONTAP s'exécutent sur diverses plates-formes, notamment les appareils conçus par NetApp, le matériel standard et le cloud public.  ONTAP offre un stockage unifié, que vous accédiez via des protocoles SAN ou NAS et dans des configurations allant du flash haute vitesse aux supports à moindre coût en passant par le stockage basé sur le cloud.  NetApp propose également des plates-formes Flash spécialement conçues pour simplifier et segmenter vos besoins de stockage sans créer de silos.  De plus, NetApp propose un logiciel permettant de déplacer facilement les données sur site et dans le cloud.  Enfin, NetApp BlueXP fournit un tableau de bord unique pour gérer toutes ces relations et votre empreinte de stockage.
+Les implémentations ONTAP fonctionnent sur diverses plateformes, notamment les appliances conçues par NetApp, le matériel standard et le cloud public. ONTAP offre un stockage unifié, que vous y accédiez via les protocoles SAN ou NAS et dans des configurations allant du stockage flash haute vitesse aux supports moins coûteux en passant par le stockage basé sur le cloud. NetApp propose également des plateformes flash dédiées pour simplifier et segmenter vos besoins de stockage sans créer de silos. De plus, NetApp propose un logiciel permettant de faciliter le déplacement des données entre les environnements sur site et le cloud. Enfin, NetApp Console fournit un tableau de bord unique pour gérer toutes ces relations et votre empreinte de stockage.
 
 * link:https://docs.netapp.com/us-en/ontap-systems-family/intro-family.html["Plateformes NetApp"^]
 

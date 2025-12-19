@@ -72,7 +72,7 @@ image:hyperv-deploy-011.png["Image affichant l'option Activer IntelliSnap"]
 
 
 
-Pour les étapes détaillées sur la configuration de la baie, voirlink:https://documentation.commvault.com/11.20/configuring_netapp_array_using_array_management.html["Configuration de la baie NetApp"] etlink:https://documentation.commvault.com/11.20/configure_storage_virtual_machine_on_netapp_storage_array.html["Configuration des machines virtuelles de stockage sur les baies NetApp"]
+Pour obtenir des instructions détaillées sur la configuration du système, consultez la documentation. link:https://documentation.commvault.com/v11/commcell-console/configuring_netapp_array_using_array_management.html["Configuration de la baie NetApp"] et link:https://documentation.commvault.com/v11/commcell-console/configure_storage_virtual_machine_on_netapp_storage_array.html["Configuration des machines virtuelles de stockage sur les baies NetApp"]
 
 *Ajouter Hyper-V comme hyperviseur*
 

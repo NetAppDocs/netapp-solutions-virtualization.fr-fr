@@ -1,0 +1,336 @@
+---
+sidebar: sidebar 
+permalink: migration/shift-toolkit-migrate-esxi2osvmtv.html 
+keywords: netapp, vmware, esxi, vm, migration, openshift, virtualization, redhat, osv, mtv 
+summary: 'Migrez les machines virtuelles de VMware ESXi vers Red Hat OpenShift Virtualization à l"aide des outils Shift Toolkit et Migration Toolkit pour la virtualisation.' 
+---
+= Migrer des machines virtuelles de VMware ESXi vers Red Hat OpenShift Virtualization à l'aide de Shift Toolkit et de Migration Toolkit for Virtualization
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cette section explique comment Migration toolkit for virtualization (MTV) et NetApp Shift Toolkit offrent une expérience de migration transparente vers Red Hat OpenShift Virtualization et fournit un guide étape par étape sur la transition vers OpenShift Virtualization à l'aide de Migration toolkit for virtualization et des capacités de conversion de Shift Toolkit.
+
+
+
+== Avant de commencer
+
+Vérifiez que les conditions préalables suivantes sont remplies avant de commencer la migration.
+
+.Exigences de virtualisation Red Hat OpenShift
+* Le cluster OpenShift est accessible via le réseau.
+* Point de terminaison du cluster OpenShift avec les opérateurs suivants installés :
++
+** Opérateur de virtualisation OpenShift
+** Opérateur NetApp Trident
+
+
+* NetApp Trident CSI configuré avec les backends et classes de stockage appropriés
+* Les politiques de configuration réseau des nœuds et les définitions de connexion réseau (NAD) sont configurées avec les VLAN appropriés.
+* MTV 2.9.4 ou version ultérieure (qui inclut le mode de conversion)
+* jeton de compte de service avec privilèges d'administrateur de cluster
+
+
+.Exigences VMware
+* Compte avec des autorisations minimales. Veuillez vous référer à cette section.link:https://docs.netapp.com/us-en/netapp-solutions-virtualization/migration/shift-toolkit-summary.html#minimum-permissions-role-required-on-vmware["pour les privilèges minimaux nécessaires"]
+* Les VMDK doivent être placés sur des volumes individuels (simulant ainsi une structure PVC/PV à partir d'un VMDK) à l'aide de svmotion.
+
+
+
+NOTE: Cette limitation sera levée dans la prochaine version, où le pilote NAS-economy pourra être utilisé pour le provisionnement PVC.
+
+
+NOTE: Utilisez le script disponible dans le bloc Script (**Paramètres > Accès développeur > Bloc Script**) pour activer le placement PVC sur un qtree, ou permet d'importer le volume tel quel, ou de cloner et d'importer le volume, éliminant ainsi le besoin d'opérations vMotion manuelles.
+
+* Les outils VMware sont exécutés sur des machines virtuelles invitées.
+* Le système d'exploitation de chaque machine virtuelle est certifié et pris en charge en tant que système d'exploitation invité pour les conversions.
+* Les adresses IP, les VLAN et les autres paramètres de configuration réseau ne doivent pas être modifiés avant ou pendant la migration. Les adresses MAC des machines virtuelles sont préservées lors de la migration.
+
+
+
+
+== Étape 1 : Créer des plans de migration à l’aide de Migration Toolkit for Virtualization
+
+. Pour tirer parti de la conversion ultra-rapide des machines virtuelles, la première étape consiste à créer un plan de migration pour ces machines virtuelles à l'aide de MTV vialink:https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.3/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console["console web"] ou lelink:https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.0/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-virtual-machines-to-virt_mtv#migrating-virtual-machines-cli_mtv["ligne de commande"] .
++
+
+NOTE: Il convient d'établir ce plan au préalable afin de garantir que les paramètres IP de préservation soient configurés par MTV.
+
++
+.Procédure
+.. Connectez-vous à la console web de MTV.
+.. Ajouter les fournisseurs de source et de destination
+.. Créez un plan de migration dans l'espace de noms cible
++
+*** Une fois les fournisseurs configurés, créez un plan de migration et sélectionnez les fournisseurs source et de destination appropriés dans l'espace de noms cible.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-400.png[Élaborer un plan de migration]
+
+====
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-401.png[Fournisseurs de source et de cible]
+
+====
+
+
+.. Sélectionnez les machines virtuelles à migrer
++
+*** Identifiez et choisissez les machines virtuelles qui seront incluses dans la migration.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-402.png[Sélectionner les machines virtuelles]
+
+====
+
+
+.. Configurer les mappages réseau et de stockage
++
+*** Sélectionnez des mappages existants ou créez-en de nouveaux pour aligner les réseaux sources et le stockage avec l'environnement de destination.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-403.png[Carte du réseau]
+
+====
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-404.png[Carte de stockage]
+
+====
+
+
+.. Choisir le type de migration
++
+*** Conservez initialement le type de migration par défaut ; celui-ci sera mis à jour au cours du processus de migration pour refléter le type de conversion.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-405.png[Type de migration]
+
+====
+
+
+.. Conserver les options par défaut
++
+*** Conserver les paramètres par défaut. De plus, sélectionnez l'option permettant de conserver l'adresse IP statique et spécifiez l'état souhaité de la machine virtuelle après la migration.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-406.png[Configuration supplémentaire]
+
+====
+
+
+.. Réviser et finaliser
++
+*** Vérifiez attentivement tous les paramètres, puis cliquez sur Terminer pour créer le plan de migration.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-407.png[Examiner et créer]
+
+====
+
+
+
+
+. Une fois le plan de migration créé, copiez son nom et accédez à l'interface utilisateur de Shift Toolkit.
+. Ajoutez les hyperviseurs source et de destination. Suivez ce lienlink:https://docs.netapp.com/us-en/netapp-solutions-virtualization/migration/shift-toolkit-migrate-esxi2osv.html#step-1-add-the-destination-site-openshift["créer des sites"]
++
+
+NOTE: Le point de terminaison configuré dans le Shift Toolkit doit correspondre au format utilisé lors de son ajout via la console MTV. Par exemple, si le point de terminaison source ou de destination a été ajouté à l'aide d'un nom de domaine pleinement qualifié (FQDN), le même FQDN doit être utilisé dans Shift Toolkit.
+
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-408.png[Affichage du site de la boîte à outils Shift]
+
+====
+. Accédez à Plans et créez un nouveau plan.
++
+** Une fois les étapes précédentes terminées, accédez à Plans et sélectionnez Créer un nouveau plan à l'aide du plan MTV.
++
+
+NOTE: Contrairement au flux de travail standard de Shift Toolkit, il n'est pas nécessaire de créer manuellement un groupe de ressources lors de l'utilisation d'une migration basée sur un plan MTV. Shift Toolkit génère automatiquement des groupes de ressources et applique les mappages nécessaires en fonction du plan de migration YAML.
+
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-409.png[Créer un plan directeur à l'aide du plan MTV]
+
+====
+
+
+. Sélectionnez votre destination et votre plan de migration.
++
+** Choisissez le site de destination et le point de terminaison OpenShift correspondant. Ensuite, sélectionnez le plan de migration récupéré à partir du cluster spécifié, qui contient les machines virtuelles à migrer.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-410.png[Détails du plan]
+
+====
+
+
+. Le groupe de ressources et les mappages seront tous configurés automatiquement en fonction du fichier YAML du plan de migration.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-411.png[Détails de la migration]
+
+====
+. Choisissez l'option d'importation PVC. Par défaut, le paramètre est « Cloner et importer le volume ».
++
+
+NOTE: Les volumes peuvent également être importés directement sans créer de clone.
+
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-412.png[Détails VM]
+
+====
+. Une fois terminé, créez le plan.
+. Déclenchez la migration en cliquant sur « Migration » en regard du plan.
++
+
+NOTE: Les machines virtuelles doivent être éteintes avant de déclencher la migration. MTV activera la machine virtuelle en fonction de l'attribut d'état d'alimentation cible de la machine virtuelle.
+
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-413.png[Déclencher la migration]
+
+====
+. L'outil Shift exécute les étapes du flux de travail pour convertir le format du disque, importer les PVC et créer la VM à l'aide des API OpenShift.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-414.png[Étapes de la migration]
+
+====
+. Une fois que tous les PVC sont en place comme spécifié et que Shift Toolkit déclenche MTV, le flux de travail de migration MTV est lancé.
++
+.. Le contrôleur de migration crée une ressource personnalisée VirtualMachineImport (VMI) (CR) pour chaque VM source.
+.. Étant donné que les PVC sont déjà importés par Shift Toolkit, le contrôleur d'importation de machine virtuelle lance un pod de conversion avec les PVC attachés.
+.. Le module de conversion exécute virt-v2v, installant et configurant les pilotes de périphériques sur les PVC pour la VM cible.
+.. Le contrôleur d'importation de machine virtuelle crée ensuite un CR VirtualMachineInstance (VMI).
+.. Lorsque la machine virtuelle cible est mise sous tension, le contrôleur KubeVirt crée un pod de machine virtuelle qui exécute QEMU-KVM avec les PVC attachés en tant que disques de machine virtuelle.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-415.png[Déclencheur MTV]
+
+====
+
+
+. Une fois toutes les machines virtuelles migrées, le contrôleur de migration met à jour l'état du plan de migration à « Terminé ». L'état d'alimentation d'origine de chaque machine virtuelle source est préservé après la migration.
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-416.png[État d'achèvement de MTV]
+
+====
++
+.Afficher un exemple
+[%collapsible]
+====
+image::shift-toolkit-417.png[Machine virtuelle Windows après migration]
+
+image::shift-toolkit-418.png[Machine virtuelle Linux après migration]
+
+====
++
+
+NOTE: Ceci montre comment Shift Toolkit, associé à MTV, simplifie la migration à une vitesse fulgurante. Dans cet exemple, 2 machines virtuelles totalisant 12 To ont été migrées. L'ensemble du processus s'est déroulé en environ 8 à 10 minutes.
+
++
+.Ce qui se passe en coulisses :
+Les sections suivantes décrivent les étapes déclenchées par les API Shift Toolkit et MTV pour convertir les fichiers VMDK et créer des machines virtuelles sur la plateforme OpenShift. Ce flux de travail reste cohérent, qu'il soit initié via l'interface utilisateur de Shift Toolkit ou via des scripts fournis dans les blocs de scripts de Shift Toolkit.
+
+
+
+.Convertir VMDK
+L'outil Shift Toolkit trouvera automatiquement les VMDK associés à chaque VM, y compris le disque de démarrage principal.
+
+
+NOTE: S'il existe plusieurs fichiers VMDK, chaque fichier VMDK sera converti.
+
+.Configuration du plan d'importation et de migration de volume
+Shift Toolkit utilise Trident CSI pour importer les volumes en tant que PVC dans le cluster. Chaque manifeste PVC est rempli d'étiquettes et d'annotations spécifiques afin de garantir que MTV les reconnaisse :
+
+* Étiquettes
++
+** ID de machine virtuelle
+** vmUUID
+
+
+* Annotation:
++
+** chemin du disque vmdk
+
+
+
+
+De plus, les permissions du fichier disk.img ont été mises à jour. Les permissions sont modifiées à l'aide d'un POD déployé à la volée pour monter les PVC importés et définir les permissions comme suit :
+
+* "propriétaire": { "id": 107 },"groupe": { "id": 107 },"mode": "0655"
+
+
+Remarques importantes :
+
+* Le chariot élévateur vérifie la présence de vmID et vmUUID dans le PVC.
+* Forklift utilise le nom du disque (chemin VMDK) pour forklift.konveyor.io/disk-source.
+* Le nombre de PVC importés doit correspondre au nombre de disques associés à la VM source. Par exemple, si une VM possède trois VMDK mais que quatre PVC sont importés avec des ID correspondants, MTV ne mettra pas à jour l'état du plan de migration à « Prêt à démarrer ».
+
+
+Une fois ces étapes terminées, Shift Toolkit modifie le fichier YAML du plan de migration afin que MTV comprenne que les PVC doivent être utilisés directement, en contournant le processus du pod de remplissage de données (qui est généralement long). Le fichier YAML modifié comprend :
+
+* espace de noms cible : par défaut
+* type : conversion
+* stockage: {}
+
+
+.Démarrer le processus de migration
+Une fois la configuration terminée, MTV est invoqué pour lancer la migration. L'interface utilisateur affichera le type de migration comme étant à froid, mais en fonction de la spécification YAML pour la conversion, MTV valide chaque PVC par rapport au vmID et au vmUUID associés, les mappe en conséquence, puis initialise la migration. Afficher un exemple
+
+[%collapsible]
+====
+image::shift-toolkit-419.png[Temps d'achèvement de la console MTV]
+
+====
+
+NOTE: Les machines virtuelles sont créées dans le cadre du projet « Default », mais celui-ci peut être modifié dans le fichier YAML du plan de migration MTV.
+
+Shift Toolkit accélère la migration en simplifiant le processus, en minimisant les temps d'arrêt et en éliminant le besoin d'accès à l'hôte ESXi ou d'approches basées sur VDDK.
+
+
+NOTE: Avant de commencer cette intégration spécifique, contactez votre équipe commerciale Red Hat.

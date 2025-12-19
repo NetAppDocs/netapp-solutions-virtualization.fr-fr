@@ -49,7 +49,7 @@ Ce scénario nécessite les composants et configurations suivants :
 Pour plus d'informations sur la configuration des banques de données iSCSI VMFS en tant que stockage supplémentaire, reportez-vous àlink:vmw-vcf-mgmt-supplemental-iscsi.html["*iSCSI comme stockage supplémentaire pour les domaines de gestion utilisant les outils ONTAP pour VMware*"] dans cette documentation.  Le processus d’utilisation d’OTV pour déployer des banques de données est identique pour les domaines de gestion et de charge de travail.
 
 
-TIP: En plus de répliquer les sauvegardes effectuées avec SCV vers un stockage secondaire, des copies hors site des données peuvent être effectuées vers un stockage d'objets sur l'un des trois (3) principaux fournisseurs de cloud utilisant la BlueXP backup and recovery NetApp BlueXP pour les machines virtuelles.  Pour plus d'informations, reportez-vous à la solutionlink:vmw-vcf-321-data-protection.html["Protection des données 3-2-1 pour VMware avec le plug-in SnapCenter et la BlueXP backup and recovery pour les machines virtuelles"] .
+TIP: En plus de la réplication des sauvegardes effectuées avec SCV vers un stockage secondaire, des copies hors site des données peuvent être réalisées sur un stockage objet chez l'un des trois (3) principaux fournisseurs de cloud utilisant NetApp Backup and Recovery pour VM. Pour plus d'informations, veuillez consulter cette offre.link:https://docs.netapp.com/us-en/data-services-backup-recovery/index.html["Documentation de NetApp Backup and Recovery"] .
 
 image:vmware-vcf-asa-108.png["Stratégie de sauvegarde 3-2-1"]
 

@@ -37,7 +37,7 @@ Les hôtes Proxmox VE doivent disposer d'interfaces FC, Ethernet ou autres prise
 * Verrouillage de copie d'instantané inviolable
 * Prise en charge du cryptage
 * FabricPool pour hiérarchiser les données froides vers le magasin d'objets.
-* Intégration BlueXP et CloudInsights.
+* Intégration de NetApp Console et de Data Infrastructure Insights .
 * Transfert de données déchargé Microsoft (ODX)
 
 

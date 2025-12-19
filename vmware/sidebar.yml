@@ -37,7 +37,7 @@ entries:
     entries:
     - title: SnapCenter Plug-in for VMware vSphere
       url: "/vmware/vmw-getting-started-snapcenter.html"
-    - title: BlueXP disaster recovery
+    - title: NetApp Disaster Recovery
       url: "/vmware/vmw-dr-gs.html"
 - title: VMware Cloud Foundation sur NetApp
   pdf-filename: VMware Cloud Foundation sur NetApp
@@ -48,32 +48,16 @@ entries:
     url: "/vmware/vmw-vcf-design.html"
   - title: Déploiement de VCF 9 avec ONTAP
     url: "/vmware/vmw-vcf-deployment.html"
-  - title: VCF 9 DR avec BlueXP
-    url: "/vmware/vmw-vcf-dr-bxp-nfs.html"
+  - title: VCF 9 DR avec NetApp Disaster Recovery
+    url: "/vmware/vmw-vcf-disaster-recovery-nfs.html"
   - title: Convertir les clusters vSphere existants en VCF
     entries:
-    - title: En savoir plus sur la conversion des clusters vSphere
+    - title: À propos de la conversion des clusters vSphere existants en VCF
       url: "/vmware/vmw-vcf-migrate.html"
-    - title: Convertir un cluster vSphere avec des banques de données NFS
-      entries:
-      - title: Flux de travail de déploiement
-        url: "/vmware/vmw-vcf-mgmt-nfs.html"
-      - title: Exigences en matière d'examen
-        url: "/vmware/vmw-vcf-mgmt-nfs-requirements.html"
-      - title: Déployer les outils ONTAP et provisionner la banque de données NFS
-        url: "/vmware/vmw-vcf-mgmt-nfs-deploy.html"
-      - title: Convertir un cluster vSphere en VCF
-        url: "/vmware/vmw-vcf-mgmt-nfs-conversion.html"
-    - title: Convertir un cluster vSphere avec des magasins de données FC
-      entries:
-      - title: Flux de travail de déploiement
-        url: "/vmware/vmw-vcf-mgmt-fc.html"
-      - title: Exigences en matière d'examen
-        url: "/vmware/vmw-vcf-mgmt-fc-requirements.html"
-      - title: Déployer les outils ONTAP et provisionner le datastore FC
-        url: "/vmware/vmw-vcf-mgmt-fc-deploy.html"
-      - title: Convertir un cluster vSphere en VCF
-        url: "/vmware/vmw-vcf-mgmt-fc-conversion.html"
+    - title: Convertir un cluster vSphere existant avec des datastores NFS
+      url: "/vmware/vmw-vcf-mgmt-nfs.html"
+    - title: Convertir un cluster vSphere existant avec des datastores FC
+      url: "/vmware/vmw-vcf-mgmt-fc.html"
   - title: Provisionner VCF avec stockage principal
     entries:
     - title: À propos de l'approvisionnement du stockage principal
@@ -152,16 +136,6 @@ entries:
       url: "/vmware/vmw-vcf-scv-multiwkld-protection.html"
     - title: Protégez les domaines de charge de travail VCF avec NVMe
       url: "/vmware/vmw-vcf-scv-nvme.html"
-  - title: Protégez les banques de données VMware avec BlueXP
-    entries:
-    - title: À propos de la protection des banques de données VMware avec BlueXP
-      url: "/vmware/vmw-vcf-disaster-recovery.html"
-    - title: Configurer la protection des données avec SnapCenter et BlueXP
-      url: "/vmware/vmw-vcf-321-data-protection.html"
-    - title: Configurer la reprise après sinistre pour les banques de données VMFS
-      url: "/vmware/vmw-disaster-recovery-vmfs.html"
-    - title: Configurer la reprise après sinistre pour les banques de données NFS
-      url: "/vmware/vmw-disaster-recovery-nfs.html"
   - title: Protégez les charges de travail avec vSphere Metro Storage Cluster
     entries:
     - title: À propos de l'intégration de la haute disponibilité ONTAP

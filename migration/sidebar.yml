@@ -31,6 +31,9 @@ entries:
     - title: Migration des machines virtuelles de VMware ESXi vers Red Hat OpenShift
         Virtualization
       url: "/migration/shift-toolkit-migrate-esxi2osv.html"
+    - title: Migrer des machines virtuelles de VMware ESXi vers Red Hat OpenShift
+        Virtualization à l'aide de Migration Toolkit for Virtualization
+      url: "/migration/shift-toolkit-migrate-esxi2osvmtv.html"
     - title: Migration des machines virtuelles de VMware ESXi vers Oracle Linux Virtualization
         Manager (OLVM)
       url: "/migration/shift-toolkit-migrate-esxi2olvm.html"

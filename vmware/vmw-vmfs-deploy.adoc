@@ -425,7 +425,7 @@ En intégrant les services 1P optimisés par NetApp sur chaque hyperscalaire, le
 
 === Reprise après sinistre entre sites sur site
 
-Pour plus de détails, veuillez visiterlink:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-vmfs.html["DR avec BlueXP DRaaS pour les banques de données VMFS"^]
+Pour plus de détails, veuillez consulter link:https://docs.netapp.com/us-en/netapp-solutions-cloud/vmware/vmw-hybrid-dr-vmfs.html["Reprise après sinistre avec NetApp Disaster Recovery pour les datastores VMFS"^]
 
 
 

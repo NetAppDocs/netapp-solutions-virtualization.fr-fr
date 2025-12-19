@@ -88,7 +88,7 @@ Avec le cheminement actif-actif, les prises de contrôle planifiées et non plan
 
 Pour plus d'informations, voir https://www.netapp.com/pdf.html?item=/media/85671-tr-4968.pdf["TR-4968, Baie NetApp All-SAS – Disponibilité et intégrité des données avec NetApp ASA"] . {nbsp}
 
-Pour des informations détaillées, consultez le https://www.netapp.com/data-storage/all-flash-san-storage-array["Page de destination de NetApp ASA"] . {nbsp}
+Pour plus d'informations, consultez le https://www.netapp.com/asa/["Page de destination de NetApp ASA"]. {nbsp}
 
 
 

@@ -108,7 +108,7 @@ Pour plus d'informations sur les principaux avantages ONTAP pour VMware VCF iden
 * link:vmw-getting-started-hmc.html["Multicloud hybride avec VMware et NetApp"]
 * link:vmw-getting-started-security.html["Sécurité et protection contre les ransomwares"]
 * link:vmw-getting-started-migration.html["Migration facile des charges de travail VMware vers NetApp"]
-* link:vmw-dr-gs.html["Récupération après sinistre BlueXP"]
+* link:vmw-dr-gs.html["NetApp Disaster Recovery"]
 * link:vmw-getting-started-dii.html["Informations sur l'infrastructure de données"]
 * link:vmw-getting-started-vmdc.html["Collecteur de données VM"]
 

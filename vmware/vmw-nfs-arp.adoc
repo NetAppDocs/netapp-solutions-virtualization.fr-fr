@@ -46,15 +46,18 @@ Ce qui précède montre comment le stockage ONTAP ajoute une couche supplémenta
 
 Pour plus d'informations, consultez les conseils pourlink:https://www.netapp.com/media/7334-tr4572.pdf["Solutions NetApp contre les ransomwares"] .
 
-Maintenant, si tous ces éléments doivent être orchestrés et intégrés aux outils SIEM, alors un service off-tap comme la BlueXP ransomware protection peut être utilisé.  Il s’agit d’un service conçu pour protéger les données contre les ransomwares.  Ce service offre une protection pour les charges de travail basées sur des applications telles qu'Oracle, MySQL, les banques de données VM et les partages de fichiers sur le stockage NFS sur site.
+Si tous ces éléments doivent être orchestrés et intégrés à des outils SIEM, alors un service offtap comme NetApp Ransomware Resilience peut être utilisé. Il s'agit d'un service conçu pour protéger les données contre les ransomwares. Ce service offre une protection pour les charges de travail applicatives telles que Oracle, MySQL, les banques de données de machines virtuelles et les partages de fichiers sur le stockage NFS sur site.
 
-Dans cet exemple, le magasin de données NFS « Src_NFS_DS04 » est protégé à l’aide de la BlueXP ransomware protection.
+Dans cet exemple, le datastore NFS « Src_NFS_DS04 » est protégé à l'aide de NetApp Ransomware Resilience.
+
+
+NOTE: Les étapes décrites ci-dessous concernent BlueXP. Le flux de travail est similaire avec la NetApp Console.
 
 image:nfs-arp-005.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
 
 image:nfs-arp-006.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
 
-Pour des informations détaillées sur la configuration de la BlueXP ransomware protection, reportez-vous àlink:https://docs.netapp.com/us-en/bluexp-ransomware-protection/rp-start-setup.html["Configurer la BlueXP ransomware protection"] etlink:https://docs.netapp.com/us-en/bluexp-ransomware-protection/rp-use-settings.html#add-amazon-web-services-as-a-backup-destination["Configurer les paramètres de BlueXP ransomware protection"] .
+Pour obtenir des informations détaillées sur la configuration de NetApp Ransomware Resilience, veuillez consulter la documentation.link:https://docs.netapp.com/us-en/data-services-ransomware-resilience/rp-start-setup.html["Configurer la résilience de NetAp contre les ransomwares"] etlink:https://docs.netapp.com/us-en/data-services-ransomware-resilience/rp-use-settings.html#add-amazon-web-services-as-a-backup-destination["Configurer les paramètres de résilience aux ransomwares de NetAp"] .
 
 Il est temps de passer en revue cela avec un exemple.  Dans cette procédure pas à pas, le magasin de données « Src_NFS_DS04 » est affecté.
 
@@ -66,16 +69,16 @@ image:nfs-arp-008.png["Figure montrant une boîte de dialogue d'entrée/sortie o
 
 image:nfs-arp-009.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
 
-Une fois l'analyse médico-légale terminée, les restaurations peuvent être effectuées rapidement et de manière transparente à l'aide de la protection contre les ransomwares SnapCenter ou BlueXP ransomware protection.  Avec SnapCenter, accédez aux machines virtuelles affectées et sélectionnez le snapshot approprié à restaurer.
+Une fois l'analyse forensique terminée, les restaurations peuvent être effectuées rapidement et sans problème à l'aide de SnapCenter ou de NetApp Ransomware Resilience. Avec SnapCenter, accédez aux machines virtuelles concernées et sélectionnez le snapshot approprié à restaurer.
 
 image:nfs-arp-010.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
 
-Cette section examine comment la BlueXP ransomware protection orchestre la récupération après un incident de ransomware dans lequel les fichiers de la machine virtuelle sont chiffrés.
+Cette section examine comment NetApp Ransomware Resilience orchestre la récupération après un incident de ransomware lorsque les fichiers de la machine virtuelle sont chiffrés.
 
 
-NOTE: Si la machine virtuelle est gérée par SnapCenter, la BlueXP ransomware protection restaure la machine virtuelle à son état précédent à l'aide du processus cohérent avec la machine virtuelle.
+NOTE: Si la machine virtuelle est gérée par SnapCenter, NetApp Ransomware Resilience restaure la machine virtuelle à son état précédent en utilisant le processus cohérent avec la machine virtuelle.
 
-. Accédez à la BlueXP ransomware protection et une alerte apparaît sur le tableau de bord de BlueXP ransomware protection .
+. Accédez à NetApp Ransomware Resilience et une alerte apparaîtra sur le tableau de bord NetApp Ransomware Resilience .
 . Cliquez sur l'alerte pour consulter les incidents sur ce volume spécifique pour l'alerte générée
 +
 image:nfs-arp-011.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]

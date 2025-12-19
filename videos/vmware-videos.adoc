@@ -46,7 +46,7 @@ video::8df4ad1f-83ad-448b-9405-b01200fb2567[panopto,width=360]
 
 == Solutions de protection des données 3-2-1
 
-.Protection des données 3-2-1 pour les banques de données VMFS avec le SnapCenter Plug-in for VMware vSphere et la BlueXP backup and recovery pour les machines virtuelles
+.Protection des données 3-2-1 pour les datastores VMFS avec le SnapCenter Plug-in for VMware vSphere et NetApp Backup and Recovery pour machines virtuelles
 video::7c21f3fc-4025-4d8f-b54c-b0e001504c76[panopto,width=360]
 
 
