@@ -65,7 +65,7 @@ La solution VVF prend en charge à la fois Kubernetes natif et les charges de tr
 * VMware vSphere
 * VMware vSAN
 * Aria Standard
-* Service VMware Tanzu Kubernetes Grid pour vSphere
+* VMware vSphere Kubernetes vSphere
 * Commutateur distribué vSphere
 
 

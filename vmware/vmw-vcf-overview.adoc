@@ -32,7 +32,7 @@ NetApp ONTAP est un logiciel complet de gestion de données qui offre des foncti
 
 == Introduction à VMware Cloud Foundation
 
-VCF intègre les offres de calcul, de réseau et de stockage avec les produits VMware et les intégrations tierces, facilitant à la fois les charges de travail natives Kubernetes et basées sur des machines virtuelles.  Cette plate-forme logicielle comprend des composants clés tels que VMware vSphere, NSX, Aria Suite Enterprise, Tanzu Kubernetes Grid, HCX Enterprise, SDDC Manager et une capacité de stockage liée aux cœurs de processeur hôte via vSAN.  NetApp ONTAP s'intègre parfaitement à une variété de modèles de déploiement VCF, à la fois sur site et dans le cloud public.
+VCF intègre des offres de calcul, de réseau et de stockage avec les produits VMware et les intégrations tierces, facilitant à la fois les charges de travail natives Kubernetes et celles basées sur des machines virtuelles. Cette plateforme logicielle comprend des composants clés tels que VMware vSphere, NSX, Aria Suite Enterprise, VMware vSphere Kubernetes Service, HCX Enterprise, SDDC Manager et une capacité de stockage liée aux cœurs du processeur hôte via vSAN. NetApp ONTAP s'intègre parfaitement à divers modèles de déploiement VCF, aussi bien sur site que dans le cloud public.
 
 image:vmware-vcf-overview-components.png["Composants de VMware Cloud Foundation"]
 
