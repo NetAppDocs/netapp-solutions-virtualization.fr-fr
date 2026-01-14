@@ -10,18 +10,38 @@ indexpage:
   tiles:
   - title: Commencer
     links:
-    - title: À propos de Proxmox VE
+    - title: Découvrez Proxmox VE
       url: proxmox-overview.html
-    - title: Provisionner le stockage ONTAP pour Proxmox VE
+  - title: Provisionner le stockage ONTAP pour Proxmox VE
+    links:
+    - title: Architecture Proxmox VE et ONTAP
+      url: proxmox-ontap-architecture.html
+    - title: Types de stockage pris en charge
+      url: proxmox-storage-types.html
+    - title: Directives de déploiement
+      url: proxmox-deploy-guidelines.html
+    - title: Configurer les protocoles de stockage
       url: proxmox-ontap.html
+  - title: Protéger les charges de travail Proxmox VE
+    links:
+    - title: Architecture du serveur de sauvegarde Proxmox
+      url: proxmox-pbs-architecture.html
+    - title: Exigences et considérations relatives au déploiement
+      url: proxmox-pbs-requirements.html
+    - title: Configurez la protection des données avec Proxmox Backup Server
+      url: proxmox-wkld-dp-pbs.html
   - title: Ressources supplémentaires
     links:
     - title: Stockage NetApp et NVMe-oF pour des performances exceptionnelles dans
         les environnements de virtualisation Proxmox
       url: https://www.credativ.de/en/blog/credativ-inside/netapp-storage-and-nvme-of-for-breakthrough-performance-in-proxmox-virtualization-environments/
+    - title: Linux Bridge vs Open vSwitch pour Proxmox VE
+      url: https://community.netapp.com/t5/Tech-ONTAP-Blogs/Networking-with-Proxmox-VE/ba-p/465060
     - title: Documentation de Proxmox VE
       url: https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#external_metric_server
     - title: Sauvegarder et restaurer Proxmox VE
       url: https://pve.proxmox.com/pve-docs/chapter-vzdump.html
     - title: Stockage pour Proxmox VE
       url: https://pve.proxmox.com/pve-docs/chapter-pvesm.html
+    - title: Proxmox VE avec stockage SolidFire
+      url: https://community.netapp.com/t5/SolidFire-and-HCI/Proxmox-VE-with-SolidFire-NetApp-HCI/td-p/461937

@@ -1,0 +1,89 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-ontap-architecture.html 
+keywords: netapp, proxmox, proxmox ve, ontap, storage, architecture, nas, san, nfs, smb, iscsi, fc, nvme, flexgroup, flexcache, snapmirror 
+summary: 'NetApp ONTAP s"intègre à l"environnement virtuel Proxmox pour fournir des capacités de stockage de niveau entreprise via les protocoles NAS et SAN. ONTAP offre des fonctionnalités avancées de gestion des données, notamment les instantanés, le clonage, la réplication et la protection contre les ransomwares pour les charges de travail virtualisées.' 
+---
+= Découvrez l'architecture de stockage ONTAP pour l'environnement virtuel Proxmox.
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp ONTAP s'intègre à Proxmox Virtual Environment (VE) pour fournir des capacités de stockage de niveau entreprise via les protocoles NAS et SAN. ONTAP offre des fonctionnalités avancées de gestion des données, notamment les instantanés, le clonage, la réplication et la protection contre les ransomwares pour les charges de travail virtualisées exécutées sur des clusters Proxmox VE.
+
+
+
+== Architecture de la solution
+
+L'architecture de la solution comprend les composants clés suivants :
+
+* *Cluster Proxmox VE :* Un cluster de nœuds Proxmox VE qui fournissent des capacités de virtualisation et gèrent les machines virtuelles (VM) et les conteneurs.
+* * Stockage NetApp ONTAP :* Un système de stockage haute performance et évolutif qui fournit un stockage partagé pour le cluster Proxmox VE.
+* *Infrastructure réseau :* Une configuration réseau robuste qui assure une connectivité à faible latence et à haut débit entre les nœuds Proxmox VE et le stockage ONTAP .
+* * NetApp Console:* Une interface de gestion centralisée pour la gestion de plusieurs systèmes de stockage et services de données NetApp .
+* *Serveur de sauvegarde Proxmox :* Une solution de sauvegarde dédiée pour Proxmox VE qui s’intègre au stockage ONTAP pour une protection efficace des données.
+
+
+Le schéma suivant illustre l'architecture générale de l'installation du laboratoire :
+
+image::proxmox-deploy-guidelines-001.png[Architecture Proxmox VE avec NetApp ONTAP]
+
+
+
+== Fonctionnalités ONTAP pour Proxmox VE
+
+ONTAP offre un ensemble complet de fonctionnalités de stockage d'entreprise qui améliorent les déploiements Proxmox VE. Ces fonctionnalités couvrent la gestion des données, la protection, l'efficacité et la prise en charge des protocoles pour les architectures de stockage NAS et SAN.
+
+
+
+=== Fonctionnalités de base de gestion des données
+
+* architecture de cluster à extension horizontale
+* Authentification sécurisée et prise en charge du contrôle d'accès basé sur les rôles (RBAC)
+* Prise en charge multi-administrateurs Zero Trust
+* multi-locataires sécurisé
+* Réplication des données avec SnapMirror
+* Copies à un instant précis avec instantanés
+* clones compacts
+* Fonctionnalités d'optimisation du stockage, notamment la déduplication et la compression
+* Prise en charge de Trident CSI pour Kubernetes
+* SnapLock pour la conformité
+* Verrouillage de copie instantanée inviolable
+* Protection contre les ransomwares avec détection autonome des menaces
+* Chiffrement des données au repos et des données en transit
+* FabricPool pour tierer les données froides vers le stockage objet
+* Intégration de NetApp Console et de Data Infrastructure Insights
+* Transfert de données déchargées Microsoft (ODX)
+
+
+
+
+=== fonctionnalités du protocole NAS
+
+* Les volumes FlexGroup offrent des conteneurs NAS à extension horizontale avec des performances élevées, une répartition de charge et une évolutivité optimales.
+* FlexCache distribue les données globalement tout en fournissant un accès local en lecture et en écriture
+* La prise en charge multiprotocole permet d'accéder aux mêmes données via SMB et NFS.
+* NFS nConnect permet d'autoriser plusieurs sessions TCP par connexion afin d'augmenter le débit du réseau et d'utiliser les cartes réseau haut débit.
+* L'agrégation de sessions NFS offre des vitesses de transfert de données accrues, une haute disponibilité et une tolérance aux pannes.
+* La technologie multicanal pour PME offre des vitesses de transfert de données accrues, une haute disponibilité et une tolérance aux pannes.
+* Intégration avec Active Directory et LDAP pour la gestion des permissions de fichiers
+* Connexions sécurisées avec NFS sur TLS
+* Prise en charge de l'authentification Kerberos NFS
+* NFS sur RDMA pour un accès à faible latence
+* Correspondance des noms entre les identités Windows et Unix
+* Protection autonome contre les ransomwares avec détection intégrée des menaces
+* Analyse du système de fichiers pour obtenir des informations sur la capacité et l'utilisation
+
+
+
+
+=== caractéristiques du protocole SAN
+
+* Étirez les clusters sur plusieurs domaines de pannes grâce à la synchronisation active SnapMirror (vérifiez toujours le https://mysupport.netapp.com/matrix/#welcome["Outil de matrice d'interopérabilité"] (pour les configurations prises en charge)
+* Les modèles ASA offrent un multipathing actif-actif et un basculement rapide des chemins.
+* Prise en charge des protocoles FC, iSCSI et NVMe-oF
+* Authentification mutuelle iSCSI CHAP
+* Mappage LUN sélectif et ensembles de ports pour une sécurité renforcée
+

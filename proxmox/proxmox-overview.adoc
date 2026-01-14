@@ -20,7 +20,7 @@ Proxmox Virtual Environment (VE) est un hyperviseur open source de type 1 basé 
 
 == Aperçu
 
-Proxmox Virtual Environment (VE) prend en charge la virtualisation complète basée sur des machines virtuelles et des conteneurs sur le même hôte.  La machine virtuelle basée sur le noyau (KVM) et l'émulateur rapide (QEMU) sont utilisés pour la virtualisation complète des machines virtuelles.  QEMU est un émulateur et un virtualiseur de machine open source et il utilise le module KVM Kernel pour exécuter le code invité directement sur le processeur hôte.  Linux Containers (LXC) permet de gérer les conteneurs comme des machines virtuelles avec une persistance des données lors des redémarrages.
+Proxmox Virtual Environment (VE) prend en charge la virtualisation complète basée sur des machines virtuelles et la virtualisation basée sur des conteneurs sur le même hôte. La machine virtuelle basée sur le noyau (KVM) et l'émulateur rapide (QEMU) sont utilisés pour la virtualisation complète de la machine virtuelle. QEMU est un émulateur et virtualiseur de machines open source qui utilise le module noyau KVM pour exécuter du code invité directement sur le processeur hôte. Linux Containers (LXC) permet de gérer les conteneurs comme des machines virtuelles avec une persistance des données après redémarrage. Avec Proxmox VE 9 et versions ultérieures, la prise en charge du registre OCI est incluse pour extraire des images de conteneurs à partir de registres publics et privés. La prise en charge des conteneurs d'applications est ajoutée en tant qu'aperçu technologique dans Proxmox VE 9.
 
 image:proxmox-overview-001.png["VM et LXC sur l'hôte Proxmox"]
 
@@ -34,7 +34,7 @@ Le portail de gestion Web est disponible sur le nœud Proxmox VE au port 8006.  
 
 image:proxmox-overview-002.png["Interface de gestion"]
 
-Un cluster permet de surveiller et de redémarrer les machines virtuelles et les conteneurs sur d’autres nœuds en cas de défaillance du nœud d’hébergement.  Les machines virtuelles et les conteneurs doivent être configurés pour la haute disponibilité (HA).  Les machines virtuelles et les conteneurs peuvent être hébergés sur un sous-ensemble spécifique d'hôtes en créant des groupes.  La machine virtuelle ou le conteneur est hébergé sur un hôte avec la priorité la plus élevée.  Pour plus d'informations, consultezlink:https://pve.proxmox.com/wiki/High_Availability["Gestionnaire HA"]
+Un cluster permet de surveiller les machines virtuelles et les conteneurs et de les redémarrer sur d'autres nœuds en cas de défaillance du nœud hôte. Les machines virtuelles et les conteneurs doivent être configurés pour une haute disponibilité (HA). Les machines virtuelles et les conteneurs peuvent être hébergés sur un sous-ensemble spécifique d'hôtes grâce à la création de groupes d'affinité. La machine virtuelle ou le conteneur est hébergé sur un hôte ayant la priorité la plus élevée. Pour plus d'informations, consultez link:https://pve.proxmox.com/wiki/High_Availability["Gestionnaire HA"]
 
 image:proxmox-overview-003.png["Priorité du groupe HA"]
 
@@ -42,6 +42,10 @@ Les options d'authentification incluent Linux PAM, Proxmox VE PAM, LDAP, Microso
 
 
 TIP: Les informations d'identification de connexion LDAP/Microsoft AD peuvent être stockées en texte clair et dans un fichier qui doit être protégé par le système de fichiers hôte.
+
+Pour gérer plusieurs clusters Proxmox VE, le produit Proxmox Datacenter Manager est disponible en tant qu'installation séparée. Il offre une interface unique pour gérer plusieurs clusters Proxmox VE et serveurs de sauvegarde Proxmox. Il permet de migrer des machines virtuelles et des conteneurs entre clusters.
+
+Les clients disposant d'un abonnement actif Basic, Standard ou Premium pour leurs serveurs distants Proxmox bénéficient d'un accès au référentiel d'entreprise Proxmox Datacenter Manager et au support technique.
 
 
 
@@ -69,16 +73,18 @@ image:proxmox-overview-004.png["Formats de disque VM"]
 
 Il existe une option permettant de présenter les LUN iSCSI à une machine virtuelle sous forme de périphériques bruts.
 
+Proxmox VE 9 et versions ultérieures prennent en charge le provisionnement fin et la récupération d'espace (UNMAP) avec les types de stockage iSCSI et FC. Pour plus de détails, veuillez consulter link:https://pve.proxmox.com/pve-docs/chapter-pvesm.html#thin_provisioning_and_space_reclamation_support["Stockage Proxmox VE"]
+
 LXC possède également son propre fichier de configuration, `/etc/pve/lxc/<container id>.conf` , et les composants du disque conteneur.  Le volume de données peut être monté à partir des types de stockage pris en charge.
 
 image:proxmox-overview-005.png["Support supplémentaire pour conteneur"]
 
 Les types de stockage pris en charge incluent le disque local, le NAS (SMB et NFS) et le SAN (FC, iSCSI, NVMe-oF, etc.).  Pour plus de détails, reportez-vous àlink:https://pve.proxmox.com/pve-docs/chapter-pvesm.html["Stockage Proxmox VE"]
 
-Chaque volume de stockage est configuré avec des types de contenu autorisés.  Les volumes NAS prennent en charge tous les types de contenu tandis que la prise en charge SAN est limitée aux images de machines virtuelles et de conteneurs.
+Chaque volume de stockage est configuré avec des types de contenu autorisés. Les volumes NAS prennent en charge tous les types de contenu, tandis que la prise en charge SAN est limitée aux images de machines virtuelles et de conteneurs. Le type de stockage de répertoire prend également en charge tous les types de contenu.
 
 
-NOTE: Le type de stockage de répertoire prend également en charge tous les types de contenu.  Les informations d'identification de connexion SMB sont stockées en texte clair et ne sont accessibles qu'à root.
+NOTE: Les identifiants de connexion SMB sont stockés en clair et ne sont accessibles qu'à l'utilisateur root.
 
 image:proxmox-overview-006.png["Types de contenu avec NAS"]
 
@@ -90,11 +96,11 @@ Pour importer des machines virtuelles à partir d’un environnement Broadcom vS
 
 == Réseau
 
-Proxmox VE prend en charge les fonctionnalités réseau natives de Linux telles que Linux Bridge ou Open vSwitch, pour implémenter le réseau défini par logiciel (SDN).  Les interfaces Ethernet de l'hôte peuvent être reliées entre elles pour assurer la redondance et la haute disponibilité.  Pour d'autres options, reportez-vous àlink:https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#_choosing_a_network_configuration["Documentation de Proxmox VE"]
+Proxmox VE prend en charge à la fois la mise en réseau basée sur l'hôte et les réseaux virtuels à l'échelle du cluster en utilisant des fonctionnalités de mise en réseau Linux natives telles que Linux bridge et Open vSwitch, pour implémenter la mise en réseau définie par logiciel (SDN). Les interfaces Ethernet de l'hôte peuvent être agrégées pour assurer la tolérance aux pannes et une haute disponibilité. Pour d'autres options, consultez link:https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#_choosing_a_network_configuration["Documentation de Proxmox VE"]
 
 image:proxmox-overview-008.png["Réseau lié"]
 
-Les réseaux invités peuvent être configurés au niveau du cluster et les modifications sont transmises aux hôtes membres.  La séparation est gérée avec des zones, des réseaux virtuels et des sous-réseaux. link:https://pve.proxmox.com/pve-docs/chapter-pvesdn.html["Zone"] définit les types de réseau tels que Simple, VLAN, VLAN Stacking, VXLAN, EVPN, etc.
+Les réseaux invités peuvent être configurés au niveau du cluster et les modifications sont répercutées sur les hôtes membres. La séparation est gérée par des zones, des réseaux virtuels et des sous-réseaux. link:https://pve.proxmox.com/pve-docs/chapter-pvesdn.html["Zone"] définit les types de réseau tels que Simple (isolé avec nat source), VLAN (802.1Q - dépendance à un commutateur externe), VLAN Stacking (802.1ad - vlan privé), VXLAN (couche 2 sur couche 3). Pour les réseaux de type VPC), EVPN (VXLAN avec BGP pour créer un réseau multi-cluster de couche 3), etc.
 
 Selon le type de zone, le réseau se comporte différemment et offre des fonctionnalités, des avantages et des limitations spécifiques.
 

@@ -8,4 +8,36 @@ entries:
   url: "/proxmox/proxmox-overview.html"
 - title: Provisionner le stockage ONTAP pour Proxmox VE
   pdf-filename: Stockage NetApp pour Proxmox VE
-  url: "/proxmox/proxmox-ontap.html"
+  entries:
+  - title: Architecture de la solution
+    url: "/proxmox/proxmox-ontap-architecture.html"
+  - title: Types de stockage pris en charge
+    url: "/proxmox/proxmox-storage-types.html"
+  - title: Directives de déploiement
+    url: "/proxmox/proxmox-deploy-guidelines.html"
+  - title: Configurez les protocoles de stockage avec ONTAP pour Proxmox VE
+    entries:
+    - title: Aperçu des protocoles de stockage
+      url: "/proxmox/proxmox-ontap.html"
+    - title: Configurer le stockage SMB/CIFS
+      url: "/proxmox/proxmox-ontap-smb.html"
+    - title: Configurer le stockage NFS
+      url: "/proxmox/proxmox-ontap-nfs.html"
+    - title: Configurer LVM avec FC
+      url: "/proxmox/proxmox-ontap-fc.html"
+    - title: Configurer LVM avec iSCSI
+      url: "/proxmox/proxmox-ontap-iscsi.html"
+    - title: Configurer LVM avec NVMe/FC
+      url: "/proxmox/proxmox-ontap-nvme-fc.html"
+    - title: Configurer LVM avec NVMe/TCP
+      url: "/proxmox/proxmox-ontap-nvme-tcp.html"
+- title: Protéger les charges de travail Proxmox VE
+  pdf-filename: Protection des données de charge de travail Proxmox VE avec Proxmox
+    Backup Server et NetApp ONTAP
+  entries:
+  - title: Architecture de la solution
+    url: "/proxmox/proxmox-pbs-architecture.html"
+  - title: Exigences de déploiement
+    url: "/proxmox/proxmox-pbs-requirements.html"
+  - title: Configurez la protection des données avec Proxmox Backup Server
+    url: "/proxmox/proxmox-wkld-dp-pbs.html"

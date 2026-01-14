@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-pbs-requirements.html 
+keywords: netapp, proxmox, proxmox ve, proxmox backup server, ontap, storage, requirements, deployment, prerequisites 
+summary: Examiner les exigences et les considérations de déploiement pour Proxmox Backup Server avec stockage NetApp ONTAP . Cela inclut les options de déploiement, la prise en charge du stockage dorsal, la gestion multi-cluster et les meilleures pratiques de configuration réseau. 
+---
+= Exigences et considérations relatives au déploiement de Proxmox Backup Server avec stockage NetApp ONTAP
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Examinez les exigences et les considérations de déploiement du serveur de sauvegarde Proxmox (PBS) avec le stockage NetApp ONTAP avant la mise en œuvre. Cela garantit une planification adéquate du déploiement du serveur de sauvegarde, de la configuration du stockage et de la connectivité réseau.
+
+
+
+== Considérations relatives au déploiement
+
+Déployez PBS sur un serveur physique ou en tant que VM sur Proxmox VE. Lors du déploiement de PBS en tant que VM, tenez compte de la disponibilité du serveur de sauvegarde si l'hôte Proxmox VE subit une interruption de service. Déployez PBS sur un serveur physique ou sur un hôte ou un cluster Proxmox VE distinct pour garantir la disponibilité du serveur de secours en cas de défaillance de l'hôte principal.
+
+Les données de sauvegarde sont autonomes dans la base de données, ce qui permet la migration de cette dernière vers une autre instance PBS si nécessaire. Cela garantit que les données de sauvegarde restent accessibles même lorsque l'instance PBS d'origine est indisponible.
+
+
+
+== Support du système de stockage dorsal
+
+PBS prend en charge divers systèmes de stockage, notamment le stockage local, NFS, iSCSI, FC, NVMe-oF et S3 (aperçu technique). L'intégration avec le stockage NetApp ONTAP permet aux organisations de tirer parti de fonctionnalités avancées de gestion des données pour une protection et une récupération des données améliorées.
+
+Utilisez ONTAP SnapMirror pour répliquer la base de données PBS sur un autre système ONTAP à des fins de reprise après sinistre. Cela protège les données de sauvegarde et permet leur restauration après des pannes de site.
+
+
+
+== Gestion multi-clusters
+
+Une seule instance PBS peut gérer plusieurs clusters Proxmox VE, assurant une sauvegarde centralisée pour les déploiements à grande échelle. Utilisez les espaces de noms pour séparer logiquement les données de sauvegarde de différents clusters ou locataires, garantissant ainsi l'isolation et la sécurité des données.
+
+Configurez les politiques de conservation des données pour gérer automatiquement le cycle de vie des données de sauvegarde et garantir la conformité aux exigences de l'organisation. Configurez des règles d'élagage pour marquer automatiquement les données de sauvegarde anciennes ou inutiles en vue de leur suppression. Les processus de nettoyage des données permettent de récupérer de l'espace de stockage en supprimant les données inutilisées ou obsolètes de la base de données.
+
+
+
+== Interfaces de gestion
+
+Gérez PBS via une interface web, des outils en ligne de commande ou une API REST. Accédez à l'interface web sur le port 8007 en utilisant l'URL `https://<pbs-ip-address>:8007`.
+
+
+
+== meilleures pratiques de configuration réseau
+
+Assurez-vous de disposer de chemins réseau redondants entre le stockage PBS et ONTAP pour une haute disponibilité et des performances optimales. Envisagez l'agrégation de liens (LACP) pour une bande passante et une redondance accrues. Configurez les trames jumbo (MTU 9000) sur tous les périphériques réseau pour améliorer les performances du trafic de stockage.
+
+Pour NFS, créez une exportation dédiée pour le datastore PBS avec les autorisations appropriées. Pour les protocoles de bloc, assurez-vous d'un zonage et d'un masquage LUN appropriés afin de restreindre l'accès aux seuls hôtes PBS autorisés.

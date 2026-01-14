@@ -1,0 +1,94 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-storage-types.html 
+keywords: netapp, proxmox, proxmox ve, ontap, storage, nfs, smb, cifs, iscsi, fc, nvme, content types, vm disks, backups, templates 
+summary: Proxmox VE prend en charge plusieurs types de stockage avec ONTAP , notamment NFS et SMB pour les protocoles NAS et FC, iSCSI et NVMe-oF pour les protocoles SAN. Chaque protocole prend en charge différents types de contenu, notamment les disques de machines virtuelles, les sauvegardes, les volumes de conteneurs, les images ISO et les modèles. 
+---
+= Types de stockage pris en charge pour l'environnement virtuel Proxmox
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Proxmox Virtual Environment (VE) prend en charge plusieurs protocoles de stockage avec NetApp ONTAP, notamment NFS et SMB pour NAS et FC, iSCSI et NVMe-oF pour SAN. Chaque protocole prend en charge différents types de contenu Proxmox VE, notamment les disques de machines virtuelles, les sauvegardes, les volumes de conteneurs, les images ISO et les modèles.
+
+
+
+== Prise en charge du protocole NAS
+
+Les protocoles NAS (NFS et SMB) prennent en charge tous les types de contenu Proxmox VE et sont généralement configurés une seule fois au niveau du centre de données. Les machines virtuelles invitées peuvent utiliser les formats de disque raw, qcow2 ou VMDK sur le stockage NAS. Les instantanés ONTAP peuvent être rendus visibles aux clients pour accéder à des copies de données à un instant précis.
+
+
+
+== Prise en charge du protocole SAN
+
+Les protocoles SAN (FC, iSCSI et NVMe-oF) sont généralement configurés par hôte et prennent en charge les types de contenu de disque VM et d'image de conteneur dans Proxmox VE. Les machines virtuelles invitées peuvent utiliser les formats de disque raw, VMDK ou qcow2 sur un stockage par blocs.
+
+
+
+== matrice de compatibilité des types de stockage
+
+[cols="25% 15% 15% 15% 15% 15%"]
+|===
+| Type de contenu | NFS | PME/CIFS | FC | iSCSI | NVMe-oF 
+
+
+| Sauvegardes | Oui | Oui  a| 
+Non^1^
+ a| 
+Non^1^
+ a| 
+Non^1^
+
+
+
+| Disques VM | Oui | Oui  a| 
+Oui^2^
+ a| 
+Oui^2^
+ a| 
+Oui^2^
+
+
+
+| Volumes CT | Oui | Oui  a| 
+Oui^2^
+ a| 
+Oui^2^
+ a| 
+Oui^2^
+
+
+
+| Images ISO | Oui | Oui  a| 
+Non^1^
+ a| 
+Non^1^
+ a| 
+Non^1^
+
+
+
+| Modèles CT | Oui | Oui  a| 
+Non^1^
+ a| 
+Non^1^
+ a| 
+Non^1^
+
+
+
+| Extraits | Oui | Oui  a| 
+Non^1^
+ a| 
+Non^1^
+ a| 
+Non^1^
+
+|===
+*Remarques :*
+
+. Nécessite un système de fichiers en cluster pour créer le dossier partagé et utiliser le type de stockage Répertoire.
+. Utilisez le type de stockage LVM.
+

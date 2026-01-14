@@ -1,0 +1,109 @@
+---
+sidebar: sidebar 
+permalink: proxmox/proxmox-ontap-nfs.html 
+keywords: netapp, proxmox, proxmox ve, nfs, ontap, storage, nconnect, session trunking 
+summary: 'Configurer le stockage NFS pour l"environnement virtuel Proxmox à l"aide ONTAP. Cette procédure comprend l"activation des SVM, la création de LIF, la configuration de la politique d"exportation, la création de volumes et la configuration de nConnect ou de l"agrégation de sessions pour la tolérance aux pannes et les performances.' 
+---
+= Configurer le stockage NFS pour Proxmox VE
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Configurer le stockage NFS pour l'environnement virtuel Proxmox (VE) à l'aide de NetApp ONTAP. Utilisez le trunking de session avec NFS v4.1 ou version ultérieure pour une meilleure tolérance aux pannes et des performances accrues avec plusieurs connexions réseau au système de stockage.
+
+ONTAP prend en charge toutes les versions NFS prises en charge par Proxmox VE. Utiliser link:https://docs.netapp.com/us-en/ontap/nfs-trunking/index.html["jonction de session"] pour la tolérance aux pannes et l'amélioration des performances. L'agrégation de sessions nécessite NFS v4.1 ou une version ultérieure.
+
+Si vous débutez avec ONTAP, utilisez l'interface de gestion système pour effectuer ces tâches.
+
+.Option NFS nconnect avec ONTAP
+video::f6c9aba3-b070-45d6-8048-b22e001acfd4[panopto,width=360]
+
+
+== Tâches de l'administrateur de stockage
+
+Effectuez ces tâches pour provisionner le stockage NFS sur ONTAP pour une utilisation avec Proxmox VE.
+
+. Activez le SVM pour NFS. Se référer à link:https://docs.netapp.com/us-en/ontap/nfs-config/verify-protocol-enabled-svm-task.html["Documentation ONTAP 9"].
+. Créez au moins deux LIF par contrôleur. Suivez les étapes décrites dans la documentation. À titre de référence, voici une capture d'écran des LIF utilisés dans le laboratoire.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:proxmox-ontap-nfs-001.png["détails de l'interface NAS"]
+
+====
+. Créez ou mettez à jour une politique d'exportation NFS pour autoriser l'accès aux adresses IP ou aux sous-réseaux des hôtes Proxmox VE. Se référer à link:https://docs.netapp.com/us-en/ontap/nfs-config/create-export-policy-task.html["Création d'une politique d'exportation"] et link:https://docs.netapp.com/us-en/ontap/nfs-config/add-rule-export-policy-task.html["Ajouter une règle à une politique d'exportation"].
+. link:https://docs.netapp.com/us-en/ontap/nfs-config/create-volume-task.html["Créer un volume"]. Pour les besoins de grande capacité (>100 To), cochez l'option permettant de répartir les données sur le cluster à l'aide de FlexGroup. Si vous utilisez FlexGroup, envisagez d'activer pNFS sur le SVM pour de meilleures performances en suivant les instructions ci-dessous. link:https://docs.netapp.com/us-en/ontap/pnfs/pnfs-commands.html#enable-nfsv4-1["Activer pNFS sur SVM"]. Lors de l'utilisation de pNFS, assurez-vous que les hôtes Proxmox VE ont accès aux données de tous les contrôleurs (LIF de données). Assurez-vous que la protection anti-ransomware est activée sur le volume.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:proxmox-ontap-nfs-002.png["Option FlexGroup"]
+
+====
+. link:https://docs.netapp.com/us-en/ontap/nfs-config/associate-export-policy-flexvol-task.html["Attribuer la politique d'exportation au volume"].
++
+.Afficher un exemple
+[%collapsible]
+====
+image:proxmox-ontap-nfs-003.png["Informations sur le volume NFS"]
+
+====
+. Avertir l'administrateur de virtualisation que le volume NFS est prêt.
+
+
+
+
+== Tâches d'administrateur de virtualisation
+
+Effectuez ces tâches pour ajouter le volume NFS comme stockage dans Proxmox VE et configurer nConnect ou le trunking de session pour des performances améliorées.
+
+. Assurez-vous qu'au moins deux interfaces soient configurées dans des VLAN différents pour garantir la tolérance aux pannes. Utilisez la liaison NIC.
+. Utilisation de l'interface utilisateur de gestion à `https:<proxmox-node>:8006`, cliquez sur Centre de données, sélectionnez Stockage, cliquez sur Ajouter et sélectionnez NFS.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:proxmox-ontap-nfs-004.png["Navigation dans le stockage NFS"]
+
+====
+. Saisissez les détails. Une fois les informations du serveur fournies, les exportations NFS devraient s'afficher. Sélectionnez un élément dans la liste et choisissez les options de contenu.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:proxmox-ontap-nfs-005.png["Ajout de stockage NFS"]
+
+====
+. Pour activer l'option nConnect, ouvrez un shell sur n'importe quel nœud du cluster et exécutez la commande suivante, où `<storage id>` est l'identifiant de stockage créé à l'étape précédente :
++
+[source, shell]
+----
+pvesm set <storage id> --options nconnect=4
+----
++
+Pour utiliser le trunking de session, assurez-vous que NFS v4.1 est utilisé et définissez les options trunkdiscovery et max_connect :
+
++
+[source, shell]
+----
+pvesm set <storage id> --options vers=4.1,trunkdiscovery,max_connect=16
+----
+. Le contenu du fichier /etc/pve/storage.cfg pour le stockage configuré est présenté ci-dessous :
++
+.Afficher un exemple
+[%collapsible]
+====
+image:proxmox-ontap-nfs-006.png["Fichier de configuration de stockage pour NFS"]
+
+====
+. Pour vérifier que l'option nConnect est activée, exécutez la commande suivante : `ss -an | grep :2049` sur n'importe quel hôte Proxmox VE et vérifiez les connexions multiples à l'adresse IP du serveur NFS. Pour vérifier que pNFS est activé, exécutez la commande suivante : `nfsstat -c` et vérifiez les indicateurs liés à la mise en page. En fonction du trafic de données, plusieurs connexions aux LIF de données devraient être visibles.
+
+
+
+NOTE: En mode trunk de session, l'option nconnect est définie sur une seule des interfaces trunk. Avec pNFS, l'option nconnect est définie sur les interfaces de métadonnées et de données. Pour les environnements de production, utilisez soit nConnect, soit le trunking de session, mais pas les deux.
