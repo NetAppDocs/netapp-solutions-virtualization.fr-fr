@@ -8285,4 +8285,5 @@
   <block id="33944cf48dae6085e379419638e7f045" category="sidebar">Configurez les protocoles de stockage avec ONTAP pour Proxmox VE</block>
   <block id="00e4880b550e40d823bf3e2f64737181" category="sidebar">Aperçu des protocoles de stockage</block>
   <block id="df98233fcbd5f7d34a38d94575306755" category="sidebar">Protection des données de charge de travail Proxmox VE avec Proxmox Backup Server et NetApp ONTAP</block>
+  <block id="7b5595669a13f02ed040dc13960eabba" category="video-title">Migration sans intervention d'ESX vers Red Hat OpenShift Virtualization (OSV)</block>
 </blocks>
