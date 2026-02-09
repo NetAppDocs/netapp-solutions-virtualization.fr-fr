@@ -1,0 +1,158 @@
+---
+sidebar: sidebar 
+permalink: opennebula/opennebula-ontap-nfs.html 
+keywords: netapp, opennebula, kvm, nfs, ontap, storage, nconnect, session trunking 
+summary: 'Configurez le stockage NFS Datastore pour OpenNebula en utilisant ONTAP. Cette procédure comprend l"activation des SVM, la création de LIF, la configuration des règles d"export, la création de volumes et la configuration de nConnect ou du trunking de sessions pour la tolérance aux pannes et les performances.' 
+---
+= Configurer le stockage NFS pour OpenNebula à l'aide d'ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Configurez le stockage NFS pour OpenNebula en utilisant NetApp ONTAP. Utilisez nConnect ou le trunking de session avec pNFS (v4.1 ou ultérieure) lors de l'utilisation de volumes FlexGroup pour une gestion efficace des ressources, la tolérance aux pannes et des améliorations de performance. Une seule exportation NFS peut être utilisée pour les datastores Image et Système d'un cluster OpenNebula. Lorsque vous prévoyez d'utiliser FlexCache, dédiez l'exportation NFS uniquement aux datastores Image.
+
+Envisagez la configuration MetroCluster pour la haute disponibilité et les scénarios de reprise après sinistre.
+
+Si vous débutez avec ONTAP, utilisez l'interface de gestion système pour effectuer ces tâches.
+
+
+
+== Tâches de l'administrateur de stockage
+
+Effectuez ces tâches pour provisionner le stockage NFS sur ONTAP pour une utilisation avec OpenNebula.
+
+. Activez le SVM pour NFS. Se référer à link:https://docs.netapp.com/us-en/ontap/nfs-config/verify-protocol-enabled-svm-task.html["Documentation ONTAP 9"].
+. Créez au moins deux LIF par contrôleur. Suivez les étapes décrites dans la documentation. À titre de référence, voici une capture d'écran des LIF utilisés dans le laboratoire.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:opennebula-ontap-nfs-001.png["détails de l'interface NAS"]
+
+====
+. Créez ou mettez à jour une règles d'export pour fournir l'accès aux adresses IP ou aux sous-réseaux de l'hôte OpenNebula. Reportez-vous à link:https://docs.netapp.com/us-en/ontap/nfs-config/create-export-policy-task.html["Création d'une politique d'exportation"] et link:https://docs.netapp.com/us-en/ontap/nfs-config/add-rule-export-policy-task.html["Ajouter une règle à une politique d'exportation"].
+. link:https://docs.netapp.com/us-en/ontap/nfs-config/create-volume-task.html["Créer un volume"]. Pour les besoins de grande capacité (>100 To), cochez l'option pour distribuer les données sur le cluster afin d'utiliser FlexGroup. Si vous utilisez FlexGroup, envisagez d'activer pNFS sur la SVM pour de meilleures performances en suivant link:https://docs.netapp.com/us-en/ontap/pnfs/pnfs-commands.html#enable-nfsv4-1["Activer pNFS sur SVM"]. Lors de l'utilisation de pNFS, assurez-vous que les hôtes OpenNebula ont accès aux données de tous les contrôleurs (LIF de données). Assurez-vous que la protection Anti-Ransomware est activée sur le volume.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:opennebula-ontap-nfs-002.png["Option FlexGroup"]
+
+====
+. Informez l'administrateur de virtualisation que le volume NFS est prêt et fournissez les détails du chemin d'export NFS.
+
+
+
+
+== Tâches d'administrateur de virtualisation
+
+Effectuez ces tâches pour ajouter le volume NFS en tant que Datastore dans OpenNebula et configurer nConnect ou le trunking de session pour des performances améliorées.
+
+. Assurez-vous qu'au moins deux interfaces soient configurées dans des VLAN différents pour garantir la tolérance aux pannes. Utilisez la liaison NIC.
+. Connectez-vous en SSH à l'un des serveurs frontaux et créez un fichier de configuration en fonction du type de Datastore souhaité. Des exemples de fichiers sont présentés ci-dessous :
++
+[role="tabbed-block"]
+====
+.Sauvegarde
+--
+.. Pour Restic,
+
+
+[listing]
+----
+$cat nfs-restic.conf
+NAME = "Backup-Restic-NFS"
+TYPE = "BACKUP_DS"
+
+DS_MAD = "restic"
+TM_MAD = "-"
+
+RESTIC_PASSWORD = "<restic_password>"
+RESTIC_SFTP_SERVER = "<backup server>"
+----
+.. Pour Rsync,
+
+
+[listing]
+----
+$cat nfs-rsync.conf
+NAME = "Backup-Rsync-NFS"
+TYPE = "BACKUP_DS"
+
+DS_MAD = "rsync"
+TM_MAD = "-"
+
+RSYNC_USER = "<rsync_user>"
+RSYNC_HOST = "<backup server>"
+----
+--
+.Fichier
+[source, shell]
+----
+$cat nfs-kernel.conf
+NAME = "File-Kernel-NFS"
+TYPE = "FILE_DS"
+DS_MAD = "fs"
+TM_MAD = "local"
+SAFE_DIRS = "/var/tmp/files"
+----
+.Image
+[source, shell]
+----
+$cat nfs-image.conf
+NAME = "Image-NFS"
+TYPE = "IMAGE_DS"
+DS_MAD = "fs"
+TM_MAD = "shared"
+----
+.Système
+[source, shell]
+----
+$cat nfs-system.conf
+NAME = "System-NFS"
+TYPE = "SYSTEM_DS"
+TM_MAD = "shared"
+----
+====
+. Exécutez  `onedatastore create <configuration file>`. Notez l’identifiant du datastore renvoyé après la création.
++
+[]
+====
+onedatastore create nfs-system.conf ID : 101
+
+====
+. Récupérez l'uid et le gid de l'utilisateur oneadmin à l'aide de la commande  `id oneadmin`.
+. Mettez à jour /etc/fstab ou la configuration d'automount pour monter le datastore avec les options de montage souhaitées. En supposant que l'emplacement par défaut du datastore est /var/lib/one/datastores. Peut être validé avec `onedatastore show <datastore_id>`. Sinon, vérifiez le paramètre DATASTORE_LOCATION dans /etc/one/oned.conf. Assurez-vous que le dossier <datastore_id> existe sous l'emplacement des datastores. Des exemples d'entrées sont présentés ci-dessous :
++
+[role="tabbed-block"]
+====
+.Utilisation de /etc/fstab
+--
+[source, shell]
+----
+# To use session trunking, use the option trunkdiscovery
+//<nfs_server>/<nfs_share> /var/lib/one/datastores/<datastore_id> nfs nconnect=8,max_channels=16,_netdev,noauto,x-systemd.automount,nofail,uid=<oneadmin uid>,gid=<oneadmin gid> 0 0
+----
+--
+.Utilisation du montage automatique
+--
+[source, shell]
+----
+# To use session trunking, use the option trunkdiscovery
+/var/lib/one/datastores/<datastore_id> -fstype=nfs,nconnect=8,max_channels=16,_netdev,noauto,x-systemd.automount,nofail,uid=<oneadmin uid>,gid=<oneadmin gid> <nfs_server>:/<nfs_share>
+----
+--
+====
+. Montez le datastore à l'aide de  `mount -a` ou  `systemctl reload autofs` commande.
+. Vérifiez que la banque de données est montée avec la commande mount et vérifiez la capacité de la banque de données avec la commande  `onedatastore show <datastore_id>`.
+. Assurez-vous que l'utilisateur et le groupe oneadmin sont propriétaires du dossier du datastore. Ajustez les permissions à l'aide de la commande  `chown -R oneadmin:oneadmin /var/lib/one/datastores/<datastore_id>`.
+. Pour vérifier que l’option nConnect est configurée, exécutez  `ss -an | grep :2049` sur n’importe quel hôte OpenNebula et vérifiez la présence de plusieurs connexions à l’IP du serveur NFS. Pour vérifier que pNFS est activé, exécutez  `nfsstat -c` et vérifiez les métriques liées à la disposition. En fonction du trafic de données, plusieurs connexions aux LIF de données devraient être visibles.
+
+
+
+NOTE: En mode trunk de session, l'option nconnect est définie sur une seule des interfaces trunk. Avec pNFS, l'option nconnect est définie sur les interfaces de métadonnées et de données. Pour les environnements de production, utilisez soit nConnect, soit le trunking de session, mais pas les deux.

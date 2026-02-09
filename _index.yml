@@ -36,6 +36,8 @@ indexpage:
       url: "/proxmox/index.html"
     - title: KVM et libvirt
       url: "/kvm/index.html"
+    - title: OpenNebula
+      url: "/opennebula/index.html"
   - title: Migration et conversion de machines virtuelles
     links:
     - title: Migrer des machines virtuelles à l'aide de Shift Toolkit

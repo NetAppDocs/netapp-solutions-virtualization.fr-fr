@@ -1,0 +1,112 @@
+---
+sidebar: sidebar 
+permalink: opennebula/opennebula-storage-types.html 
+keywords: netapp, opennebula, ontap, storage, nfs, smb, cifs, iscsi, fc, nvme, content types, vm disks, backups, templates 
+summary: OpenNebula prend en charge plusieurs types de stockage avec ONTAP, y compris NFS et SMB pour les protocoles NAS et FC, iSCSI et NVMe-oF pour les protocoles SAN. 
+---
+= Types de stockage pris en charge pour OpenNebula
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+OpenNebula prend en charge plusieurs protocoles de stockage avec NetApp ONTAP, notamment NFS et SMB pour le NAS et FC, iSCSI et NVMe-oF pour le SAN. En fonction des compétences et des besoins existants, les utilisateurs peuvent choisir le protocole de stockage approprié. Si vous ne prévoyez pas d'utiliser les services de données fournis par ONTAP, envisagez les systèmes SANtricity qui peuvent fournir un stockage bloc à l'aide des protocoles FC, iSCSI, Infiniband et NVMe-oF.
+
+OpenNebula utilise des Datastores qui sont généralement montés dans le dossier /var/lib/one/datastores ou comme défini par l'attribut DATASTORE_LOCATION dans le fichier /etc/one/oned.conf. Le stockage peut être monté en utilisant le fichier /etc/fstab, monté dynamiquement avec Automounter ou d'autres procédures prises en charge par votre environnement. La plupart des permissions des dossiers sont définies comme appartenant à l'utilisateur et au groupe oneadmin. Assurez-vous que les hôtes de l'hyperviseur ont accès au système de stockage en utilisant le protocole requis.
+
+Lors de l'utilisation de l'automounter, utilisez des montages directs pour éviter les problèmes liés à la prise de contrôle du dossier parent par l'automounter. Pour créer des montages directs, créez un fichier sous /etc/auto.master.d/. Par exemple, créez un fichier nommé one.autofs avec la commande suivante :
+
+[source, bash]
+----
+echo "/-    /etc/auto.one --timeout=60 --ghost" > /etc/auto.master.d/one.autofs
+----
+Les serveurs frontaux doivent avoir accès aux banques de données d’images. Le montage des banques de données d’images sur les hôtes hyperviseurs est optionnel mais recommandé pour de meilleures performances. Les banques de données système doivent être montées sur les hôtes hyperviseurs car elles hébergent les disques des machines virtuelles. Les banques de données noyau et fichiers sont utilisées pour les noyaux des machines virtuelles, les disques RAM et d’autres fichiers nécessaires à la machine virtuelle lors du processus de contextualisation. Elles peuvent être montées à la fois sur les serveurs frontaux et sur les hôtes hyperviseurs. Les banques de données de sauvegarde sont utilisées pour les sauvegardes des machines virtuelles et peuvent être montées sur tous les hôtes du OpenNebula cluster. Les machines virtuelles sur d’autres clusters peuvent également utiliser la même banque de données de sauvegarde si les hôtes KVM peuvent accéder aux hôtes de la banque de données de sauvegarde via SSH pour rsync, SFTP pour restic. Si vous utilisez Veeam, oVirtAPI doit être disponible.
+
+
+
+== Prise en charge du protocole NAS
+
+Les protocoles NAS (NFS et SMB) prennent en charge le système de fichiers partagé entre le frontal et les hôtes hyperviseur. Les snapshots ONTAP peuvent être rendus visibles aux clients pour accéder à des copies ponctuelles des données. ONTAP FlexCache peut être utilisé pour les Image Datastores dans des zones géographiquement distribuées. ONTAP NFS prend en charge nConnect pour de meilleures performances en utilisant plusieurs connexions par session. Lors de l’utilisation de FlexGroup pour de grandes banques de données (> 100TB), il est recommandé d’utiliser pNFS pour répartir la charge sur plusieurs nœuds. N’oubliez pas de configurer au moins une data lif par contrôleur dans le cluster ONTAP et les hôtes hyperviseur doivent avoir la connectivité.
+
+Tous les types de Datastore (Image, System, Kernel and File, et Backup) prennent en charge les protocoles NAS.
+
+
+
+== Prise en charge du protocole SAN
+
+L'édition Enterprise inclut le pilote NetApp qui fonctionne avec le protocole iSCSI sur les systèmes AFF et FAS. Les autres protocoles SAN (FC, InfiniBand et NVMe-oF) sont généralement configurés pour le pilote LVM. Un pool LVM fin est créé par machine virtuelle pour le provisionnement fin et la prise en charge des snapshots. Les hôtes hyperviseurs doivent avoir une connectivité au système de stockage. La prise en charge LVM en cluster n'est pas requise pour utiliser le type de stockage LVM.
+
+Pour utiliser avec le pilote NetApp, les sessions iSCSI et le multipath doivent être configurés sur les hôtes hyperviseur. Pour le pilote LVM, à l’exception du datastore système, le volume logique doit avoir un système de fichiers créé et monté. Pour le datastore système, le groupe de volumes doit être nommé « vg-one-<datastore_id> » où <datastore_id> est l’identifiant numérique du datastore dans OpenNebula. Tous les types de datastore (Image, System, Kernel and File, et Backup) prennent en charge les protocoles SAN.
+
+
+
+== Pilote d'API NetApp ONTAP
+
+OpenNebula’s native NetApp integration utilise l’API d’ONTAP pour créer et gérer automatiquement les volumes, les LUN, les instantanés et les mappages. Cette méthode offre le meilleur niveau d’automatisation et évite la configuration manuelle d’iSCSI et de LVM. Consultez link:https://docs.opennebula.io/7.0/integrations/storage_extensions/netapp/["Documentation OpenNebula"] pour plus d’informations.
+
+
+
+== matrice de compatibilité des types de stockage
+
+[cols="25% 15% 15% 15% 15% 15%"]
+|===
+| Type de datastore | NFS | PME/CIFS | FC | iSCSI | NVMe-oF 
+
+
+| Image | Oui | Oui | Oui  a| 
+Oui^1^
+| Oui 
+
+
+| Système | Oui | Oui | Oui  a| 
+Oui^1^
+| Oui 
+
+
+| Noyau et fichier | Oui | Oui | Oui | Oui | Oui 
+
+
+| Sauvegarde | Oui | Oui | Oui | Oui | Oui 
+|===
+*Remarques :*
+
+. NetApp driver est disponible dans l'édition Enterprise pour le protocole iSCSI afin d'utiliser les fonctionnalités natives d'ONTAP.
+
+
+
+
+== OpenNebula cluster types de stockage pris en charge avec ONTAP
+
+Voici une comparaison des fonctionnalités prises en charge par différents types de stockage dans OpenNebula lors de l'utilisation de NetApp ONTAP comme backend.
+
+[cols="30% 20% 20% 20%"]
+|===
+| Fonctionnalité | API NetApp ONTAP | LVM-thin | NFS/SMB 
+
+
+| Disques VM | Oui | Oui | Oui 
+
+
+| Stockage d’images^1^ | Oui | Oui | Oui 
+
+
+| Instantanés en direct | Oui | Oui | Oui 
+
+
+| Cloner la VM ou l'image | Oui | Oui | Oui 
+
+
+| Sauvegarde incrémentale^2^ | Oui | Oui | Oui 
+|===
+*Remarques :*
+
+. Le stockage d'images fait référence à l'utilisation du système dorsal pour OpenNebula image datastores. Les méthodes LVM-thin et ONTAP API impliquent la copie ou la création de périphériques de stockage bloc à partir de la source d'image.
+. Les sauvegardes incrémentales fonctionnent avec  `qcow2` des disques (sur NFS/SMB) ou avec des périphériques de bloc prenant en charge le suivi des modifications. Le pilote OpenNebula NetApp ONTAP utilise des instantanés continus pour effectuer des sauvegardes incrémentales.
+
+
+
+NOTE: Les sauvegardes incrémentales nécessitent que le module noyau  `nbd` soit chargé.
