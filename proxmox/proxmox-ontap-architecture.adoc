@@ -75,6 +75,7 @@ ONTAP offre un ensemble complet de fonctionnalités de stockage d'entreprise qui
 * Correspondance des noms entre les identités Windows et Unix
 * Protection autonome contre les ransomwares avec détection intégrée des menaces
 * Analyse du système de fichiers pour obtenir des informations sur la capacité et l'utilisation
+* Prise en charge de Metrocluster pour la haute disponibilité.
 
 
 
@@ -82,6 +83,7 @@ ONTAP offre un ensemble complet de fonctionnalités de stockage d'entreprise qui
 === caractéristiques du protocole SAN
 
 * Étirez les clusters sur plusieurs domaines de pannes grâce à la synchronisation active SnapMirror (vérifiez toujours le https://mysupport.netapp.com/matrix/#welcome["Outil de matrice d'interopérabilité"] (pour les configurations prises en charge)
+* Prise en charge de Metrocluster pour la haute disponibilité.
 * Les modèles ASA offrent un multipathing actif-actif et un basculement rapide des chemins.
 * Prise en charge des protocoles FC, iSCSI et NVMe-oF
 * Authentification mutuelle iSCSI CHAP
