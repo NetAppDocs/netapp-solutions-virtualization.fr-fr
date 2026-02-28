@@ -14,14 +14,14 @@ summary: NetApp fournit un certain nombre de produits qui aident nos clients à 
 
 
 [role="lead"]
-Découvrez NetApp Trident Protect, qui a été validé pour la gestion des applications et du stockage persistant pour la solution de virtualisation OpenShift.
+Découvrez NetApp Trident Protect, validé pour la gestion des applications et du stockage persistant pour la solution OpenShift Virtualization.
 
-Trident, un provisionneur et orchestrateur de stockage open source maintenu par NetApp et NetApp Trident Protect, vous aide à orchestrer et à gérer les données persistantes dans des environnements basés sur des conteneurs, tels que Red Hat OpenShift.
+Trident, un outil de provisionnement et d'orchestration de stockage open source maintenu par NetApp et NetApp Trident Protect vous aide à orchestrer et à gérer les données persistantes dans des environnements basés sur des conteneurs, tels que Red Hat OpenShift.
 
 image:redhat-openshift-108.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
 
 Les pages suivantes contiennent des informations supplémentaires sur les produits NetApp qui ont été validés pour la gestion des applications et du stockage persistant dans la solution Red Hat OpenShift avec NetApp :
 
 * link:https://docs.netapp.com/us-en/trident/["Documentation Trident"]
-* link:https://docs.netapp.com/us-en/trident/trident-protect/learn-about-trident-protect.html["Documentation de protection Trident"]
+* link:https://docs.netapp.com/us-en/trident/trident-protect/learn-about-trident-protect.html["Documentation Trident Protect"]
 
