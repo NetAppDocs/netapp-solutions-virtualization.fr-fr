@@ -2183,12 +2183,6 @@
   <block id="d59ce64481ee53a5e3af6710efc0b479" category="paragraph">Une machine virtuelle doit être disponible dans OpenShift Virtualization.  Pour plus de détails sur le déploiement d'une nouvelle machine virtuelle ou la migration d'une machine virtuelle existante vers OpenShift Virtualization, consultez la section appropriée dans la documentation.</block>
   <block id="3581c46b7eec38ce850b20f09099b741" category="inline-image-macro">Machine virtuelle OCP-v installée dans l'espace de noms source-ns</block>
   <block id="e477803592f44cdb2efd8445b19c3653" category="paragraph"><block ref="e477803592f44cdb2efd8445b19c3653" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="93548c2eaed0aa421119ccb8d4011aa9" category="section-title">Créer un App Vault à l'aide d' ONTAP S3</block>
-  <block id="44ec316b16babd7a30392ef3aa9b614b" category="paragraph">Cette section montre comment configurer un coffre-fort d'applications dans Trident Protect à l'aide du stockage d'objets S3 d'ontap.</block>
-  <block id="08dbf6549f498a3998c329d45a90ea26" category="paragraph">Utilisez les commandes oc et les fichiers yaml indiqués ci-dessous pour créer un secret et la ressource personnalisée appvault pour ontap s3.  Assurez-vous de les créer dans l’espace de noms Trident Protect.</block>
-  <block id="f29421ad98d05722b53303fb3e551243" category="paragraph">Assurez-vous que le coffre-fort S3 ontap est créé et qu'il est dans l'état Disponible</block>
-  <block id="ca2d8b6115af60005a3ff445f33397f3" category="inline-image-macro">Appvault OCP-v dans l'espace de noms trident-protect</block>
-  <block id="4d22ca0764b49c93cccecbb8850b02ae" category="paragraph"><block ref="4d22ca0764b49c93cccecbb8850b02ae" category="inline-image-macro-rx" type="image"></block></block>
   <block id="3eb534dd2cc996be0f44dbcaab5bcf1d" category="paragraph">Créez une ressource d’application personnalisée dans l’espace de noms où se trouve la machine virtuelle.</block>
   <block id="0901b77c87ff8c3428ddb5fb8143f250" category="inline-image-macro">Application OCP-v dans l'espace de noms source-ns</block>
   <block id="007e2424c414a2df986160beaad9b0de" category="paragraph"><block ref="007e2424c414a2df986160beaad9b0de" category="inline-image-macro-rx" type="image"></block></block>
@@ -8567,4 +8561,10 @@
   <block id="50b12fb9dc3c4acc08c0bff3aad3baf3" category="section-title">Créez une application Trident Protect pour la machine virtuelle de reprise après sinistre dans un nouvel espace de noms</block>
   <block id="92b72e1a477bb22316b8809fbb5782d9" category="video-title">Protection d'une machine virtuelle à l'aide de Trident Protect</block>
   <block id="0bb0fe78cec7e68d89f6dbb07d2b8093" category="video-title">Reprise après sinistre pour une VM utilisant Trident Protect</block>
+  <block id="b16acd8ae1ca5e379b2e4aa604f8a2ba" category="section-title">Créer AppVault à l'aide de ONTAP S3</block>
+  <block id="472263ee87de0443326619011c98d149" category="paragraph">Cette section explique comment configurer un objet AppVault dans Trident Protect en utilisant le stockage d’objets ONTAP S3.</block>
+  <block id="c1a6380543e106c0301282521b55a3fc" category="paragraph">Utilisez les commandes oc et les fichiers yaml ci-dessous pour créer un secret et la ressource personnalisée AppVault pour ONTAP s3. Assurez-vous de les créer dans l'espace de noms trident protect.</block>
+  <block id="4035a79b3668307381cda3c40c13747d" category="paragraph">Assurez-vous que le coffre-fort ONTAP S3 est créé et qu'il est dans l'état Disponible</block>
+  <block id="6cd1f4dd55f2126ac98b438f1fa31844" category="inline-image-macro">OCP-v AppVault dans l'espace de noms trident-protect</block>
+  <block id="c047817699debbb2dda60dae4514bd1c" category="paragraph"><block ref="c047817699debbb2dda60dae4514bd1c" category="inline-image-macro-rx" type="image"></block></block>
 </blocks>
