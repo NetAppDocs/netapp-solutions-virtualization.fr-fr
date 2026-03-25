@@ -88,3 +88,6 @@ Le kit d'outils Shift est validé par rapport aux versions suivantes d'Oracle Li
 
 .KVM
 Pour les destinations KVM, Shift Toolkit prend uniquement en charge la conversion du format de disque (VMDK vers QCOW2 ou RAW). Les informations de connexion à l'hyperviseur ne sont pas nécessaires lors de la sélection de KVM dans la liste déroulante de destination. Après la conversion, utilisez les disques QCOW2 pour provisionner des machines virtuelles sur des plateformes basées sur KVM.
+
+.Proxmox VE
+Le kit d'outils Shift est validé avec Proxmox VE exécutant la version 9.X et ultérieures.
