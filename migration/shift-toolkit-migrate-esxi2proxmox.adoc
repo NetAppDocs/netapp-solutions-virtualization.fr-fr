@@ -56,9 +56,9 @@ NOTE: Les machines virtuelles doivent être mises hors tension avant de déclenc
 NOTE: La suppression des outils VMware s'effectue sur l'hyperviseur de destination une fois les machines virtuelles mises sous tension
 
 * Utilisez un compte d'administrateur local pour exécuter Invoke-VMScript afin de préparer des machines virtuelles Windows ou un compte Active Directory qui fait partie du groupe Administrators local. Pour les systèmes Linux, utilisez un compte pouvant exécuter des commandes sans nécessiter de mot de passe (par exemple via sudo sans mot de passe).
-* Pour les machines virtuelles Windows, assurez-vous que l'ISO VirtIO est montée ; sinon, le processus de préparation échouera. Le pilote ISO VirtIO peut être téléchargé ici. Le script détectera le lecteur monté et copiera automatiquement les fichiers requis.
+* Pour les machines virtuelles Windows, assurez-vous que l'ISO VirtIO est montée ; sinon, le processus de préparation échouera. Le pilote ISO VirtIO peut être téléchargé depuis link:https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.271-1/virtio-win-0.1.271.iso["ici"]. Le script détectera le lecteur monté et copiera automatiquement les fichiers nécessaires.
 +
-** Assurez-vous que l'ISO spécifiée dans le lien est utilisée, car le script de préparation utilise le package .msi pour installer les pilotes et les qemu-guest-agents. Une fois les prérequis en place, connectez-vous à l'interface utilisateur de Shift toolkit et configurez le site avec Proxmox VE comme hyperviseur de destination. Pour ajouter, cliquez sur « Add New Site » et sélectionnez « Destination ».
+** Assurez-vous d'utiliser l'ISO spécifiée dans le lien, car le script de préparation utilise le package .msi pour installer les pilotes et les qemu-guest-agents. Une fois les prérequis en place, connectez-vous à l'interface utilisateur de Shift toolkit et configurez le site avec Proxmox VE comme hyperviseur de destination. Pour ajouter, cliquez sur « Add New Site » et sélectionnez « Destination ».
 
 
 
