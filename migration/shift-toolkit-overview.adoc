@@ -36,6 +36,8 @@ La boîte à outils Shift offre une flexibilité dans un environnement multi-hyp
 * Migration de Microsoft Hyper-V vers VMware ESXi
 * VMWare ESXi vers Oracle Linux Virtualization Manager (OLVM)
 * Virtualisation de VMware ESXi vers Red Hat OpenShift
+* Migration de VMware ESXi vers Red Hat OpenShift Virtualization à l'aide de Migration Toolkit for Virtualization (MTV)
+* VMware ESXi vers Proxmox VE
 
 
 Shift Toolkit prend en charge les conversions au niveau du disque des disques virtuels entre les hyperviseurs pour les formats de disque suivants :

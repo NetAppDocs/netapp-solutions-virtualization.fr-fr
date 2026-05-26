@@ -26,6 +26,8 @@ Le kit d'outils Shift offre une flexibilité dans les environnements multi-hyper
 * link:shift-toolkit-migrate-hyperv2esxi.html["Migration de Microsoft Hyper-V vers VMware ESXi"]
 * link:shift-toolkit-migrate-esxi2olvm.html["VMware ESXi vers Oracle Linux Virtualization Manager (OLVM)"]
 * link:shift-toolkit-migrate-esxi2osv.html["Virtualisation de VMware ESXi vers Red Hat OpenShift"]
+* link:shift-toolkit-migrate-esxi2osvmtv.html["Migration de VMware ESXi vers Red Hat OpenShift Virtualization à l'aide de Migration Toolkit for Virtualization (MTV)"]
+* link:shift-toolkit-migrate-esxi2proxmox.html["VMware ESXi vers Proxmox VE"]
 
 
 
