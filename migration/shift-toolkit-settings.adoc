@@ -347,3 +347,56 @@ L'outil Shift Toolkit offre la possibilité d'annuler une tâche en cours à n'i
 
 
 Étant donné que Shift Toolkit ne modifie en aucune façon la machine virtuelle source, la restauration est simple : il suffit de mettre sous tension la machine virtuelle source.  Aucune autre action de restauration n'est requise.
+
+
+
+== Vérifier la migration
+
+L'outil Shift propose désormais une option de vérification au niveau du blueprint, activée une fois que le statut de la migration est marqué comme « Success » ou « Partial Failure ». Une fois réussie, l’option de vérification lancera un nouveau travail et vérifiera les paramètres de la machine virtuelle comme spécifié dans les mappages du blueprint. Le statut du travail de vérification de migration sera affiché dans le Job Monitoring et les détails peuvent être consultés en cliquant sur le travail et en sélectionnant « view logs ».
+
+
+NOTE: L'option de vérification peut également être sélectionnée lors de la création du blueprint, auquel cas la tâche de vérification sera déclenchée après 5 minutes une fois la tâche de migration terminée.
+
+
+NOTE: Si l'option de vérification est sélectionnée après la tâche de migration, une tâche de vérification est déclenchée automatiquement et l'assistant affichera la tâche.
+
+image::shift-toolkit-471.png[Vérifier les détails du job de migration]
+
+image::shift-toolkit-472.png[Vérifier la liste des tâches de migration]
+
+
+
+== Flux de travail fractionné
+
+Le flux de travail fractionné (applicable uniquement aux plans de migration OpenShift utilisant le pilote NAS ONTAP) détecte automatiquement les volumes associés aux machines virtuelles, ainsi que leurs volumes FlexClone correspondants.
+
+En fonction de la version d'ONTAP, la stratégie de répartition appropriée est sélectionnée automatiquement. Voici les directives générales :
+
+* Clonage fractionné pour les volumes sur ONTAP 9.17.1 et versions ultérieures, avec 20 exécutions parallèles
+* Déplacement de volume pour les versions ONTAP antérieures à 9.17.1, utilisant jusqu'à quatre threads parallèles
+
+
+Le processus de clonage fractionné surveille en permanence la progression et gère la file d'attente des tâches en conséquence. Une fois l'opération de fractionnement ou de déplacement de volume terminée, l'instantané associé est supprimé.
+
+L'état de la tâche de fractionnement s'affichera dans le Suivi des tâches. Pour afficher plus de détails, cliquez sur la tâche de fractionnement et sélectionnez « Afficher les journaux ».
+
+
+NOTE: Actuellement, Shift Toolkit ne redimensionne pas les volumes après la suppression d'un instantané. Cette fonctionnalité est prévue pour une version ultérieure.
+
+image::shift-toolkit-473.png[Sélection de la stratégie de workflow fractionné]
+
+image::shift-toolkit-474.png[Progression de la tâche du flux de travail fractionné]
+
+
+
+== Paramètres avancés de l'hyperviseur
+
+Le Shift Toolkit inclut des paramètres d'hyperviseur avancés pour les tâches de migration vers les hyperviseurs cibles. Ces paramètres permettent aux administrateurs de migration d'activer des fonctionnalités pour chaque vague de migration de machines virtuelles, selon les besoins. Shift Toolkit lit les paramètres lors de l'exécution, de sorte que chaque tâche applique les options sélectionnées dès son démarrage.
+
+image::shift-toolkit-475.png[Aperçu des paramètres avancés de l'hyperviseur]
+
+image::shift-toolkit-476.png[Options avancées des paramètres de l'hyperviseur]
+
+image::shift-toolkit-477.png[Configuration des paramètres avancés de l'hyperviseur]
+
+image::shift-toolkit-478.png[Détails de la tâche Paramètres avancés de l'hyperviseur]

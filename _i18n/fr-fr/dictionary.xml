@@ -9041,4 +9041,26 @@
   <block id="ff9844b2de7cfcbbdfa55375ab39a06f" category="list-text"><block ref="ff9844b2de7cfcbbdfa55375ab39a06f" category="inline-link-macro-rx"></block></block>
   <block id="990fa9f57e4aad9dabc3374936fa135c" category="inline-link-macro">VMware ESXi vers Proxmox VE</block>
   <block id="0844e7bd233e5a61e8cb4e245ed8e467" category="list-text"><block ref="0844e7bd233e5a61e8cb4e245ed8e467" category="inline-link-macro-rx"></block></block>
+  <block id="5ee3244123f8d6e1cd95dd20bbd4c917" category="section-title">Vérifier la migration</block>
+  <block id="a72a581a13e85fc031dd394d163e7318" category="paragraph">L'outil Shift propose désormais une option de vérification au niveau du blueprint, activée une fois que le statut de la migration est marqué comme « Success » ou « Partial Failure ». Une fois réussie, l’option de vérification lancera un nouveau travail et vérifiera les paramètres de la machine virtuelle comme spécifié dans les mappages du blueprint. Le statut du travail de vérification de migration sera affiché dans le Job Monitoring et les détails peuvent être consultés en cliquant sur le travail et en sélectionnant « view logs ».</block>
+  <block id="f32310bcb640784ccc77c7dd4c4b3dbf" category="admonition">L'option de vérification peut également être sélectionnée lors de la création du blueprint, auquel cas la tâche de vérification sera déclenchée après 5 minutes une fois la tâche de migration terminée.</block>
+  <block id="9d40980b6999e7f166bfa40856a00fec" category="admonition">Si l'option de vérification est sélectionnée après la tâche de migration, une tâche de vérification est déclenchée automatiquement et l'assistant affichera la tâche.</block>
+  <block id="56ac9d919bb8cab4f6077b76fb1f62a9" category="image-alt">Vérifier les détails du job de migration</block>
+  <block id="bcf221f3eb2ff23d03e933df5dc05c15" category="image-alt">Vérifier la liste des tâches de migration</block>
+  <block id="4215a20f35c33323f41cfdcc53561758" category="section-title">Flux de travail fractionné</block>
+  <block id="b648dea0c6088fda044bba8739f233dd" category="paragraph">Le flux de travail fractionné (applicable uniquement aux plans de migration OpenShift utilisant le pilote NAS ONTAP) détecte automatiquement les volumes associés aux machines virtuelles, ainsi que leurs volumes FlexClone correspondants.</block>
+  <block id="8aa0551ed462370f4ba674dbd90ceb17" category="paragraph">En fonction de la version d'ONTAP, la stratégie de répartition appropriée est sélectionnée automatiquement. Voici les directives générales :</block>
+  <block id="6d574a30eced387339f80ba54a89cc7d" category="list-text">Clonage fractionné pour les volumes sur ONTAP 9.17.1 et versions ultérieures, avec 20 exécutions parallèles</block>
+  <block id="3880a6f70719d876e231d8e2879f85ee" category="list-text">Déplacement de volume pour les versions ONTAP antérieures à 9.17.1, utilisant jusqu'à quatre threads parallèles</block>
+  <block id="1a3cae237cc41487606878fecfbf5dbd" category="paragraph">Le processus de clonage fractionné surveille en permanence la progression et gère la file d'attente des tâches en conséquence. Une fois l'opération de fractionnement ou de déplacement de volume terminée, l'instantané associé est supprimé.</block>
+  <block id="9c3a731812fdeaa07c81b64877fdd363" category="paragraph">L'état de la tâche de fractionnement s'affichera dans le Suivi des tâches. Pour afficher plus de détails, cliquez sur la tâche de fractionnement et sélectionnez « Afficher les journaux ».</block>
+  <block id="e9957f4f6643604e2e240ef6506687cd" category="admonition">Actuellement, Shift Toolkit ne redimensionne pas les volumes après la suppression d'un instantané. Cette fonctionnalité est prévue pour une version ultérieure.</block>
+  <block id="240aa9b96ee46082f68f7be9164d556b" category="image-alt">Sélection de la stratégie de workflow fractionné</block>
+  <block id="17ad14aae32d21937aca67c32e7957b4" category="image-alt">Progression de la tâche du flux de travail fractionné</block>
+  <block id="403f27f7aab7b0ad3c0682d7cca0a733" category="section-title">Paramètres avancés de l'hyperviseur</block>
+  <block id="d77c1cd5f2b0ce7f2dd95f4c5bc3c495" category="paragraph">Le Shift Toolkit inclut des paramètres d'hyperviseur avancés pour les tâches de migration vers les hyperviseurs cibles. Ces paramètres permettent aux administrateurs de migration d'activer des fonctionnalités pour chaque vague de migration de machines virtuelles, selon les besoins. Shift Toolkit lit les paramètres lors de l'exécution, de sorte que chaque tâche applique les options sélectionnées dès son démarrage.</block>
+  <block id="4502be711601ff984509d35dfc59750d" category="image-alt">Aperçu des paramètres avancés de l'hyperviseur</block>
+  <block id="d54ff9be113864ba45f6c548b61f0360" category="image-alt">Options avancées des paramètres de l'hyperviseur</block>
+  <block id="891154c0cb3c52a4cadf0de9b589ee45" category="image-alt">Configuration des paramètres avancés de l'hyperviseur</block>
+  <block id="8639d82053466ca0d28ba6da8779cf53" category="image-alt">Détails de la tâche Paramètres avancés de l'hyperviseur</block>
 </blocks>
