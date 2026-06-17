@@ -38,14 +38,14 @@ Vérifiez que les conditions préalables suivantes sont remplies avant de commen
 
 .Exigences VMware
 * Compte avec des autorisations minimales. Veuillez vous référer à cette section.link:https://docs.netapp.com/us-en/netapp-solutions-virtualization/migration/shift-toolkit-summary.html#minimum-permissions-role-required-on-vmware["pour les privilèges minimaux nécessaires"]
-* Les VMDK doivent être placés sur des volumes individuels (simulant ainsi une structure PVC/PV à partir d'un VMDK) à l'aide de svmotion.
+* Les VMDK peuvent être configurés de plusieurs manières : tous les VMDK peuvent résider sur un seul volume (éliminant ainsi le besoin de Storage vMotion), chaque VMDK peut être placé sur son propre volume individuel, ou plusieurs VMDK peuvent être organisés dans un qtree à l’intérieur d’un volume.
++
 
+NOTE: L'outil Shift détecte automatiquement la configuration et sélectionne la méthode de clonage appropriée ainsi que les pilotes de stockage NAS.
 
++
 
-NOTE: Cette limitation sera levée dans la prochaine version, où le pilote NAS-economy pourra être utilisé pour le provisionnement PVC.
-
-
-NOTE: Utilisez le script disponible dans le bloc Script (**Paramètres > Accès développeur > Bloc Script**) pour activer le placement PVC sur un qtree, ou permet d'importer le volume tel quel, ou de cloner et d'importer le volume, éliminant ainsi le besoin d'opérations vMotion manuelles.
+NOTE: Lorsque des VMDK sont placés dans un qtree, Shift Toolkit utilise le pilote ONTAP-NAS-economy.
 
 * Les outils VMware sont exécutés sur des machines virtuelles invitées.
 * Le système d'exploitation de chaque machine virtuelle est certifié et pris en charge en tant que système d'exploitation invité pour les conversions.
@@ -332,5 +332,4 @@ NOTE: Les machines virtuelles sont créées dans le cadre du projet « Default�
 
 Shift Toolkit accélère la migration en simplifiant le processus, en minimisant les temps d'arrêt et en éliminant le besoin d'accès à l'hôte ESXi ou d'approches basées sur VDDK.
 
-
-NOTE: Avant de commencer cette intégration spécifique, contactez votre équipe commerciale Red Hat.
+Une fois la migration terminée, le volume clone doit être détaché. La méthode utilisée dépend de la version d'ONTAP : utilisez clone split pour ONTAP 9.17.1 et versions ultérieures, ou vol move pour les versions antérieures. Un script permettant d’initier le processus de détachement est disponible dans le dossier « Post migrate » de l’archive ZIP fournie.
