@@ -20,6 +20,7 @@ Le kit d'outils Shift permet la migration de machines virtuelles entre plateform
 
 
 
+[[before-you-begin]]
 == Avant de commencer
 
 Vérifiez que les conditions préalables suivantes sont remplies avant de commencer la migration.
@@ -65,6 +66,7 @@ NOTE: La suppression des outils VMware s'effectue sur l'hyperviseur de destinati
 
 
 
+[[step-1-add-the-destination-site-proxmox-ve]]
 == Étape 1 : Ajouter le site de destination (Proxmox VE)
 
 Ajoutez l'environnement Proxmox VE de destination à la Shift Toolkit.
@@ -118,6 +120,7 @@ NOTE: Le volume source et le volume de destination seront identiques, car la con
 
 
 
+[[step-2-create-resource-groups]]
 == Étape 2 : Créer des groupes de ressources
 
 Organisez les machines virtuelles en groupes de ressources afin de préserver l'ordre de démarrage et les configurations de délai de démarrage.
@@ -203,6 +206,7 @@ Le groupe de ressources est créé et prêt pour la configuration du plan.
 
 
 
+[[step-3-create-a-migration-blueprint]]
 == Étape 3 : Créer un plan de migration
 
 Élaborez un plan directeur définissant la stratégie de migration, incluant les correspondances de plateformes, la configuration réseau et les paramètres des machines virtuelles.
@@ -345,6 +349,7 @@ Une fois la préparation de la machine virtuelle terminée avec succès, l'état
 
 
 
+[[step-4-execute-the-migration]]
 == Étape 4 : Exécuter la migration
 
 Déclenchez le workflow de migration pour convertir les machines virtuelles (VM) de VMware ESXi vers Proxmox VE.
@@ -391,6 +396,7 @@ image::shift-toolkit-468.png[Machines virtuelles dans Proxmox VE]
 ====
 
 
+[[shift-toolkit-workflow]]
 == Flux de travail du toolkit Shift
 
 Les sections ci-dessous couvrent les étapes déclenchées par le Shift toolkit pour convertir le VMDK et créer des machines virtuelles sur le côté Proxmox VE.
@@ -419,6 +425,7 @@ image::shift-toolkit-470.png[Détails de la VM Proxmox VE]
 
 
 
+[[minimum-permissions-for-migrating-and-creating-vms-in-proxmox-ve]]
 == Autorisations minimales pour la migration et la création de machines virtuelles dans Proxmox VE
 
 Cette section décrit les étapes requises pour créer un compte utilisateur dédié avec les privilèges minimaux nécessaires pour effectuer des migrations de machines virtuelles.

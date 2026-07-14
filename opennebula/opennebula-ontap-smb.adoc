@@ -23,6 +23,7 @@ NOTE: Les mots de passe sont enregistrés dans des fichiers effacer le texte et 
 
 
 
+[[storage-administrator-tasks]]
 == Tâches de l'administrateur de stockage
 
 Si vous débutez avec ONTAP, utilisez l'interface de gestion système pour effectuer ces tâches.
@@ -65,6 +66,7 @@ image:opennebula-ontap-smb-004.png["Informations sur les partages de PME"]
 
 
 
+[[virtualization-administrator-tasks]]
 == Tâches d'administrateur de virtualisation
 
 Effectuez ces tâches pour ajouter le partage SMB en tant que Datastore dans OpenNebula et activer le multicanal pour améliorer les performances et la tolérance aux pannes.

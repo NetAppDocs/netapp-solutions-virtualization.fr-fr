@@ -42,6 +42,7 @@ image::vmw-vcf-dr-nfs-001.png[Diagramme d'architecture de NetApp Disaster Recove
 
 
 
+[[getting-started]]
 == Commencer
 
 Pour commencer à utiliser NetApp Disaster Recovery, utilisez la NetApp Console puis accédez au service.
@@ -75,6 +76,7 @@ image::vmw-vcf-dr-nfs-003.png[Tableau de bord détaillé de NetApp Disaster Reco
 
 
 
+[[netapp-disaster-recovery-configuration]]
 == Configuration de NetApp Disaster Recovery
 
 La première étape de la préparation à la reprise après sinistre consiste à découvrir et à ajouter le vCenter source et les ressources de stockage à NetApp Disaster Recovery.
@@ -93,6 +95,7 @@ Une fois les vCenters ajoutés, la découverte automatisée est déclenchée.
 
 
 
+[[configuring-storage-replication-between-source-site-array-and-destination-site-array]]
 == Configuration de la réplication du stockage entre la baie du site source et la baie du site de destination
 
 SnapMirror assure la réplication des données dans un environnement NetApp . Construite sur la technologie NetApp Snapshot®, la réplication SnapMirror est extrêmement efficace car elle réplique uniquement les blocs qui ont été modifiés ou ajoutés depuis la mise à jour précédente. SnapMirror est facilement configuré à l'aide de NetApp OnCommand® System Manager ou de l'interface de ligne de commande ONTAP . NetApp Disaster Recovery crée également la relation SnapMirror à condition que le peering de clusters et de SVM soit configuré au préalable.
@@ -104,6 +107,7 @@ NOTE: Si la relation SnapMirror est déjà configurée pour le volume via l'inte
 
 
 
+[[how-to-setup-replication-relationships-for-netapp-disaster-recovery]]
 == Comment configurer les relations de réplication pour NetApp Disaster Recovery ?
 
 Le processus sous-jacent de création d'une réplication SnapMirror reste le même pour toute application donnée.  La solution la plus simple consiste à tirer parti de NetApp Disaster Recovery, qui automatisera le flux de travail de réplication à condition que les deux critères suivants soient remplis : Le processus peut être manuel ou automatisé. Le plus simple est d’utiliser NetApp Disaster Recovery, qui automatise le workflow de réplication, à condition que les deux critères suivants soient remplis :
@@ -116,6 +120,7 @@ La NetApp Console offre également une autre option pour configurer la réplicat
 
 
 
+[[what-can-netapp-disaster-recovery-do-for-you]]
 == Que peut faire NetApp Disaster Recovery pour vous ?
 
 Une fois les sites source et de destination ajoutés, NetApp Disaster Recovery effectue une analyse approfondie automatique et affiche les machines virtuelles ainsi que les métadonnées associées. NetApp Disaster Recovery détecte et configure automatiquement les réseaux et les groupes de ports utilisés par les machines virtuelles.
@@ -173,6 +178,7 @@ image::vmw-vcf-dr-nfs-012.png[actions du plan de réplication de NetApp Disaster
 
 
 
+[[test-failover]]
 == Test de basculement
 
 Le test de basculement dans NetApp Disaster Recovery est une procédure opérationnelle qui permet aux administrateurs VMware de valider intégralement leurs plans de reprise sans perturber leurs environnements de production.
@@ -198,6 +204,7 @@ image::vmw-vcf-dr-nfs-015.png[Résultat du test de basculement du plan de répli
 
 
 
+[[cleanup-failover-test-operation]]
 == Opération de test de basculement de nettoyage
 
 L'opération de test de basculement de nettoyage se produit une fois le test du plan de réplication terminé et l'administrateur VMware répond à l'invite de nettoyage.
@@ -212,6 +219,7 @@ Cette action réinitialisera les machines virtuelles (VM) et l'état du plan de 
 
 
 
+[[planned-migration-and-fail-over]]
 == Migration planifiée et basculement
 
 NetApp Disaster Recovery propose deux méthodes pour effectuer un véritable basculement : la migration planifiée et le basculement. La première méthode, la migration planifiée, intègre l'arrêt des machines virtuelles et la synchronisation de la réplication du stockage dans le processus afin de récupérer ou de déplacer efficacement les machines virtuelles vers le site de destination. La migration prévue nécessite un accès au site source. La deuxième méthode, le basculement, est un basculement planifié/non planifié dans lequel les machines virtuelles sont récupérées sur le site de destination à partir du dernier intervalle de réplication de stockage qui a pu se terminer. En fonction du RPO intégré à la solution, une certaine perte de données est à prévoir dans le scénario de reprise après sinistre.
@@ -234,6 +242,7 @@ image::vmw-vcf-dr-nfs-019.png[Client vSphere - Machines virtuelles sous tension]
 
 
 
+[[failback]]
 == Retour arrière
 
 Une restauration est une procédure facultative qui restaure la configuration d’origine des sites source et de destination après une récupération.
@@ -263,6 +272,7 @@ Pour plus de détails sur l'accès et la configuration de NetApp Disaster Recove
 
 
 
+[[monitoring-and-dashboard]]
 == Surveillance et tableau de bord
 
 Depuis NetApp Disaster Recovery ou l'interface de ligne de commande ONTAP , vous pouvez surveiller l'état de santé de la réplication pour les volumes de banque de données appropriés, et l'état d'un basculement ou d'un test de basculement peut être suivi via la surveillance des tâches.

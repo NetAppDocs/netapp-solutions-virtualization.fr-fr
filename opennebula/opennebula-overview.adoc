@@ -18,6 +18,7 @@ OpenNebula est une plateforme open source de gestion du cloud pour la gestion d'
 
 
 
+[[overview]]
 == Aperçu
 
 OpenNebula fournit un ensemble complet de fonctionnalités pour gérer l'intégralité du cycle de vie des machines virtuelles et des conteneurs, notamment le déploiement, la surveillance, la mise à l'échelle et la mise hors service. Il prend en charge un large éventail d'options de stockage et de réseau, ce qui le rend flexible pour divers cas d'utilisation.
@@ -32,6 +33,7 @@ OpenNebula a une architecture modulaire qui permet une intégration facile avec 
 
 
 
+[[frontend-user-interface]]
 == Interface utilisateur front-end
 
 OpenNebula fournit une interface utilisateur web appelée Sunstone, qui permet aux utilisateurs de gérer facilement leurs machines virtuelles et conteneurs. L'interface est intuitive et conviviale, ce qui la rend facile à utiliser aussi bien pour les administrateurs que pour les utilisateurs finaux. Par défaut, elle fonctionne sur le port 2616. Les données persistantes sont stockées dans une base de données backend, qui peut être soit SQLite (par défaut pour les petites charges de travail) soit MySQL/MariaDB (pour les environnements de production). Plusieurs instances de serveurs frontend peuvent être déployées pour garantir une haute disponibilité et l'équilibrage de charge.
@@ -46,6 +48,7 @@ Les fonctionnalités de fédération permettent à plusieurs instances OpenNebul
 
 
 
+[[compute]]
 == Calculer
 
 OpenNebula prend en charge KVM pour les machines virtuelles et LXC pour les conteneurs Linux. Les systèmes d'exploitation pris en charge incluent Ubuntu, Debian, RHEL et AlmaLinux. Les machines virtuelles peuvent être déployées à partir de modèles préconfigurés ou d'images personnalisées. Un ensemble de machines virtuelles (service) peut également être déployé à l'aide de modèles de service. OneFlow permet de définir et de gérer des applications multi-niveaux composées de plusieurs machines virtuelles interconnectées. OneGate permet de communiquer avec le backend OpenNebula depuis les machines virtuelles, offrant des fonctionnalités avancées de surveillance et de gestion.
@@ -75,6 +78,7 @@ OpenNebula prend en charge NVIDIA vGPU et MIG (Multi Instance GPU) pour les mach
 
 
 
+[[storage]]
 == Stockage
 
 OpenNebula propose quatre types de magasins de données pour gérer les ressources de stockage : système, image, fichier et sauvegarde. Les magasins de données système sont utilisés pour stocker les disques des machines virtuelles et les fichiers de configuration. Les magasins de données d’image sont utilisés pour stocker les images de machines virtuelles, les ISO et les disques de données. Les magasins de données de fichiers sont utilisés pour stocker les fichiers pouvant être accessibles par les machines virtuelles. Les magasins de données de sauvegarde sont utilisés pour stocker les sauvegardes des machines virtuelles et leurs données.
@@ -102,6 +106,7 @@ Le pilote Trident CSI est utilisé pour créer des volumes persistants sur les c
 
 
 
+[[network]]
 == Réseau
 
 OpenNebula s'intègre à l'infrastructure réseau existante pour fournir des capacités réseau aux machines virtuelles et aux conteneurs. Il prend en charge différents modèles de réseau, notamment le pont Linux, les VLAN 802.1Q, VXLAN et les réseaux Open vSwitch. Pour un réseau de type VPC, VXLAN avec EVPN peut être utilisé pour isoler les réseaux des locataires.
@@ -120,6 +125,7 @@ Les routeurs virtuels peuvent être déployés pour assurer les services de rout
 
 
 
+[[monitoring-and-operations]]
 == Surveillance et opérations
 
 OpenNebula inclut un système de surveillance complet qui fournit des informations en temps réel sur les performances et l'état de l'infrastructure cloud. Il collecte des métriques provenant des hyperviseurs, des machines virtuelles, du stockage et des composants réseau, permettant aux administrateurs de surveiller l'utilisation des ressources et d'identifier les problèmes potentiels.
@@ -142,6 +148,7 @@ https://github.com/OpenNebula/one-swap["Outil OneSwap"] permet de migrer des mac
 
 
 
+[[data-protection]]
 == Protection des données
 
 OpenNebula prend en charge la sauvegarde à l'aide de rsync, restic et Veeam. L'intégration de Veeam est uniquement disponible avec l'édition Enterprise. Les datastores de sauvegarde sont utilisés pour stocker les sauvegardes des machines virtuelles et de leurs données. Les tâches de sauvegarde peuvent être planifiées pour s'exécuter à des intervalles spécifiques, garantissant que les machines virtuelles sont régulièrement sauvegardées.

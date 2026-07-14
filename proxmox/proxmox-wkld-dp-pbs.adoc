@@ -20,6 +20,7 @@ Pour plus d'informations sur l'architecture de Proxmox Backup Server et son int�
 
 
 
+[[before-you-begin]]
 == Avant de commencer
 
 * Assurez-vous de disposer de chemins réseau redondants entre le stockage PBS et ONTAP pour une haute disponibilité et des performances optimales.
@@ -31,6 +32,7 @@ Pour plus d'informations sur l'architecture de Proxmox Backup Server et son int�
 
 
 
+[[configure-datastores]]
 == Configurer les magasins de données
 
 Configurer les banques de données du serveur de sauvegarde Proxmox à l'aide du stockage NetApp ONTAP . Cela comprend le montage du stockage ONTAP sur l'hôte PBS, la création d'un datastore local dans l'interface web PBS et, en option, la configuration du stockage ONTAP S3 pour la sauvegarde hors site et la conservation à long terme.
@@ -94,6 +96,7 @@ image::proxmox-wkld-dp-pbs-006.png[Fichier de configuration du datastore S3 dans
 ====
 
 
+[[create-local-sync-jobs-to-ontap-s3-storage]]
 == Créer des tâches de synchronisation locale vers le stockage ONTAP S3.
 
 + Migrer les données du datastore PBS local vers le stockage ONTAP S3 en créant une tâche de synchronisation locale dans PBS. Cette tâche copie les données de sauvegarde du datastore local vers le datastore S3 pour un stockage hors site et une conservation à long terme.
@@ -122,6 +125,7 @@ NOTE: Pour le stockage hors site et une conservation plus longue avec le stockag
 
 
 
+[[add-proxmox-backup-server-to-proxmox-ve-cluster]]
 == Ajouter le serveur de sauvegarde Proxmox au cluster Proxmox VE
 
 Ajoutez Proxmox Backup Server comme cible de stockage pour activer les opérations de sauvegarde des machines virtuelles et des conteneurs.
@@ -157,6 +161,7 @@ Le cluster Proxmox VE peut désormais utiliser le datastore PBS pour les opérat
 
 
 
+[[perform-backups]]
 == Effectuer des sauvegardes
 
 Sauvegardez les charges de travail Proxmox VE sur le serveur de sauvegarde Proxmox. Cela inclut la réalisation de sauvegardes à la demande, la configuration de tâches de sauvegarde planifiées, la sauvegarde des fichiers de configuration de l'hôte et l'utilisation de scripts de pré- et post-sauvegarde pour des actions personnalisées.
@@ -280,6 +285,7 @@ NOTE: Les scripts Hook peuvent également être définis au niveau de la machine
 
 
 
+[[restore-vms-and-containers]]
 == Restaurez les machines virtuelles et les conteneurs
 
 Restaurez les machines virtuelles et les conteneurs directement depuis l'interface web de Proxmox VE ou depuis le stockage PBS.
@@ -307,6 +313,7 @@ image::proxmox-wkld-dp-pbs-022.png[Restauration d'une machine virtuelle manquant
 
 
 
+[[configure-disaster-recovery-with-snapmirror]]
 == Configurez la reprise après sinistre avec SnapMirror
 
 Répliquez la base de données PBS sur le stockage ONTAP vers un autre système ONTAP à l'aide de SnapMirror pour la reprise après sinistre. Cela protège les données de sauvegarde et permet leur restauration après des pannes de site.
@@ -341,6 +348,7 @@ Une fois la base de données ajoutée, vous pouvez accéder aux données de sauv
 
 
 
+[[monitor-multiple-clusters-with-proxmox-datacenter-manager]]
 == Supervisez plusieurs clusters avec Proxmox Datacenter Manager
 
 Surveillez et gérez plusieurs instances de Proxmox VE et de Proxmox Backup Server à l'aide de Proxmox Datacenter Manager (PDM). PDM fournit une interface de gestion centralisée pour surveiller l'état, les performances et le statut de plusieurs clusters Proxmox VE et instances PBS.
@@ -353,6 +361,7 @@ image::proxmox-wkld-dp-pbs-025.png[Présentation de Proxmox Datacenter Manager]
 ====
 
 
+[[summary]]
 == Résumé
 
 Le serveur de sauvegarde Proxmox intégré au stockage NetApp ONTAP offre une protection des données robuste et efficace pour les charges de travail Proxmox VE. Les organisations peuvent garantir la disponibilité et l'intégrité des charges de travail virtualisées en tirant parti des fonctionnalités avancées de gestion des données d'ONTAP et des capacités de sauvegarde de PBS.

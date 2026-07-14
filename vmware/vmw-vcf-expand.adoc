@@ -22,6 +22,7 @@ Les outils ONTAP simplifient la configuration et la gestion des banques de donn�
 
 
 
+[[supported-protocols-for-expanding-storage]]
 == Protocoles pris en charge pour l'extension du stockage
 
 Les environnements VCF peuvent être étendus à l’aide de plusieurs protocoles de stockage, chacun offrant des avantages et des cas d’utilisation uniques.
@@ -75,6 +76,7 @@ Pour plus d'informations sur les avantages du NVMe, reportez-vous à https://www
 
 
 
+[[use-cases-for-adding-supplemental-storage]]
 == Cas d'utilisation pour l'ajout de stockage supplémentaire
 
 Les cas d’utilisation suivants montrent comment ajouter du stockage supplémentaire aux domaines de gestion VCF et aux domaines de charge de travail d’infrastructure virtuelle (VI) à l’aide de différents protocoles et configurations.

@@ -46,10 +46,12 @@ image:redhat-openshift-035.png["Figure montrant une boîte de dialogue d'entrée
 
 
 
+[[netapp-platforms]]
 == Plateformes NetApp
 
 
 
+[[netapp-afffas]]
 === NetApp AFF/ FAS
 
 NetApp fournit des plates-formes de stockage robustes entièrement flash (AFF) et hybrides évolutives (FAS), conçues sur mesure avec des performances à faible latence, une protection des données intégrée et une prise en charge multiprotocole.
@@ -60,6 +62,7 @@ Pour plus d'informations sur les plateformes NETAPP AFF/ FAS , cliquez sur https
 
 
 
+[[ontap-select]]
 === ONTAP Select
 
 ONTAP Select est un déploiement défini par logiciel de NetApp ONTAP qui peut être déployé sur un hyperviseur dans votre environnement. Il peut être installé sur VMware vSphere ou sur KVM et offre toutes les fonctionnalités et l'expérience d'un système ONTAP basé sur le matériel.
@@ -68,6 +71,7 @@ Pour plus d'informations sur ONTAP Select, cliquez sur https://docs.netapp.com/u
 
 
 
+[[cloud-volumes-ontap]]
 === Cloud Volumes ONTAP
 
 NetApp Cloud Volumes ONTAP est une version déployée dans le cloud de NetApp ONTAP disponible pour être déployée dans un certain nombre de clouds publics, notamment : Amazon AWS, Microsoft Azure et Google Cloud.
@@ -76,18 +80,21 @@ Pour plus d'informations sur Cloud Volumes ONTAP, cliquez sur https://docs.netap
 
 
 
+[[amazon-fsx-ontap]]
 === Amazon FSx ONTAP
 
 Amazon FSx ONTAP fournit un stockage partagé entièrement géré dans le cloud AWS avec les capacités populaires d'accès et de gestion des données d' ONTAP. Pour plus d'informations sur Amazon FSx ONTAP, cliquez sur https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["ici"] .
 
 
 
+[[azure-netapp-files]]
 === Azure NetApp Files
 
 Azure NetApp Files est un service de stockage de fichiers Azure natif, propriétaire, de classe entreprise et hautes performances. Il fournit des volumes en tant que service pour lesquels vous pouvez créer des comptes NetApp , des pools de capacité et des volumes. Vous pouvez également sélectionner les niveaux de service et de performance et gérer la protection des données. Vous pouvez créer et gérer des partages de fichiers hautes performances, hautement disponibles et évolutifs en utilisant les mêmes protocoles et outils que ceux que vous connaissez et sur lesquels vous comptez sur site. Pour plus d'informations sur Azure NetApp Files, cliquez sur https://learn.microsoft.com/en-us/azure/azure-netapp-files/["ici"] .
 
 
 
+[[google-cloud-netapp-volumes]]
 === Google Cloud NetApp Volumes
 
 Google Cloud NetApp Volumes est un service de stockage de données entièrement géré et basé sur le cloud qui offre des capacités de gestion de données avancées et des performances hautement évolutives. Il vous permet de déplacer des applications basées sur des fichiers vers Google Cloud. Il prend en charge les protocoles Network File System (NFSv3 et NFSv4.1) et Server Message Block (SMB) intégrés, vous n'avez donc pas besoin de réarchitecturer vos applications et pouvez continuer à obtenir un stockage persistant pour vos applications. Pour plus d'informations sur Google Cloud NetApp VolumesP, cliquez sur https://cloud.google.com/netapp/volumes/docs/discover/overview["ici"] .

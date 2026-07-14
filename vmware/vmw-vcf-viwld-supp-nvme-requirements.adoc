@@ -18,6 +18,7 @@ Passez en revue les exigences de conception et d’infrastructure réseau recomm
 
 
 
+[[infrastructure-requirements]]
 == Exigences en matière d'infrastructure
 
 * Un système de stockage ONTAP AFF ou ASA avec des ports de données physiques sur des commutateurs Ethernet dédiés au trafic de stockage.
@@ -27,6 +28,7 @@ Passez en revue les exigences de conception et d’infrastructure réseau recomm
 
 
 
+[[recommended-nvmetcp-network-design]]
 == Conception de réseau NVMe/TCP recommandée
 
 NetApp recommande des conceptions de réseau entièrement redondantes pour NVMe/TCP. Le diagramme suivant illustre un exemple de configuration redondante, offrant une tolérance aux pannes pour les systèmes de stockage, les commutateurs, les adaptateurs réseau et les systèmes hôtes.
@@ -37,6 +39,7 @@ Pour le multivoie et le basculement sur plusieurs chemins, configurez au moins d
 
 
 
+[[whats-next]]
 == Quelle est la prochaine étape ?
 
 Après avoir examiné les exigences de déploiement,link:vmw-vcf-viwld-supp-nvme-svm-lifs.html["créer les SVM et les LIF"] .

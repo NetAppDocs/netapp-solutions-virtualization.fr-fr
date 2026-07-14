@@ -18,6 +18,7 @@ Cette section présente une vue d'ensemble de l'architecture d'Omnissa avec NetA
 
 
 
+[[architecture-overview]]
 == Aperçu de l'architecture
 
 L'architecture d'Omnissa avec NetApp est conçue pour offrir une solution évolutive et flexible pour les environnements EUC. La solution se compose de plusieurs composants, y compris la plateforme de gestion Omnissa, les baies de stockage NetApp, et l'infrastructure de postes de travail et infrastructure applicative. La plateforme de gestion Omnissa fournit une interface centralisée pour la gestion de l'infrastructure de postes de travail et infrastructure applicative, tandis que les baies de stockage NetApp offrent un stockage performant et fiable pour les postes de travail virtuels et les applications. L'architecture est conçue pour prendre en charge un large éventail de cas d'utilisation EUC, notamment l'infrastructure de postes de travail (VDI), la virtualisation d'applications et le partage de fichiers pour les données utilisateur.
@@ -48,6 +49,7 @@ NetApp storage arrays sont utilisées pour fournir un stockage haute performance
 
 
 
+[[pod-and-block-architecture]]
 == Architecture en pods et blocs
 
 Omnissa Horizon utilise une architecture de pods et de blocs pour offrir une solution évolutive et reproductible pour les environnements EUC. Un pod est un groupe de serveurs Horizon Connection interconnectés, capable de gérer jusqu'à 20 000 sessions de postes de travail virtuels et d'applications. Un pod peut contenir jusqu'à 7 serveurs Horizon Connection, qui doivent être situés dans le même centre de données et ne peuvent pas être répartis sur plusieurs sites. Plusieurs pods peuvent être interconnectés grâce à Cloud Pod Architecture (CPA) afin de fournir une solution évolutive pour les environnements plus importants. Avec la CPA, le nombre de sessions peut atteindre 250 000. Pour un nombre de sessions encore plus élevé, des CPA supplémentaires peuvent être ajoutés à l'architecture.
@@ -71,6 +73,7 @@ NOTE: Les configurations de cluster étendu sur plusieurs sites ne sont pas pris
 
 
 
+[[application-virtualization]]
 == virtualisation des applications
 
 Un problème courant des environnements VDI est la prolifération des modèles VDI due aux applications préinstallées. Avec Omnissa Horizon, App Volumes peut être utilisé pour diffuser des applications vers les postes de travail virtuels et les hôtes d'applications publiées. Les volumes accessibles en écriture par l'utilisateur permettent aux utilisateurs d'installer des applications. Cela réduit le besoin de postes de travail persistants. Avec App Volumes, les applications sont empaquetées et livrées en temps réel aux postes de travail virtuels et aux sessions RDSH. Basées sur Machine Manager, les applications empaquetées sont stockées dans des fichiers VMDK sur des datastores ou dans des fichiers VHD sur des partages de fichiers SMB, qui sont gérés par l'agent App Volumes pour le montage et le démontage sur les postes de travail virtuels et les serveurs RDSH.
@@ -85,6 +88,7 @@ Pour plus de détails, consultez https://techzone.omnissa.com/resource/app-volum
 
 
 
+[[user-profile-management]]
 == Gestion des profils utilisateurs
 
 La gestion des profils utilisateurs est essentielle dans tout environnement EUC, car elle garantit une expérience utilisateur cohérente sur différents postes de travail virtuels et applications. Omnissa Horizon prend en charge plusieurs solutions de gestion des profils utilisateurs, notamment Microsoft FSLogix et Omnissa Dynamic Environment Manager (DEM) ou une combinaison des deux. FSLogix offre une solution de profils utilisateurs conteneurisée qui permet des connexions rapides et une expérience utilisateur cohérente sur différents postes de travail virtuels et applications. DEM propose une approche plus granulaire de la gestion des profils utilisateurs, permettant aux administrateurs de gérer les paramètres et configurations des utilisateurs en fonction de conditions et de critères spécifiques. Pour en savoir plus sur DEM, consultez https://techzone.omnissa.com/resource/dynamic-environment-manager-architecture["Architecture du Dynamic Environment Manager"].

@@ -1,0 +1,178 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-disaster-recovery-source-cluster-setup.html 
+keywords: OpenShift, OCP, Trident, Trident Protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift 
+---
+= Configuration du cluster source pour la reprise après sinistre de Red Hat OpenShift Virtualization
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cette section fournit des informations sur la configuration du cluster source pour la reprise après sinistre des charges de travail de virtualisation OpenShift à l'aide de NetApp Trident Protect et AppMirror. Cela inclut la création d'un AppVault à l'aide d'ONTAP S3, la création d'une application Trident Protect pour la machine virtuelle source, ainsi que la création d'instantanés à la demande et planifiés de la machine virtuelle avec Trident Protect. Ces étapes sont essentielles pour garantir que le cluster source est correctement configuré afin de répliquer les données vers le cluster de destination pour la reprise après sinistre et de permettre la restauration des machines virtuelles en cas de sinistre.
+
+
+
+[[setup-disaster-recovery-source-cluster-for-openshift-virtualization]]
+== Configurer le cluster source de reprise après sinistre pour la virtualisation OpenShift
+
+Toutes les étapes suivantes sont effectuées sur le cluster source, c'est-à-dire le cluster sur lequel la machine virtuelle protégée est actuellement en cours d’exécution.
+
+
+
+[[create-appvault-using-ontap-s3]]
+== Créer AppVault à l'aide de ONTAP S3
+
+Cette section explique comment configurer un objet AppVault dans Trident Protect à l'aide du stockage d'objets ONTAP S3. L'objet AppVault créé à cette étape sera utilisé pour stocker les données répliquées du cluster source, et ces données seront utilisées pour la restauration dans le cluster de destination de reprise après sinistre.
+
+Utilisez les commandes oc et les fichiers yaml ci-dessous pour créer un secret et la ressource personnalisée AppVault pour ONTAP s3. Assurez-vous de les créer dans l'espace de noms trident-protect.
+
+.Afficher un exemple
+[%collapsible]
+====
+[source, yaml]
+----
+apiVersion: v1
+# You can provide the keys either as stringData or base 64 encoded data
+stringData:
+  accessKeyID: "<access key id as obtained from ONTAP>"
+  secretAccessKey: "<secret access key as obtained from ONTAP>"
+#data:
+  #accessKeyID: <base 64 encoded value of access key>
+  #secretAccessKey: <base 64 encoded value of secret access key>
+kind: Secret
+metadata:
+  name: appvault-secret
+  namespace: trident-protect
+type: Opaque
+
+----
+[source, yaml]
+----
+apiVersion: protect.trident.netapp.io/v1
+kind: AppVault
+metadata:
+  name: ontap-s3-appvault
+  namespace: trident-protect
+spec:
+  providerConfig:
+    s3:
+      bucketName: oc-dr
+      endpoint: <data lif to use to access S3>
+      secure: "false" # Setting this to "false" will disable TLS, which is not recommended for production environments.
+      skipCertValidation: "true" # When TLS is enabled, setting skipCertValidation to "true" will skip TLS certificate validation, which is not recommended for production environments.
+  providerCredentials:
+    accessKeyID:
+      valueFromSecret:
+        key: accessKeyID
+        name: appvault-secret
+    secretAccessKey:
+      valueFromSecret:
+        key: secretAccessKey
+        name: appvault-secret
+  providerType: OntapS3
+----
+Assurez-vous que le coffre-fort ONTAP S3 est créé et qu'il est dans l'état Disponible
+
+[source, cli]
+----
+oc create -f app-vault-secret.yaml -n trident-protect
+oc create -f app-vault.yaml -n trident-protect
+----
+image:osv-disaster-recovery-003.png["OCP-v AppVault dans l'espace de noms trident-protect"]
+
+====
+
+
+[[create-a-trident-protect-app-for-the-source-vm]]
+== Créez une application Trident Protect pour la machine virtuelle source.
+
+Créez une ressource personnalisée Application dans l'espace de noms où se trouve la machine virtuelle source.
+
+.Afficher un exemple
+[%collapsible]
+====
+[source, yaml]
+----
+# cat app.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: Application
+metadata:
+  creationTimestamp: null
+  name: test-source-app
+  namespace: test-dr-ns
+spec:
+  includedNamespaces:
+  - namespace: test-dr-ns
+----
+[source, cli]
+----
+tridentctl-protect create app <source-vm> -n <source-ns> --namespaces <source-ns>
+----
+image:osv-disaster-recovery-004.png["Application OCP-v dans l'espace de noms source-ns"]
+
+La machine virtuelle et son PVC dans l'espace de noms inclus dans la ressource personnalisée de l'App sont présentés ci-dessous.
+
+image:osv-disaster-recovery-005.png["La machine virtuelle et son PVC dans l'espace de noms inclus dans la ressource personnalisée App"]
+
+====
+
+
+[[create-a-snapshot-of-the-vm-using-trident-protect]]
+== Créez un instantané de la machine virtuelle à l'aide de Trident Protect
+
+Vous pouvez créer un instantané à la demande de la machine virtuelle à l'aide de l'interface de ligne de commande (CLI) ou de l'API de Trident Protect. Cet instantané sera stocké dans le AppVault créé à l'étape précédente et pourra être utilisé pour la restauration dans le cluster de destination en cas de reprise après sinistre.
+
+.Afficher un exemple
+[%collapsible]
+====
+[source, yaml]
+----
+# snapshot.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: Snapshot
+metadata:
+  name: test-source-dr-init-snapshot
+  namespace: test-dr-ns
+spec:
+  applicationRef: test-source-app
+  appVaultRef: ontap-s3-appvault
+  reclaimPolicy: Delete
+
+----
+image:osv-disaster-recovery-006.png["Instantané à la demande OCP-v de la machine virtuelle créé à l'aide de l'interface de ligne de commande Trident Protect"]
+
+====
+
+
+[[create-a-scheduled-snapshot-of-the-vm-using-trident-protect]]
+== Créez un instantané planifié de la machine virtuelle à l'aide de Trident Protect
+
+Vous pouvez également créer un instantané planifié en créant une ressource personnalisée Schedule dans le même espace de noms que la ressource personnalisée Application. La planification créera automatiquement des instantanés de la machine virtuelle selon la planification spécifiée et les stockera dans le AppVault.
+
+.Afficher un exemple
+[%collapsible]
+====
+[source, yaml]
+----
+apiVersion: protect.trident.netapp.io/v1
+kind: Schedule
+metadata:
+  name: appmirror-sched1
+spec:
+  appVaultRef: ontap-s3-appvault
+  applicationRef: test-source-app
+  backupRetention: "0"
+  enabled: true
+  granularity: Custom
+  recurrenceRule: |-
+    DTSTART:20240901T000200Z
+    RRULE:FREQ=MINUTELY;INTERVAL=5
+  snapshotRetention: "2"
+----
+====

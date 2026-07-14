@@ -18,6 +18,7 @@ Utilisez le script PowerShell pour migrer des machines virtuelles de VMware vSph
 
 
 
+[[powershell-script]]
 == script Powershell
 
 [source, powershell]

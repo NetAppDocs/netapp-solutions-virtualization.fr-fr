@@ -18,12 +18,14 @@ ONTAP et VMware proposent des API pour une intégration et une automatisation tr
 
 
 
+[[introduction]]
 == Introduction
 
 VMware fournit une gamme d’API qui permettent aux administrateurs d’interagir par programmation avec divers produits et services VMware, améliorant ainsi l’efficacité et la cohérence des opérations.  De plus, les API NetApp ONTAP fournissent un ensemble robuste d’outils qui permettent aux administrateurs d’automatiser, d’intégrer et d’optimiser la gestion des environnements de stockage, en particulier en conjonction avec les charges de travail VMware.  Ces API facilitent l’interaction transparente entre les systèmes de stockage ONTAP et VMware, améliorant ainsi l’efficacité, les performances et la protection des données.
 
 
 
+[[vmware-based-apis]]
 == API basées sur VMware
 
 * *API VMware vSphere :* l’API vSphere est une API complète qui permet aux administrateurs de gérer et d’automatiser les environnements VMware vSphere.  Il donne accès à une large gamme de fonctionnalités vSphere, notamment le provisionnement, la configuration, la surveillance et la gestion du cycle de vie des machines virtuelles.
@@ -35,6 +37,7 @@ VMware fournit une gamme d’API qui permettent aux administrateurs d’interagi
 
 
 
+[[ontap-based-apis]]
 == API basées sur ONTAP
 
 * * API REST NetApp ONTAP :* l'API REST ONTAP fournit une interface RESTful moderne pour la gestion des systèmes de stockage ONTAP .  Il simplifie l’automatisation des tâches de stockage telles que le provisionnement, la surveillance et la configuration.  Il permet une intégration facile avec VMware vSphere et d'autres outils de gestion VMware, permettant des opérations de stockage automatisées directement à partir des environnements VMware.  Il prend en charge une large gamme d'opérations, de la gestion de stockage de base aux tâches avancées de protection et de réplication des données, permettant une gestion du stockage évolutive et flexible.
@@ -43,6 +46,7 @@ VMware fournit une gamme d’API qui permettent aux administrateurs d’interagi
 
 
 
+[[summary]]
 == Résumé
 
 En résumé, avec les API ONTAP , les administrateurs peuvent créer des scripts pour la création et la configuration de banques de données dans des environnements VMware, garantissant ainsi un provisionnement de stockage rapide et cohérent.  De plus, ils peuvent automatiser la création, la planification et la suppression de snapshots pour les machines virtuelles VMware, offrant ainsi des options efficaces de protection et de récupération des données.  Les API SnapMirror facilitent l’automatisation de la configuration et de la gestion des relations de réplication, garantissant des solutions de reprise après sinistre robustes pour les charges de travail VMware.  Les administrateurs peuvent également implémenter des scripts pour surveiller les mesures de performances de stockage et déclencher des alertes ou des actions automatisées lorsque les seuils de performances sont dépassés, garantissant ainsi des performances de stockage optimales pour les charges de travail VMware.  En intégrant les API ONTAP aux API VMware, telles que celles fournies par vSphere et vRealize, les administrateurs peuvent obtenir une expérience de gestion transparente et hautement automatisée, améliorant ainsi l'efficacité et la fiabilité globales de leur infrastructure virtualisée.

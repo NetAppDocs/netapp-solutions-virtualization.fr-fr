@@ -18,6 +18,7 @@ Restaurez les machines virtuelles dans OpenShift Virtualization à l'aide de Vel
 
 
 
+[[prerequisites]]
 == Prérequis
 
 Pour restaurer à partir d’une sauvegarde, supposons que l’espace de noms où la machine virtuelle existait a été supprimé accidentellement.

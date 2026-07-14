@@ -20,6 +20,7 @@ image:vmware-vcf-asa-mgmt-stretchcluster-001.png["Instance unique - Zones de dis
 
 
 
+[[scenario-overview]]
 == Aperçu du scénario
 
 La solution de cluster extensible peut être implémentée sur un cluster par défaut ou sur un cluster supplémentaire dans les domaines de gestion ou de charge de travail VCF.  VMFS sur FC est pris en charge à la fois sur le magasin de données principal et sur les magasins de données supplémentaires.  VMFS sur iSCSI n'est pris en charge qu'avec des banques de données supplémentaires.  Consultez IMT pour la prise en charge de VMFS sur NVMe-oF avec la synchronisation active SnapMirror .
@@ -60,6 +61,7 @@ NOTE: Chaque fois que le cluster est étendu ou réduit, vous devez mettre à jo
 ====
 
 
+[[additional-information]]
 == Informations Complémentaires
 
 Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.
@@ -68,6 +70,7 @@ Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https
 
 
 
+[[video-demo-for-this-solution]]
 == Démo vidéo de cette solution
 
 .Cluster extensible pour VCF avec outils ONTAP

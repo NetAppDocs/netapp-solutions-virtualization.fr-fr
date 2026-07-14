@@ -20,6 +20,7 @@ Dans ce cas d'utilisation, nous décrivons la procédure d'utilisation du plug-i
 
 
 
+[[scenario-overview]]
 == Aperçu du scénario
 
 Ce scénario couvre les étapes de haut niveau suivantes :
@@ -35,6 +36,7 @@ Ce scénario couvre les étapes de haut niveau suivantes :
 
 
 
+[[prerequisites]]
 == Prérequis
 
 Ce scénario nécessite les composants et configurations suivants :
@@ -55,12 +57,14 @@ image:vmware-vcf-asa-108.png["Stratégie de sauvegarde 3-2-1"]
 
 
 
+[[deployment-steps]]
 == Étapes de déploiement
 
 Pour déployer le plug-in SnapCenter et l'utiliser pour créer des sauvegardes et restaurer des machines virtuelles et des banques de données, procédez comme suit :
 
 
 
+[[deploy-and-use-scv-to-protect-data-in-a-vi-workload-domain]]
 === Déployer et utiliser SCV pour protéger les données dans un domaine de charge de travail VI
 
 Effectuez les étapes suivantes pour déployer, configurer et utiliser SCV afin de protéger les données dans un domaine de charge de travail VI :
@@ -470,6 +474,7 @@ image:vmware-vcf-asa-092.png["Parcourir le fichier invité 2"]
 ====
 
 
+[[additional-information]]
 == Informations Complémentaires
 
 Pour plus d'informations sur la configuration de VCF, reportez-vous à https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentation de VMware Cloud Foundation"] .

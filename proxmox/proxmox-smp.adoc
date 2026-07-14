@@ -16,12 +16,14 @@ Storage Manager for Proxmox (SMP) offre une gestion complète du provisionnement
 
 
 
+[[learn-about-storage-manager-for-proxmox]]
 == Découvrez Storage Manager pour Proxmox
 
 Storage Manager for Proxmox (SMP) offre une gestion complète du stockage pour les machines virtuelles au sein des environnements Proxmox utilisant les systèmes de stockage NetApp. En permettant aux administrateurs de gérer directement le stockage, SMP simplifie les tâches de gestion du stockage et de gestion des données dans les environnements Proxmox.
 
 
 
+[[key-features]]
 === Caractéristiques principales
 
 * *Gestion du stockage de bout en bout* : SMP assure la gestion complète du cycle de vie des machines virtuelles, de la mise en service du stockage à la sauvegarde et à la restauration.
@@ -31,6 +33,7 @@ Storage Manager for Proxmox (SMP) offre une gestion complète du stockage pour l
 
 
 
+[[capabilities]]
 === Capacités
 
 Chaque composant de SMP est conçu pour améliorer l'efficacité de la gestion du stockage :
@@ -57,6 +60,7 @@ Chaque composant de SMP est conçu pour améliorer l'efficacité de la gestion d
 
 
 
+[[prerequisites]]
 === Prérequis
 
 Veuillez vous assurer d'avoir effectué les opérations suivantes avant de continuer :
@@ -104,6 +108,7 @@ EOF
 
 
 
+[[install-and-set-up-storage-manager-for-proxmox]]
 == Installez et configurez Storage Manager pour Proxmox
 
 Pour démarrer avec SMP, utilisez un système d'exploitation Windows sur une machine virtuelle dédiée. SMP peut être exécuté sur Windows Server 2019, 2022 et 2025.
@@ -166,6 +171,7 @@ image::proxmox-smp-image5.png[écran d'accueil de l'interface utilisateur SMP]
 
 
 
+[[configure-storage-manager-for-proxmox]]
 == Configurer Storage Manager pour Proxmox
 
 Une fois le stockage et la connectivité aux nœuds de stockage et Proxmox correctement configurés, configurez SMP pour automatiser le provisionnement et la protection des machines virtuelles en tirant parti des fonctionnalités de snapshot ONTAP et de FlexClone.
@@ -295,12 +301,14 @@ image::proxmox-smp-image12.png[Aperçu du plan SMP après une configuration réu
 ====
 
 
+[[provision-storage]]
 == Allouer du stockage
 
 Le provisionnement d'un volume en tant que pool de stockage, communément appelé datastore, crée un conteneur logique pour les machines virtuelles et leurs disques virtuels (QCOW2 ou RAW). SMP permet de provisionner un datastore puis de l'associer à un seul hôte ou à tous les hôtes d'un cluster.
 
 
 
+[[provision-nfs-storage]]
 === Provisionner le stockage NFS
 
 Utilisez SMP pour provisionner et monter un volume ONTAP en tant que datastore NFS.
@@ -432,6 +440,7 @@ NOTE: Cela nécessite que la licence SnapLock soit installée sur le cluster et 
 
 
 
+[[provision-iscsi-storage]]
 === Provisionner le stockage iSCSI
 
 Utilisez SMP pour configurer un backend iSCSI pour les machines virtuelles.
@@ -537,6 +546,7 @@ image::proxmox-smp-image26.png[Vue de stockage Proxmox confirmant que les datast
 
 
 
+[[volume-configuration-options]]
 === Options de configuration du volume
 
 Lorsque SMP provisionne de nouveaux volumes ONTAP FlexVol® et LUN, plusieurs valeurs de configuration par défaut sont automatiquement appliquées :
@@ -577,6 +587,7 @@ Lorsque SMP provisionne de nouveaux volumes ONTAP FlexVol® et LUN, plusieurs va
 |===
 
 
+[[nconnect-behavior]]
 === Comportement de NConnect
 
 Lors de l'utilisation du stockage NFS avec Proxmox VE, tenez compte du comportement spécifique du client NFS Linux (utilisé par Debian, le système d'exploitation de base de Proxmox VE). Le noyau Linux peut réutiliser les paramètres de montage de la première fois qu'un export NFS est monté sur un nœud. Si ce même export est monté à nouveau avec des options de montage différentes, ces nouvelles options peuvent ne pas être appliquées.
@@ -585,6 +596,7 @@ Il est bonne pratique de créer et de monter des exports distincts et d'utiliser
 
 
 
+[[protect-virtual-machines]]
 == Protéger les machines virtuelles
 
 Lorsque des machines virtuelles s'exécutent sur des datastores NFS gérés par ONTAP, la méthode de protection la plus simple consiste à laisser Proxmox garantir la cohérence du système de fichiers, tandis qu'ONTAP capture le point de sauvegarde réel au niveau du stockage. Les snapshots ONTAP offrent des copies rapides et compactes du volume du datastore, figées dans le temps, et peuvent être utilisées ultérieurement pour restaurer des datastores entiers, des fichiers individuels ou le contenu d'une machine virtuelle.
@@ -595,6 +607,7 @@ SMP permet de protéger un datastore entier, où un volume ONTAP NFS contient pl
 
 
 
+[[back-up-virtual-machines]]
 === Sauvegarder les machines virtuelles
 
 Une fois les volumes ONTAP provisionnés, utilisez l’option de sauvegarde pour lister toutes les machines virtuelles exécutées sur le cluster Proxmox et effectuer une sauvegarde cohérente en cas de panne ou une sauvegarde cohérente au niveau des fichiers des machines virtuelles.
@@ -677,6 +690,7 @@ NOTE: Les sauvegardes effectuées au niveau du datastore (volume) sont toujours 
 
 
 
+[[backup-workflow-details]]
 === Détails du flux de travail de sauvegarde
 
 Le flux de travail de sauvegarde de haut niveau comprend :
@@ -697,6 +711,7 @@ Cette approche minimise l'espace de stockage et la bande passante réseau en ne 
 
 
 
+[[automate-vm-backup-tasks]]
 === Automatiser les tâches de sauvegarde des machines virtuelles
 
 Automatisez les sauvegardes de vos machines virtuelles Proxmox en configurant une planification. La création de sauvegardes régulières est essentielle pour la protection des données et la reprise après sinistre.
@@ -752,6 +767,7 @@ NOTE: Une tâche de sauvegarde de machine virtuelle peut également être décle
 
 
 
+[[restore-virtual-machines-or-datastores]]
 == Restaurez les machines virtuelles ou les banques de données
 
 Utilisez SMP pour restaurer une machine virtuelle Proxmox à partir d'une copie de sauvegarde.
@@ -819,6 +835,7 @@ image::proxmox-smp-image40.png[Restauration au niveau du stockage affichant tout
 ====
 
 
+[[restore-workflow-details]]
 === Détails du flux de travail de restauration
 
 Le processus de restauration varie en fonction du type de stockage sous-jacent et comprend les étapes clés suivantes :
@@ -834,6 +851,7 @@ Le processus de restauration varie en fonction du type de stockage sous-jacent e
 
 
 
+[[clone-virtual-machines]]
 == Cloner des machines virtuelles
 
 Utilisez SMP pour créer des clones de machines virtuelles à des fins de développement, de test ou de provisionnement rapide.
@@ -882,6 +900,7 @@ image::proxmox-smp-image43.png[Machines virtuelles clonées apparaissant dans le
 ====
 
 
+[[clone-workflow-details]]
 === Détails du workflow de clonage
 
 SMP automatise le clonage rapide de VM en déchargeant le gros du travail vers ONTAP pour effectuer des clones côté stockage au lieu de copies de fichiers côté hôte. En arrière-plan, SMP exploite la sémantique FlexClone® d'ONTAP (clones basés sur des snapshots, inscriptibles et économes en espace) afin que les clones soient créés rapidement et consomment peu de capacité initialement ; il évite les lectures/écritures de données via l'hôte Proxmox lorsque c'est possible.
@@ -892,12 +911,14 @@ Par défaut, le clonage est effectué sur le système de fichier actif. Le proce
 
 
 
+[[monitor-operations]]
 == Surveiller les opérations
 
 Utilisez les journaux de processus et les tableaux de bord pour surveiller et suivre les opérations SMP.
 
 
 
+[[process-logs]]
 === Journaux de processus
 
 La vue « Journaux de processus » offre un historique complet de toutes les opérations effectuées par Storage Manager pour Proxmox. Chaque entrée affiche l’état de la tâche, l’ID de la tâche, l’action réalisée, l’heure de début et la durée. Il est ainsi facile de suivre les tâches terminées, d’identifier les opérations ayant échoué ou étant incomplètes, et de consulter la séquence des actions exécutées dans l’environnement.
@@ -912,6 +933,7 @@ image::proxmox-smp-image44.png[Vue des journaux de processus affichant l'histori
 ====
 
 
+[[dashboard]]
 === Tableau de bord
 
 Le tableau de bord offre une vue d'ensemble instantanée de l'environnement Storage Manager pour Proxmox. Il récapitule les informations clés telles que le nombre de clusters Proxmox, d'hôtes, de banques de données, de clusters ONTAP et de machines virtuelles protégées. L'utilisation de la capacité, le volume total de stockage, les politiques de protection et les groupes de ressources sont également affichés pour donner une image claire de l'utilisation du système.
@@ -926,6 +948,7 @@ image::proxmox-smp-image45.png[Tableau de bord SMP affichant l'état du cluster,
 ====
 
 
+[[summary]]
 == Résumé
 
 Storage Manager pour Proxmox offre une solution unifiée et simplifiée pour gérer la protection, le clonage et la restauration des opérations dans les environnements Proxmox. En s'intégrant directement avec ONTAP, la solution apporte l'efficacité, la fiabilité et les performances du stockage de classe entreprise aux flux de travail quotidiens des machines virtuelles. Les snapshots économes en espace d'ONTAP, les capacités de clonage rapide et la réplication intégrée offrent une protection des données cohérente et prévisible, tandis que SMP simplifie ces fonctionnalités dans une interface intuitive axée sur les tâches.

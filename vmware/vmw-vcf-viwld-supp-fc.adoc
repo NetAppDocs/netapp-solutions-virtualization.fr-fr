@@ -46,6 +46,7 @@ L'ajout d'un backend de stockage vous permet d'intégrer un cluster ONTAP .
 
 
 
+[[additional-information]]
 == Informations Complémentaires
 
 * Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"^] .

@@ -18,6 +18,7 @@ Utilisez le Shift Toolkit pour convertir les disques de machines virtuelles VMwa
 
 
 
+[[overview]]
 == Aperçu
 
 Shift Toolkit prend en charge la conversion au niveau disque des disques virtuels entre hyperviseurs pour les formats suivants, avec prise en charge des volumes FlexVol et FlexGroup sur ONTAP :
@@ -39,6 +40,7 @@ Le kit d'outils Shift prend en charge la migration de bout en bout de VMware ver
 
 
 
+[[convert-to-qcow2-format]]
 == Convertir au format QCOW2
 
 Pour convertir les disques virtuels au format QCOW2 avec la boîte à outils NetApp Shift, suivez ces étapes de haut niveau :
@@ -103,6 +105,7 @@ NOTE: La boîte à outils Shift prend en charge les conversions de disque unique
 
 
 
+[[convert-to-vhdx-format]]
 == Convertir au format VHDX
 
 Pour convertir les disques virtuels au format VHDX avec la boîte à outils NetApp Shift, suivez ces étapes de haut niveau :
@@ -138,6 +141,7 @@ NOTE: Pour utiliser le disque VHDX converti dans une machine virtuelle, la machi
 
 
 
+[[convert-to-raw-format]]
 == Convertir au format RAW
 
 Pour convertir les disques virtuels au format RAW avec la boîte à outils NetApp Shift, suivez ces étapes de haut niveau :

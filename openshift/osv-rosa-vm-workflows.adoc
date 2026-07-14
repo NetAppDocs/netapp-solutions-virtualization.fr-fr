@@ -26,6 +26,7 @@ image:redhat-openshift-ocpv-rosa-023.png["Fichiers de redémarrage de la machine
 
 
 
+[[vm-live-migration]]
 == Migration en direct de machines virtuelles
 
 Dans cette section, nous effectuerons une migration en direct de VM, puis examinerons le contenu des disques.  La migration en direct fait référence au processus de déplacement d'une machine virtuelle (VM) en cours d'exécution d'un hôte physique vers un autre hôte sans perturber les opérations normales ni provoquer de temps d'arrêt ou d'autres effets indésirables pour l'utilisateur final.  La migration en direct est considérée comme une étape majeure de la virtualisation.  Il permet de déplacer une machine virtuelle entière avec un système d'exploitation (OS) en cours d'exécution, de la mémoire, du stockage et une connectivité réseau de son nœud actuel vers la destination.  Ci-dessous, nous verrons comment effectuer une migration en direct de la VM du nœud actuel vers un nouveau nœud.
@@ -48,6 +49,7 @@ Les volumes associés au pod VM sont également les mêmes (2 PVC) qu'auparavant
 
 
 
+[[demo-video]]
 == Vidéo de démonstration
 
 .Migration en direct de machines virtuelles dans OpenShift Virtualization sur ROSA avec Amazon FSx for NetApp ONTAP

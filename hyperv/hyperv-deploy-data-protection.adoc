@@ -20,6 +20,7 @@ Apprenez à répondre aux considérations uniques de sauvegarde Hyper-V, telles 
 
 
 
+[[restore-using-netapp-storage-snapshot]]
 == Restaurer à l'aide d'un instantané de stockage NetApp
 
 La sauvegarde des machines virtuelles et leur récupération ou clonage rapide font partie des grands atouts des volumes ONTAP .  Utilisez des copies Snapshot pour créer des copies FlexClone rapides des machines virtuelles ou même de l'ensemble du volume CSV sans affecter les performances.  Cela permet de travailler avec des données de production sans risque de corruption des données lors du clonage des volumes de données de production et de leur montage dans des environnements d'assurance qualité, de préparation et de développement.  Les volumes FlexClone sont utiles pour créer des copies de test des données de production, sans avoir à doubler la quantité d'espace nécessaire pour copier les données.
@@ -30,6 +31,7 @@ Bien que cela soit simple avec les hôtes Hyper-V autonomes, la procédure est d
 
 
 
+[[backup-and-restore-using-third-party-solutions]]
 == Sauvegarde et restauration à l'aide de solutions tierces
 
 *Remarque* : cette section utilise Commvault, mais cela s’applique à d’autres solutions tierces.
@@ -149,6 +151,7 @@ Pour connaître les étapes détaillées de toutes les options de restauration p
 
 
 
+[[advanced-netapp-ontap-options]]
 == Options avancées de NetApp ONTAP
 
 NetApp SnapMirror permet une réplication efficace du stockage site à site, rendant la reprise après sinistre rapide, fiable et gérable pour s'adapter aux entreprises mondiales d'aujourd'hui.  En répliquant les données à grande vitesse sur les réseaux LAN et WAN, SnapMirror offre une haute disponibilité des données et une récupération rapide pour les applications critiques, ainsi que des capacités exceptionnelles de déduplication du stockage et de compression réseau.  Grâce à la technologie NetApp SnapMirror , la reprise après sinistre peut protéger l’ensemble du centre de données.  Les volumes peuvent être sauvegardés vers un emplacement hors site de manière incrémentielle.  SnapMirror effectue une réplication incrémentielle basée sur des blocs aussi fréquemment que le RPO requis.  Les mises à jour au niveau des blocs réduisent les besoins en bande passante et en temps, et la cohérence des données est maintenue sur le site DR.

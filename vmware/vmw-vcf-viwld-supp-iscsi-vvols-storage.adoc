@@ -18,6 +18,7 @@ Configurez le stockage iSCSI vVols dans un domaine de charge de travail VI à l'
 
 
 
+[[step-1-deploy-ontap-tools-for-vmware-vsphere]]
 == Étape 1 : Déployer les ONTAP tools for VMware vSphere
 
 Pour les domaines de charge de travail VI, les outils ONTAP sont installés sur le cluster de gestion VCF mais enregistrés auprès du vCenter associé au domaine de charge de travail VI.
@@ -87,6 +88,7 @@ image:vmware-vcf-asa-035.png["Personnaliser le modèle OTV 2"]
 
 
 
+[[step-2-add-a-storage-system]]
 == Étape 2 : ajouter un système de stockage
 
 Procédez comme suit pour ajouter un système de stockage à l’aide des outils ONTAP .
@@ -131,6 +133,7 @@ image:vmware-vcf-asa-017.png["Autoriser le certificat de cluster"]
 
 
 
+[[step-3-create-a-storage-capability-profile-in-ontap-tools]]
 == Étape 3 : Créer un profil de capacité de stockage dans les outils ONTAP
 
 Les profils de capacité de stockage décrivent les fonctionnalités fournies par une baie de stockage ou un système de stockage.  Ils incluent des définitions de qualité de service et sont utilisés pour sélectionner les systèmes de stockage qui répondent aux paramètres définis dans le profil.  L'un des profils fournis peut être utilisé ou de nouveaux profils peuvent être créés.
@@ -197,6 +200,7 @@ image:vmware-vcf-asa-040.png["Résumé pour SCP"]
 
 
 
+[[step-4-create-a-vvols-datastore-in-ontap-tools]]
 == Étape 4 : Créer une banque de données vVols dans les outils ONTAP
 
 Pour créer une banque de données vVols dans les outils ONTAP , procédez comme suit.
@@ -250,6 +254,7 @@ image:vmware-vcf-asa-045.png["Page de résumé"]
 
 
 
+[[additional-information]]
 == Informations Complémentaires
 
 * Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous àlink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"^] .

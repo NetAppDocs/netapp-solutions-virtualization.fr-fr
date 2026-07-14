@@ -1,0 +1,109 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-disaster-recovery-failback.html 
+keywords: OpenShift, OCP, Trident, Trident Protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift 
+---
+= Restauration d'une machine virtuelle dans la reprise après sinistre de virtualisation OpenShift
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cette section fournit des informations sur le processus de restauration (failback) d'une machine virtuelle (VM) dans le cadre de la reprise après sinistre de OpenShift Virtualization à l'aide de NetApp Trident Protect et AppMirror. Après qu'une opération de basculement a été effectuée vers un cluster de destination de reprise après sinistre, vous pouvez utiliser le processus de restauration pour inverser la direction de la réplication et rétablir le cluster source d'origine en tant que cluster principal pour la VM. Cela implique de resynchroniser toutes les modifications apportées à la VM pendant la période de basculement vers le cluster source d'origine, puis de promouvoir la relation de réplication dans le sens inverse. En suivant ces étapes, vous pouvez vous assurer que votre VM s'exécute sur le cluster source d'origine avec toutes les modifications intactes après un événement de reprise après sinistre.
+
+
+
+[[failback-for-openshift-virtualization-disaster-recovery]]
+== Retour arrière pour la reprise après sinistre de virtualisation OpenShift
+
+Avec Trident Protect, vous pouvez effectuer un « retour arrière » après une opération de basculement en utilisant la séquence d'opérations suivante. Dans ce workflow pour restaurer la direction de réplication d'origine, Trident Protect réplique (resynchronise) toutes les modifications de l'application vers l'application source d'origine avant d'inverser la direction de la réplication.
+
+Ce processus débute à partir d'une relation ayant effectué un basculement vers une destination et comprend les étapes suivantes :
+
+. Commencez par un état de basculement échoué.
+. Resynchronisez à l'inverse la relation de réplication
++
+Lorsque vous effectuez une resynchronisation inverse d'une relation de réplication ayant basculé, l'application de destination devient l'application source, et la source devient la destination. Les modifications apportées à l'application de destination pendant le basculement sont conservées.
+
++
+.. Sur le cluster de destination d'origine, supprimez le CR AppMirrorRelationship. Cela fait en sorte que la destination devienne la source. S'il reste des planifications de protection sur le nouveau cluster de destination, supprimez-les.
++
+.Afficher un exemple
+[%collapsible]
+====
+image:osv-disaster-recovery-013.png["Suppression de la relation OCP-v AppMirror pour démarrer le basculement"]
+
+====
+.. Créez un instantané sur le nouveau cluster source (destination d'origine) afin de capturer les modifications apportées pendant la période de basculement. Cela garantit que toutes les modifications sont répliquées sur le cluster source d'origine lors de la resynchronisation.
++
+.Afficher un exemple
+[%collapsible]
+====
+[source, yaml]
+----
+# snapshot.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: Snapshot
+metadata:
+  name: test-source-dr-init-snapshot-failback
+  namespace: test-dr-ns
+spec:
+  applicationRef: test-dest-app
+  appVaultRef: ontap-s3-appvault
+  reclaimPolicy: Delete
+----
+image:osv-disaster-recovery-014.png["Instantané à la demande OCP-v de la VM créé à l'aide de l'interface de ligne de commande Trident Protect sur le nouveau cluster source"] image:osv-disaster-recovery-015.png["Instantané à la demande OCP-v de la VM créé à l'aide de l'interface de ligne de commande Trident Protect sur le nouveau cluster source"] image:osv-disaster-recovery-016.png["Instantané à la demande OCP-v de la VM créé à l'aide de l'interface de ligne de commande Trident Protect sur le nouveau cluster source"]
+
+====
+.. Configurez une relation de réplication du nouveau cluster source (destination d'origine) vers le cluster source d'origine, en configurant les valeurs pour la direction inverse.
++
+.Afficher un exemple
+[%collapsible]
+====
+# application-mirror-relationship.yaml
+
+[source, yaml]
+----
+apiVersion: protect.trident.netapp.io/v1
+kind: AppMirrorRelationship
+metadata:
+  name: amr1
+spec:
+  desiredState: Established
+  destinationAppVaultRef: ontap-s3-appvault
+  destinationApplicationRef: dr-source-vm-failback
+  namespaceMapping:
+  - destination: test-dr-ns
+    source: test-dr-ns-dest
+  recurrenceRule: |-
+    DTSTART:20240901T000200Z
+    RRULE:FREQ=MINUTELY;INTERVAL=5
+  sourceAppVaultRef: ontap-s3-appvault
+  sourceApplicationName: test-dest-app
+  sourceApplicationUID: "uid of the app in the original source cluster"
+  storageClassName: "sc-nas"
+----
+image:osv-disaster-recovery-017.png["Relation OCP-v AppMirror créée dans le cluster source d'origine pour inverser le sens de la réplication"] image:osv-disaster-recovery-018.png["Relation OCP-v AppMirror créée dans le cluster de destination d'origine pour inverser le sens de la réplication"]
+
+====
+.. Promouvez la relation de réplication du nouveau cluster source (destination d'origine) vers le cluster source d'origine en mettant à jour le champ desiredState dans le CR AppMirrorRelationship sur « Promoted ».
++
+.Afficher un exemple
+[%collapsible]
+====
+image:osv-disaster-recovery-019.png["Relation OCP-v AppMirror dans le cluster source d'origine promue pour effectuer un basculement complet"]
+
+Vous voyez maintenant la machine virtuelle s’exécuter dans le cluster source d’origine. Le processus de restauration est maintenant terminé. Vous pouvez maintenant nettoyer les ressources dans le cluster de destination d’origine. Vous pouvez également configurer une nouvelle relation de réplication si vous souhaitez maintenir les capacités de reprise après sinistre après le processus de restauration.
+
+
+NOTE: N’effectuez pas d’opération de resynchronisation normale, car cela supprimerait les données écrites sur le cluster de destination pendant la procédure de basculement.
+
+====
+
+
+

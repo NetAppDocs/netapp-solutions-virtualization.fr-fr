@@ -23,6 +23,7 @@ NOTE: La fonctionnalité est généralement disponible pour NFS v3 avec 8.0 U2, 
 
 
 
+[[use-cases]]
 == Cas d'utilisation
 
 * Hébergez davantage de machines virtuelles par banque de données NFS sur le même hôte.
@@ -32,12 +33,14 @@ NOTE: La fonctionnalité est généralement disponible pour NFS v3 avec 8.0 U2, 
 
 
 
+[[technical-details]]
 == Détails techniques
 
 L’objectif de nconnect est de fournir plusieurs connexions TCP par banque de données NFS sur un hôte vSphere.  Cela permet d’augmenter le parallélisme et les performances des banques de données NFS.  Dans ONTAP, lorsqu'un montage NFS est établi, un ID de connexion (CID) est créé.  Ce CID permet jusqu'à 128 opérations simultanées en vol.  Lorsque ce nombre est dépassé par le client, ONTAP applique une forme de contrôle de flux jusqu'à ce qu'il puisse libérer certaines ressources disponibles pendant que d'autres opérations se terminent.  Ces pauses ne durent généralement que quelques microsecondes, mais au fil de millions d’opérations, elles peuvent s’accumuler et créer des problèmes de performances.  Nconnect peut prendre la limite de 128 et la multiplier par le nombre de sessions nconnect sur le client, ce qui fournit davantage d'opérations simultanées par CID et peut potentiellement ajouter des avantages en termes de performances.  Pour plus de détails, veuillez vous référerlink:https://www.netapp.com/media/10720-tr-4067.pdf["Guide des meilleures pratiques et de mise en œuvre du NFS"]
 
 
 
+[[default-nfs-datastore]]
 === Magasin de données NFS par défaut
 
 Pour répondre aux limitations de performances d'une connexion unique de banque de données NFS, des banques de données supplémentaires sont montées ou des hôtes supplémentaires sont ajoutés pour augmenter la connexion.
@@ -46,6 +49,7 @@ image:vmware-vsphere8-nfs-wo-nconnect.png["Banque de données NFS sans fonctionn
 
 
 
+[[with-nconnect-nfs-datastore]]
 === Avec nConnect NFS Datastore
 
 Une fois le magasin de données NFS créé à l'aide des outils ONTAP ou avec d'autres options, le nombre de connexions par magasin de données NFS peut être modifié à l'aide de vSphere CLI, PowerCLI, de l'outil govc ou d'autres options d'API.  Pour éviter les problèmes de performances avec vMotion, conservez le même nombre de connexions pour la banque de données NFS sur tous les hôtes vSphere qui font partie du cluster vSphere.
@@ -54,6 +58,7 @@ image:vmware-vsphere8-nfs-nconnect.png["Banque de données NFS avec fonction nco
 
 
 
+[[pre-requisite]]
 == Condition préalable
 
 Pour utiliser la fonctionnalité nconnect, les dépendances suivantes doivent être respectées.
@@ -75,6 +80,7 @@ Pour utiliser la fonctionnalité nconnect, les dépendances suivantes doivent ê
 |===
 
 
+[[update-number-of-connection-to-nfs-datastore]]
 == Mettre à jour le numéro de connexion au magasin de données NFS
 
 Une seule connexion TCP est utilisée lorsqu'une banque de données NFS est créée avec ONTAP Tools ou avec vCenter.  Pour augmenter le nombre de connexions, vSphere CLI peut être utilisé.  La commande de référence est indiquée ci-dessous.
@@ -135,6 +141,7 @@ Référerlink:https://kb.vmware.com/s/article/91497["Article 91497 de la base de
 
 
 
+[[design-considerations]]
 == Considérations de conception
 
 Le nombre maximal de connexions prises en charge sur ONTAP dépend du modèle de plate-forme de stockage.  Recherchez exec_ctx surlink:https://www.netapp.com/media/10720-tr-4067.pdf["Guide des meilleures pratiques et de mise en œuvre du NFS"] pour plus d'informations.

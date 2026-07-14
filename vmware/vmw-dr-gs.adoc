@@ -18,6 +18,7 @@ NetApp Disaster Recovery automatise la réplication et la récupération des mac
 
 
 
+[[introduction]]
 == Introduction
 
 Disposer d’un plan et d’une combinaison de technologies efficaces garantit la protection des données, des applications et des machines virtuelles critiques.  Le défi avec la DR est de déterminer le niveau de protection approprié et les coûts associés.
@@ -28,6 +29,7 @@ Pour plus d'informations sur la NetApp Disaster Recovery, consultezlink:https://
 
 
 
+[[considerations]]
 == Considérations
 
 Les étapes les plus chronophages d'un basculement DR dans un environnement VMware vSphere sont l'exécution des étapes nécessaires à l'inventaire, à l'enregistrement, à la reconfiguration et à la mise sous tension des machines virtuelles sur le site DR. Une solution idéale présente à la fois un faible RPO (mesuré en minutes) et un faible RTO (mesuré en minutes à heures). Un facteur souvent négligé dans une solution DR est la capacité à tester efficacement la solution DR à intervalle périodique.

@@ -18,6 +18,7 @@ NetApp Data Infrastructure Insights (anciennement Cloud Insights) fournit des fo
 
 
 
+[[monitoring-based-on-events-and-creating-alerts]]
 == **Surveillance basée sur les événements et création d'alertes**
 
 Voici un exemple dans lequel l’espace de noms contenant une machine virtuelle dans OpenShift Virtualization est surveillé en fonction des événements.  Dans cet exemple, un moniteur est créé sur la base de **logs.kubernetes**.event pour l'espace de noms spécifié dans le cluster.
@@ -28,6 +29,7 @@ Cette requête fournit tous les événements de la machine virtuelle dans l’es
 
 
 
+[[change-analytics]]
 == **Analyse des changements**
 
 Avec Change Analytics, vous pouvez obtenir une vue d'ensemble de ce qui a changé dans l'état de votre cluster, y compris qui a effectué cette modification, ce qui peut vous aider à résoudre les problèmes.
@@ -42,6 +44,7 @@ image:redhat-openshift-ci-samples-004.png["Exemples de Cloud Insights"]
 
 
 
+[[backend-storage-mapping]]
 == **Mapping du stockage backend**
 
 Avec Cloud Insights, vous pouvez facilement voir le stockage backend des disques VM et plusieurs statistiques sur les PVC.

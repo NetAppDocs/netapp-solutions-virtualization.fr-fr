@@ -18,6 +18,7 @@ Proxmox Virtual Environment (VE) est un hyperviseur open source de type 1 basé 
 
 
 
+[[overview]]
 == Aperçu
 
 Proxmox Virtual Environment (VE) prend en charge la virtualisation complète basée sur des machines virtuelles et la virtualisation basée sur des conteneurs sur le même hôte. La machine virtuelle basée sur le noyau (KVM) et l'émulateur rapide (QEMU) sont utilisés pour la virtualisation complète de la machine virtuelle. QEMU est un émulateur et virtualiseur de machines open source qui utilise le module noyau KVM pour exécuter du code invité directement sur le processeur hôte. Linux Containers (LXC) permet de gérer les conteneurs comme des machines virtuelles avec une persistance des données après redémarrage. Avec Proxmox VE 9 et versions ultérieures, la prise en charge du registre OCI est incluse pour extraire des images de conteneurs à partir de registres publics et privés. La prise en charge des conteneurs d'applications est ajoutée en tant qu'aperçu technologique dans Proxmox VE 9.
@@ -28,6 +29,7 @@ L'API RESTful est disponible pour les tâches d'automatisation.  Pour plus d'inf
 
 
 
+[[cluster-management]]
 == Gestion des clusters
 
 Le portail de gestion Web est disponible sur le nœud Proxmox VE au port 8006.  Un ensemble de nœuds peut être réuni pour former un cluster.  La configuration Proxmox VE, `/etc/pve` , est partagé entre tous les nœuds du cluster.  Utilisations de Proxmox VElink:https://pve.proxmox.com/wiki/Cluster_Manager["Moteur de cluster Corosync"] pour gérer le cluster.  Le portail de gestion est accessible depuis n’importe quel nœud du cluster.
@@ -49,6 +51,7 @@ Les clients disposant d'un abonnement actif Basic, Standard ou Premium pour leur
 
 
 
+[[compute]]
 == Calculer
 
 Les options de CPU pour une machine virtuelle incluent le nombre de cœurs et de sockets de CPU (pour spécifier le nombre de vCPU), l'option permettant de choisir NUMA, la définition de l'affinité, la définition des limites et le type de CPU.
@@ -65,6 +68,7 @@ La VM et le LXC peuvent spécifier la taille de la mémoire.  Pour les machines 
 
 
 
+[[storage]]
 == Stockage
 
 Une machine virtuelle se compose d'un fichier de configuration, `/etc/pve/qemu-server/<vm id>.conf` et les composants du disque virtuel.  Les formats de disque virtuel pris en charge sont raw, qcow2 et VMDK.  QCOW2 peut fournir des capacités de provisionnement léger et de snapshot sur différents types de stockage.
@@ -94,6 +98,7 @@ Pour importer des machines virtuelles à partir d’un environnement Broadcom vS
 
 
 
+[[network]]
 == Réseau
 
 Proxmox VE prend en charge à la fois la mise en réseau basée sur l'hôte et les réseaux virtuels à l'échelle du cluster en utilisant des fonctionnalités de mise en réseau Linux natives telles que Linux bridge et Open vSwitch, pour implémenter la mise en réseau définie par logiciel (SDN). Les interfaces Ethernet de l'hôte peuvent être agrégées pour assurer la tolérance aux pannes et une haute disponibilité. Pour d'autres options, consultez link:https://pve.proxmox.com/pve-docs/chapter-sysadmin.html#_choosing_a_network_configuration["Documentation de Proxmox VE"]
@@ -118,6 +123,7 @@ image:proxmox-overview-014.png["Informations VNet au centre de données"]
 
 
 
+[[monitoring]]
 == Surveillance
 
 La page récapitulative de la plupart des objets, tels que le centre de données, l'hôte, la machine virtuelle, le conteneur, le stockage, etc. fournit des détails et inclut certaines mesures de performances.  La capture d’écran suivante montre la page de résumé d’un hôte et inclut des informations sur les packages installés.
@@ -128,6 +134,7 @@ Les statistiques sur les hôtes, les invités, le stockage, etc. peuvent être t
 
 
 
+[[data-protection]]
 == Protection des données
 
 Proxmox VE inclut des options pour sauvegarder et restaurer les machines virtuelles et les conteneurs sur le stockage configuré pour le contenu de sauvegarde.  Les sauvegardes peuvent être lancées à partir de l'interface utilisateur ou de la CLI à l'aide de l'outil vzdump ou elles peuvent être planifiées. Pour plus de détails, reportez-vous àlink:https://pve.proxmox.com/pve-docs/chapter-vzdump.html["Section Sauvegarde et restauration de la documentation de Proxmox VE"] .

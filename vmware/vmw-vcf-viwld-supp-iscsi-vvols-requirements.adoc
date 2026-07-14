@@ -18,6 +18,7 @@ Passez en revue la conception réseau recommandée et les exigences d’infrastr
 
 
 
+[[infrastructure-requirements]]
 == Exigences en matière d'infrastructure
 
 Assurez-vous que les composants et configurations suivants sont en place.
@@ -29,6 +30,7 @@ Assurez-vous que les composants et configurations suivants sont en place.
 
 
 
+[[recommended-iscsi-network-design]]
 == Conception de réseau iSCSI recommandée
 
 Vous devez configurer des conceptions de réseau entièrement redondantes pour iSCSI.  Le diagramme suivant illustre un exemple de configuration redondante.  Il offre une tolérance aux pannes pour les systèmes de stockage, les commutateurs, les adaptateurs réseau et les systèmes hôtes.  Pour plus d'informations, reportez-vous à la NetApplink:https://docs.netapp.com/us-en/ontap/san-config/index.html["Référence de configuration SAN"^] .
@@ -44,6 +46,7 @@ NOTE: Dans les situations où plusieurs adaptateurs VMkernel sont configurés su
 
 
 
+[[whats-next]]
 == Quelle est la prochaine étape ?
 
 Après avoir examiné les exigences de déploiement,link:vmw-vcf-viwld-supp-iscsi-vvols-svm-lifs.html["créer les SVM et les LIF"] .

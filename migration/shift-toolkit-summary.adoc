@@ -18,12 +18,14 @@ Après avoir converti ou migré des machines virtuelles à l’aide de Shift Too
 
 
 
+[[conclusion]]
 == Conclusion
 
 La boîte à outils NetApp Shift permet aux administrateurs de convertir rapidement et facilement des machines virtuelles VMware vers Hyper-V. Elle permet également de convertir uniquement les disques virtuels entre les différents hyperviseurs.  Par conséquent, la boîte à outils Shift vous permet d’économiser plusieurs heures d’efforts à chaque fois que vous souhaitez déplacer des charges de travail d’un hyperviseur à l’autre.  Les organisations peuvent désormais héberger des environnements multi-hyperviseurs sans avoir à se soucier de savoir si les charges de travail sont liées à un seul hyperviseur.  Cette capacité augmente la flexibilité et réduit les coûts de licence, le verrouillage et les engagements envers un seul fournisseur.
 
 
 
+[[next-steps]]
 == Prochaines étapes
 
 Libérez le potentiel de Data ONTAP en téléchargeant le package Shift Toolkit et commencez à migrer ou à convertir les machines virtuelles ou les fichiers de disque pour simplifier et rationaliser les migrations.
@@ -34,6 +36,7 @@ Pour en savoir plus sur ce processus, n'hésitez pas à suivre la procédure dé
 video::6bf11896-3219-4ba7-9a00-b2d800d47144[panopto,width=360]
 
 
+[[troubleshooting-and-known-issues]]
 == Dépannage et problèmes connus
 
 . Le script de déclenchement pour la définition de l'adresse IP et la suppression des outils VMware échoue pour la machine virtuelle Windows avec l'erreur suivante : les informations d'identification ne sont pas valides
@@ -116,10 +119,12 @@ a. Decrypt the VMDK inside VMware and retry the operation.
 
 
 
+[[appendix]]
 == Appendice
 
 
 
+[[custom-ontap-role-for-shift-toolkit]]
 === Rôle ONTAP personnalisé pour la boîte à outils Shift
 
 Créez un rôle ONTAP avec des privilèges minimaux afin qu’il ne soit pas nécessaire d’utiliser le rôle d’administrateur ONTAP pour effectuer des opérations dans la boîte à outils Shift.  Ces rôles minimaux sont requis au niveau SVM côté stockage ONTAP .
@@ -154,6 +159,7 @@ Une fois cela fait, utilisez l'utilisateur créé ci-dessus lors de la configura
 
 
 
+[[minimum-permissions-role-required-on-vmware]]
 === Rôle d'autorisations minimum requis sur VMware
 
 Pour migrer des machines virtuelles depuis VMware vSphere à l'aide de la boîte à outils Shift, créez un utilisateur RBAC avec les privilèges mentionnés ci-dessous à l'aide de Administration > Contrôle d'accès > Rôles.

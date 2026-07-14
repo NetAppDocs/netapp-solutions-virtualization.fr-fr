@@ -20,12 +20,14 @@ NVMe (Non-Volatile Memory Express) sur TCP est un protocole réseau de pointe qu
 
 
 
+[[introduction]]
 == Introduction
 
 L'utilisation de NVMe sur TCP offre une faible latence et un débit élevé pour les charges de travail exigeantes.  L'intégration de NVMe sur TCP avec NetApp SnapCenter Plug-in for VMware vSphere (SCV) offre une combinaison puissante pour une gestion efficace des données, améliorant les opérations de sauvegarde, de restauration et de clonage dans les environnements VMware.
 
 
 
+[[benefits-of-nvme-over-tcp]]
 == Avantages du NVMe par rapport au TCP
 
 * Hautes performances : offre des performances exceptionnelles avec une faible latence et des taux de transfert de données élevés.  Ceci est crucial pour les applications exigeantes et les opérations de données à grande échelle.
@@ -37,18 +39,21 @@ Ce document fournit des étapes sur le déploiement et la gestion de SCV dans le
 
 
 
+[[audience]]
 == Public
 
 Architectes de solutions ou administrateurs de stockage assurant la protection des données et la reprise après sinistre pour les domaines de charge de travail VMware VCF.
 
 
 
+[[architecture-overview]]
 == Aperçu de l'architecture
 
 SCV est un outil puissant conçu pour faciliter les opérations de sauvegarde et de restauration rapides, peu encombrantes, cohérentes en cas de panne et cohérentes avec les machines virtuelles pour les machines virtuelles, les banques de données et les fichiers et dossiers dans les environnements VMware.  SCV est déployé en tant qu'appliance virtuelle Linux à l'aide d'un fichier OVA et exploite une architecture de plug-in distant.
 
 
 
+[[scv-deployment-architecture]]
 === Architecture de déploiement SCV
 
 * Déploiement d'appliance virtuelle : SCV est déployé en tant qu'appliance virtuelle Linux à l'aide d'un fichier OVA.  Cette méthode de déploiement garantit un processus de configuration simplifié et efficace.
@@ -64,6 +69,7 @@ La règle de sauvegarde 3-2-1 est une stratégie de protection des données qui 
 
 
 
+[[scv-for-vcf-on-nvme-deployment-steps]]
 == Étapes de déploiement de SCV pour VCF sur NVMe
 
 Lelink:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["ONTAP tools for VMware vSphere"] (OTV) fournit une solution puissante et efficace pour la gestion du stockage NetApp dans les environnements VMware.  En s'intégrant directement au serveur vCenter, OTV simplifie la gestion du stockage, améliore la protection des données et optimise les performances.  Bien que facultatif, le déploiement d’OTV peut améliorer considérablement les capacités de gestion et l’efficacité globale des environnements VMware.
@@ -114,6 +120,7 @@ image:vmware-vcf-aff-068.png["Attacher un disque virtuel"]
 ====
 
 
+[[monitor-and-report]]
 == Surveiller et signaler
 
 SCV fournit des capacités de surveillance et de reporting robustes pour aider les administrateurs à gérer efficacement les opérations de sauvegarde et de restauration.  Vous pouvez afficher les informations d'état, surveiller les travaux, télécharger les journaux de travaux, accéder aux rapports, pour plus de détails, consultezlink:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_view_status_information.html["Plug-in SnapCenter pour VMware vSphere Monitor et Report."]

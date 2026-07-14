@@ -18,6 +18,7 @@ Découvrez comment NetApp permet la virtualisation du cloud hybride sur les prin
 
 
 
+[[red-hat-openshift-service-on-aws-rosa-with-fsx-ontap]]
 == Service Red Hat OpenShift sur AWS (ROSA) avec FSx ONTAP
 
 .Amazon FSx for NetApp ONTAP avec Red Hat OpenShift Service sur AWS à l'aide du plan de contrôle hébergé
@@ -30,6 +31,7 @@ video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto,width=360]
 video::e9a07d79-42a1-4480-86be-b01200fa62f5[panopto,width=360]
 
 
+[[netapp-hci-solutions]]
 == Solutions NetApp HCI
 
 .NetApp HCI pour Red Hat OpenShift sur Red Hat Virtualization

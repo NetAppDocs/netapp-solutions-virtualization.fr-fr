@@ -13,6 +13,7 @@ Passez en revue la conception réseau recommandée et les exigences d’infrastr
 
 
 
+[[infrastructure-requirements]]
 == Exigences en matière d'infrastructure
 
 Assurez-vous que les composants et configurations suivants sont en place.
@@ -24,6 +25,7 @@ Assurez-vous que les composants et configurations suivants sont en place.
 
 
 
+[[recommended-nfs-network-design]]
 == Conception de réseau NFS recommandée
 
 Configurez des conceptions de réseau redondantes pour NFS afin de fournir une tolérance aux pannes pour les systèmes de stockage, les commutateurs, les adaptateurs réseau et les systèmes hôtes.  Il est courant de déployer NFS avec un seul sous-réseau ou plusieurs sous-réseaux en fonction des exigences architecturales.
@@ -32,6 +34,7 @@ Configurez des conceptions de réseau redondantes pour NFS afin de fournir une t
 
 
 
+[[additional-information]]
 == Informations Complémentaires
 
 * Pour des informations détaillées spécifiques à VMware vSphere, reportez-vous à https://www.vmware.com/docs/vmw-best-practices-running-nfs-vmware-vsphere["Meilleures pratiques pour exécuter NFS avec VMware vSphere"] .
@@ -44,6 +47,7 @@ Cette documentation montre le processus de création d'un nouveau SVM et de spé
 
 
 
+[[whats-next]]
 == Quelle est la prochaine étape ?
 
 Après avoir examiné les exigences,link:vmw-vcf-viwld-supp-nfs-vvols-svm-lifs.html["créer les SVM et les LIF"] .

@@ -33,6 +33,7 @@ NOTE: En mode d'accès hôte non uniforme, les machines virtuelles seront redém
 
 
 
+[[prerequisites]]
 == Prérequis
 
 * link:vmw-vcf-mgmt-supplemental-iscsi.html["Hôtes VMware vSphere déployés avec une structure de stockage double (deux HBA ou double VLAN pour iSCSI) par hôte"] .
@@ -50,6 +51,7 @@ TIP: Si vous utilisez un certificat auto-signé, le certificat CA peut être ré
 
 
 
+[[vmsc-non-uniform-host-access-with-ontap-system-manager-ui]]
 == Accès hôte non uniforme vMSC avec l'interface utilisateur d' ONTAP System Manager.
 
 Remarque : ONTAP Tools 10.2 ou version ultérieure peut être utilisé pour provisionner une banque de données étendue avec un mode d'accès hôte non uniforme sans changer plusieurs interfaces utilisateur.  Cette section est uniquement à titre de référence si ONTAP Tools n'est pas utilisé.
@@ -86,6 +88,7 @@ NOTE: Les captures d'écran ci-dessus montrent les E/S actives sur un seul contr
 
 
 
+[[vmsc-uniform-host-access-mode-with-ontap-tools]]
 == Mode d'accès hôte uniforme vMSC avec les outils ONTAP .
 
 . Assurez-vous que les outils NetApp ONTAP sont déployés et enregistrés sur vCenter. image:vmware-vmsc-with-smas-015.png["Plug-in ONTAP Tools enregistré sur vCenter"] Sinon, suivezlink:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["Déploiement des outils ONTAP"] etlink:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["Ajouter une instance de serveur vCenter"]
@@ -102,6 +105,7 @@ NOTE: Les captures d'écran ci-dessus montrent les E/S actives sur un seul contr
 
 
 
+[[vm-protection-with-snapcenter-plug-in-for-vmware-vsphere]]
 == Protection VM avec le plug-in SnapCenter pour VMware vSphere.
 
 Le SnapCenter Plug-in for VMware vSphere (SCV) 6.0 ou supérieur prend en charge la synchronisation active SnapMirror et également en combinaison avec SnapMirror Async pour la réplication vers un troisième domaine d'erreur.

@@ -20,12 +20,14 @@ image:vmw-vcf-vmsc-mgmt-mcc-001.png["Domaine de gestion VCF avec vMSC, largeur =
 
 
 
+[[introduction]]
 == Introduction
 
 Dans cette solution, nous allons démontrer comment implémenter un domaine de gestion VCF étendu avec NFS comme magasin de données principal à l'aide d' ONTAP MetroCluster.
 
 
 
+[[scenario-overview]]
 == Aperçu du scénario
 
 Ce scénario couvre les étapes de haut niveau suivantes :
@@ -40,6 +42,7 @@ Ce scénario couvre les étapes de haut niveau suivantes :
 
 
 
+[[prerequisites]]
 == Prérequis
 
 Ce scénario nécessite les composants et configurations suivants :
@@ -77,6 +80,7 @@ Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https
 
 
 
+[[deployment-steps]]
 == Étapes de déploiement
 
 Pour déployer le domaine de gestion étendu VCF avec NFS comme magasin de données principal,
@@ -98,6 +102,7 @@ Pour un aperçu du processus de conversion, reportez-vous à https://techdocs.br
 
 
 
+[[deploy-vsphere-hosts-and-vcenter]]
 === Déployer des hôtes vSphere et vCenter
 
 Déployez vSphere sur des hôtes à l'aide d'ISO téléchargés à partir du portail de support Broadcom ou utilisez l'option de déploiement existante pour l'hôte vSphere.
@@ -120,6 +125,7 @@ Déployez vCenter sur un magasin de données NFS.  Assurez-vous que le shell SSH
 
 
 
+[[create-vsphere-cluster]]
 === Créer un cluster vSphere
 
 . Connectez-vous au client Web vSphere, créez le centre de données et le cluster vSphere en ajoutant l'un des hôtes sur lesquels NFS VAAI est déployé.  Nous avons choisi de gérer tous les hôtes du cluster avec l’option d’image unique.  [CONSEIL] Ne sélectionnez pas Gérer la configuration au niveau du cluster.  Pour plus de détails, reportez-vous à https://knowledge.broadcom.com/external/article/373968/vlcm-config-manager-is-enabled-on-this-c.html["Considérations NSX sur le cluster vSphere"] .  Pour les meilleures pratiques vMSC avec ONTAP MetroCluster, consultez https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware_vmsc_design.html#netapp-storage-configuration["Directives de conception et de mise en œuvre des vMSC"]
@@ -130,6 +136,7 @@ Déployez vCenter sur un magasin de données NFS.  Assurez-vous que le shell SSH
 
 
 
+[[convert-vsphere-environment-to-vcf-management-domain]]
 === Convertir l'environnement vSphere en domaine de gestion VCF
 
 La section suivante décrit les étapes de déploiement du gestionnaire SDDC et de conversion du cluster vSphere 8 en domaine de gestion VCF 5.2.  Le cas échéant, la documentation VMware sera consultée pour plus de détails.

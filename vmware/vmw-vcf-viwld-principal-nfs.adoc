@@ -18,6 +18,7 @@ Dans ce cas d'utilisation, nous décrivons la procédure de configuration d'une 
 
 
 
+[[benefits-of-nfs]]
 == Avantages du NFS
 
 *Simplicité et facilité d'utilisation :* NFS est simple à configurer et à gérer, ce qui en fait un excellent choix pour les environnements qui nécessitent un partage de fichiers rapide et facile.
@@ -32,6 +33,7 @@ Pour plus d'informations sur l'utilisation de Fibre Channel avec les systèmes d
 
 
 
+[[scenario-overview]]
 == Aperçu du scénario
 
 Ce scénario couvre les étapes de haut niveau suivantes :
@@ -51,6 +53,7 @@ NOTE: Cette solution est applicable aux plates-formes ONTAP prenant en charge le
 
 
 
+[[prerequisites]]
 == Prérequis
 
 Les composants et configurations suivants sont utilisés dans ce scénario :
@@ -75,6 +78,7 @@ Pour plus d'informations sur l'utilisation de NFS avec les clusters vSphere, rep
 
 
 
+[[deployment-steps]]
 == Étapes de déploiement
 
 Pour déployer un domaine de charge de travail VI avec une banque de données NFS comme stockage principal, procédez comme suit :
@@ -294,12 +298,14 @@ Pour obtenir des instructions étape par étape sur le déploiement du plug-in N
 ====
 
 
+[[video-demo-for-this-solution]]
 == Démo vidéo de cette solution
 
 .Banques de données NFS comme stockage principal pour les domaines de charge de travail VCF
 video::9b66ac8d-d2b1-4ac4-a33c-b16900f67df6[panopto,width=360]
 
 
+[[additional-information]]
 == Informations Complémentaires
 
 Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.

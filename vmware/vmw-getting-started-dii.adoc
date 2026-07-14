@@ -18,6 +18,7 @@ NetApp Data Infrastructure Insights (anciennement Cloud Insights) surveille les 
 
 
 
+[[introduction]]
 == Introduction
 
 Avec Data Infrastructure Insights, vous pouvez surveiller, dépanner et optimiser toutes vos ressources, y compris vos clouds publics et vos centres de données privés.
@@ -26,6 +27,7 @@ Pour plus d'informations sur Data Infrastructure Insights, consultezlink:https:/
 
 
 
+[[data-infrastructure-insights-capabilities]]
 == Capacités Data Infrastructure Insights
 
 * Data Infrastructure Insights fournit une surveillance multicloud hybride, vous offrant une observabilité complète de l'infrastructure et des charges de travail.

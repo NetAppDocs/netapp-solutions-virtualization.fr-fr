@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-deployment-models.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift 
+---
+= Modèles de déploiement pour OpenShift/OpenShift Virtualization
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+OpenShift Container Platform Les modèles de déploiement sont principalement catégorisés selon l'infrastructure sur laquelle ils s'exécutent (cloud ou sur site) et la façon dont ils sont gérés (par Red Hat ou par le client). OpenShift Virtualization peut être installée sur la OpenShift Container Platform.
+
+
+
+[[key-deployment-models-include]]
+== Les principaux modèles de déploiement comprennent
+
+. **Services gérés (Red Hat Managed)** : Dans ce modèle, Red Hat gère l’infrastructure et l’exploitation de la plateforme OpenShift Container Platform. Le client est responsable de la gestion de ses applications et de ses charges de travail sur la plateforme. Exemples :
++
+.. **Red Hat OpenShift Service on AWS (ROSA)** : Un service géré qui facilite l’intégration avec les services AWS. OpenShift Virtualization est installée sur des instances EC2 bare metal sur AWS.
+.. **Azure Red Hat OpenShift (ARO)** : Il s’agit d’un service géré sur le cloud Azure. OpenShift Virtualization fonctionne au-dessus des machines virtuelles Azure.
+.. **Red Hat OpenShift Dedicated (OSD)** : un service entièrement géré, déployé sur Google Cloud et administré par Red Hat. OpenShift Virtualization est déployé sur des instances bare metal de Google Cloud.
+
+
+. **Services autogérés (gestion par le client)** : Dans ce cas, la plateforme de conteneurs OpenShift est déployée et gérée directement par le client sur sa propre infrastructure. L'infrastructure peut être située soit dans un cloud public, soit sur site.
++
+.. **Cloud public :** Déployé sur AWS, Azure ou GCP à l’aide d’une infrastructure provisionnée par l’installateur (IPI) ou d’une infrastructure provisionnée par l’utilisateur (UPI)
+.. **Bare Metal :** Déployé directement sur le matériel physique.
+.. **Virtualisation :** Déployée sur des plateformes comme VMware vSphere.
+
+
+
+
+
+
+[[infrastructure-deployment-options]]
+=== Options de déploiement d'infrastructure
+
+. **Infrastructure provisionnée par l'installateur (IPI) :** Le programme d'installation automatise la fourniture des composants d'infrastructure, tels que le réseau et les machines.
+. **Infrastructure fournie par l'utilisateur (UPI) :** L'utilisateur crée et gère manuellement l'infrastructure, ce qui lui permet de mieux contrôler l'environnement.
+
+
+
+
+[[specialized-deployment-models]]
+== Modèles de déploiement spécialisés
+
+. **Mono-nœud OpenShift (SNO) :** Un cluster OpenShift complet installé sur une seule machine physique ou virtuelle, souvent utilisé pour l’informatique de périphérie.
+. **Déploiement déconnecté (sans accès Internet) :** Déployé dans des environnements réseau restreints sans accès Internet externe.
+. **Red Hat OpenShift Virtualization Engine :** Infrastructure de virtualisation dédiée aux serveurs physiques, conçue pour fournir aux entreprises une solution fiable et de niveau entreprise pour le déploiement, la gestion et la mise à l'échelle des machines virtuelles. Un sous-ensemble de la fonctionnalité OpenShift, cette édition de OpenShift est destinée aux charges de travail exclusivement basées sur des machines virtuelles.
+
+
+
+
+[[additional-resources]]
+== Ressources supplémentaires
+
+Pour plus de détails sur la plateforme OpenShift Container, consultez la documentation Red Hat link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.21/html/overview/ocp-overview["Documentation ici."]
+
+Pour plus de détails sur la virtualisation OpenShift, consultez la documentation Red Hat link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.21/html/virtualization/index["Documentation ici."]

@@ -21,6 +21,7 @@ NOTE: *Ceci est une version préliminaire de VMDC.*
 
 
 
+[[overview]]
 == Aperçu
 
 La fonction principale de VMDC est de générer des rapports sur la configuration de vCenter, des serveurs ESXi et des machines virtuelles (VM) qui résident dans un environnement vSphere, y compris la configuration du cluster, la mise en réseau, le stockage et les données de performances. Une fois que des données environnementales complètes ont été collectées, elles peuvent être utilisées pour produire des informations pertinentes sur l’infrastructure. L'affichage des rapports de sortie est une interface graphique de type feuille de calcul avec plusieurs onglets vers ses différentes sections. Il fournit des rapports faciles à lire et aide à optimiser l'utilisation des ressources et à planifier la capacité.
@@ -31,6 +32,7 @@ VMDC peut être téléchargélink:https://mysupport.netapp.com/site/tools/tool-e
 
 
 
+[[installing-and-setting-up-vmdc]]
 == Installation et configuration de VMDC
 
 VMDC peut être exécuté sur les versions Windows 2019 et 2022.  La condition préalable est de disposer d’une connectivité réseau entre l’instance VMDC et les serveurs vCenter désignés.  Une fois vérifié, téléchargez le package VMDC depuislink:https://mysupport.netapp.com/site/tools/tool-eula/vm-data-collector["Coffre à outils NetApp"] puis décompressez le package et exécutez le fichier batch pour installer et démarrer le service.
@@ -72,10 +74,12 @@ image:vmdc-007.png["Figure montrant une boîte de dialogue d'entrée/sortie ou r
 
 
 
+[[using-the-gui]]
 == Utilisation de l'interface graphique
 
 
 
+[[run-vmdc]]
 === Exécuter VMDC
 
 * À l'aide du navigateur, accédez à l'interface utilisateur VMDC
@@ -110,6 +114,7 @@ Pour afficher les données d'un vCenter spécifique, accédez au tableau de bord
 
 
 
+[[view-vm-topology]]
 === Afficher la topologie de la machine virtuelle
 
 VMDC fournit l'option « Afficher la topologie » pour chaque machine virtuelle qui fournit une interface interactive pour afficher les ressources et leurs relations avec le disque de la machine virtuelle, la machine virtuelle, l'hôte ESXi, les banques de données et les réseaux.  Il permet de gérer et de surveiller les informations issues des données de performance collectées.  La topologie permet d'effectuer un diagnostic de base et de résoudre les problèmes à l'aide des données actuelles.  Pour un dépannage détaillé et un MTTR rapide, utilisezlink:https://docs.netapp.com/us-en/data-infrastructure-insights/["Data Infrastructure Insights NetApp"] qui fournit une vue topologique détaillée avec un mappage de dépendance de bout en bout.
@@ -129,6 +134,7 @@ image:vmdc-011.png["Figure montrant une boîte de dialogue d'entrée/sortie ou r
 
 
 
+[[export-to-excel]]
 === Exporter vers Excel
 
 Pour capturer les données collectées dans un format utilisable, utilisez l'option « Télécharger le rapport » pour télécharger le fichier XLSX.
@@ -154,6 +160,7 @@ Par exemple, si les données requises concernent les 4 dernières heures, choisi
 
 
 
+[[vmdc-data-counters]]
 === Compteurs de données VMDC
 
 Une fois téléchargée, la première feuille affichée par VMDC est « VM Info », une feuille contenant des informations sur les machines virtuelles qui résident dans l'environnement vSphere.  Cela affiche des informations génériques sur les machines virtuelles : nom de la machine virtuelle, état d'alimentation, processeurs, mémoire provisionnée (Mo), mémoire utilisée (Mo), capacité provisionnée (Go), capacité utilisée (Go), version des outils VMware, version du système d'exploitation, type d'environnement, centre de données, cluster, hôte, dossier, banque de données principale, disques, cartes réseau, ID de la machine virtuelle et UUID de la machine virtuelle.
@@ -164,12 +171,14 @@ L'onglet « Informations sur l'hôte ESXi » capture pour chaque hôte : le c
 
 
 
+[[next-steps]]
 === Prochaines étapes
 
 Utilisez le fichier XLSX téléchargé pour les exercices d'optimisation et de refactorisation.
 
 
 
+[[vmdc-attributes-description]]
 == Description des attributs VMDC
 
 Cette section du document couvre la définition de chaque compteur utilisé dans la feuille Excel.
@@ -188,6 +197,7 @@ image:vmdc-017.png["Figure montrant une boîte de dialogue d'entrée/sortie ou r
 
 
 
+[[conclusion]]
 == Conclusion
 
 Avec les changements imminents en matière de licences, les organisations s’attaquent de manière proactive à l’augmentation potentielle du coût total de possession (TCO).  Ils optimisent stratégiquement leur infrastructure VMware grâce à une gestion agressive des ressources et à un dimensionnement approprié pour améliorer l'utilisation des ressources et rationaliser la planification des capacités.  Grâce à l’utilisation efficace d’outils spécialisés, les organisations peuvent identifier et récupérer efficacement les ressources gaspillées, réduisant ainsi le nombre de cœurs et les dépenses globales de licence.  VMDC offre la possibilité de collecter rapidement des données de machine virtuelle qui peuvent être découpées pour générer des rapports et optimiser l'environnement existant.
@@ -200,6 +210,7 @@ image:vmdc-018.png["Figure montrant une boîte de dialogue d'entrée/sortie ou r
 
 
 
+[[next-steps]]
 == Prochaines étapes
 
 Téléchargez le package VMDC et collectez les données et utilisez-leslink:https://tco.solutions.netapp.com/vmwntaptco/["Estimateur du coût total de possession vSAN"] pour une projection facile puis une utilisationlink:https://docs.netapp.com/us-en/data-infrastructure-insights/task_cloud_insights_onboarding_1.html["DII"] fournir en permanence des renseignements qui impactent l'informatique aujourd'hui et demain, afin de garantir qu'elle puisse s'adapter à l'apparition de nouveaux besoins.

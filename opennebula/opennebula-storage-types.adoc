@@ -28,6 +28,7 @@ Les serveurs frontaux doivent avoir accès aux banques de données d’images. L
 
 
 
+[[nas-protocol-support]]
 == Prise en charge du protocole NAS
 
 Les protocoles NAS (NFS et SMB) prennent en charge le système de fichiers partagé entre le frontal et les hôtes hyperviseur. Les snapshots ONTAP peuvent être rendus visibles aux clients pour accéder à des copies ponctuelles des données. ONTAP FlexCache peut être utilisé pour les Image Datastores dans des zones géographiquement distribuées. ONTAP NFS prend en charge nConnect pour de meilleures performances en utilisant plusieurs connexions par session. Lors de l’utilisation de FlexGroup pour de grandes banques de données (> 100TB), il est recommandé d’utiliser pNFS pour répartir la charge sur plusieurs nœuds. N’oubliez pas de configurer au moins une data lif par contrôleur dans le cluster ONTAP et les hôtes hyperviseur doivent avoir la connectivité.
@@ -36,6 +37,7 @@ Tous les types de Datastore (Image, System, Kernel and File, et Backup) prennent
 
 
 
+[[san-protocol-support]]
 == Prise en charge du protocole SAN
 
 L'édition Enterprise inclut le pilote NetApp qui fonctionne avec le protocole iSCSI sur les systèmes AFF et FAS. Les autres protocoles SAN (FC, InfiniBand et NVMe-oF) sont généralement configurés pour le pilote LVM. Un pool LVM fin est créé par machine virtuelle pour le provisionnement fin et la prise en charge des snapshots. Les hôtes hyperviseurs doivent avoir une connectivité au système de stockage. La prise en charge LVM en cluster n'est pas requise pour utiliser le type de stockage LVM.
@@ -44,12 +46,14 @@ Pour utiliser avec le pilote NetApp, les sessions iSCSI et le multipath doivent 
 
 
 
+[[netapp-ontap-api-driver]]
 == Pilote d'API NetApp ONTAP
 
 OpenNebula’s native NetApp integration utilise l’API d’ONTAP pour créer et gérer automatiquement les volumes, les LUN, les instantanés et les mappages. Cette méthode offre le meilleur niveau d’automatisation et évite la configuration manuelle d’iSCSI et de LVM. Consultez link:https://docs.opennebula.io/7.0/integrations/storage_extensions/netapp/["Documentation OpenNebula"] pour plus d’informations.
 
 
 
+[[storage-type-compatibility-matrix]]
 == matrice de compatibilité des types de stockage
 
 [cols="25% 15% 15% 15% 15% 15%"]
@@ -79,6 +83,7 @@ Oui^1^
 
 
 
+[[opennebula-cluster-storage-types-supported-with-ontap]]
 == OpenNebula cluster types de stockage pris en charge avec ONTAP
 
 Voici une comparaison des fonctionnalités prises en charge par différents types de stockage dans OpenNebula lors de l'utilisation de NetApp ONTAP comme backend.

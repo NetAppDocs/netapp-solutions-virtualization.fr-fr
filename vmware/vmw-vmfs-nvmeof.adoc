@@ -18,6 +18,7 @@ Cette section couvre la création d'une banque de données VMFS avec stockage ON
 
 
 
+[[what-you-need]]
 == Ce dont vous avez besoin
 
 * Compétences de base nécessaires pour gérer un environnement vSphere et ONTAP.
@@ -41,6 +42,7 @@ Cette section couvre la création d'une banque de données VMFS avec stockage ON
 
 
 
+[[provision-vmfs-datastore]]
 == Provisionner la banque de données VMFS
 
 . Vérifiez la compatibilité avec le https://mysupport.netapp.com/matrix["Outil de matrice d'interopérabilité (IMT)"] .
@@ -49,6 +51,7 @@ Cette section couvre la création d'une banque de données VMFS avec stockage ON
 
 
 
+[[ontap-tasks]]
 == Tâches ONTAP
 
 . link:https://docs.netapp.com/us-en/ontap-cli-98/system-license-show.html["Vérifiez la licence ONTAP pour FCP."]Utilisez le `system license show` commandez et vérifiez si NVMe_oF est répertorié.  Utiliser `license add -license-code <license code>` pour ajouter une licence.
@@ -69,6 +72,7 @@ Cette section couvre la création d'une banque de données VMFS avec stockage ON
 
 
 
+[[vmware-vsphere-tasks]]
 == Tâches VMware vSphere
 
 . Vérifiez que les pilotes HBA sont installés.  Les HBA pris en charge par VMware ont les pilotes déployés prêts à l'emploi et doivent être visibles àlink:++https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-ED20B7BE-0D1C-4BF7-85C9-631D45D96FEC.html++["Informations sur l'adaptateur de stockage"]

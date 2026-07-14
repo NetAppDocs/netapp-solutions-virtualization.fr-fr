@@ -27,6 +27,7 @@ Pour vous aider à déterminer la capacité de support des produits, protocoles,
 
 
 
+[[netapp-ontap-and-vmware-supported-releases]]
 == Versions prises en charge par NetApp ONTAP et VMware
 
 

@@ -18,6 +18,7 @@ Le collecteur de données de machine virtuelle (VMDC) est un outil gratuit et l�
 
 
 
+[[introduction]]
 == Introduction
 
 Virtual Machine Data Collector (VMDC) est une boîte à outils gratuite, légère et simple basée sur une interface graphique pour les environnements VMware qui permet aux utilisateurs de collecter des informations d'inventaire détaillées sur leurs machines virtuelles (VM), leurs hôtes, leur stockage et leurs réseaux.
@@ -26,6 +27,7 @@ Pour plus d'informations sur le collecteur de données de machine virtuelle, con
 
 
 
+[[vmdc-capabilities]]
 == Capacités du VMDC
 
 VMDC n'est qu'un tremplin pour collecter des statistiques rapides et instantanées afin de projeter les possibilités d'optimisation des licences de base VMWare ainsi que des vCPU et de la RAM.  NetApp Data Infrastructure Insights , qui nécessite l'installation d'AU et de collecteurs de données, devrait être la prochaine étape évidente pour comprendre la topologie détaillée des machines virtuelles, le regroupement des machines virtuelles à l'aide d'annotations afin de dimensionner correctement les charges de travail et de pérenniser l'infrastructure.

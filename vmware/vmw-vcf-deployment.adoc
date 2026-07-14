@@ -18,6 +18,7 @@ Déployez, convergez ou mettez à niveau les environnements VMware Cloud Foundat
 
 
 
+[[deploy-a-new-vcf-9-instance]]
 == Déployer une nouvelle instance VCF 9
 
 Utilisez ce workflow pour déployer un environnement VMware Cloud Foundation (VCF) 9.0 propre.  Après le déploiement, vous pouvez migrer les charges de travail ou commencer à provisionner des applications et à fournir des services d’infrastructure.
@@ -127,6 +128,7 @@ Vous pouvez réutiliser ces étapes chaque fois que vous créez un nouveau domai
 
 
 
+[[converge-existing-components-into-vcf-9]]
 == Converger les composants existants vers VCF 9
 
 Vous possédez peut-être déjà certains composants de la flotte VCF et préférez les réutiliser.  Lorsque vous réutilisez une instance vCenter, les banques de données sont fréquemment provisionnées avec des outils ONTAP , qui peuvent servir de stockage principal pour VCF.
@@ -147,6 +149,7 @@ Vous possédez peut-être déjà certains composants de la flotte VCF et préfé
 
 
 
+[[upgrade-an-existing-vcf-environment-to-vcf-9]]
 == Mettre à niveau un environnement VCF existant vers VCF 9
 
 Mettez à niveau un déploiement VCF antérieur vers la version 9.0 à l’aide du processus de mise à niveau standard.  Le résultat est un environnement VCF exécutant la version 9.0 avec des domaines de gestion et de charge de travail mis à niveau.

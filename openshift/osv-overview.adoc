@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: openshift/osv-overview.html 
 keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
-summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP 
+summary: Virtualisation Red Hat OpenShift 
 ---
-= En savoir plus sur la virtualisation Red Hat OpenShift avec ONTAP
+= Découvrez Red Hat OpenShift Virtualization
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,14 +14,59 @@ summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP
 
 
 [role="lead"]
-Découvrez comment utiliser Red Hat OpenShift Virtualization et le stockage ONTAP pour exécuter et gérer des machines virtuelles.  Utilisez Trident pour activer la migration de machines virtuelles en direct, le clonage de disques de machines virtuelles et les instantanés de machines virtuelles, simplifiant ainsi la gestion de l'infrastructure et la protection des données.
-
-Selon le cas d’utilisation spécifique, les conteneurs et les machines virtuelles (VM) peuvent servir de plates-formes optimales pour différents types d’applications.  Par conséquent, de nombreuses organisations exécutent une partie de leurs charges de travail sur des conteneurs et une autre partie sur des machines virtuelles.  Souvent, cela conduit les organisations à faire face à des défis supplémentaires en devant gérer des plates-formes distinctes : un hyperviseur pour les machines virtuelles et un orchestrateur de conteneurs pour les applications.
-
-Pour relever ce défi, Red Hat a introduit OpenShift Virtualization (anciennement connu sous le nom de Container Native Virtualization) à partir de la version 4.6 d'OpenShift.  La fonctionnalité de virtualisation OpenShift vous permet d'exécuter et de gérer des machines virtuelles aux côtés de conteneurs sur la même installation OpenShift Container Platform, offrant une capacité de gestion hybride pour automatiser le déploiement et la gestion des machines virtuelles via les opérateurs.  En plus de créer des machines virtuelles dans OpenShift, avec OpenShift Virtualization, Red Hat prend également en charge l'importation de machines virtuelles à partir de déploiements VMware vSphere, Red Hat Virtualization et Red Hat OpenStack Platform.
+Red Hat® OpenShift Virtualization permet aux organisations de migrer, d’exécuter et de gérer facilement des machines virtuelles (VM) traditionnelles parallèlement à des charges de travail modernes sur une plateforme d’applications cloud hybride et unifiée. OpenShift Virtualization est disponible en tant qu’opérateur inclus avec tout abonnement OpenShift. Ce module complémentaire à la OpenShift Container Platform offre une solution robuste pour l’intégration des VM aux applications conteneurisées. Il utilise Kernel-based Virtual Machine (KVM), l’hyperviseur du noyau Linux reconnu pour ses performances, son évolutivité et sa stabilité, afin de fournir une virtualisation de niveau entreprise pour les machines virtuelles, en tant qu’objets natifs au sein de OpenShift.
 
 image:redhat-openshift-044.png["Virtualisation OpenShift"]
 
-Certaines fonctionnalités telles que la migration de machines virtuelles en direct, le clonage de disques de machines virtuelles, les instantanés de machines virtuelles, etc. sont également prises en charge par OpenShift Virtualization avec l'aide de Trident lorsqu'il est pris en charge par NetApp ONTAP.  Des exemples de chacun de ces flux de travail sont abordés plus loin dans ce document dans leurs sections respectives.
 
-Pour en savoir plus sur Red Hat OpenShift Virtualization, consultez la documentation https://www.openshift.com/learn/topics/virtualization/["ici"] .
+
+[[key-features-of-red-hat-openshift-virtualization]]
+== Principales fonctionnalités de Red Hat OpenShift Virtualization
+
+**Charges de travail hybrides :** Migrez et exécutez des machines virtuelles avec les avantages du cloud natif, en les gérant parallèlement aux conteneurs et aux charges de travail sans serveur à l’aide d’un ensemble d’outils unifié.
+
+**Modernisation progressive :** Modernisez à votre rythme en adoptant des conteneurs, en implémentant des microservices ou en intégrant l’IA, sans perturber les machines virtuelles existantes.
+
+**Intégration Kubernetes :** Exploite les ressources personnalisées de Kubernetes pour ajouter des capacités de virtualisation à votre OpenShift cluster.
+
+
+
+[[capabilities-of-red-hat-openshift-virtualization]]
+== Capacités de Red Hat OpenShift Virtualization
+
+**Gestion des machines virtuelles :** Créez et gérez des machines virtuelles Linux et Windows.
+
+**Charges de travail unifiées :** Exécutez simultanément des charges de travail de pods et de machines virtuelles au sein d’un cluster.
+
+**Connectivité :** Accédez aux machines virtuelles via différentes consoles et outils CLI.
+
+**Opérations sur les machines virtuelles :** Importer, cloner et migrer à chaud des machines virtuelles entre les nœuds.
+
+**Gestion des ressources :** Gérez les interfaces réseau et les disques de stockage connectés aux machines virtuelles.
+
+
+
+[[compatibility]]
+== Compatibilité
+
+Bien que OpenShift Virtualization diffère sur le plan conceptuel de VMware vSphere, elle offre une plateforme moderne conçue spécifiquement pour les administrateurs de la virtualisation, avec des fonctionnalités familières telles que : **Live Migration :** équivalent à vMotion dans vSphere.
+
+**Gestion du stockage :** Les classes de stockage dans OpenShift sont alignées sur la Storage Policy Based Management (SPBM) dans vSphere.
+
+**Stockage persistant :** Les revendications de volume persistant (PVC) et les volumes persistants (PV) correspondent aux banques de données dans vSphere.
+
+
+
+[[for-vsphere-administrators]]
+== Pour les administrateurs vSphere
+
+Pour une liste des concepts vSphere correspondant à leurs homologues de virtualisation OpenShift les plus proches, reportez-vous à la link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.21/html/virtualization/about#virt-vmware-comparison_about-virt["documentation ici"].
+
+
+
+[[additional-resources]]
+== Ressources supplémentaires
+
+Vous pouvez gérer vos ressources de cluster et de virtualisation via la perspective Virtualisation de la **console web OpenShift Container Platform** ou de la **CLI OpenShift (oc)**.
+
+Pour en savoir plus sur Red Hat OpenShift Virtualization, consultez la documentation link:https://www.openshift.com/learn/topics/virtualization/["ici"].

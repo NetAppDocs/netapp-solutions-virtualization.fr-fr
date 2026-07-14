@@ -18,6 +18,7 @@ Configurez le stockage NFS vVols dans un domaine de charge de travail VI.  Aprè
 
 
 
+[[step-1-deploy-ontap-tools-for-vmware-vsphere]]
 == Étape 1 : Déployer les ONTAP tools for VMware vSphere
 
 Pour les domaines de charge de travail VI, les outils ONTAP sont installés sur le cluster de gestion VCF mais enregistrés auprès du vCenter associé au domaine de charge de travail VI.
@@ -87,6 +88,7 @@ image:vmware-vcf-asa-035.png["Personnaliser le modèle OTV 2"]
 
 
 
+[[step-2-add-a-storage-system]]
 == Étape 2 : ajouter un système de stockage
 
 Procédez comme suit pour ajouter un système de stockage à l’aide des outils ONTAP .
@@ -131,6 +133,7 @@ image:vmware-vcf-asa-017.png["Autoriser le certificat de cluster"]
 
 
 
+[[step-3-create-an-nfs-datastore-in-ontap-tools]]
 == Étape 3 : Créer une banque de données NFS dans les outils ONTAP
 
 Suivez les étapes suivantes pour déployer une banque de données ONTAP exécutée sur NFS.  Utilisez les outils ONTAP .
@@ -187,6 +190,7 @@ image:vmware-vcf-aff-045.png["Résumé et conclusion de l'examen"]
 
 
 
+[[step-4-create-a-vvols-datastore-in-ontap-tools]]
 == Étape 4 : Créer une banque de données vVols dans les outils ONTAP
 
 Pour créer une banque de données vVols dans les outils ONTAP , procédez comme suit.
@@ -247,6 +251,7 @@ image:vmware-vcf-aff-049.png["Page de résumé"]
 
 
 
+[[additional-information]]
 == Informations Complémentaires
 
 * Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"^] .

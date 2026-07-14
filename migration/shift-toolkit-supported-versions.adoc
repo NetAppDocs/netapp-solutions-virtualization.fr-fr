@@ -17,6 +17,7 @@ Vérifiez que vos systèmes d'exploitation invités Windows et Linux, votre vers
 
 
 
+[[supported-vm-guest-operating-systems]]
 == Systèmes d'exploitation invités VM pris en charge
 
 Le kit d'outils Shift prend en charge les systèmes d'exploitation invités Windows et Linux suivants pour la conversion de machines virtuelles.
@@ -52,12 +53,14 @@ NOTE: Windows Server 2008 n'est pas officiellement pris en charge. Toutefois, le
 
 
 
+[[supported-ontap-versions]]
 == Versions ONTAP prises en charge
 
 Le kit d'outils Shift prend en charge ONTAP 9.14.1 ou version ultérieure.
 
 
 
+[[supported-hypervisors]]
 == Hyperviseurs pris en charge
 
 Le kit d'outils Shift prend en charge les plateformes d'hyperviseurs suivantes pour la migration et la conversion de machines virtuelles.

@@ -20,6 +20,7 @@ image:vmware-vcf-asa-mgmt-stretchcluster-001.png["Instance unique - Zones de dis
 
 
 
+[[scenario-overview]]
 == Aperçu du scénario
 
 Les banques de données sur le domaine de charge de travail VCF peuvent être protégées avec SnapMirror Active Sync pour fournir une solution de cluster extensible.  La protection est activée au niveau du cluster vSphere et tous les magasins de données de blocs ONTAP du cluster seront protégés.
@@ -50,6 +51,7 @@ TIP: Si un cluster vSphere est protégé, toutes les banques de données du clus
 ====
 
 
+[[additional-information]]
 == Informations Complémentaires
 
 Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.
@@ -58,6 +60,7 @@ Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https
 
 
 
+[[video-demo-for-this-solution]]
 == Démo vidéo de cette solution
 
 .Cluster extensible pour VCF avec outils ONTAP

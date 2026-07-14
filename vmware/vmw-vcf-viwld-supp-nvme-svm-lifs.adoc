@@ -18,6 +18,7 @@ Créez une machine virtuelle de stockage (SVM) avec plusieurs interfaces logique
 
 
 
+[[step-1-create-the-svms-and-lifs]]
 == Étape 1 : Créer les SVM et les LIF
 
 Suivez les étapes suivantes pour créer une SVM avec plusieurs LIF pour le trafic NVMe/TCP.
@@ -58,6 +59,7 @@ image:vmware-vcf-asa-004.png["Activer le compte SVM et terminer"]
 
 
 
+[[step-2-create-the-nvme-namespace]]
 == Étape 2 : créer l’espace de noms NVMe
 
 Les espaces de noms NVMe sont analogues aux LUN pour iSCSi ou FC. Vous devez créer l’espace de noms NVMe avant qu’une banque de données VMFS puisse être déployée à partir du client vSphere.
@@ -103,6 +105,7 @@ image:vmware-vcf-asa-093.png["Cliquez sur +Ajouter pour créer un espace de noms
 
 
 
+[[whats-next]]
 == Quelle est la prochaine étape ?
 
 Après avoir créé le SVM et les LIF,link:vmw-vcf-viwld-supp-nvme-network.html["configurer la mise en réseau pour NVMe/TCP (NVMe/TCP) vVols"] .

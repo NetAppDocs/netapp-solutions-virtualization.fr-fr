@@ -18,6 +18,7 @@ La conversion d’un environnement vSphere avec des banques de données Fibre Ch
 
 
 
+[[solution-overview]]
 == Présentation de la solution
 
 Cette solution montre comment les banques de données FC ou NFS existantes dans vSphere deviennent un stockage principal lorsque le cluster est converti en domaine de gestion VCF.
@@ -28,6 +29,7 @@ Cette intégration améliore non seulement l’utilisation des ressources, mais 
 
 
 
+[[architecture-overview]]
 == Aperçu de l'architecture
 
 L'architecture des outils ONTAP s'intègre parfaitement aux environnements VMware, en s'appuyant sur un cadre modulaire et évolutif qui inclut les services d'outils ONTAP , le plug-in vSphere et les API REST pour permettre une gestion efficace du stockage, de l'automatisation et de la protection des données.
@@ -38,6 +40,7 @@ image::vmware-vcf-import-nfs-010.png[Architecture des outils ONTAP]
 
 
 
+[[supported-solutions-for-converting-a-vsphere-environment]]
 == Solutions prises en charge pour la conversion d'un environnement vSphere
 
 Reportez-vous aux solutions suivantes pour obtenir les détails techniques permettant de convertir une instance vCenter.
@@ -48,6 +51,7 @@ Reportez-vous aux solutions suivantes pour obtenir les détails techniques perme
 
 
 
+[[additional-information]]
 == Informations Complémentaires
 
 * Pour des démonstrations vidéo de ces solutions, reportez-vous àlink:../videos/vmware-videos.html#vmware-datastore-provisioning-with-ontap["Provisionnement de banque de données VMware avec ONTAP"] .

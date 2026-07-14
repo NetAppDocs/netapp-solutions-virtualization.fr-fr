@@ -18,6 +18,7 @@ Découvrez les avantages de VMware Virtual Volumes (vVols), le provisionnement d
 
 
 
+[[overview]]
 == Aperçu
 
 L'API vSphere pour la gestion du stockage (VASA) permet à un administrateur de machines virtuelles d'utiliser facilement toutes les capacités de stockage nécessaires pour provisionner des machines virtuelles sans avoir à interagir avec son équipe de stockage. Avant VASA, les administrateurs de machines virtuelles pouvaient définir des politiques de stockage de machines virtuelles, mais devaient collaborer avec leurs administrateurs de stockage pour identifier les banques de données appropriées, souvent en utilisant la documentation ou des conventions d'appellation. Avec VASA, les administrateurs vCenter disposant des autorisations appropriées peuvent définir une gamme de capacités de stockage que les utilisateurs vCenter peuvent ensuite utiliser pour provisionner des machines virtuelles. La correspondance entre la stratégie de stockage des machines virtuelles et le profil de capacité de stockage des banques de données permet à vCenter d'afficher une liste de banques de données compatibles pour la sélection, et permet également à d'autres technologies comme VCF Automation (anciennement connu sous le nom d'Aria ou vRealize Automation) ou VMware vSphere Kubernetes Service de sélectionner automatiquement le stockage à partir d'une stratégie attribuée. Cette approche est connue sous le nom de gestion basée sur des politiques de stockage. Bien que les profils et les politiques de capacité de stockage puissent également être utilisés avec les banques de données traditionnelles, nous nous concentrons ici sur les banques de données vVols . Le fournisseur VASA pour ONTAP est inclus dans les ONTAP tools for VMware vSphere.
@@ -49,6 +50,7 @@ Actuellement, les ONTAP tools for VMware vSphere sont disponibles en deux versio
 
 
 
+[[ontap-tools-9-x]]
 == Outils ONTAP 9.x
 
 * Lorsque la prise en charge vVol pour NVMe/FC est requise
@@ -58,6 +60,7 @@ Actuellement, les ONTAP tools for VMware vSphere sont disponibles en deux versio
 
 
 
+[[ontap-tools-10-x]]
 == Outils ONTAP 10.x
 
 * Haute disponibilité
@@ -69,6 +72,7 @@ Actuellement, les ONTAP tools for VMware vSphere sont disponibles en deux versio
 
 
 
+[[why-vvols]]
 == Pourquoi vVols?
 
 VMware Virtual Volumes (vVols) offre les avantages suivants :
@@ -86,6 +90,7 @@ VMware Virtual Volumes (vVols) offre les avantages suivants :
 
 
 
+[[connectivity-options]]
 == Options de connectivité
 
 Un environnement à double structure est généralement recommandé pour les réseaux de stockage afin de répondre aux exigences de haute disponibilité, de performances et de tolérance aux pannes.  Les vVols sont pris en charge avec iSCSI, FC, NFSv3 et NVMe/FC.  REMARQUE : reportez-vous àlink:https://imt.netapp.com/matrix["Outil de matrice d'interopérabilité (IMT)"] pour la version de l'outil ONTAP prise en charge
@@ -98,12 +103,14 @@ image:vmware-vvol-overview-004.png["réseau NFS"]
 
 
 
+[[provisioning-using-ontap-tools-for-vmware-vsphere]]
 == Provisionnement à l'aide des ONTAP tools for VMware vSphere
 
 Le magasin de données vVol peut être provisionné de la même manière que le magasin de données VMFS ou NFS à l'aide des outils ONTAP .  Si le plug-in des outils ONTAP n’est pas disponible sur l’interface utilisateur du client vSphere, reportez-vous à la section Comment démarrer ci-dessous.
 
 
 
+[[with-ontap-tools-9-13]]
 === Avec les outils ONTAP 9.13
 
 . Cliquez avec le bouton droit sur le cluster ou l’hôte vSphere et sélectionnez Provision Datastore sous Outils NetApp ONTAP .
@@ -132,6 +139,7 @@ ou utilisez un mot de passe mis à jour avec la console de maintenance des outil
 
 
 
+[[with-ontap-tools-10-1]]
 === Avec les outils ONTAP 10.1
 
 . Cliquez avec le bouton droit sur le cluster ou l’hôte vSphere et sélectionnez Créer une banque de données (10.1) sous Outils NetApp ONTAP .
@@ -145,6 +153,7 @@ ou utilisez un mot de passe mis à jour avec la console de maintenance des outil
 
 
 
+[[data-protection-of-vms-on-vvol-datastore]]
 == Protection des données des machines virtuelles sur le datastore vVol
 
 Un aperçu de la protection des données des machines virtuelles sur le magasin de données vVol est disponible à l'adresselink:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-protect.html["protection des vVols"] .
@@ -160,18 +169,21 @@ Référerlink:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_at
 
 
 
+[[vm-migration-from-traditional-datastores-to-vvol-datastore]]
 == Migration de machines virtuelles depuis des banques de données traditionnelles vers des banques de données vVol
 
 Pour migrer des machines virtuelles d’autres banques de données vers une banque de données vVol, différentes options sont disponibles en fonction du scénario.  Cela peut varier d’une simple opération de stockage vMotion à une migration à l’aide de HCX.  Référerlink:../migration/migrate-vms-to-ontap-datastore.html["migrer les machines virtuelles vers la banque de données ONTAP"] pour plus de détails.
 
 
 
+[[vm-migration-between-vvol-datastores]]
 == Migration de machines virtuelles entre les banques de données vVol
 
 Pour la migration en masse de machines virtuelles entre les banques de données vVol, veuillez vérifierlink:../migration/migrate-vms-to-ontap-datastore.html["migrer les machines virtuelles vers la banque de données ONTAP"] .
 
 
 
+[[sample-reference-architecture]]
 == Exemple d'architecture de référence
 
 Les ONTAP tools for VMware vSphere et SCV peuvent être installés sur le même vCenter qu'ils gèrent ou sur un serveur vCenter différent.  Il est préférable d'éviter d'héberger sur le datastore vVol qu'il gère.
@@ -192,6 +204,7 @@ image:vmware-vvol-overview-037.png["Mélange d'outils ONTAP partagés et dédié
 
 
 
+[[how-to-get-started]]
 == Comment commencer
 
 Si les outils ONTAP ne sont pas installés sur votre environnement, veuillez les télécharger à partir delink:https://support.netapp.com["Site de support NetApp"] et suivez les instructions disponibles surlink:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-ontap.html["utilisation de vVols avec ONTAP"] .

@@ -17,6 +17,7 @@ Installez ou mettez à niveau le NetApp Shift Toolkit après avoir vérifié que
 
 
 
+[[install-the-shift-toolkit]]
 == Installez le kit d'outils de changement de vitesse
 
 Téléchargez et exécutez le programme d'installation pour configurer Shift Toolkit sur votre serveur Windows.
@@ -137,6 +138,7 @@ NOTE: Pour les machines virtuelles sans accès à Internet, le programme d'insta
 
 
 
+[[upgrade-the-shift-toolkit]]
 == Mettre à niveau le kit d'outils de changement de vitesse
 
 Les mises à niveau sont entièrement automatisées et peuvent être effectuées en un seul clic.

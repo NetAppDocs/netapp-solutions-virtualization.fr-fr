@@ -22,7 +22,7 @@ entries:
     url: "/migration/shift-toolkit-ui.html"
   - title: Migrer des machines virtuelles à l'aide de Shift Toolkit
     entries:
-    - title: Aperçu
+    - title: Aperçu du processus de migration
       url: "/migration/shift-toolkit-migration.html"
     - title: Migrer des machines virtuelles de VMware ESXi vers Microsoft Hyper-V
       url: "/migration/shift-toolkit-migrate-esxi2hyperv.html"

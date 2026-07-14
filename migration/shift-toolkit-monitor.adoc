@@ -18,6 +18,7 @@ Utilisez le tableau de bord de surveillance des tâches de Shift Toolkit pour su
 
 
 
+[[job-monitoring-dashboard]]
 == Tableau de bord de suivi des tâches
 
 Le tableau de bord de suivi des tâches offre une vue centralisée de toutes les opérations actives et terminées au sein de la boîte à outils Shift Toolkit.  Utilisez ce tableau de bord pour suivre l'avancement de vos tâches de migration, de conversion et de conception.
@@ -35,6 +36,7 @@ Le tableau de bord affiche les informations clés pour chaque tâche :
 
 
 
+[[understanding-job-status]]
 == Comprendre le statut professionnel
 
 L'interface intuitive permet d'évaluer rapidement l'état de toutes les opérations et d'identifier les tâches qui requièrent une attention particulière.

@@ -18,6 +18,7 @@ Configurer Shift Toolkit pour automatiser la migration ou la conversion des mach
 
 
 
+[[run-shift-toolkit]]
 == Boîte à outils Run Shift
 
 * Utilisez le navigateur pour accéder à l'interface utilisateur de Shift Toolkit en saisissant le `http://<IP address specified during installation>:3001`
@@ -50,12 +51,14 @@ image::shift-toolkit-052.png[Capture d'écran du contrat de licence utilisateur 
 
 
 
+[[shift-toolkit-configuration]]
 == Configuration de Shift Toolkit
 
 Une fois que le stockage et la connectivité aux hyperviseurs source et de destination ont été correctement configurés, commencez à configurer le kit d'outils Shift pour automatiser la migration ou la conversion des machines virtuelles au format approprié, en tirant parti de la fonctionnalité FlexClone .
 
 
 
+[[add-sites]]
 === Ajouter des sites
 
 La première étape consiste à découvrir et à ajouter les détails de l'hyperviseur source puis cible (à la fois les hyperviseurs et le stockage) à la boîte à outils Shift.  Ouvrez Shift Toolkit dans un navigateur compatible, utilisez le nom d'utilisateur et le mot de passe par défaut, puis cliquez sur « Ajouter des sites ».
@@ -175,6 +178,7 @@ L’étape suivante consiste à regrouper les machines virtuelles requises dans 
 
 
 
+[[resource-groupings]]
 === Groupements de ressources
 
 Une fois les plateformes ajoutées, regroupez les machines virtuelles que vous souhaitez migrer ou convertir en groupes de ressources.  Les groupes de ressources de la boîte à outils Shift vous permettent de regrouper un ensemble de machines virtuelles dépendantes en groupes logiques contenant leurs ordres de démarrage et leurs délais de démarrage.
@@ -256,6 +260,7 @@ NOTE: Si vous devez modifier le groupe de ressources pour ajouter ou supprimer d
 
 
 
+[[blueprints]]
 === Plans
 
 Pour migrer ou convertir des machines virtuelles, un plan est nécessaire. Sélectionnez les plates-formes d'hyperviseur source et de destination dans la liste déroulante et choisissez les groupes de ressources à inclure dans ce plan, ainsi que le regroupement de la manière dont les applications doivent être mises sous tension (c'est-à-dire les contrôleurs de domaine, puis le niveau 1, puis le niveau 2, etc.). On les appelle souvent aussi plans de migration. Pour définir le plan, accédez à l'onglet « Plans » et cliquez sur « Créer un nouveau plan ».

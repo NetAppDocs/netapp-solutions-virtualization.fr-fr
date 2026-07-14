@@ -15,6 +15,7 @@ Découvrez les nouveautés en matière de solutions de virtualisation.
 
 
 
+[[10-may-2026]]
 == 10 mai 2026
 
 * Ajout de solutions d'informatique utilisateur final (EUC) pour NetApp ONTAP.
@@ -22,6 +23,7 @@ Découvrez les nouveautés en matière de solutions de virtualisation.
 
 
 
+[[15-january-2026]]
 == 15 janvier 2026
 
 * Le contenu de la solution Proxmox VE a été mis à jour pour refléter la version Proxmox VE 9.
@@ -45,6 +47,7 @@ Découvrez les nouveautés en matière de solutions de virtualisation.
 
 
 
+[[12-november-2025]]
 == 12 novembre 2025
 
 * J'ai fourni les liens de téléchargement corrects pour le kit d'outils NetApp Shift.
@@ -60,6 +63,7 @@ Découvrez les nouveautés en matière de solutions de virtualisation.
 
 
 
+[[18-august-2025]]
 == 18 août 2025
 
 Le site NetApp Solutions est désormais lelink:https://docs.netapp.com/us-en/netapp-solutions-family/index.html["Famille de solutions NetApp"^] , qui comprend les sites suivants :

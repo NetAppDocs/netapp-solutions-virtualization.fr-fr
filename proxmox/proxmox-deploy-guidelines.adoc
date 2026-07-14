@@ -20,6 +20,7 @@ Pour plus d'informations sur les types de stockage pris en charge et la compatib
 
 
 
+[[network-configuration-guidelines]]
 == Instructions de configuration réseau
 
 Suivez ces recommandations pour optimiser les performances et la fiabilité de votre réseau :
@@ -34,6 +35,7 @@ Suivez ces recommandations pour optimiser les performances et la fiabilité de v
 
 
 
+[[storage-configuration-best-practices]]
 == meilleures pratiques de configuration du stockage
 
 Suivez ces bonnes pratiques pour optimiser les performances et l'évolutivité du stockage :
@@ -52,6 +54,7 @@ Suivez ces bonnes pratiques pour optimiser les performances et l'évolutivité d
 
 
 
+[[proxmox-ve-configuration-guidelines]]
 == Guide de configuration de Proxmox VE
 
 Suivez ces instructions pour optimiser Proxmox VE avec le stockage NetApp ONTAP :

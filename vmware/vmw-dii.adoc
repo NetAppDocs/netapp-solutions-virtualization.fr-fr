@@ -18,6 +18,7 @@ NetApp Data Infrastructure Insights (anciennement Cloud Insights) est une plate-
 
 
 
+[[monitoring-on-premises-storage-with-data-infrastructure-insights]]
 == Surveillance du stockage sur site avec Data Infrastructure Insights
 
 Data Infrastructure Insights fonctionne via le logiciel Acquisition Unit, qui est configuré avec des collecteurs de données pour des actifs tels que les systèmes de stockage VMware vSphere et NetApp ONTAP .  Ces collecteurs collectent des données et les transmettent à Data Infrastructure Insights.  La plateforme utilise ensuite une variété de tableaux de bord, de widgets et de requêtes métriques pour organiser les données en analyses perspicaces que les utilisateurs peuvent interpréter.
@@ -28,6 +29,7 @@ image:vmware-dii.png["Data Infrastructure Insights"]
 
 
 
+[[solution-deployment-overview]]
 == Présentation du déploiement de la solution
 
 Cette solution fournit une introduction à la surveillance des systèmes de stockage VMware vSphere et ONTAP sur site à l'aide de Data Infrastructure Insights.
@@ -45,6 +47,7 @@ Cette liste fournit les étapes de haut niveau couvertes dans cette solution :
 
 
 
+[[prerequisites]]
 == Prérequis
 
 Cette solution utilise les composants suivants :
@@ -57,10 +60,12 @@ Cette solution utilise les composants suivants :
 
 
 
+[[solution-deployment]]
 == Déploiement de la solution
 
 
 
+[[configure-data-collectors]]
 === Configurer les collecteurs de données
 
 Pour configurer les collecteurs de données pour les systèmes de stockage VMware vSphere et ONTAP , procédez comme suit :
@@ -103,6 +108,7 @@ image:vmware-asa-034.png["Configurer le collecteur"]
 ====
 
 
+[[add-annotations-to-assets]]
 === Ajouter des annotations aux ressources
 
 Les annotations sont une méthode utile pour étiqueter les ressources afin qu'elles puissent être filtrées et identifiées dans les différentes vues et requêtes de métriques disponibles dans Cloud Insights.
@@ -129,6 +135,7 @@ image:vmware-asa-037.png["Exécuter toutes les règles"]
 ====
 
 
+[[explore-and-correlate-assets]]
 === Explorer et corréler les actifs
 
 Cloud Insights tire des conclusions logiques sur les ressources qui s’exécutent ensemble sur vos systèmes de stockage et vos clusters vSphere.
@@ -167,6 +174,7 @@ image:vmware-asa-043.png["Mesures de performance des machines virtuelles"]
 ====
 
 
+[[use-cloud-insights-to-identify-noisy-neighbors]]
 === Utilisez Cloud Insights pour identifier les voisins bruyants
 
 Cloud Insights propose des tableaux de bord qui peuvent facilement isoler les machines virtuelles homologues qui ont un impact négatif sur d’autres machines virtuelles exécutées sur le même volume de stockage.
@@ -195,6 +203,7 @@ image:vmware-asa-047.png["Contention de la charge de travail"]
 ====
 
 
+[[view-over-and-under-utilized-resources-in-cloud-insights]]
 === Afficher les ressources sur et sous-utilisées dans Cloud Insights
 
 En faisant correspondre les ressources de la machine virtuelle aux exigences réelles de la charge de travail, l'utilisation des ressources peut être optimisée, ce qui permet de réaliser des économies sur l'infrastructure et les services cloud.  Les données de Cloud Insights peuvent être personnalisées pour afficher facilement les machines virtuelles sur ou sous-utilisées.
@@ -223,6 +232,7 @@ image:vmware-asa-051.png["Machines virtuelles hors tension"]
 ====
 
 
+[[use-queries-to-isolate-and-sort-metrics]]
 === Utiliser des requêtes pour isoler et trier les métriques
 
 La quantité de données capturées par Cloud Insights est assez complète.  Les requêtes métriques offrent un moyen puissant de trier et d’organiser de grandes quantités de données de manière utile.
@@ -243,12 +253,14 @@ image:vmware-asa-053.png["ONTAP Essential - VMware"]
 ====
 
 
+[[conclusion]]
 == Conclusion
 
 Cette solution a été conçue comme une introduction pour apprendre à démarrer avec NetApp Cloud Insights et montrer certaines des puissantes fonctionnalités que cette solution d'observabilité peut fournir.  Des centaines de tableaux de bord et de requêtes métriques sont intégrés au produit, ce qui permet de le démarrer immédiatement.  La version complète de Cloud Insights est disponible sous forme d'essai de 30 jours et la version de base est disponible gratuitement pour les clients NetApp .
 
 
 
+[[additional-information]]
 == Informations supplémentaires
 
 Pour en savoir plus sur les technologies présentées dans cette solution, reportez-vous aux informations complémentaires suivantes.

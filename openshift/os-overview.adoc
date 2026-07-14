@@ -18,6 +18,7 @@ La plateforme de conteneurs Red Hat OpenShift réunit les opérations de dévelo
 
 
 
+[[red-hat-openshift-provides-the-following-capabilities]]
 == Red Hat OpenShift offre les fonctionnalités suivantes :
 
 * *Provisionnement en libre-service* Les développeurs peuvent créer rapidement et facilement des applications à la demande à partir des outils qu'ils utilisent le plus, tandis que les opérations conservent un contrôle total sur l'ensemble de l'environnement.
@@ -37,6 +38,7 @@ image:redhat-openshift-004.png["Figure montrant une boîte de dialogue d'entrée
 
 
 
+[[deployment-methods-for-red-hat-openshift]]
 == Méthodes de déploiement pour Red Hat OpenShift
 
 À partir de Red Hat OpenShift 4, les méthodes de déploiement pour OpenShift incluent des déploiements manuels à l'aide de l'infrastructure provisionnée par l'utilisateur (UPI) pour des déploiements hautement personnalisés ou des déploiements entièrement automatisés à l'aide de l'infrastructure provisionnée par l'installateur (IPI).
@@ -45,6 +47,7 @@ La méthode d’installation IPI est la méthode préférée dans la plupart des
 
 
 
+[[ipi-installation-of-red-hat-openshift]]
 === Installation IPI de Red Hat OpenShift
 
 Le déploiement de l'infrastructure provisionnée par l'installateur (IPI) d'OpenShift implique les étapes de haut niveau suivantes :
@@ -63,6 +66,7 @@ image:redhat-openshift-009.png["Figure montrant une boîte de dialogue d'entrée
 
 
 
+[[netapp-validated-openshift-deployments]]
 === Déploiements OpenShift validés par NetApp
 
 NetApp a testé et validé le déploiement de Red Hat OpenShift dans ses laboratoires à l'aide de la méthode de déploiement Installer Provisioned Infrastructure (IPI) dans chacun des environnements de centre de données suivants :

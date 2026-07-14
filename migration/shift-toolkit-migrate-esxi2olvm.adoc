@@ -20,6 +20,7 @@ Le kit d'outils Shift permet la migration de machines virtuelles entre plateform
 
 
 
+[[before-you-begin]]
 == Avant de commencer
 
 Vérifiez que les conditions préalables suivantes sont remplies avant de commencer la migration.
@@ -58,6 +59,7 @@ NOTE: Le script de préparation utilise le package .msi pour installer les pilot
 
 
 
+[[step-1-add-the-destination-site-olvm]]
 == Étape 1 : Ajouter le site de destination (OLVM)
 
 Ajoutez l'environnement de destination Oracle Linux Virtualization Manager à Shift Toolkit.
@@ -118,6 +120,7 @@ NOTE: Le volume source et le volume de destination seront identiques, car la con
 
 
 
+[[step-2-create-resource-groups]]
 == Étape 2 : Créer des groupes de ressources
 
 Organisez les machines virtuelles en groupes de ressources afin de préserver l'ordre de démarrage et les configurations de délai de démarrage.
@@ -182,6 +185,7 @@ Le groupe de ressources est créé et prêt pour la configuration du plan.
 
 
 
+[[step-3-create-a-migration-blueprint]]
 == Étape 3 : Créer un plan de migration
 
 Élaborez un plan directeur définissant la stratégie de migration, incluant les correspondances de plateformes, la configuration réseau et les paramètres des machines virtuelles.
@@ -298,6 +302,7 @@ image::shift-toolkit-210.png[sélection du menu Migration]
 ====
 
 
+[[step-4-execute-the-migration]]
 == Étape 4 : Exécuter la migration
 
 Déclenchez le processus de migration pour convertir les machines virtuelles de VMware ESXi vers Oracle Linux Virtualization Manager.
@@ -360,6 +365,7 @@ image::shift-toolkit-212.png[Machines virtuelles migrées dans Oracle]
 ====
 
 
+[[video-demonstration]]
 == Démonstration vidéo
 
 La vidéo suivante illustre le processus décrit dans cette solution.

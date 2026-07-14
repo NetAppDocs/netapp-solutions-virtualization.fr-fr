@@ -15,6 +15,7 @@ Déployez les ONTAP tools for VMware vSphere 10 et provisionnez une banque de do
 
 
 
+[[step-1-deploy-ontap-tools-for-vmware-vsphere]]
 == Étape 1 : Déployer les ONTAP tools for VMware vSphere
 
 Dans cette étape, ONTAP Tools 10 est déployé dans une configuration non HA.  Pour plus de détails sur le déploiement des configurations HA et non HA, reportez-vous à la documentation des ONTAP tools for VMware vSphere : https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["Déployer les ONTAP tools for VMware vSphere"] .
@@ -72,6 +73,7 @@ image::vmware-vcf-import-nfs-003.png[Personnaliser le modèle]
 
 
 
+[[step-2-configure-ontap-tools]]
 == Étape 2 : Configurer les outils ONTAP
 
 Une fois la machine virtuelle des outils ONTAP installée et mise sous tension, ajoutez les serveurs vCenter et les systèmes de stockage ONTAP à gérer. Se référer à la  https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["Documentation des ONTAP tools for VMware vSphere"] pour plus d'informations.
@@ -102,6 +104,7 @@ NOTE: Le backend de stockage est ajouté dans l’interface utilisateur du clien
 
 
 
+[[step-3-provision-the-fc-datastore-with-ontap-tools]]
 == Étape 3 : provisionner la banque de données FC avec les outils ONTAP
 
 Les outils ONTAP intègrent des fonctionnalités dans toute l’interface utilisateur du client vSphere. Dans cette étape, un magasin de données FC est provisionné à partir de la page d’inventaire des hôtes.
@@ -156,6 +159,7 @@ image::vmware-vcf-convert-fc-005.png[Page de résumé]
 
 
 
+[[whats-next]]
 == Quelle est la prochaine étape ?
 
 Après avoir déployé les outils ONTAP et provisionné le magasin de données FC,link:vmw-vcf-mgmt-fc-conversion.html["convertir le cluster vSphere en domaine de gestion VCF"] .

@@ -20,6 +20,7 @@ Le concept de souveraineté apparaît comme un élément nécessaire du cloud co
 
 
 
+[[vmware-sovereign-cloud-initiative]]
 == Initiative VMware Sovereign Cloud
 
 VMware définit un cloud souverain comme un cloud qui :
@@ -33,6 +34,7 @@ VMware définit un cloud souverain comme un cloud qui :
 
 
 
+[[partnering-with-a-trusted-vmware-sovereign-cloud-service-provider]]
 == Partenariat avec un fournisseur de services cloud souverain VMware de confiance
 
 Pour garantir leur succès, les organisations doivent travailler avec des partenaires en qui elles ont confiance et qui sont capables d’héberger des plateformes cloud souveraines authentiques et autonomes.  Les fournisseurs VMware Cloud reconnus dans le cadre de l'initiative VMware Sovereign Cloud s'engagent à concevoir et à exploiter des solutions cloud basées sur des architectures modernes définies par logiciel qui incarnent les principes clés et les meilleures pratiques décrits dans le cadre VMware Sovereign Cloud.

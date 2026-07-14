@@ -26,6 +26,7 @@ Dans ce scénario, nous allons démontrer comment déployer et utiliser VMWare S
 
 
 
+[[scenario-overview]]
 == Aperçu du scénario
 
 Ce scénario couvre les étapes de haut niveau suivantes :
@@ -40,6 +41,7 @@ Ce scénario couvre les étapes de haut niveau suivantes :
 
 
 
+[[architecture]]
 == Architecture
 
 Le diagramme suivant montre une architecture VMware Site Recovery typique avec des ONTAP tools for VMware vSphere 10 configurés dans une configuration haute disponibilité à 3 nœuds.
@@ -48,6 +50,7 @@ image:vmware-nfs-srm-005.png["Configurer l'appareil"]{nbsp}
 
 
 
+[[prerequisites]]
 == Prérequis
 
 Ce scénario nécessite les composants et configurations suivants :
@@ -72,12 +75,14 @@ Pour la documentation NetApp sur l'utilisation du stockage ONTAP avec VMware SRM
 
 
 
+[[deployment-steps]]
 == Étapes de déploiement
 
 Les sections suivantes décrivent les étapes de déploiement pour implémenter et tester une configuration VMware Site Recovery Manager avec le système de stockage ONTAP .
 
 
 
+[[create-snapmirror-relationship-between-ontap-storage-systems]]
 === Créer une relation SnapMirror entre les systèmes de stockage ONTAP
 
 Une relation SnapMirror doit être établie entre les systèmes de stockage ONTAP source et de destination pour que les volumes de la banque de données soient protégés.
@@ -88,6 +93,7 @@ Les instructions étape par étape sont décrites dans le document suivant, situ
 
 
 
+[[configure-the-srm-appliance]]
 === Configurer l'appliance SRM
 
 Suivez les étapes suivantes pour configurer l’appliance SRM et l’adaptateur SRA.
@@ -142,6 +148,7 @@ image:vmware-nfs-srm-004.png["Ajouter un nouvel adaptateur SRM"]
 ====
 
 
+[[configure-site-recovery-for-srm]]
 === Configurer Site Recovery pour SRM
 
 Suivez les étapes suivantes pour configurer le couplage de sites, créer des groupes de protection,
@@ -324,6 +331,7 @@ image:vmware-nfs-srm-026.png["Réseaux de test"]
 ====
 
 
+[[disaster-recovery-operations-with-srm]]
 == Opérations de reprise après sinistre avec SRM
 
 Dans cette section, diverses fonctions d'utilisation de la reprise après sinistre avec SRM seront abordées, notamment le test du basculement, l'exécution du basculement, l'exécution de la reprotection et du retour arrière.
@@ -390,6 +398,7 @@ Des fonctions supplémentaires sont possibles dans SRM une fois le basculement t
 
 
 
+[[additional-information]]
 == Informations Complémentaires
 
 Pour la documentation NetApp sur l'utilisation du stockage ONTAP avec VMware SRM, reportez-vous à https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html#why-use-ontap-with-srm["VMware Site Recovery Manager avec ONTAP"]

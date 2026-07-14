@@ -18,6 +18,7 @@ Supprimez les ressources de sauvegarde et de restauration pour les machines virt
 
 
 
+[[deleting-a-backup]]
 == Supprimer une sauvegarde
 
 Vous pouvez supprimer un CR de sauvegarde sans supprimer les données de stockage d'objets à l'aide de l'outil OC CLI.
@@ -36,6 +37,7 @@ velero backup delete <backup_CR_name> -n <velero_namespace>
 ....
 
 
+[[deleting-a-restore]]
 == Suppression d'une restauration
 
 Vous pouvez supprimer le CR de restauration à l'aide de la CLI Velero

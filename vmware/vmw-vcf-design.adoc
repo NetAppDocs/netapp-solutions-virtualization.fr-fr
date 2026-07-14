@@ -18,6 +18,7 @@ Vous pouvez repartir à zéro avec VCF 9 ou réutiliser les déploiements exista
 
 
 
+[[storage-options]]
 == Options de stockage
 
 VMware Cloud Foundation avec ONTAP prend en charge une variété de configurations de stockage pour répondre à différentes exigences de performances, d'évolutivité et de disponibilité.  Les tableaux suivants résument les options de stockage principales et supplémentaires disponibles pour votre environnement.
@@ -50,12 +51,14 @@ VMware Cloud Foundation avec ONTAP prend en charge une variété de configuratio
 |===
 
 
+[[blueprints]]
 == Plans
 
 Les plans suivants illustrent les modèles de déploiement courants pour VMware Cloud Foundation et ONTAP dans divers scénarios de site et de ressources.
 
 
 
+[[vcf-fleet-in-a-single-site-with-minimal-footprint]]
 === Flotte VCF sur un seul site avec une empreinte minimale
 
 Ce plan de conception est destiné au déploiement de composants de gestion et de charge de travail dans un cluster vSphere unique avec des ressources minimales.  Il prend en charge les magasins de données principaux VMFS et NFSv3 et une option de déploiement simple avec une configuration à deux nœuds.  Si vous prévoyez d’utiliser VCF Automation avec le modèle d’organisation de toutes les applications, vous avez besoin d’un deuxième cluster pour déployer les nœuds vSphere Supervisor et NSX Edge.
@@ -71,6 +74,7 @@ Pour plus de détails sur cette conception, reportez-vous à lalink:https://tech
 
 
 
+[[vcf-fleet-in-a-single-site]]
 === Flotte VCF sur un seul site
 
 Ce plan de conception est destiné aux clients disposant d'un seul centre de données principal s'appuyant sur la haute disponibilité des applications.  En général, il s’agit d’un seul environnement VCF.  Vous pouvez utiliser ASA pour les charges de travail en bloc et AFF pour les charges de travail en fichier/unifiées.
@@ -94,6 +98,7 @@ Pour plus de détails sur ce plan, reportez-vous aulink:https://techdocs.broadco
 
 
 
+[[vcf-fleet-with-multiple-sites-in-a-single-region]]
 === Flotte VCF avec plusieurs sites dans une seule région
 
 Cette conception est destinée aux clients fournissant des services de type cloud avec une disponibilité plus élevée en répartissant les charges de travail sur différents domaines de pannes.
@@ -116,6 +121,7 @@ Pour plus d'informations, consultez lelink:https://techdocs.broadcom.com/us/en/v
 
 
 
+[[vcf-fleet-with-multiple-sites-across-multiple-regions]]
 === Flotte VCF avec plusieurs sites dans plusieurs régions
 
 Cette conception est destinée aux clients répartis dans le monde entier, fournissant des services de proximité et des solutions de reprise après sinistre.
@@ -143,6 +149,7 @@ Pour plus d'informations, consultez lelink:https://techdocs.broadcom.com/us/en/v
 
 
 
+[[vcf-fleet-with-multiple-sites-in-a-single-region-plus-additional-regions]]
 === Flotte VCF avec plusieurs sites dans une seule région et des régions supplémentaires
 
 Cette conception aborde à la fois la disponibilité et la reprise après sinistre des machines virtuelles et des applications VKS.

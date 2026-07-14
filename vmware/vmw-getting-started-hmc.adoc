@@ -18,6 +18,7 @@ Découvrez comment NetApp et VMware rationalisent les configurations multicloud 
 
 
 
+[[introduction]]
 == Introduction
 
 Cette approche permet aux entreprises de migrer facilement les charges de travail, d’optimiser l’utilisation des ressources et de maintenir des opérations cohérentes dans les deux environnements.
@@ -26,6 +27,7 @@ Pour plus d'informations sur les scénarios de cloud hybride avec VMware et NetA
 
 
 
+[[vmware-deployment-scenarios-with-netapp]]
 == Scénarios de déploiement VMware avec NetApp
 
 Cette section décrit différentes options de déploiement pour les environnements VMware sur site et dans les clouds publics.  Chacun des fournisseurs de cloud prend en charge une pile VMware Software Defined Data Center (SDDC) et/ou VMware Cloud Foundation (VCF) au sein de leurs offres de cloud public respectives.

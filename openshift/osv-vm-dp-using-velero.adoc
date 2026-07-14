@@ -18,6 +18,7 @@ Sauvegardez les machines virtuelles dans OpenShift Virtualization à l'aide de V
 
 
 
+[[steps-to-create-a-backup-of-a-vm]]
 == Étapes pour créer une sauvegarde d'une machine virtuelle
 
 Pour créer une sauvegarde à la demande de l'intégralité de la VM (métadonnées de la VM et disques de la VM), cliquez sur l'onglet **Sauvegarde**.  Cela crée une ressource personnalisée de sauvegarde (CR). Un exemple de fichier yaml est fourni pour créer le CR de sauvegarde.  À l’aide de ce fichier yaml, la machine virtuelle et ses disques dans l’espace de noms spécifié seront sauvegardés. Des paramètres supplémentaires peuvent être définis comme indiqué dans lelink:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["documentation"] .
@@ -51,6 +52,7 @@ image:redhat-openshift-oadp-backup-002.png["Sauvegarder des objets dans S3"]
 
 
 
+[[creating-scheduled-backups-for-vms-in-openshift-virtualization]]
 == Création de sauvegardes planifiées pour les machines virtuelles dans OpenShift Virtualization
 
 Pour créer des sauvegardes selon une planification, vous devez créer une CR de planification. La planification est simplement une expression Cron vous permettant de spécifier l'heure à laquelle vous souhaitez créer la sauvegarde. Un exemple de fichier yaml pour créer un CR de planification.

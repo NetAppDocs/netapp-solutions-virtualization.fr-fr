@@ -1,0 +1,80 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-disaster-recovery-simulate-dr.html 
+keywords: OpenShift, OCP, Trident, Trident Protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift 
+---
+= Basculement d'une machine virtuelle dans OpenShift Virtualization Disaster Recovery
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cette section décrit comment effectuer un basculement d'une machine virtuelle d'un cluster source vers un cluster de destination de reprise après sinistre à l'aide de NetApp Trident Protect et AppMirror. Cette procédure est utile pour tester le processus de basculement et pour effectuer des opérations de maintenance planifiées sur le cluster source. En suivant ces étapes, vous pouvez vous assurer que votre machine virtuelle fonctionne sur le cluster de destination de reprise après sinistre avec toutes les modifications intactes après un événement de reprise après sinistre.
+
+
+
+[[failover-without-site-outage-for-openshift-virtualization]]
+== Basculement sans interruption de service pour la OpenShift Virtualization
+
+Cette section décrit comment effectuer un basculement d'une machine virtuelle à partir d'un cluster source sans interruption de service. Ceci est utile pour tester le processus de basculement et pour effectuer une maintenance planifiée sur le cluster source. +
+
+Pour effectuer un basculement sans interruption de service, assurez-vous d'abord que les clusters source et cible sont configurés pour la reprise après sinistre, comme décrit dans les sections précédentes. Ensuite, procédez comme suit :
+
+. Établissez la relation AppMirror entre le cluster source et le cluster de destination. Lorsque la relation AppMirror est établie, le snapshot le plus récent est transféré vers l’espace de noms de destination. Le PVC est créé pour la machine virtuelle dans l’espace de noms de destination, cependant, le pod de la machine virtuelle n’est pas encore créé dans l’espace de noms de destination.
++
+.Afficher un exemple
+[%collapsible]
+====
+[source, yaml]
+----
+# application-mirror-relationship.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: AppMirrorRelationship
+metadata:
+  name: amr1
+spec:
+  desiredState: Established
+  destinationAppVaultRef: ontap-s3-appvault
+  destinationApplicationRef: test-dest-app
+  namespaceMapping:
+  - destination: test-dr-ns-dest
+    source: test-dr-ns
+  recurrenceRule: |-
+    DTSTART:20240901T000200Z
+    RRULE:FREQ=MINUTELY;INTERVAL=5
+  sourceAppVaultRef: ontap-s3-appvault
+  sourceApplicationName: test-source-app
+  sourceApplicationUID: "<application-uid-of-the-source-app>"
+  storageClassName: "sc-nas"
+----
+image:osv-disaster-recovery-009.png["Relation OCP-v AppMirror dans l'espace de noms trident-protect"]
+
+image:osv-disaster-recovery-010.png["Relation OCP-v AppMirror établie dans l'espace de noms trident-protect"]
+
+
+NOTE: La relation AppMirror doit être créée depuis l'interface de ligne de commande du cluster de destination. Elle doit être créée avec l'état souhaité défini sur Établie. Cela garantira que les données du dernier instantané sont répliquées vers le cluster de destination.
+
+====
+. Promouvez la relation AppMirror. Modifiez l'état souhaité de la relation à « Promue » pour créer la machine virtuelle dans l'espace de noms de destination. La machine virtuelle continue de s'exécuter dans l'espace de noms source. Les données du dernier instantané sont répliquées vers le cluster de destination et la machine virtuelle est démarrée sur le cluster de destination. Cette méthode vous permet de tester le basculement et de maintenir la disponibilité de la machine virtuelle sans avoir à arrêter l'ensemble du cluster source.
++
+.Afficher un exemple
+[%collapsible]
+====
+[source, cli]
+----
+oc patch amr amr1 -n test-dr-ns-dest --type=merge -p '{"spec":{"desiredState":"Promoted"}}'
+----
+image:osv-disaster-recovery-012.png["Relation OCP-v AppMirror promue"]
+
+[source, cli]
+----
+oc get pod, pvc,vm -n test-dr-ns-dest
+oc get pod, pvc,vm -n test-dr-ns
+----
+====
+

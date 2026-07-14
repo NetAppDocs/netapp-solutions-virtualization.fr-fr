@@ -20,6 +20,7 @@ Les domaines de charge de travail VMware Cloud Foundation (VCF) permettent aux o
 
 
 
+[[introduction]]
 == Introduction
 
 Les domaines peuvent évoluer de manière indépendante, répondre à des exigences spécifiques et fournir une multilocation.  La protection des données pour VMware Cloud Foundation (VCF) est un aspect essentiel pour garantir la disponibilité, l’intégrité et la récupérabilité des données dans le domaine de gestion et les domaines de charge de travail.  NetApp SnapCenter Plug-in for VMware vSphere (SCV) est un outil puissant qui intègre les capacités de protection des données de NetApp dans les environnements VMware.  Il simplifie la sauvegarde, la restauration et le clonage des machines virtuelles VMware vSphere (VM) hébergées sur le stockage NetApp .
@@ -28,12 +29,14 @@ Ce document fournit les étapes de déploiement sur la façon de protéger plusi
 
 
 
+[[audience]]
 == Public
 
 Architectes de solutions ou administrateurs de stockage assurant la protection des données et la reprise après sinistre pour les domaines de charge de travail VMware VCF.
 
 
 
+[[architecture-overview]]
 == Présentation de l'architecture
 
 SCV est déployé en tant qu'appliance virtuelle Linux à l'aide d'un fichier OVA pour fournir des opérations de sauvegarde et de restauration rapides, peu encombrantes, cohérentes en cas de panne et cohérentes avec les machines virtuelles pour les machines virtuelles, les banques de données, les fichiers et les dossiers.  SCV utilise une architecture de plug-in à distance.  Plusieurs SCV étaient déployés et hébergés sur le domaine de gestion VCF vCenter.  Les domaines SCV et VCF sont en relation un à un, donc le domaine de gestion VCF et chaque domaine de charge de travail nécessitent un SCV.
@@ -46,6 +49,7 @@ La règle de sauvegarde 3-2-1 est une stratégie de protection des données qui 
 
 
 
+[[deploy-a-vcf-with-management-domain-and-multiple-workload-domains]]
 == Déployer un VCF avec un domaine de gestion et plusieurs domaines de charge de travail
 
 Un domaine de charge de travail VCF est un groupe d'hôtes ESXi avec un ou plusieurs clusters vSphere, provisionnés par SDDC Manager et prêts pour l'application.  Dans un exemple VCF ci-dessous, un domaine de gestion et deux domaines de charge de travail ont été déployés.  Pour plus de détails sur la façon de déployer VCF avec le stockage NetApp , consultezlink:vmw-vcf-overview.html["Documentation de déploiement de NetApp VCF."]
@@ -54,6 +58,7 @@ image:vmware-vcf-aff-051.png["VCF un domaine de gestion et deux domaines de char
 
 
 
+[[scv-deployment-configuration-and-restoration-steps]]
 == Étapes de déploiement, de configuration et de restauration du SCV
 
 En fonction du nombre de domaines de charge de travail et du domaine de gestion, plusieurs SCV doivent être déployés.  Avec deux domaines de charge de travail et un domaine de gestion, l'exemple ci-dessous montre que trois SCV sont déployés sur le domaine de gestion VCF vCenter.image:vmware-vcf-aff-063.png["un à un entre le domaine VCF et SCV"]
@@ -136,6 +141,7 @@ NetApp SnapCenter pour VCP multi-domaine centralise la protection des données, 
 
 
 
+[[video-demo-for-protect-vcf-multiple-domains-with-scv]]
 == Démonstration vidéo pour protéger plusieurs domaines VCF avec SCV
 
 .Protégez plusieurs domaines VMware VCF avec NetApp SCV

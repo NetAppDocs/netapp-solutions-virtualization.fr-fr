@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: openshift/osv-workflow-vm-live-migration.html 
+permalink: openshift/osv-vm-live-migration.html 
 keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, CNV, Container Native Virtualization, Red Hat OpenShift Virtualization 
 summary: Virtualisation Red Hat OpenShift avec NetApp ONTAP 
 ---
@@ -18,6 +18,7 @@ Migrez une machine virtuelle dans OpenShift Virtualization entre deux nœuds du 
 
 
 
+[[vm-live-migration]]
 == Migration en direct de machines virtuelles
 
 La migration en direct est un processus de migration d'une instance de machine virtuelle d'un nœud à un autre dans un cluster OpenShift sans temps d'arrêt.  Pour que la migration en direct fonctionne dans un cluster OpenShift, les machines virtuelles doivent être liées à des PVC avec un mode d'accès ReadWriteMany partagé.  Les backends Trident configurés à l'aide des pilotes ontap-nas prennent en charge le mode d'accès RWX pour les protocoles FileSystem nfs et smb.  Se référer à la documentationlink:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["ici"] .  Les backends Trident configurés à l'aide des pilotes ontap-san prennent en charge le mode d'accès RWX pour le mode volume de bloc pour les protocoles iSCSI et NVMe/TCP.  Se référer à la documentationlink:https://docs.netapp.com/us-en/trident/trident-use/ontap-san.html["ici"] .

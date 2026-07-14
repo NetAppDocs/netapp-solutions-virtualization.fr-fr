@@ -18,6 +18,7 @@ Configurez un datastore Logical Volume Manager (LVM) pour le stockage partagé e
 
 
 
+[[initial-virtualization-administrator-tasks]]
 == Tâches initiales de l'administrateur de virtualisation
 
 Effectuez ces tâches initiales pour préparer les hôtes OpenNebula à la connectivité iSCSI et recueillir les informations nécessaires pour l’administrateur de stockage.
@@ -73,6 +74,7 @@ image:opennebula-ontap-iscsi-001.png["détails de l'interface iscsi"]
 
 
 
+[[final-virtualization-administrator-tasks]]
 == Tâches finales de l'administrateur de virtualisation
 
 Effectuez ces tâches pour configurer le LUN iSCSI en tant que banque de données LVM partagée dans OpenNebula.

@@ -1,0 +1,96 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-disaster-recovery-target-cluster-setup.html 
+keywords: OpenShift, OCP, Trident, Trident Protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, Red Hat OpenShift Virtualization 
+summary: Virtualisation Red Hat OpenShift 
+---
+= Configuration du cluster de destination pour la reprise après sinistre de Red Hat OpenShift Virtualization
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cette section fournit des informations sur la configuration du cluster de destination pour la reprise après sinistre des charges de travail OpenShift Virtualization à l'aide de NetApp Trident Protect et AppMirror. Cela inclut la création d'un AppVault à l'aide d'ONTAP S3 et la création d'un nouvel espace de noms pour la machine virtuelle de destination. Ces étapes sont essentielles pour garantir que le cluster de destination est correctement configuré pour recevoir les données répliquées du cluster source et permettre la récupération des machines virtuelles en cas de sinistre.
+
+. Créez un objet AppVault dans le cluster de destination. Cet objet doit pointer vers le même S3 que la source afin qu'il puisse récupérer l'instantané depuis le S3 où le cluster source l'a placé.
++
+.Afficher un exemple
+[%collapsible]
+====
+[source, yaml]
+----
+apiVersion: v1
+# You can provide the keys either as stringData or base 64 encoded data
+stringData:
+  accessKeyID: "<access key id as obtained from ONTAP>"
+  secretAccessKey: "<secret access key as obtained from ONTAP>"
+#data:
+  #accessKeyID: <base 64 encoded value of access key>
+  #secretAccessKey: <base 64 encoded value of secret access key>
+kind: Secret
+metadata:
+  name: appvault-secret
+  namespace: trident-protect
+type: Opaque
+----
+[source, yaml]
+----
+apiVersion: protect.trident.netapp.io/v1
+kind: AppVault
+metadata:
+  name: ontap-s3-appvault
+  namespace: trident-protect
+spec:
+  providerConfig:
+    s3:
+      bucketName: oc-dr
+      endpoint: <data lif to use to access S3>
+      secure: "false" # Setting this to "false" will disable TLS, which is not recommended for production
+      skipCertValidation: "true" # When TLS is enabled, setting skipCertValidation to "true" will skip TLS certificate validation, which is not recommended for production environments.
+  providerCredentials:
+    accessKeyID:
+      valueFromSecret:
+        key: accessKeyID
+        name: appvault-secret
+    secretAccessKey:
+      valueFromSecret:
+        key: secretAccessKey
+        name: appvault-secret
+  providerType: OntapS3
+----
+[source, cli]
+----
+oc create -f app-vault-secret.yaml -n trident-protect
+oc create -f app-vault.yaml -n trident-protect
+----
+image:osv-disaster-recovery-011.png["OCP-v AppVault dans l'espace de noms trident-protect"]
+
+====
+. Créez un nouvel espace de noms sur le cluster de destination pour héberger la machine virtuelle basculée. Créez une application sur le cluster de destination qui référence le AppVault créé à l’étape 1 et le nouvel espace de noms. Cette application sera utilisée pour établir la relation AppMirror entre le cluster source et le cluster de destination, et pour gérer la réplication des données du cluster source vers le cluster de destination.
++
+.Afficher un exemple
+[%collapsible]
+====
+[source, yaml]
+----
+# cat app.yaml
+apiVersion: protect.trident.netapp.io/v1
+kind: Application
+metadata:
+  creationTimestamp: null
+  name: test-dest-app
+  namespace: test-dr-ns-dest
+spec:
+  includedNamespaces:
+  - namespace: test-dr-ns-dest
+----
+[source, cli]
+----
+tridentctl-protect create app <dest-app-name> -n <dest-ns> --namespaces <dest-ns>
+----
+====
+

@@ -25,6 +25,7 @@ NOTE: Lors de l'utilisation de LVM avec des protocoles SAN (FC, iSCSI, NVMe-oF),
 
 
 
+[[choose-a-storage-protocol]]
 == Choisissez un protocole de stockage
 
 Sélectionnez le protocole qui correspond à votre environnement et à vos exigences :

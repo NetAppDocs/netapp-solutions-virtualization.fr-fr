@@ -18,6 +18,7 @@ Dans ce cas d'utilisation, nous décrivons la procédure de configuration d'une 
 
 
 
+[[benefits-of-fibre-channel]]
 == Avantages de Fibre Channel
 
 *Hautes performances :* FC offre des taux de transfert de données à haut débit, ce qui le rend idéal pour les applications nécessitant un accès rapide et fiable à de grandes quantités de données.
@@ -32,6 +33,7 @@ Pour plus d'informations sur l'utilisation de Fibre Channel avec les systèmes d
 
 
 
+[[scenario-overview]]
 == Aperçu du scénario
 
 Ce scénario couvre les étapes de haut niveau suivantes :
@@ -55,6 +57,7 @@ NOTE: Cette solution est applicable aux plates-formes ONTAP prenant en charge le
 
 
 
+[[prerequisites]]
 == Prérequis
 
 Les composants et configurations suivants sont utilisés dans ce scénario :
@@ -70,22 +73,26 @@ NOTE: NetApp recommande le multipath pour les LUN FC.
 
 
 
+[[deployment-steps]]
 == Étapes de déploiement
 
 
 
+[[management-domain-default-cluster]]
 === Domaine de gestion - Cluster par défaut
 
 Le stockage principal FC sur le cluster initial n'est pris en charge qu'avec l'outil d'importation Brownfield VCF.  Si VCF est déployé avec l'outil cloudbuilder (jusqu'à la version 5.2.x), seul VSAN est pris en charge.  Référer https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["conversion de l'environnement vSphere existant en domaine de gestion"] pour plus d'infos.
 
 
 
+[[management-domain-additional-cluster]]
 === Domaine de gestion - Cluster supplémentaire
 
 Le cluster vSphere supplémentaire sur le domaine de gestion peut être déployé avec les options suivantes : * Avoir un cluster supplémentaire dans l'environnement vSphere et utiliser l'outil d'importation Brownfield VCF pour convertir l'environnement vSphere en domaine de gestion. https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-datastore.html["ONTAP tools for VMware vSphere"] , https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["Gestionnaire de système ou API ONTAP"] peut être utilisé pour déployer la banque de données VMFS sur un cluster vSphere. * Utilisez l'API SDDC pour déployer un cluster supplémentaire. Les hôtes vSphere doivent avoir le magasin de données VMFS configuré. Utiliser https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["Gestionnaire de système ou API ONTAP"] pour déployer le LUN sur les hôtes vSphere. * Utilisez l’interface utilisateur de SDDC Manager pour déployer un cluster supplémentaire. Mais cette option crée uniquement une banque de données VSAN jusqu'à la version 5.2.x.
 
 
 
+[[vi-workload-domain-default-cluster]]
 === Domaine de charge de travail VI - Cluster par défaut
 
 Une fois le domaine de gestion opérationnel, le domaine de charge de travail VI peut être créé :
@@ -96,6 +103,7 @@ Une fois le domaine de gestion opérationnel, le domaine de charge de travail VI
 
 
 
+[[vi-workload-domain-additional-cluster]]
 === Domaine de charge de travail VI - Cluster supplémentaire
 
 Une fois la charge de travail VI opérationnelle, des clusters supplémentaires peuvent être déployés avec VMFS sur FC LUN à l'aide des options suivantes.
@@ -106,6 +114,7 @@ Une fois la charge de travail VI opérationnelle, des clusters supplémentaires 
 
 
 
+[[additional-information]]
 == Informations Complémentaires
 
 Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.

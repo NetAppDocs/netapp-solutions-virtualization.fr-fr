@@ -18,6 +18,7 @@ Dans ce scénario, nous allons démontrer comment déployer une banque de donné
 
 
 
+[[benefits-of-fibre-channel]]
 == Avantages de Fibre Channel
 
 *Hautes performances :* FC offre des taux de transfert de données à haut débit, ce qui le rend idéal pour les applications nécessitant un accès rapide et fiable à de grandes quantités de données.
@@ -32,6 +33,7 @@ Pour plus d'informations sur l'utilisation de Fibre Channel avec les systèmes d
 
 
 
+[[scenario-overview]]
 == Aperçu du scénario
 
 Le magasin de données supplémentaire VCF est fourni dans le cadre des opérations du jour 2 à l'aide de vCenter.  Ce scénario couvre les étapes de haut niveau suivantes :
@@ -44,6 +46,7 @@ Le magasin de données supplémentaire VCF est fourni dans le cadre des opérati
 
 
 
+[[prerequisites]]
 == Prérequis
 
 Ce scénario nécessite les composants et configurations suivants :
@@ -66,6 +69,7 @@ Pour plus d'informations sur l'utilisation de VMFS avec les systèmes de stockag
 
 
 
+[[deployment-steps-for-management-domain]]
 == Étapes de déploiement pour le domaine de gestion
 
 Pour déployer les outils ONTAP et les utiliser pour créer une banque de données VMFS sur le domaine de gestion VCF, procédez comme suit :
@@ -77,6 +81,7 @@ Pour déployer les outils ONTAP et les utiliser pour créer une banque de donné
 
 
 
+[[deployment-steps-for-vi-workload-domain]]
 == Étapes de déploiement pour le domaine de charge de travail VI
 
 Pour déployer les outils ONTAP et les utiliser pour créer une banque de données VMFS sur le domaine de charge de travail VCF VI, procédez comme suit :
@@ -88,6 +93,7 @@ Pour déployer les outils ONTAP et les utiliser pour créer une banque de donné
 
 
 
+[[additional-information]]
 == Informations Complémentaires
 
 Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.
@@ -96,6 +102,7 @@ Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https
 
 
 
+[[video-demo-for-this-solution]]
 == Démo vidéo de cette solution
 
 .Banque de données VMFS(FC) comme stockage supplémentaire pour le domaine de gestion VCF

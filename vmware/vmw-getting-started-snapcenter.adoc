@@ -18,6 +18,7 @@ Le SnapCenter Plug-in for VMware vSphere permet des opérations de sauvegarde et
 
 
 
+[[documentation-resources]]
 == Ressources documentaires
 
 Reportez-vous aux ressources de documentation suivantes pour des informations détaillées.
@@ -27,6 +28,7 @@ Reportez-vous aux ressources de documentation suivantes pour des informations d�
 
 
 
+[[solution-resources]]
 == Ressources de solutions
 
 Consultez la solution de sauvegarde 3-2-1 suivante, qui comprend le SnapCenter Plug-in for VMware vSphere et la sauvegarde et la restauration des machines virtuelles NetApp .
@@ -37,6 +39,7 @@ Blog Tech ONTAP :link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Da
 
 
 
+[[video-resources]]
 == Ressources vidéo
 
 .SnapCenter Plug-in for VMware vSphere : conditions préalables à la solution

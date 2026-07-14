@@ -18,6 +18,7 @@ Explorez les options de migration des machines virtuelles vers Amazon EC2 à l�
 
 
 
+[[other-possibilities]]
 == Autres possibilités
 
 La même approche peut être étendue pour migrer des machines virtuelles à l’aide du stockage invité sur des machines virtuelles sur site.  Le système d'exploitation VMDK peut être migré à l'aide de CMC et les LUN iSCSI invités peuvent être répliqués à l'aide de SnapMirror.  Le processus nécessite de briser le miroir et d’attacher le LUN à l’instance Amazon EC2 nouvellement migrée, comme illustré dans le diagramme ci-dessous.
@@ -26,6 +27,7 @@ image:migrate-ec2-fsxn-013.png["Image montrant une possibilité supplémentaire 
 
 
 
+[[conclusion]]
 == Conclusion
 
 Ce document a fourni une procédure pas à pas complète de l'utilisation de la fonctionnalité MigrateOps de CMC pour migrer les données stockées dans les référentiels VMware sur site vers AWS à l'aide d'instances Amazon EC2 et de FSx ONTAP.

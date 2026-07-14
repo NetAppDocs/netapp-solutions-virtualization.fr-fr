@@ -18,6 +18,7 @@ Cette section explique comment Migration toolkit for virtualization (MTV) et Net
 
 
 
+[[before-you-begin]]
 == Avant de commencer
 
 Vérifiez que les conditions préalables suivantes sont remplies avant de commencer la migration.
@@ -54,6 +55,7 @@ NOTE: Lorsque des VMDK sont placés dans un qtree, Shift Toolkit utilise le pilo
 
 
 
+[[step-1-create-migration-plans-using-migration-toolkit-for-virtualization]]
 == Étape 1 : Créer des plans de migration à l’aide de Migration Toolkit for Virtualization
 
 . Pour tirer parti de la conversion ultra-rapide des machines virtuelles, la première étape consiste à créer un plan de migration pour ces machines virtuelles à l'aide de MTV vialink:https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.3/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-vms-web-console["console web"] ou lelink:https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.0/html/installing_and_using_the_migration_toolkit_for_virtualization/migrating-virtual-machines-to-virt_mtv#migrating-virtual-machines-cli_mtv["ligne de commande"] .

@@ -25,6 +25,7 @@ NOTE: Les mots de passe sont enregistrés dans des fichiers en clair et ne sont 
 video::5b4ae54a-08d2-4f7d-95ec-b22d015f6035[panopto,width=360]
 
 
+[[storage-administrator-tasks]]
 == Tâches de l'administrateur de stockage
 
 Si vous débutez avec ONTAP, utilisez l'interface de gestion système pour effectuer ces tâches.
@@ -67,6 +68,7 @@ image:proxmox-ontap-smb-004.png["Informations sur les partages de PME"]
 
 
 
+[[virtualization-administrator-tasks]]
 == Tâches d'administrateur de virtualisation
 
 Effectuez ces tâches pour ajouter le partage SMB comme stockage dans Proxmox VE et activer le multicanal pour des performances et une tolérance aux pannes améliorées.

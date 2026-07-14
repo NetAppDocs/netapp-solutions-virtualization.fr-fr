@@ -6,6 +6,7 @@ Cette migration permet une intégration transparente, une meilleure protection d
 
 
 
+[[use-cases]]
 == Cas d'utilisation
 
 Il existe de nombreuses options de migration en termes de source et de destination lorsque l'on envisage de migrer vers des magasins de données basés sur ONTAP .

@@ -19,6 +19,7 @@ PBS prend en charge différents systèmes de stockage, notamment le stockage loc
 
 
 
+[[solution-architecture]]
 == Architecture de la solution
 
 La solution comprend les composants suivants :

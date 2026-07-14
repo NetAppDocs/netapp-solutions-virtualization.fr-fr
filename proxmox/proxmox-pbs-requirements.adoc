@@ -15,6 +15,7 @@ Examinez les exigences et les considérations de déploiement du serveur de sauv
 
 
 
+[[deployment-considerations]]
 == Considérations relatives au déploiement
 
 Déployez PBS sur un serveur physique ou en tant que VM sur Proxmox VE. Lors du déploiement de PBS en tant que VM, tenez compte de la disponibilité du serveur de sauvegarde si l'hôte Proxmox VE subit une interruption de service. Déployez PBS sur un serveur physique ou sur un hôte ou un cluster Proxmox VE distinct pour garantir la disponibilité du serveur de secours en cas de défaillance de l'hôte principal.
@@ -23,6 +24,7 @@ Les données de sauvegarde sont autonomes dans la base de données, ce qui perme
 
 
 
+[[storage-backend-support]]
 == Support du système de stockage dorsal
 
 PBS prend en charge divers systèmes de stockage, notamment le stockage local, NFS, iSCSI, FC, NVMe-oF et S3 (aperçu technique). L'intégration avec le stockage NetApp ONTAP permet aux organisations de tirer parti de fonctionnalités avancées de gestion des données pour une protection et une récupération des données améliorées.
@@ -31,6 +33,7 @@ Utilisez ONTAP SnapMirror pour répliquer la base de données PBS sur un autre s
 
 
 
+[[multi-cluster-management]]
 == Gestion multi-clusters
 
 Une seule instance PBS peut gérer plusieurs clusters Proxmox VE, assurant une sauvegarde centralisée pour les déploiements à grande échelle. Utilisez les espaces de noms pour séparer logiquement les données de sauvegarde de différents clusters ou locataires, garantissant ainsi l'isolation et la sécurité des données.
@@ -39,12 +42,14 @@ Configurez les politiques de conservation des données pour gérer automatiqueme
 
 
 
+[[management-interfaces]]
 == Interfaces de gestion
 
 Gérez PBS via une interface web, des outils en ligne de commande ou une API REST. Accédez à l'interface web sur le port 8007 en utilisant l'URL `https://<pbs-ip-address>:8007`.
 
 
 
+[[network-configuration-best-practices]]
 == meilleures pratiques de configuration réseau
 
 Assurez-vous de disposer de chemins réseau redondants entre le stockage PBS et ONTAP pour une haute disponibilité et des performances optimales. Envisagez l'agrégation de liens (LACP) pour une bande passante et une redondance accrues. Configurez les trames jumbo (MTU 9000) sur tous les périphériques réseau pour améliorer les performances du trafic de stockage.

@@ -20,6 +20,7 @@ Nous examinerons également la connexion à la machine virtuelle à l’aide des
 
 
 
+[[prerequisites]]
 == Prérequis
 
 * link:https://signin.aws.amazon.com/signin?redirect_uri=https://portal.aws.amazon.com/billing/signup/resume&client_id=signup["compte AWS"]
@@ -39,6 +40,7 @@ Nous examinerons également la connexion à la machine virtuelle à l’aide des
 
 
 
+[[initial-setup]]
 == Configuration initiale
 
 Configurez le backend trident, la classe de stockage et le VolumeSnapshotClass.  Vous pouvez vous référer à lalink:osv-trident-install.html["Section d'installation du Trident"] pour plus de détails.
@@ -99,6 +101,7 @@ Assurez-vous que la classe de stockage et la classe d’instantané de volume so
 
 
 
+[[create-a-vm-from-the-template]]
 === **Créer une VM à partir du modèle**
 
 Utilisez la console Web pour créer une machine virtuelle à partir d’un modèle.  À partir de la console RedHat OpenShiftService sur AWS, créez une machine virtuelle.  Il existe des modèles disponibles sur le cluster qui peuvent être utilisés pour créer la machine virtuelle.  Dans la capture d’écran ci-dessous, nous choisissons Fedora VM dans cette liste.  Donnez un nom à la machine virtuelle, puis cliquez sur **Personnaliser la machine virtuelle**.  Sélectionnez l’onglet **Disques** et cliquez sur **Ajouter des disques**.  Modifiez le nom du disque de préférence en quelque chose de significatif, assurez-vous que **trident-csi** est sélectionné pour la classe de stockage.  Cliquez sur **Enregistrer**.  Cliquez sur **Créer une machine virtuelle**
@@ -117,6 +120,7 @@ image:redhat-openshift-ocpv-rosa-008.png["VM OCP-v en cours d'exécution"]
 
 
 
+[[review-all-the-objects-created-for-the-vm]]
 === **Vérifiez tous les objets créés pour la machine virtuelle**
 
 Les disques de stockage.image:redhat-openshift-ocpv-rosa-009.png["Disques de stockage OCP-v"]
@@ -135,6 +139,7 @@ Ici, nous pouvons voir les deux volumes associés au pod VM et les 2 PVC qui leu
 
 
 
+[[connect-to-the-vm]]
 === **Connectez-vous à la VM**
 
 Cliquez sur le bouton « Ouvrir la console Web » et connectez-vous à l'aide des informations d'identification d'invité.image:redhat-openshift-ocpv-rosa-016.png["Connexion VM OCP-v"]

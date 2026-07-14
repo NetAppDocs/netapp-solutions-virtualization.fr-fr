@@ -18,6 +18,7 @@ Pour garantir des performances et une fiabilité optimales lors du déploiement 
 
 
 
+[[right-sizing-the-storage]]
 == Dimensionner correctement le stockage
 
 Avant de déployer la charge de travail ou de migrer à partir d’un hyperviseur existant, assurez-vous que la charge de travail est dimensionnée pour répondre aux performances requises.  Cela peut être facilement réalisé en collectant des données de performances pour chaque machine virtuelle individuelle qui collecte des statistiques sur le processeur (utilisé/provisionné), la mémoire (utilisée/provisionnée), le stockage (provisionné/utilisé), le débit et la latence du réseau ainsi que l'agrégation des E/S en lecture/écriture, le débit et la taille des blocs.  Ces paramètres sont obligatoires pour réussir le déploiement et dimensionner correctement la baie de stockage et les hôtes de charge de travail.
@@ -30,6 +31,7 @@ Avant de déployer la charge de travail ou de migrer à partir d’un hyperviseu
 
 
 
+[[enhance-virtual-machine-performance]]
 == Améliorer les performances de la machine virtuelle
 
 Choisissez la bonne quantité de RAM et de vCPU pour des performances optimales tout en connectant plusieurs disques à un seul contrôleur SCSI virtuel.  L’utilisation de disques VHDx fixes est toujours recommandée comme premier choix pour les disques virtuels destinés aux déploiements et il n’existe aucune restriction quant à l’utilisation de tout type de disques virtuels VHDX.
@@ -42,6 +44,7 @@ Choisissez la bonne quantité de RAM et de vCPU pour des performances optimales 
 
 
 
+[[smb3-0-design-and-consideration]]
 == Conception et considération SMB3.0
 
 Les partages de fichiers SMB 3.0 peuvent être utilisés comme stockage partagé pour Hyper-V. ONTAP prend en charge les opérations sans interruption sur les partages SMB pour Hyper-V. Hyper-V peut utiliser les partages de fichiers SMB pour stocker des fichiers de machines virtuelles, tels que des fichiers de configuration, des snapshots et des fichiers de disque dur virtuel (VHD).  Utilisez une SVM ONTAP CIFS dédiée pour les partages SMB3.0 pour Hyper-V. Les volumes utilisés pour stocker les fichiers de la machine virtuelle doivent être créés avec des volumes de type sécurité NTFS.  La connectivité entre les hôtes Hyper-V et la baie NetApp est recommandée sur un réseau de 10 Go si celui-ci est disponible.  En cas de connectivité réseau de 1 Go, NetApp recommande de créer un groupe d'interfaces composé de plusieurs ports de 1 Go.  Connectez chaque carte réseau desservant le multicanal SMB à son sous-réseau IP dédié afin que chaque sous-réseau fournisse un chemin unique entre le client et le serveur.
@@ -63,6 +66,7 @@ Les partages de fichiers SMB 3.0 peuvent être utilisés comme stockage partagé
 
 
 
+[[provisioning-smb-volume]]
 == Provisionnement du volume SMB
 
 . Vérifiez que les options de serveur CIFS requises sont activées sur la machine virtuelle de stockage (SVM)
@@ -89,6 +93,7 @@ Pour plus d'informations, reportez-vous àlink:https://docs.netapp.com/us-en/ont
 
 
 
+[[block-protocol-design-and-consideration]]
 == Conception et prise en compte du protocole de bloc
 
 *Points clés*
@@ -106,6 +111,7 @@ Pour plus d'informations, reportez-vous àlink:https://docs.netapp.com/us-en/ont
 
 
 
+[[provisioning-iscsi-volume]]
 == Provisionnement du volume ISCSI
 
 Pour provisionner le volume ISCSI, assurez-vous que les conditions préalables suivantes sont remplies.
@@ -168,6 +174,7 @@ Pour créer une machine virtuelle hautement disponible, suivez les étapes ci-de
 
 
 
+[[fast-provisioning-of-virtual-disks-using-odx-feature]]
 == Provisionnement rapide de disques virtuels à l'aide de la fonction ODX
 
 La fonctionnalité ODX d' ONTAP permet de faire des copies de VHDX maîtres en copiant simplement un fichier VHDX maître hébergé par le système de stockage ONTAP .  Étant donné qu'une copie compatible ODX ne place aucune donnée sur le câble réseau, le processus de copie se produit côté stockage NetApp et peut donc être jusqu'à six à huit fois plus rapide.  Les considérations générales pour un provisionnement rapide incluent les images syspreppées principales stockées sur des partages de fichiers et les processus de copie réguliers initiés par les machines hôtes Hyper-V.
@@ -178,12 +185,14 @@ La fonctionnalité ODX d' ONTAP permet de faire des copies de VHDX maîtres en c
 
 
 
+[[performance-optimization]]
 == Optimisation des performances
 
 Bien que le nombre recommandé de machines virtuelles par CSV soit subjectif, de nombreux facteurs déterminent le nombre optimal de machines virtuelles pouvant être placées sur chaque volume CSV ou SMB.  Bien que la plupart des administrateurs ne prennent en compte que la capacité, la quantité d'E/S simultanées envoyées au VHDx est l'un des facteurs les plus importants pour les performances globales.  Le moyen le plus simple de contrôler les performances consiste à réguler le nombre de machines virtuelles placées sur chaque CSV ou partage.  Si les modèles d'E/S de machine virtuelle simultanés envoient trop de trafic au CSV ou au partage, les files d'attente de disque se remplissent et une latence plus élevée est générée.
 
 
 
+[[smb-volume-and-csv-sizing]]
 == Dimensionnement du volume SMB et du CSV
 
 Assurez-vous que la solution est dimensionnée de manière adéquate de bout en bout pour éviter les goulots d’étranglement et lorsqu’un volume est créé à des fins de stockage de machine virtuelle Hyper-V, la meilleure pratique consiste à créer un volume pas plus grand que nécessaire.  Le dimensionnement correct des volumes empêche de placer accidentellement trop de machines virtuelles sur le CSV et diminue la probabilité de conflit de ressources.  Chaque volume partagé de cluster (CSV) prend en charge une ou plusieurs machines virtuelles.  Le nombre de machines virtuelles à placer sur un CSV est déterminé par la charge de travail et les préférences de l'entreprise, ainsi que par la manière dont les fonctionnalités de stockage ONTAP telles que les instantanés et la réplication seront utilisées.  Placer plusieurs machines virtuelles sur un CSV est un bon point de départ dans la plupart des scénarios de déploiement.  Adaptez cette approche à des cas d’utilisation spécifiques afin de répondre aux exigences de performances et de protection des données.
@@ -192,6 +201,7 @@ Assurez-vous que la solution est dimensionnée de manière adéquate de bout en 
 
 
 
+[[migration]]
 == Migration
 
 L’un des cas d’utilisation les plus courants dans les conditions actuelles du marché est la migration.  Les clients peuvent utiliser VMM Fabric ou d’autres outils de migration tiers pour migrer les machines virtuelles.  Ces outils utilisent une copie au niveau de l'hôte pour déplacer les données de la plate-forme source vers la plate-forme de destination, ce qui peut prendre du temps en fonction du nombre de machines virtuelles concernées par la migration.
