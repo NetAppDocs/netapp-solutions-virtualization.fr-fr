@@ -40,7 +40,7 @@ NOTE: Trident prend en charge les instantanés de groupe de volumes uniquement p
 Installez le cluster OpenShift 4.19 avec Kubernetes version 1.32.  Cette version élève la fonctionnalité Volume Group Snapshot au statut bêta.  Les versions ultérieures d'OpenShift peuvent inclure des versions de Kubernetes au-delà de la v1.32, qui prennent également en charge cette fonctionnalité.
 
 .Étapes
-. Installez OpenShift Cluster version 4.19 en suivant les instructions de la documentation Red Hat : https://docs.openshift.com/container-platform/4.19/installing/index.html["Installation d'OpenShift Container Platform"] .
+. Installez la version 4.19 du cluster OpenShift en suivant les instructions de la documentation Red Hat : https://docs.redhat.com/en/documentation/openshift_container_platform/4.19#Install["Installation d'OpenShift Container Platform"].
 . Vérifiez la version de Kubernetes dans le cluster OpenShift.
 +
 L'image suivante montre OpenShift Cluster v4.19 installé avec Kubernetes v1.32.

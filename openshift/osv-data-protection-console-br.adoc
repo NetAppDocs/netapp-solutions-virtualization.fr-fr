@@ -1,0 +1,276 @@
+---
+sidebar: sidebar 
+permalink: openshift/osv-data-protection-console-br.html 
+keywords: OpenShift, OCP, Trident, Trident Protect, NetApp ONTAP, Red Hat OpenShift, OpenShift Virtualization, Red Hat OpenShift Virtualization 
+summary: 'Sauvegarder et restaurer les machines virtuelles OpenShift Virtualization à l"aide du service NetApp Console Backup and Recovery' 
+---
+= Sauvegarder et restaurer des VM à l'aide de NetApp Console Backup and Recovery Service
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sauvegardez et restaurez des machines virtuelles dans Red Hat OpenShift Virtualization à l'aide de la NetApp Console. Cette procédure explique comment créer et gérer des opérations de sauvegarde et de restauration via le service Backup and Recovery Service via la NetApp Console, en utilisant un conteneur Azure Blob Storage comme cible de sauvegarde.
+
+NetApp Console permet la gestion centralisée du stockage et des services de données dans les environnements sur site et cloud. Elle offre un contrôle unifié, une simplicité opérationnelle et une gestion sécurisée. Plusieurs services de données et fonctionnalités de gestion sont accessibles depuis l’interface utilisateur à link:https://console.netapp.com["console.netapp.com"^]. Pour des informations complètes sur NetApp Console, consultez link:https://docs.netapp.com/us-en/console-family/["Documentation NetApp Console"].
+
+Cette section est consacrée au service de données NetApp Backup and Recovery pour les charges de travail Kubernetes, en particulier les machines virtuelles OpenShift. Le service NetApp Backup and Recovery vous permet de découvrir, gérer, créer et associer des politiques de protection à vos applications et machines virtuelles Kubernetes via une interface unique. Pour un guide complet, consultez link:https://docs.netapp.com/us-en/data-services-backup-recovery/br-use-kubernetes-protect-overview.html["Documentation NetApp Backup and Recovery"].
+
+
+
+[[backup-and-recovery-workflow]]
+== Flux de travail de sauvegarde et de restauration
+
+. *Assurez-vous de disposer d'un agent Console*
++
+Assurez-vous qu'un agent de console est déployé dans l'environnement où votre OpenShift cluster s'exécute. Pour plus d'informations sur l'installation d'un agent de console, consultez la link:https://docs.netapp.com/us-en/console-setup-admin/concept-agent-install-options.html#agent-console-deploy["NetApp Console Documentation d'installation"].
+
++
+.Afficher un exemple
+[%collapsible]
+====
+Dans la NetApp Console, cliquez sur Déployer l’agent comme indiqué dans la capture d’écran, puis déployez l’agent dans l’environnement où le cluster OpenShift est en cours d’exécution.
+
+Dans cet exemple, nous avons choisi l’option sur site. Copiez l’URL du programme d’installation de l’agent, utilisez la commande curl pour télécharger le programme d’installation de l’agent sur la machine Ubuntu exécutée sur vSphere, puis exécutez le programme d’installation pour déployer l’agent Console.
+
+Enregistrez-le en utilisant l'adresse IP de l'agent dans l'URL. Consultez link:https://docs.netapp.com/us-en/console-setup-admin/task-install-agent-on-prem-ova.html["la documentation"] pour des instructions détaillées. Une fois l'agent enregistré, vous pouvez le voir dans NetApp Console comme illustré dans la capture d'écran ci-dessous.
+
+image:osv-data-protection-console-001.png["Installation de l'agent de console"]
+
+image:osv-data-protection-console-002.png["Utilisation de l'URL du programme d'installation de l'agent"]
+
+image:osv-data-protection-console-003.png["Agent de console connecté à la NetApp Console"]
+
+====
+. *Configurez un conteneur Azure Blob Storage comme cible de sauvegarde pour un scénario de sauvegarde et de restauration pour les machines virtuelles OpenShift.*
++
+Dans cet exemple, nous utilisons Azure Blob Storage comme cible de sauvegarde. Vous pouvez également utiliser AWS S3, Google Cloud Storage, StorageGRID ou le stockage d’objets ONTAP comme cibles de sauvegarde.
+
++
+Pour plus de détails, consultez link:https://docs.netapp.com/us-en/data-services-backup-recovery/br-start-setup.html#prepare-the-backup-destination["Documentation NetApp Console"].
+
++
+Pour identifier le conteneur Azure Blob Storage comme cible de sauvegarde dans la NetApp Console, vous aurez besoin des informations suivantes depuis le portail Azure.
+
++
+[listing]
+----
+Application (Client) ID:
+Client Secret:
+Directory (tenant) ID:
+----
++
+Pour obtenir ces valeurs, procédez comme suit dans le portail Azure.
+
++
+.. Créez un conteneur de stockage Blob.
+.. Créez une application d'entreprise et attribuez-lui les autorisations nécessaires au conteneur de stockage Blob. Récupérez l'ID d'application, l'ID d'annuaire et le secret client de cette application afin de les utiliser dans la NetApp Console pour découvrir le conteneur de stockage Blob Azure comme cible de sauvegarde.
++
+.Afficher un exemple
+[%collapsible]
+====
+... *Créer un compte de stockage et un conteneur d’objets blob*
++
+.... Créez un groupe de ressources dans votre abonnement.
+.... Créez un compte de stockage, puis créez un conteneur d’objets blob.
+
+
+
+
+image:osv-data-protection-console-004.png["Compte de stockage"]
+
+image:osv-data-protection-console-005.png["stockage Blob"]
+
+image:osv-data-protection-console-006.png["Conteneur"]
+
+image:osv-data-protection-console-007.png["Le conteneur Blob est créé"]
+
+... *Créez une application d'entreprise avec les autorisations appropriées.* Effectuez ces étapes dans le portail Azure.
++
+.... Créez une application d'entreprise dans votre abonnement Azure.
+.... Enregistrez l'application. Obtenez l'identifiant de l'application et l'identifiant du répertoire pour l'application que vous venez d'enregistrer.
+.... Attribuez des rôles pour fournir l'accès au conteneur d'objets blob de stockage pour l'application. + Pour ce faire, accédez à IAM pour le conteneur d'objets blob de stockage créé précédemment, cliquez sur *Ajouter une attribution de rôle*. + Sélectionnez le rôle Storage Account Contributor, cliquez sur Suivant. Sélectionnez Attribuer l'accès à un utilisateur, un groupe ou un principal de service et, dans la section Sélectionner les membres, sélectionnez l'Enterprise Application que vous avez créée. + Finalisez l'attribution en cliquant sur *Vérifier + attribuer*. + Répétez cette procédure pour ajouter les autres rôles listés ci-dessous. Tous ces rôles sont requis pour que l'application puisse accéder au conteneur d'objets blob.
++
+..... Lecteur de données Blob de stockage
+..... Contributeur de données Blob de stockage
+..... Contributeur au compte de stockage
+
+
+.... Enfin, créez un secret client pour cette application.
+
+
+
+
+image:osv-data-protection-console-008.png["Création d'une application d'entreprise"]
+
+image:osv-data-protection-console-009.png["Créer une application d'entreprise"]
+
+image:osv-data-protection-console-010.png["Enregistrer l'application d'entreprise"]
+
+image:osv-data-protection-console-011.png["Obtenez l'ID de l'application, l'ID du répertoire"]
+
+image:osv-data-protection-console-012.png["Compte de stockage IAM"]
+
+image:osv-data-protection-console-013.png["Ajouter des attributions de rôles"]
+
+image:osv-data-protection-console-014.png["Choisissez le principal de service"]
+
+image:osv-data-protection-console-015.png["Examiner et attribuer"]
+
+image:osv-data-protection-console-016.png["Création d'une clé secrète client pour l'application"]
+
+image:osv-data-protection-console-017.png["Créer un secret client pour l'application"]
+
+====
+
+
+. *Dans la NetApp Console, découvrez le cluster OpenShift.*
++
+.Afficher un exemple
+[%collapsible]
+====
+Cette étape nécessite que le cluster OpenShift soit en cours d'exécution et que l'agent Console soit déployé dans le même environnement. Suivez ces étapes pour découvrir le cluster OpenShift dans la NetApp Console.
+
+.. Dans la NetApp Console, sélectionnez *Inventory > Kubernetes* et fournissez les détails du cluster OpenShift.
+.. Sélectionnez l’agent déployé dans le même environnement où se trouve le cluster OpenShift.
+.. Copiez les commandes fournies pour installer Trident Protect et exécutez-les depuis une machine utilisée pour exécuter  `oc` des commandes sur votre OpenShift cluster.
+.. Une fois Trident Protect installé avec succès, cliquez sur *Découvrir*. La NetApp Console détecte le cluster OpenShift et toutes ses ressources via l’agent et les affiche dans l’interface utilisateur.
+
+
+image:osv-data-protection-console-018.png["Découvrir le cluster OpenShift"]
+
+image:osv-data-protection-console-019.png["Installez Trident Protect, puis cliquez sur Découvrir"]
+
+====
+. *Dans la NetApp Console, découvrez le stockage Blob Azure.*
++
+.Afficher un exemple
+[%collapsible]
+====
+Pour découvrir le stockage Blob Azure dans la NetApp Console, vous aurez besoin de l'ID d'application (client), du secret client et de l'ID d'annuaire (locataire) de l'application d'entreprise que vous avez précédemment créée dans le portail Azure.
+
+Lorsque vous fournissez ces informations dans la NetApp Console, la NetApp Console détecte le stockage Azure Blob et l'affiche dans l'interface utilisateur.
+
+Les informations d'identification Azure sont stockées dans la NetApp Console et utilisées pour accéder au stockage Blob Azure pour les opérations de sauvegarde et de restauration.
+
+image:osv-data-protection-console-020.png["Découvrir la cible de sauvegarde"]
+
+image:osv-data-protection-console-021.png["Ajouter les informations d'identification Azure"]
+
+image:osv-data-protection-console-022.png["Informations d'identification requises"]
+
+image:osv-data-protection-console-023.png["Fournissez les informations d'identification Azure"]
+
+image:osv-data-protection-console-024.png["Choisissez un abonnement Azure et un abonnement Marketplace"]
+
+image:osv-data-protection-console-025.png["Examiner et ajouter"]
+
+image:osv-data-protection-console-026.png["Les informations d'identification Azure sont ajoutées et le stockage Azure Blob est détecté"]
+
+====
+. *Dans la NetApp Console, créez une application pour les machines virtuelles et protégez-les à l'aide de sauvegardes.*
++
+.Afficher un exemple
+[%collapsible]
+====
+Dans cette étape, créez une application dans la NetApp Console pour les machines virtuelles qui doivent être protégées. Vous pouvez créer une application pour une seule machine virtuelle ou pour plusieurs machines virtuelles. Vous pouvez également utiliser des espaces de noms pour créer une application afin de protéger toutes les machines virtuelles d’un espace de noms dans le cluster OpenShift.
+
+Vous aurez également besoin d'une stratégie de protection à associer à l'application. Vous pouvez créer une nouvelle stratégie de protection ou en utiliser une existante. Dans cet exemple, une nouvelle stratégie de protection est créée avec l'application et lui est associée. Des sauvegardes sont créées pour l'application en fonction de la stratégie de protection qui lui est associée. Le nombre de sauvegardes conservées dépend de la politique de rétention définie dans la stratégie de protection.
+
+image:osv-data-protection-console-027.png["Créer une application pour les machines virtuelles"]
+
+image:osv-data-protection-console-028.png["Fournissez des détails"]
+
+image:osv-data-protection-console-029.png["Protégez toutes les machines virtuelles d'un espace de noms"]
+
+image:osv-data-protection-console-030.png["Créer une nouvelle stratégie de protection"]
+
+image:osv-data-protection-console-031.png["Fournissez un nom"]
+
+image:osv-data-protection-console-032.png["Fournissez les détails de la stratégie"]
+
+image:osv-data-protection-console-033.png["Choisissez les paramètres d'instantané local et Azure Blob Storage comme cible de sauvegarde"]
+
+image:osv-data-protection-console-034.png["La politique de protection est créée"]
+
+image:osv-data-protection-console-035.png["La protection de l'application utilisant cette politique est lancée"]
+
+image:osv-data-protection-console-036.png["L'application est protégée et est en bonne santé"]
+
+image:osv-data-protection-console-037.png["Protection d'une machine virtuelle avec 2 disques"]
+
+image:osv-data-protection-console-038.png["Protection de 5 machines virtuelles avec 2 disques chacune"]
+
+Si votre application/VM possède plusieurs disques et que votre sauvegarde échoue avec l'erreur affichée ci-dessous, modifiez les  `volumegroupsnapshots` et  `volumegroupsnapshotcontents` règles d'API afin qu'elles incluent les verbes indiqués.
+
+.<strong>Afficher la correction</strong>
+[%collapsible]
+=====
+image:osv-data-protection-console-043.png["Erreur lors de la protection des machines virtuelles comportant chacune plus d'un disque"]
+
+[source, yaml]
+----
+- apiGroups:
+  - groupsnapshot.storage.k8s.io
+  resources:
+  - volumegroupsnapshots
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - delete
+  - update
+  - patch
+- apiGroups:
+  - groupsnapshot.storage.k8s.io
+  resources:
+  - volumegroupsnapshotcontents
+  - volumegroupsnapshotcontents/status
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - delete
+  - update
+  - patch
+- apiGroups:
+  - groupsnapshot.storage.k8s.io
+  resources:
+  - volumegroupsnapshotclasses
+  verbs:
+  - get
+  - list
+  - watch
+
+----
+=====
+====
+
+
+. *Restaurez l'application à partir d'une sauvegarde*
++
+.Afficher un exemple
+[%collapsible]
+====
+** Vous pouvez choisir l'une des nombreuses sauvegardes disponibles pour restaurer votre machine virtuelle en fonction de vos besoins.
+** Vous pouvez restaurer vers l'espace de noms d'origine ou vers un espace de noms différent.
+** Vous pouvez sélectionner les ressources à restaurer.
+** Vous pouvez choisir la classe de stockage à utiliser lors de la restauration des machines virtuelles.
+
+
+image:osv-data-protection-console-039.png["Choisissez un point de restauration"]
+
+image:osv-data-protection-console-040.png["Restaurer l'application à partir d'une sauvegarde"]
+
+image:osv-data-protection-console-041.png["Restaurer l'application à partir d'une sauvegarde"]
+
+image:osv-data-protection-console-042.png["Restaurer l'application à partir d'une sauvegarde"]
+
+====
+

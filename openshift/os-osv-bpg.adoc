@@ -174,9 +174,9 @@ NOTE: Pour plus de détails sur les meilleures pratiques en matière de configur
 [[openshift-virtualization-tuning-scaling-guide]]
 == **Guide de virtualisation OpenShift - Réglage et mise à l'échelle**
 
-Red Hat a documentélink:https://docs.openshift.com/container-platform/latest/scalability_and_performance/recommended-performance-scale-practices/recommended-control-plane-practices.html["Recommandations et limitations de mise à l'échelle du cluster OpenShift"] .
+Red Hat l'a documenté.link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/scalability_and_performance/recommended-performance-and-scalability-practices-2["Recommandations et limitations de mise à l'échelle du cluster OpenShift"]
 
-En outre, ils ont également documentélink:https://access.redhat.com/articles/6994974]["Guide de réglage de la virtualisation OpenShift"] etlink:https://access.redhat.com/articles/6571671["Limites prises en charge pour OpenShift Virtualization 4.x"] .
+De plus, ils ont également documenté link:https://access.redhat.com/articles/6994974["Guide de réglage de la virtualisation OpenShift"] et link:https://access.redhat.com/articles/6571671["Limites prises en charge pour OpenShift Virtualization 4.x"].
 
 
 NOTE: Un abonnement Red Hat actif est requis pour accéder au contenu ci-dessus.
@@ -185,7 +185,7 @@ Le guide de réglage contient des informations sur de nombreux paramètres de r�
 
 * Réglage des paramètres pour créer plusieurs machines virtuelles à la fois ou par lots importants
 * Migration en direct de machines virtuelles
-* link:https://docs.openshift.com/container-platform/latest/virt/vm_networking/virt-dedicated-network-live-migration.html["Configuration d'un réseau dédié pour la migration en direct"]
+* link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/virtualization/live-migration#virt-configuring-secondary-network-vm-live-migration_virt-configuring-cross-cluster-live-migration-network["Configuration d'un réseau dédié pour la migration en direct"]
 * Personnalisation d'un modèle de machine virtuelle en incluant un type de charge de travail
 
 

@@ -36,6 +36,8 @@ indexpage:
       url: osv-migration-vm-storage.html
   - title: Protégez les machines virtuelles avec le stockage NetApp
     links:
+    - title: Sauvegarde et restauration à l'aide de la NetApp Console
+      url: osv-data-protection-console-br.html
     - title: Sauvegarde et restauration à l'aide de Trident Protect
       url: osv-vm-dp-using-tp.html
     - title: Protégez les machines virtuelles à l'aide de snapshots de groupes de
@@ -70,6 +72,6 @@ indexpage:
     - title: 'Virtualisation OpenShift : libérer la puissance des environnements virtuels'
       url: https://www.redhat.com/en/blog/openshift-virtualization-unleashing-the-power-of-cloud-native-virtual-environments
     - title: Documentation de Red Hat OpenShift
-      url: https://docs.openshift.com/container-platform/4.15/virt/about_virt/about-virt.html
+      url: https://docs.openshift.com/container-platform/4.22
     - title: Blogs Red Hat
       url: https://www.redhat.com/en/blog/products

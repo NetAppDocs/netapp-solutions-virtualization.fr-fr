@@ -61,7 +61,7 @@ image:redhat-openshift-008.png["Figure montrant une boîte de dialogue d'entrée
 +
 image:redhat-openshift-009.png["Figure montrant une boîte de dialogue d'entrée/sortie ou représentant un contenu écrit"]
 
-. Suivez lelink:https://docs.openshift.com/container-platform/4.7/installing/index.html["instructions d'installation"] fourni par Red Hat pour être déployé dans l'environnement de votre choix.
+. Suivez les instructions link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.22#Install["instructions d'installation"] fournies par Red Hat pour déployer dans l’environnement de votre choix.
 
 
 
