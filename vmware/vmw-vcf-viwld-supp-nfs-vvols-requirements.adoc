@@ -2,14 +2,14 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-viwld-supp-nfs-vvols-requirements.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
-summary: 'Pour déployer des NFS vVols dans un domaine de charge de travail VMware Cloud Foundation VI, vous avez besoin d"un système de stockage ONTAP AFF ou ASA entièrement configuré, d"un domaine de gestion VCF terminé et d"un domaine de charge de travail VI existant.  Passez en revue la conception réseau recommandée et les exigences d’infrastructure pour garantir une intégration de stockage fiable et hautes performances.' 
+summary: 'Pour déployer NFS vVols dans un domaine de charge de travail VMware Cloud Foundation, vous avez besoin d"un système de stockage ONTAP AFF ou ASA entièrement configuré, d"un domaine de gestion VCF complet et d"un domaine de charge de travail VI existant. Consultez la conception réseau recommandée et les exigences d"infrastructure pour garantir une intégration de stockage fiable et performante.' 
 ---
-= Exigences de déploiement pour l'ajout de vVols NFS dans un domaine de charge de travail VI
+= Exigences de déploiement pour l'ajout de NFS vVols dans un domaine de charge de travail
 :allow-uri-read: 
 
 
 [role="lead"]
-Passez en revue la conception réseau recommandée et les exigences d’infrastructure pour déployer NFS vVols dans un domaine de charge de travail VMware Cloud Foundation VI.  Vous avez besoin d'un système de stockage ONTAP AFF ou ASA entièrement configuré, d'un domaine de gestion VCF complet et d'un domaine de charge de travail VI existant.
+Consultez la conception réseau recommandée et les exigences d'infrastructure pour déployer NFS vVols dans un domaine de charge de travail VMware Cloud Foundation. Vous avez besoin d'un système de stockage ONTAP AFF ou ASA entièrement configuré, d'un domaine de gestion VCF complet et d'un domaine de charge de travail existant.
 
 
 
@@ -20,7 +20,7 @@ Assurez-vous que les composants et configurations suivants sont en place.
 
 * Un système de stockage ONTAP AFF ou FAS avec des ports de données physiques sur des commutateurs Ethernet dédiés au trafic de stockage.
 * Le déploiement du domaine de gestion VCF est terminé et le client vSphere est accessible.
-* Un domaine de charge de travail VI a été précédemment déployé.
+* Un domaine de charge de travail a été déployé précédemment.
 
 
 

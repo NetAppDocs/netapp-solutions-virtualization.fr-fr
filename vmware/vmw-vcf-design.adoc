@@ -31,6 +31,9 @@ VMware Cloud Foundation avec ONTAP prend en charge une variété de configuratio
 | ASA Série A et Série C | Oui | Non 
 
 
+| AFX | Non | Oui 
+
+
 | AFF Série A et Série C | Oui | Oui 
 
 
@@ -42,6 +45,9 @@ VMware Cloud Foundation avec ONTAP prend en charge une variété de configuratio
 
 
 | ASA Série A et Série C | Oui | Oui | Oui | Non | Non 
+
+
+| AFX | Non | Non | Non | Oui | Oui 
 
 
 | AFF Série A et Série C | Oui | Oui | Oui | Oui | Oui 
@@ -61,7 +67,7 @@ Les plans suivants illustrent les modèles de déploiement courants pour VMware 
 [[vcf-fleet-in-a-single-site-with-minimal-footprint]]
 === Flotte VCF sur un seul site avec une empreinte minimale
 
-Ce plan de conception est destiné au déploiement de composants de gestion et de charge de travail dans un cluster vSphere unique avec des ressources minimales.  Il prend en charge les magasins de données principaux VMFS et NFSv3 et une option de déploiement simple avec une configuration à deux nœuds.  Si vous prévoyez d’utiliser VCF Automation avec le modèle d’organisation de toutes les applications, vous avez besoin d’un deuxième cluster pour déployer les nœuds vSphere Supervisor et NSX Edge.
+Ce schéma de conception permet de déployer des composants de gestion et de charge de travail dans un cluster vSphere unique avec un minimum de ressources. Il prend en charge les datastores principaux VMFS et NFSv3 et propose une option de déploiement simple avec une configuration à deux nœuds.
 
 image::vmw-vcf-design-001.png[Flotte VCF sur un seul site avec un encombrement minimal]
 
@@ -70,7 +76,7 @@ Pour minimiser la consommation de ressources, utilisez si possible une instance 
 
 NOTE: Si vous manquez de ressources pour explorer VCF, de nombreux fournisseurs de cloud proposent VCF en tant que service, et ONTAP est disponible en tant que service propriétaire auprès des fournisseurs de cloud.
 
-Pour plus de détails sur cette conception, reportez-vous à lalink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/vcf-fleet-basic-management-design.html["Documentation technique Broadcom sur la flotte VCF sur un site unique avec un encombrement minimal"] .
+Pour plus de détails sur cette conception, reportez-vous au link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/design/design-blueprints-for/infrastructure-modernization/vcf-fleet-in-a-single-site-with-minimal-footprint-blueprint.html["Documentation technique Broadcom sur la flotte VCF sur un site unique avec un encombrement minimal"].
 
 
 
@@ -92,9 +98,9 @@ Une seule instance des outils ONTAP en mode HA peut gérer tous les vCenters de 
 video::e7cf90b9-2744-404b-9831-b33f00164626[panopto]
 Vous devez déployer le plug-in SnapCenter sur chaque instance vCenter pour la protection de la machine virtuelle et du magasin de données.
 
-La gestion basée sur les politiques de stockage est utilisée avec vSphere Supervisor pour héberger les machines virtuelles de contrôle de VKS.  Les balises sont gérées de manière centralisée chez VCF Ops.  NetApp Trident CSI est utilisé avec VKS pour la protection de sauvegarde des applications à l'aide de fonctionnalités de baie natives.  Lorsque vous utilisez vSphere CSI, les détails du volume persistant apparaissent sur VCF Automation.
+La gestion du stockage basée sur des politiques est utilisée avec vSphere Supervisor pour héberger les machines virtuelles de contrôle de VKS. Les balises sont gérées de manière centralisée par VCF Ops. NetApp Trident CSI est utilisé avec VKS pour la protection des sauvegardes d'applications grâce aux fonctionnalités natives de la baie. Lorsque vous utilisez vSphere CSI, les détails des volumes persistants apparaissent sur vCenter ainsi que sur VCF Automation.
 
-Pour plus de détails sur ce plan, reportez-vous aulink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/vcf-fleet-management-design-with-multiple-availability-zones.html["Documentation technique Broadcom sur la flotte VCF sur un seul site"] .
+Pour plus de détails sur ce plan, veuillez vous référer au link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/design/design-blueprints-for/infrastructure-modernization/vcf-fleet-in-a-single-site-blueprint.html["Documentation technique Broadcom sur la flotte VCF sur un seul site"].
 
 
 
@@ -105,19 +111,19 @@ Cette conception est destinée aux clients fournissant des services de type clou
 
 Pour les banques de données VMFS, SnapMirror Active Sync fournit une unité de stockage active-active à utiliser avec vSphere Metro Storage Cluster.  Le mode d'accès uniforme offre un basculement de stockage transparent, tandis que le mode d'accès non uniforme nécessite un redémarrage de la machine virtuelle en cas de défaillance du domaine d'erreur.
 
-Pour les banques de données NFS, ONTAP MetroCluster avec vSphere Metro Storage Cluster garantit une haute disponibilité. Un médiateur évite les scénarios de « cerveau divisé » et peut désormais être hébergé sur la NetApp Console.
+Pour les datastores NFS, la synchronisation active SnapMirror pour NAS (avec ONTAP 9.19.1 et versions ultérieures) ou ONTAP MetroCluster avec vSphere Metro Storage Cluster garantit une haute disponibilité. Un médiateur évite les scénarios de split-brain et peut désormais être hébergé sur NetApp Console.
 
 Les règles de placement de machines virtuelles contrôlent les machines virtuelles dans le même domaine de pannes pour les composants du domaine de gestion.
 
 image::vmw-vcf-design-003.png[Flotte VCF avec plusieurs sites dans une seule région]
 
-Les outils ONTAP fournissent une interface utilisateur pour configurer les relations de synchronisation active SnapMirror .  Les systèmes de stockage des deux domaines de pannes doivent être enregistrés dans les outils ONTAP et SnapCenter Plug-in for VMware vSphere.
+Les outils ONTAP fournissent une interface utilisateur pour configurer des relations de synchronisation active SnapMirror pour iSCSI et FC. Les systèmes de stockage des deux domaines de panne doivent être enregistrés dans les outils ONTAP et dans le SnapCenter Plug-in for VMware vSphere.
 
 Vous pouvez mettre en œuvre des politiques de sauvegarde 3-2-1 à l'aide de NetApp Backup and Recovery pour VM via SnapMirror et SnapMirror to Cloud. Vous pouvez effectuer des restaurations à partir de n’importe lequel des trois emplacements.
 
-Trident Protect ou NetApp Backup and Recovery pour Kubernetes protègent les applications de cluster VKS.
+Trident Protect ou NetApp Console Backup and Recovery pour Kubernetes protège les applications du cluster VKS.
 
-Pour plus d'informations, consultez lelink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/vsphere-only-to-vcf-fleet-upgrade-blueprint.html["Documentation technique Broadcom sur la flotte VCF avec plusieurs sites dans une seule région"] .
+Pour plus d'informations, consultez le link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/design/design-blueprints-for/infrastructure-modernization/vcf-fleet-with-multiple-sites-in-a-single-region-blueprint.html["Documentation technique Broadcom sur la flotte VCF avec plusieurs sites dans une seule région"].
 
 
 
@@ -126,26 +132,29 @@ Pour plus d'informations, consultez lelink:https://techdocs.broadcom.com/us/en/v
 
 Cette conception est destinée aux clients répartis dans le monde entier, fournissant des services de proximité et des solutions de reprise après sinistre.
 
-Vous pouvez gérer la reprise après sinistre pour les machines virtuelles avec VMware Live Site Recovery ou NetApp Disaster Recovery. Les outils ONTAP offrent le SRA (Storage Replication Adapter) pour orchestrer les opérations de stockage avec ONTAP.
+Vous pouvez gérer la reprise après sinistre des machines virtuelles avec VMware Protect and Recovery ou NetApp Console Disaster Recovery. Les outils ONTAP proposent le SRA (Storage Replication Adapter) pour orchestrer les opérations de stockage avec ONTAP.
 
-[cols="4,2,2"]
+[cols="4,2,2,2"]
 |===
-| Famille de produits | Synchronisation active de SnapMirror | MetroCluster 
+| Famille de produits | Synchronisation active de SnapMirror | SnapMirror active sync pour NAS | MetroCluster 
 
 
-| ASA Série A et Série C | Oui | Oui 
+| ASA Série A et Série C | Oui | Non | Oui 
 
 
-| AFF Série A et Série C | Oui | Oui 
+| AFX | Non | Oui | NA 
 
 
-| FAS | Non | Oui 
+| AFF Série A et Série C | Oui | Oui | Oui 
+
+
+| FAS | Non | Non | Oui 
 |===
 image::vmw-vcf-design-004.png[Flotte VCF avec plusieurs sites dans plusieurs régions]
 
 Les outils ONTAP fournissent une interface utilisateur pour la configuration de la réplication de la banque de données. La NetApp Console peut également être utilisée pour la réplication entre baies de stockage. Le SnapCenter Plug-in for VMware vSphere utilise les relations SnapMirror existantes pour les SnapShots.
 
-Pour plus d'informations, consultez lelink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/blueprint-4.html["Documentation technique Broadcom sur la flotte VCF avec plusieurs sites répartis dans plusieurs régions"] .
+Pour plus d'informations, consultez le link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/design/design-blueprints-for/infrastructure-modernization/vcf-fleet-with-multiple-sites-across-multiple-regions-blueprint.html["Documentation technique Broadcom sur la flotte VCF avec plusieurs sites répartis dans plusieurs régions"].
 
 
 
@@ -154,10 +163,10 @@ Pour plus d'informations, consultez lelink:https://techdocs.broadcom.com/us/en/v
 
 Cette conception aborde à la fois la disponibilité et la reprise après sinistre des machines virtuelles et des applications VKS.
 
-ASA, AFF et FAS prennent en charge cette option de conception.
+ASA, AFX, AFF et FAS prennent en charge cette option de conception.
 
 image::vmw-vcf-design-005.png[Flotte VCF avec plusieurs sites dans une seule région et des régions supplémentaires]
 
 Vous pouvez utiliser les outils ONTAP ou la NetApp Console pour configurer la relation de réplication.
 
-Pour plus d'informations, consultez le link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-0/design/blueprints/blueprint-5.html["Documentation technique Broadcom sur la flotte VCF avec plusieurs sites dans une seule région et des régions supplémentaires"] .
+Pour plus d'informations, consultez le link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/design/design-blueprints-for/infrastructure-modernization/vcf-fleet-with-multiple-sites-in-a-single-region-plus-additional-region-blueprint.html["Documentation technique Broadcom sur la flotte VCF avec plusieurs sites dans une seule région et des régions supplémentaires"].

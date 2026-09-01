@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-viwld-supp-nvme-requirements.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
-summary: 'Pour déployer des NVMe vVols dans un domaine de charge de travail VMware Cloud Foundation VI, vous avez besoin d"un système de stockage ONTAP AFF ou ASA entièrement configuré, d"un domaine de gestion VCF terminé et d"un domaine de charge de travail VI existant.  Passez en revue la conception réseau recommandée et les exigences d’infrastructure pour garantir une intégration de stockage fiable et hautes performances.' 
+summary: 'Pour déployer un datastore NVMe/TCP dans un domaine de charge de travail VMware Cloud Foundation, vous avez besoin d"un système de stockage ONTAP AFF ou ASA entièrement configuré, d"un domaine de gestion VCF complet et d"un domaine de charge de travail existant. Consultez la conception réseau recommandée et les exigences d"infrastructure afin de garantir une intégration de stockage fiable et performante.' 
 ---
-= Exigences de déploiement pour NVMe vVols dans un domaine de charge de travail VI
+= Exigences de déploiement pour un datastore NVMe/TCP dans un domaine de workload VMware Cloud Foundation
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: 'Pour déployer des NVMe vVols dans un domaine de charge de travail VMw
 
 
 [role="lead"]
-Passez en revue les exigences de conception et d’infrastructure réseau recommandées pour déployer NVMe vVols dans un domaine de charge de travail VMware Cloud Foundation VI.  Vous avez besoin d'un système de stockage ONTAP AFF ou ASA entièrement configuré, d'un domaine de gestion VCF déployé et d'un domaine de charge de travail VI existant.
+Consultez la conception réseau recommandée et les exigences d'infrastructure pour déployer un datastore NVMe/TCP dans un domaine de charge de travail VMware Cloud Foundation. Vous avez besoin d'un système de stockage ONTAP AFF ou ASA entièrement configuré, d'un domaine de gestion VCF déployé et d'un domaine de charge de travail existant.
 
 
 
@@ -23,7 +23,7 @@ Passez en revue les exigences de conception et d’infrastructure réseau recomm
 
 * Un système de stockage ONTAP AFF ou ASA avec des ports de données physiques sur des commutateurs Ethernet dédiés au trafic de stockage.
 * Le déploiement du domaine de gestion VCF est terminé et le client vSphere est accessible.
-* Un domaine de charge de travail VI a été précédemment déployé.
+* Un domaine de charge de travail a été déployé précédemment.
 
 
 

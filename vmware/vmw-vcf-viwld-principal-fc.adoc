@@ -4,7 +4,7 @@ permalink: vmware/vmw-vcf-viwld-principal-fc.html
 keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, fc 
 summary:  
 ---
-= Utiliser une banque de données VMFS basée sur FC sur ONTAP comme stockage principal pour un domaine de charge de travail VI
+= Utilisez un datastore VMFS basé sur FC sur ONTAP comme stockage principal pour un domaine de charge de travail VCF
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Dans ce cas d'utilisation, nous décrivons la procédure de configuration d'une banque de données VMFS Fibre Channel (FC) sur ONTAP comme solution de stockage principale pour un domaine de charge de travail d'infrastructure virtuelle (VI) VMware Cloud Foundation (VCF).  Cette procédure résume les composants requis, les étapes de configuration et le processus de déploiement.
+Ce cas d'utilisation décrit la procédure de configuration d'un datastore VMFS Fibre Channel (FC) sur ONTAP en tant que solution de stockage principale pour un domaine de charge de travail VMware Cloud Foundation (VCF). Cette procédure récapitule les composants requis, les étapes de configuration et le processus de déploiement.
 
 
 
@@ -41,19 +41,19 @@ Ce scénario couvre les étapes de haut niveau suivantes :
 * Créez une machine virtuelle de stockage (SVM) avec des interfaces logiques (LIF) pour le trafic FC.
 * Collectez les informations WWPN des hôtes à déployer et créez des groupes d'initiateurs correspondants sur le système de stockage ONTAP .
 * Créez un volume FC sur le système de stockage ONTAP .
-* Mapper les groupes d'initiateurs pour créer un volume FC
+* Mappez les groupes d'initiateurs au volume FC créé.
 * Utilisez le zonage initiateur-cible unique sur les commutateurs FC.  Créez une zone pour chaque initiateur (zone d'initiateur unique).
 +
 ** Pour chaque zone, incluez une cible qui est l'interface logique ONTAP FC (WWPN) pour les SVM.  Il doit y avoir au moins deux interfaces logiques par nœud et par SVM.  N'utilisez pas le WWPN des ports physiques.
 
 
-* Créez un pool réseau pour le trafic vMotion dans SDDC Manager.
-* Hôtes de commission dans VCF pour une utilisation dans un domaine de charge de travail VI.
-* Déployez un domaine de charge de travail VI dans VCF à l’aide d’une banque de données FC comme stockage principal.
+* Créez un pool de réseau pour le trafic vMotion dans vCenter.
+* Mettre en service des hôtes dans vCenter pour une utilisation dans un Workload Domain.
+* Déployez un domaine de charge de travail dans VCF Ops en utilisant un datastore VMFS sur FC comme stockage principal.
 
 
 
-NOTE: Cette solution est applicable aux plates-formes ONTAP prenant en charge le stockage NFS, notamment NetApp AFF et FAS.
+NOTE: Cette solution est applicable aux plateformes ONTAP prenant en charge le stockage FC, notamment NetApp ASAr2, AFF et FAS.
 
 
 
@@ -62,10 +62,11 @@ NOTE: Cette solution est applicable aux plates-formes ONTAP prenant en charge le
 
 Les composants et configurations suivants sont utilisés dans ce scénario :
 
-* Un système de stockage ONTAP AFF ou ASA avec des ports FC connectés à des commutateurs FC.
+* Un système de stockage ONTAP AFF, ASA ou FAS avec des ports FC connectés à des commutateurs FC.
 * SVM créé avec FC lifs.
 * vSphere avec HBA FC connectés aux commutateurs FC.
 * Le zonage initiateur-cible unique est configuré sur les commutateurs FC.
+* Assurez-vous que la stratégie de multipathing SVM est définie sur actif-actif.
 
 
 
@@ -78,39 +79,23 @@ NOTE: NetApp recommande le multipath pour les LUN FC.
 
 
 
-[[management-domain-default-cluster]]
-=== Domaine de gestion - Cluster par défaut
+[[vcf-workload-domain-default-cluster]]
+=== Domaine de charge de travail VCF - Cluster par défaut
 
-Le stockage principal FC sur le cluster initial n'est pris en charge qu'avec l'outil d'importation Brownfield VCF.  Si VCF est déployé avec l'outil cloudbuilder (jusqu'à la version 5.2.x), seul VSAN est pris en charge.  Référer https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["conversion de l'environnement vSphere existant en domaine de gestion"] pour plus d'infos.
+Une fois le domaine de gestion opérationnel, le domaine de charge de travail VCF peut être créé :
 
-
-
-[[management-domain-additional-cluster]]
-=== Domaine de gestion - Cluster supplémentaire
-
-Le cluster vSphere supplémentaire sur le domaine de gestion peut être déployé avec les options suivantes : * Avoir un cluster supplémentaire dans l'environnement vSphere et utiliser l'outil d'importation Brownfield VCF pour convertir l'environnement vSphere en domaine de gestion. https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-datastore.html["ONTAP tools for VMware vSphere"] , https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["Gestionnaire de système ou API ONTAP"] peut être utilisé pour déployer la banque de données VMFS sur un cluster vSphere. * Utilisez l'API SDDC pour déployer un cluster supplémentaire. Les hôtes vSphere doivent avoir le magasin de données VMFS configuré. Utiliser https://docs.netapp.com/us-en/ontap/san-admin/provision-storage.html["Gestionnaire de système ou API ONTAP"] pour déployer le LUN sur les hôtes vSphere. * Utilisez l’interface utilisateur de SDDC Manager pour déployer un cluster supplémentaire. Mais cette option crée uniquement une banque de données VSAN jusqu'à la version 5.2.x.
-
-
-
-[[vi-workload-domain-default-cluster]]
-=== Domaine de charge de travail VI - Cluster par défaut
-
-Une fois le domaine de gestion opérationnel, le domaine de charge de travail VI peut être créé :
-
-* Utilisation de l'interface utilisateur de SDDC Manager.  Les hôtes vSphere doivent avoir le magasin de données VMFS configuré.  Utilisez System Manager ou l’API ONTAP pour déployer le LUN sur les hôtes vSphere.
-* Importez un environnement vSphere existant en tant que nouveau domaine de charge de travail VI.  Les ONTAP tools for VMware vSphere, System Manager ou ONTAP API peuvent être utilisés pour déployer la banque de données VMFS sur un cluster vSphere.
+* Utilisez l'interface utilisateur VCF Ops. Les hôtes vSphere sont mis en service dans vCenter et le pool réseau est configuré. Utilisez System Manager ou l'API ONTAP pour déployer une LUN sur les hôtes vSphere.
+* Importez un environnement vSphere existant en tant que nouveau domaine de charge de travail. Les ONTAP tools for VMware vSphere, System Manager ou l'API ONTAP peuvent être utilisés pour déployer la banque de données VMFS sur le cluster vSphere.
 
 
 
 
-[[vi-workload-domain-additional-cluster]]
-=== Domaine de charge de travail VI - Cluster supplémentaire
+[[vcf-workload-domain-additional-cluster]]
+=== Domaine de charge de travail VCF - Cluster supplémentaire
 
-Une fois la charge de travail VI opérationnelle, des clusters supplémentaires peuvent être déployés avec VMFS sur FC LUN à l'aide des options suivantes.
+Pour étendre le domaine de charge de travail avec un cluster supplémentaire, reportez-vous à https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/building-your-private-cloud-infrastructure/working-with-workload-domains/expand-a-workload-domain/add-a-cluster-to-a-workload-domain-using-the-sddc-manager-ui.html["Ajouter un cluster SDDC à un domaine VCF"].
 
-* Clusters supplémentaires dans l'environnement vSphere importés à l'aide de l'outil d'importation Brownfield VCF.  Les ONTAP tools for VMware vSphere, System Manager ou ONTAP API peuvent être utilisés pour déployer la banque de données VMFS sur un cluster vSphere.
-* Utilisation de l’interface utilisateur ou de l’API SDDC Manager pour déployer un cluster supplémentaire.  Les hôtes vSphere doivent avoir le magasin de données VMFS configuré.  Utilisez System Manager ou l’API ONTAP pour déployer le LUN sur les hôtes vSphere.
-
+Voici les étapes principales pour ajouter un cluster supplémentaire au domaine de charge de travail : * Assurez-vous que les hôtes sont commissionnés et que les pools réseau sont configurés dans vCenter. * Un LUN est provisionné sur le système de stockage ONTAP et présenté aux hôtes du cluster supplémentaire. * Créez un nouveau cluster SDDC dans le domaine de charge de travail sur vCenter et suivez l’assistant pour ajouter le cluster supplémentaire au domaine de charge de travail.
 
 
 
@@ -119,4 +104,4 @@ Une fois la charge de travail VI opérationnelle, des clusters supplémentaires 
 
 Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] centre.
 
-Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["Documentation de VMware Cloud Foundation"] .
+Pour obtenir des informations sur la configuration de VCF, consultez link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1.html["Documentation de VMware Cloud Foundation"].

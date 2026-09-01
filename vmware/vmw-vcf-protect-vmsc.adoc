@@ -14,14 +14,14 @@ summary:
 
 
 [role="lead"]
-Découvrez les solutions NetApp que vous pouvez utiliser pour intégrer la haute disponibilité NetApp ONTAP à VMware vSphere Metro Storage Cluster (vMSC).  Cela fournit des solutions robustes pour la gestion de VMware Cloud Foundation (VCF) et les domaines de charge de travail VI.
+Découvrez les solutions NetApp que vous pouvez utiliser pour intégrer la haute disponibilité NetApp ONTAP avec VMware vSphere Metro Storage Cluster (vMSC). Cela offre des solutions robustes pour la gestion et les domaines de charge de travail de VMware Cloud Foundation (VCF).
 
-Cette combinaison garantit une disponibilité continue des données, un basculement transparent et une reprise après sinistre sur des sites géographiquement dispersés, améliorant ainsi la résilience et la continuité opérationnelle des charges de travail critiques.  La synchronisation active SnapMirror permet aux services professionnels de continuer à fonctionner même en cas de panne complète du site, en prenant en charge le basculement transparent des applications à l'aide d'une copie secondaire. Aucune intervention manuelle ni script personnalisé ne sont requis pour déclencher un basculement avec SnapMirror Active Sync.
+Cette combinaison garantit la disponibilité continue des données, un basculement transparent et une reprise après sinistre sur des sites géographiquement dispersés, renforçant ainsi la résilience et la continuité opérationnelle des charges de travail critiques. SnapMirror active sync (SAN et NAS) permet aux services métier de continuer à fonctionner même en cas de panne complète d'un site, en prenant en charge le basculement transparent des applications vers une copie secondaire. Aucune intervention manuelle ni script personnalisé n'est requis pour déclencher un basculement avec SnapMirror active sync (SAN et NAS). Un médiateur ONTAP est utilisé pour surveiller l'état de santé du site principal et effectuer automatiquement le basculement vers le site secondaire en cas de sinistre. Le médiateur ONTAP est déployé sur un serveur ou une machine virtuelle distinct(e) qui ne fait partie d'aucun des deux sites, garantissant ainsi la disponibilité du quorum pour éviter tout scénario de split brain.
 
 Veuillez vous référer aux solutions suivantes pour plus de détails.
 
-* link:vmw-vcf-vmsc-mgmt-smas.html["Étirer le cluster pour le domaine de gestion à l'aide de la synchronisation active SnapMirror"]
+* link:vmw-vcf-vmsc-mgmt-smas.html["Cluster étendu pour le domaine de gestion utilisant SnapMirror active sync (SAN et NAS)"]
 * link:vmw-vcf-vmsc-mgmt-mcc.html["Étirer le cluster pour le domaine de gestion à l'aide de MetroCluster"]
-* link:vmw-vcf-vmsc-viwld-smas.html["Stretch Cluster pour le domaine de charge de travail VI utilisant la synchronisation active SnapMirror"]
-* link:vmw-vcf-vmsc-viwld-mcc.html["Cluster extensible pour le domaine de charge de travail VI à l'aide de MetroCluster"]
+* link:vmw-vcf-vmsc-viwld-smas.html["Cluster étendu pour domaine de charge de travail utilisant SnapMirror active sync (SAN et NAS)"]
+* link:vmw-vcf-vmsc-viwld-mcc.html["Cluster étendu pour le domaine de charge de travail à l'aide de MetroCluster"]
 

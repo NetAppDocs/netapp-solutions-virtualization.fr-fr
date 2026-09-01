@@ -15,6 +15,14 @@ Découvrez les nouveautés en matière de solutions de virtualisation.
 
 
 
+[[21-august-2026]]
+== 21 août 2026
+
+* Documentation VCF mise à jour pour refléter la version VCF 9.1 et les fonctionnalités d'ONTAP 9.19.1.
+
+
+
+
 [[10-may-2026]]
 == 10 mai 2026
 

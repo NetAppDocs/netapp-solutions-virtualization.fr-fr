@@ -47,11 +47,18 @@ L'ajout d'un backend de stockage vous permet d'intégrer un cluster ONTAP .
 
 
 
+[[reference-video]]
+== Vidéo de référence
+
+.Magasin de données supplémentaire avec FC
+video::96311abf-aa45-4ce9-984b-b4b001005bab[panopto,width=360]
+
+
 [[additional-information]]
 == Informations Complémentaires
 
 * Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous àlink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] .
-* Pour plus d'informations sur la configuration de VCF, reportez-vous aulink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["Documentation de VMware Cloud Foundation"] .
+* Pour plus d'informations sur la configuration de VCF, reportez-vous au link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1.html["Documentation de VMware Cloud Foundation"].
 * Pour plus d'informations sur la configuration de Fibre Channel sur les systèmes de stockage ONTAP , reportez-vous à la documentation ONTAP 9 https://docs.netapp.com/us-en/ontap/san-management/index.html["Gestion du stockage SAN"] .
 * Pour plus d'informations sur l'utilisation de VMFS avec les systèmes de stockage ONTAP , reportez-vous aulink:vmw-vmfs-deploy.html["Guide de déploiement pour VMFS"] .
 * Pour des démonstrations vidéo de cette solution, reportez-vous àlink:../videos/vmware-videos.html#vmware-datastore-provisioning-with-ontap["Provisionnement de la banque de données VMware"] .

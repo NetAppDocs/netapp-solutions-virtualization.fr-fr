@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-viwld-supp-nvme.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
-summary: 'Commencez par ajouter une banque de données NVMe sur TCP (NVMe/TCP) comme stockage supplémentaire pour un domaine de charge de travail d’infrastructure virtuelle (VI) VMware Cloud Foundation (VCF).  Vous configurerez une machine virtuelle de stockage (SVM) compatible NVMe/TCP et des LIF, créerez des espaces de noms NVMe, configurerez la mise en réseau de l"hôte ESXi et déploierez une banque de données VMFS.' 
+summary: 'Commencez par ajouter une banque de données NVMe over TCP (NVMe/TCP) comme stockage supplémentaire pour un domaine de charge de travail VMware Cloud Foundation (VCF). Vous allez configurer une machine virtuelle de stockage (SVM) compatible NVMe/TCP et des LIF, créer des espaces de noms NVMe, configurer le réseau hôte vSphere et déployer une banque de données VMFS.' 
 ---
-= Workflow de déploiement pour l'ajout de magasins de données NVMe vVols comme stockage supplémentaire dans un domaine de charge de travail VI
+= Flux de travail de déploiement pour l'ajout de vVols banques de données NVMe comme stockage supplémentaire dans un domaine de charge de travail
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,11 +14,11 @@ summary: 'Commencez par ajouter une banque de données NVMe sur TCP (NVMe/TCP) c
 
 
 [role="lead"]
-Commencez par ajouter des magasins de données NVMe/TCP vVols comme stockage supplémentaire pour un domaine de charge de travail d’infrastructure virtuelle (VI) VMware Cloud Foundation (VCF).  Vous passerez en revue les exigences de déploiement, configurerez des SVM et des LIF compatibles NVMe/TCP, configurerez la mise en réseau de l'hôte ESXi et déploierez la banque de données NVMe/TCP.
+Commencez par ajouter des datastores NVMe/TCP vVols comme stockage supplémentaire pour un domaine de charge de travail VMware Cloud Foundation (VCF). Vous passerez en revue les exigences de déploiement, configurerez des SVM et des LIF compatibles NVMe/TCP, configurerez le réseau hôte vSphere et déploierez le datastore NVMe/TCP vVol.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["Un"]link:vmw-vcf-viwld-supp-nvme-requirements.html["Examiner les exigences de déploiement"]
 [role="quick-margin-para"]
-Passez en revue les exigences pour déployer une banque de données NVMe/TCP dans un domaine de charge de travail VMware Cloud Foundation VI.
+Examinez les exigences pour déployer un datastore NVMe/TCP dans un domaine de charge de travail VMware Cloud Foundation.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["Deux"]link:vmw-vcf-viwld-supp-nvme-svm-lifs.html["Créer les SVM et LIF ainsi que l'espace de noms NVMe"]
 [role="quick-margin-para"]
@@ -26,8 +26,18 @@ Créez une machine virtuelle de stockage avec des interfaces logiques et l’esp
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["Trois"]link:vmw-vcf-viwld-supp-nvme-network.html["Configurer le réseau"]
 [role="quick-margin-para"]
-Créez des groupes de ports distribués et des adaptateurs vmkernel sur les hôtes ESXi pour le domaine de charge de travail VI.
+Créez des groupes de ports distribués et des adaptateurs vmkernel sur les hôtes vSphere pour le domaine de charge de travail VCF.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["Quatre"]link:vmw-vcf-viwld-supp-nvme-storage.html["Configurer le stockage"]
 [role="quick-margin-para"]
 Déployez le magasin de données NVMe/TCP.
+
+
+
+[[video-demo-for-this-solution]]
+== Démo vidéo de cette solution
+
+.Datastore supplémentaire avec NVMe/TCP
+video::f85530ec-ff24-4c7d-abb4-b49b0176402c[panopto,width=360]
+.Datastore supplémentaire avec NVMe/FC
+video::b2b16a35-05cd-49c9-a91a-b4ac0127813d[panopto,width=360]

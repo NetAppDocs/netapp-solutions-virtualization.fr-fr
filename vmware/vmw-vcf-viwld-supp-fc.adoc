@@ -4,7 +4,7 @@ permalink: vmware/vmw-vcf-viwld-supp-fc.html
 keywords: netapp, vmware, cloud, foundation, vcf, asa, all-flash, array, ontap tools, otv, sddc, fc 
 summary:  
 ---
-= Ajoutez une banque de données VMFS basée sur FC comme stockage supplémentaire à un domaine de charge de travail VI
+= Ajoutez un datastore VMFS basé sur FC comme stockage supplémentaire aux domaines de charge de travail
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Dans ce cas d'utilisation, nous décrivons la procédure de configuration d'une banque de données VMFS à l'aide de Fibre Channel (FC) comme stockage supplémentaire pour un domaine de charge de travail d'infrastructure virtuelle (VI) VMware Cloud Foundation (VCF).  Cette procédure résume le déploiement d' ONTAP Tools pour VMware vSphere, l'enregistrement du serveur vCenter de charge de travail VI, la définition du backend de stockage et le provisionnement du magasin de données FC.
+Ce cas d'utilisation décrit la procédure de configuration d'une banque de données VMFS utilisant Fiber Channel (FC) comme stockage supplémentaire pour un domaine de charge de travail VMware Cloud Foundation (VCF). Cette procédure récapitule le déploiement d'ONTAP tools for VMware vSphere, l'enregistrement du serveur vCenter de charge de travail, la définition du backend de stockage et le provisionnement de la banque de données FC.
 
 .Avant de commencer
 Assurez-vous que les composants et configurations suivants sont en place.
@@ -33,9 +33,9 @@ Assurez-vous que les composants et configurations suivants sont en place.
 
 ====
 .Étapes
-. Enregistrez la charge de travail VI vCenter en suivant les instructions de la documentation des ONTAP tools for VMware vSphere :link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["Enregistrer la charge de travail VI vCenter"] .
+. Enregistrez le domaine de charge de travail vCenter en suivant les instructions dans la documentation ONTAP tools for VMware vSphere : link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-vcenter.html["Enregistrez la charge de travail vCenter"].
 +
-L'enregistrement de la charge de travail VI vCenter active le plug-in vCenter.
+L'enregistrement du serveur de domaine de charge de travail vCenter active le plugin vCenter.
 
 . Ajoutez un backend de stockage à l'aide de l'interface client vSphere en suivant les instructions de la documentation des ONTAP tools for VMware vSphere :link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["Définir le backend de stockage à l'aide de l'interface client vSphere"] .
 +
@@ -46,11 +46,18 @@ L'ajout d'un backend de stockage vous permet d'intégrer un cluster ONTAP .
 
 
 
+[[reference-video]]
+== Vidéo de référence
+
+.Magasin de données supplémentaire avec FC
+video::96311abf-aa45-4ce9-984b-b4b001005bab[panopto,width=360]
+
+
 [[additional-information]]
 == Informations Complémentaires
 
 * Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"^] .
-* Pour plus d'informations sur la configuration de VCF, reportez-vous aulink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2.html["Documentation de VMware Cloud Foundation"^] .
+* Pour plus d'informations sur la configuration de VCF, reportez-vous au link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1.html["Documentation de VMware Cloud Foundation"^].
 * Pour plus d'informations sur la configuration de Fibre Channel sur les systèmes de stockage ONTAP , reportez-vous au https://docs.netapp.com/us-en/ontap/san-management/index.html["Gestion du stockage SAN"^] dans la documentation ONTAP 9.
 * Pour plus d'informations sur l'utilisation de VMFS avec les systèmes de stockage ONTAP , reportez-vous aulink:vmw-vmfs-deploy.html["Guide de déploiement pour VMFS"] .
 * Pour des démonstrations vidéo de cette solution, reportez-vous àlink:../videos/vmware-videos.html#vmware-datastore-provisioning-with-ontap["Provisionnement de la banque de données VMware"] .

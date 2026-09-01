@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-migrate.html 
 keywords: vmware, vcf, migrate, import 
-summary: La conversion d’un environnement vSphere avec des banques de données Fibre Channel ou NFS existantes sur ONTAP implique l’intégration de l’infrastructure actuelle dans une architecture de cloud privé moderne. 
+summary: 'La convergence d"un vSphere environnement avec des datastores Fibre Channel ou NFS existants sur ONTAP implique l"intégration de l"infrastructure actuelle dans une architecture de cloud privé moderne.' 
 ---
-= En savoir plus sur la conversion d'un environnement vSphere avec des banques de données existantes en un domaine de gestion VCF
+= Découvrez comment faire converger un environnement vSphere avec des banques de données existantes vers un domaine de gestion VCF
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,16 +14,16 @@ summary: La conversion d’un environnement vSphere avec des banques de données
 
 
 [role="lead"]
-La conversion d’un environnement vSphere avec des banques de données Fibre Channel ou NFS existantes sur ONTAP implique l’intégration de l’infrastructure actuelle dans une architecture de cloud privé moderne.
+Tout environnement vSphere pris en charge peut être intégré à un environnement cloud privé VCF. Il peut être convergé vers un domaine de gestion VCF ou importé en tant que domaine de charge de travail. Cette solution montre comment les datastores VMFS ou NFS existants dans vSphere deviennent le stockage principal lorsque le cluster est converti en domaine de gestion VCF.
 
 
 
 [[solution-overview]]
 == Présentation de la solution
 
-Cette solution montre comment les banques de données FC ou NFS existantes dans vSphere deviennent un stockage principal lorsque le cluster est converti en domaine de gestion VCF.
+Cette solution démontre comment les banques de données VMFS ou NFS existantes dans vSphere deviennent un stockage principal lorsque le cluster converge vers un domaine de gestion VCF.
 
-Ce processus bénéficie de la robustesse et de la flexibilité du stockage ONTAP pour garantir un accès et une gestion transparents des données.  Une fois qu'un domaine de gestion VCF est établi via le processus de conversion, les administrateurs peuvent importer efficacement des environnements vSphere supplémentaires, y compris ceux utilisant des banques de données FC et NFS, dans l'écosystème VCF.
+Ce processus tire parti de la robustesse et de la flexibilité du stockage ONTAP pour garantir un accès aux données et une gestion sans faille. Après l'établissement d'un domaine de gestion VCF via le processus de convergence, les administrateurs peuvent importer efficacement des environnements vSphere supplémentaires, y compris ceux utilisant à la fois des datastores VMFS et NFS, dans l'écosystème VCF.
 
 Cette intégration améliore non seulement l’utilisation des ressources, mais simplifie également la gestion de l’infrastructure de cloud privé, garantissant une transition en douceur avec une perturbation minimale des charges de travail existantes.
 
@@ -40,13 +40,13 @@ image::vmware-vcf-import-nfs-010.png[Architecture des outils ONTAP]
 
 
 
-[[supported-solutions-for-converting-a-vsphere-environment]]
-== Solutions prises en charge pour la conversion d'un environnement vSphere
+[[supported-solutions-for-converging-a-vsphere-environment]]
+== Solutions prises en charge pour la convergence d'un environnement vSphere
 
 Reportez-vous aux solutions suivantes pour obtenir les détails techniques permettant de convertir une instance vCenter.
 
-* link:vmw-vcf-mgmt-nfs.html["Convertir une instance vCenter en domaine de gestion VCF (datastore NFS)"]
-* link:vmw-vcf-mgmt-fc.html["Convertir l'instance vCenter en domaine de gestion VCF (datastore FC)"]
+* link:vmw-vcf-mgmt-nfs.html["Convergez une instance vCenter vers le domaine de gestion VCF (datastore NFS)"]
+* link:vmw-vcf-mgmt-vmfs.html["Convergez une instance vCenter vers le domaine de gestion VCF (datastore VMFS)"]
 
 
 
@@ -55,8 +55,8 @@ Reportez-vous aux solutions suivantes pour obtenir les détails techniques perme
 == Informations Complémentaires
 
 * Pour des démonstrations vidéo de ces solutions, reportez-vous àlink:../videos/vmware-videos.html#vmware-datastore-provisioning-with-ontap["Provisionnement de banque de données VMware avec ONTAP"] .
-* Pour un aperçu du processus de conversion, reportez-vous à la https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/map-for-administering-vcf-5-2/importing-existing-vsphere-environments-admin/convert-or-import-a-vsphere-environment-into-vmware-cloud-foundation-admin.html["Convertir un environnement vSphere en domaine de gestion ou importer un environnement vSphere en tant que domaine de charge de travail VI dans VMware Cloud Foundation"] .
+* Pour un aperçu du processus de convergence, reportez-vous au https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/deployment/converging-your-existing-vsphere-infrastructure-to-a-vcf-or-vvf-platform-.html["Convergence de l'infrastructure virtuelle existante vers un VCF"].
 * Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous àlink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"] .
 * Pour plus d'informations sur la configuration de VCF, reportez-vous àlink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentation de VMware Cloud Foundation"] .
-* Pour le stockage pris en charge et d'autres considérations pour convertir ou importer vSphere vers VCF 5.2, reportez-vous à https://techdocs.broadcom.com/fr/fr/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/considerations-before-converting-or-importing-existing-vsphere-environments-into-vcf.html["Considérations avant la conversion ou l'importation d'environnements vSphere existants dans VMware Cloud Foundation"] .
+* Pour connaître les options de stockage prises en charge et d'autres considérations à prendre en compte, veuillez vous référer à https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/deployment/converging-your-existing-vsphere-infrastructure-to-a-vcf-or-vvf-platform-/supported-and-not-supported-configurations.html["Configurations prises en charge et non prises en charge pour la convergence vers VCF"].
 

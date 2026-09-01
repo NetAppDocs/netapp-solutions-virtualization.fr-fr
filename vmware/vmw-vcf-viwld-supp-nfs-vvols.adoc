@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-viwld-supp-nfs-vvols.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
-summary: 'Commencez à ajouter NFS et vVols comme stockage supplémentaire aux domaines de charge de travail VI à l"aide des ONTAP tools for VMware vSphere.  Vous déploierez des ONTAP tools for VMware vSphere, configurerez une machine virtuelle de stockage (SVM) avec des interfaces logiques NFS et provisionnerez des magasins de données NFS et vVols .' 
+summary: 'Commencez à ajouter NFS et vVols comme stockage supplémentaire aux domaines de charge de travail VCF en utilisant ONTAP tools for VMware vSphere. Vous allez déployer ONTAP tools for VMware vSphere, configurer une machine virtuelle de stockage (SVM) avec des interfaces logiques NFS, et provisionner des banques de données NFS et vVols.' 
 ---
-= Workflow de déploiement pour l'ajout de banques de données NFS vVols comme stockage supplémentaire dans un domaine de charge de travail VI
+= Flux de travail de déploiement pour l'ajout de banques de données NFS vVols comme stockage supplémentaire dans un domaine de charge de travail VCF
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: 'Commencez à ajouter NFS et vVols comme stockage supplémentaire aux d
 
 
 [role="lead"]
-Commencez à ajouter des banques de données NFS vVols en tant que stockage supplémentaire dans des domaines de charge de travail VI à l'aide des ONTAP tools for VMware vSphere.  Vous passerez en revue les exigences de déploiement, déploierez les ONTAP tools for VMware vSphere, configurerez le SVM avec des interfaces logiques et configurerez le stockage.
+Commencez à ajouter des datastores NFS vVols comme stockage supplémentaire dans un domaine de charge de travail VCF à l'aide des ONTAP tools for VMware vSphere. Vous examinerez les exigences de déploiement, déploierez les ONTAP tools for VMware vSphere, configurerez la SVM avec des interfaces logiques et configurerez le stockage.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["Un"]link:vmw-vcf-viwld-supp-nfs-vvols-requirements.html["Examiner les exigences de déploiement"]
 [role="quick-margin-para"]
@@ -26,7 +26,7 @@ Créez une SVM avec plusieurs LIF pour le trafic NFS.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["Trois"]link:vmw-vcf-viwld-supp-nfs-vvols-network.html["Configurer le réseau"]
 [role="quick-margin-para"]
-Configurer la mise en réseau pour NFS sur les hôtes ESXi.
+Configurez le réseau pour NFS sur les hôtes vSphere.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["Quatre"]link:vmw-vcf-viwld-supp-nfs-vvols-storage.html["Configurer le stockage"]
 [role="quick-margin-para"]

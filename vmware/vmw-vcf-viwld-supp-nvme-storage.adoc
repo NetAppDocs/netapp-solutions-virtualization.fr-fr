@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-viwld-supp-nvme-storage.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
-summary: 'Configurez le stockage NVMe sur TCP (NVMe/TCP) vVols dans un domaine de charge de travail VI.  Vous déploierez des outils ONTAP , enregistrerez un système de stockage, créerez un profil de capacité de stockage et provisionnerez une banque de données vVols dans le client vSphere.' 
+summary: 'Configurez un datastore NVMe over TCP (NVMe/TCP) dans un domaine de charge de travail VMware Cloud Foundation. Vous allez déployer les ONTAP tools, enregistrer un système de stockage, créer un profil de capacité de stockage et provisionner un datastore NVMe/TCP dans le client vSphere.' 
 ---
-= Configurer le stockage NVMe/TCP vVols dans un domaine de charge de travail VCF VI
+= Configurer un datastore NVMe/TCP dans un domaine de workload VCF
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: 'Configurez le stockage NVMe sur TCP (NVMe/TCP) vVols dans un domaine d
 
 
 [role="lead"]
-Configurez le stockage NVMe/TCP vVols dans un domaine de charge de travail VMware Cloud Foundation VI.  Vous déploierez des outils ONTAP , enregistrerez un système de stockage, créerez un profil de capacité de stockage et provisionnerez une banque de données vVols dans le client vSphere.
+Configurez un datastore NVMe/TCP dans un domaine de charge de travail VMware Cloud Foundation. Vous allez déployer les ONTAP tools, enregistrer un système de stockage, créer un profil de capacité de stockage et provisionner un datastore NVMe/TCP dans le client vSphere.
 
 .Étapes
 . Dans le client vSphere, accédez à l’un des hôtes ESXi du cluster de domaine de charge de travail. Dans le menu *Actions*, sélectionnez *Stockage > Nouvelle banque de données...*.
@@ -22,11 +22,11 @@ Configurez le stockage NVMe/TCP vVols dans un domaine de charge de travail VMwar
 .Afficher un exemple
 [%collapsible]
 ====
-image:vmware-vcf-asa-104.png["Ajouter un adaptateur NVMe/TCP"]
+image:vmware-vcf-asa-104.png["Ajouter un datastore NVMe/TCP"]
 
 ====
 . Dans l'assistant *Nouveau magasin de données*, sélectionnez *VMFS* comme type. Cliquez sur *Suivant* pour continuer.
-. Sur la page *Sélection du nom et du périphérique*, indiquez un nom pour le magasin de données et sélectionnez l'espace de noms NVMe dans la liste des périphériques disponibles.
+. Sur la page *Sélection du nom et du périphérique*, indiquez un nom pour le datastore et sélectionnez l'espace de noms NVMe/TCP dans la liste des périphériques disponibles.
 +
 .Afficher un exemple
 [%collapsible]
@@ -62,5 +62,5 @@ image:vmware-vcf-asa-107.png["Hôtes connectés au magasin de données"]
 * Pour plus d'informations sur la configuration du SAN pour la redondance, reportez-vous aulink:https://docs.netapp.com/us-en/ontap/san-config/index.html["Référence de configuration SAN NetApp"^] .
 * Pour plus d'informations sur les considérations de conception NVMe pour les systèmes de stockage ONTAP , reportez-vous àlink:https://docs.netapp.com/us-en/ontap/nvme/support-limitations.html["Configuration, prise en charge et limitations NVMe"^] .
 * Pour plus d'informations sur la configuration des systèmes de stockage ONTAP , reportez-vous aulink:https://docs.netapp.com/us-en/ontap["Documentation ONTAP 9"^] .
-* Pour plus d'informations sur la configuration de VCF, reportez-vous aulink:https://techdocs.broadcom.com/us/en/vmware-cis/vcf.html["Documentation de VMware Cloud Foundation"^] .
+* Pour plus d'informations sur la configuration de VCF, reportez-vous au link:https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1.html["Documentation de VMware Cloud Foundation"^].
 

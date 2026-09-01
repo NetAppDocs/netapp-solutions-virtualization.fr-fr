@@ -94,3 +94,11 @@ Pour provisionner une banque de données VMFS, procédez comme suit :
 . Vérifiez que les pilotes HBA sont installés.  Les HBA pris en charge par VMware ont des pilotes déployés prêts à l'emploi et doivent être visibles dans lelink:++https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-storage-7-0/getting-started-with-a-traditional-storage-model-in-vsphere-environment/supported-storage-adapters/view-storage-adapters-available-on-an-esxi-host.html++["Informations sur l'adaptateur de stockage"] .
 . link:++https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-iag/GUID-D7CAD8AF-E722-40C2-A4CB-5B4089A14B00.html++["Provisionner une banque de données VMFS avec les outils ONTAP"] .
 
+
+
+
+[[reference-video]]
+== Vidéo de référence
+
+.Magasin de données supplémentaire avec FC
+video::96311abf-aa45-4ce9-984b-b4b001005bab[panopto,width=360]

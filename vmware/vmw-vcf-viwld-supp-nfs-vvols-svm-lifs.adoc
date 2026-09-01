@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-viwld-supp-nfs-vvols-svm-lifs.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc 
-summary: 'Créez une machine virtuelle de stockage (SVM) et plusieurs interfaces logiques (LIF) sur un système ONTAP pour prendre en charge le trafic NFS pour les banques de données vVols dans un domaine de charge de travail VMware Cloud Foundation VI.' 
+summary: 'Créez une machine virtuelle de stockage (SVM) et plusieurs interfaces logiques (LIF) sur un système ONTAP pour prendre en charge le trafic NFS pour les datastores vVols dans un domaine de charge de travail VMware Cloud Foundation.' 
 ---
-= Créer des SVM et des LIF pour les banques de données NFS vVols dans un domaine de charge de travail VCF VI
+= Créer des SVM et des LIF pour les datastores NFS vVols dans un domaine de charge de travail VCF
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: 'Créez une machine virtuelle de stockage (SVM) et plusieurs interfaces
 
 
 [role="lead"]
-Créez une machine virtuelle de stockage (SVM) et plusieurs interfaces logiques (LIF) sur un système ONTAP pour prendre en charge le trafic NFS pour les banques de données vVols dans un domaine de charge de travail VMware Cloud Foundation VI.
+Créez une machine virtuelle de stockage (SVM) et plusieurs interfaces logiques (LIF) sur un système ONTAP pour prendre en charge le trafic NFS pour les datastores vVols dans un domaine de charge de travail VMware Cloud Foundation.
 
 Pour ajouter de nouveaux LIF à un SVM existant, reportez-vous à la documentation ONTAP :link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["Créer des LIF ONTAP"^] .
 
@@ -37,7 +37,7 @@ image:vmware-vcf-aff-035.png["Assistant d'ajout de machine virtuelle de stockage
 ====
 +
 
-TIP: Vous n'avez pas besoin de cocher la case *Autoriser l'accès client NFS*.  Les ONTAP tools for VMware vSphere seront utilisés pour automatiser le processus de déploiement de la banque de données, qui inclut la fourniture d’un accès client pour les hôtes ESXi.
+TIP: Il n'est pas nécessaire de cocher la case *Autoriser l'accès client NFS*. ONTAP tools for VMware vSphere sera utilisé pour automatiser le processus de déploiement de la banque de données, ce qui inclut la fourniture de l'accès client pour les hôtes vSphere.
 
 . Dans la section *Interface réseau*, renseignez l'*adresse IP*, le *masque de sous-réseau* et le *domaine de diffusion et le port* pour le premier LIF.  Pour les LIF suivants, vous pouvez soit utiliser des paramètres individuels, soit activer la case à cocher pour utiliser des paramètres communs à tous les LIF restants.
 +
@@ -62,4 +62,4 @@ image:vmware-vcf-asa-004.png["Activer le compte SVM et terminer"]
 [[whats-next]]
 == Quelle est la prochaine étape ?
 
-Après avoir créé le SVM et les LIF,link:vmw-vcf-viwld-supp-nfs-vvols-network.html["configurer la mise en réseau pour NFS sur les hôtes ESXi"] .
+Après avoir créé le SVM et les LIF, link:vmw-vcf-viwld-supp-nfs-vvols-network.html["configurer le réseau pour NFS sur les hôtes vSphere"].

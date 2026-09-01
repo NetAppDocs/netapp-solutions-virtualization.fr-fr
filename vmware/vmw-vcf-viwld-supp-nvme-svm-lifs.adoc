@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmw-vcf-viwld-supp-nvme-svm-lifs.html 
 keywords: netapp, vmware, cloud, foundation, vcf, aff, all-flash, nfs, vvol, vvols, array, ontap tools, otv, sddc, iscsi 
-summary: 'Créez une machine virtuelle de stockage (SVM) avec plusieurs interfaces logiques (LIF) pour fournir une connectivité iSCSI aux domaines de gestion VMware Cloud Foundation.  Vous configurerez le SVM avec la prise en charge du protocole NVMe et configurerez plusieurs LIF sur des réseaux Ethernet distincts pour permettre le multivoie et le basculement pour des performances et une disponibilité optimales.' 
+summary: 'Créez une machine virtuelle de stockage (SVM) avec plusieurs interfaces logiques (LIF) pour assurer la connectivité NVMe/TCP des domaines de charge de travail VMware Cloud Foundation. Vous configurerez la SVM avec la prise en charge du protocole NVMe et mettrez en place plusieurs LIF sur des réseaux Ethernet distincts afin d"activer le multipathing et le basculement pour des performances et une disponibilité optimales.' 
 ---
-= Créer des SVM et des LIF ainsi que l'espace de noms NVMe pour les banques de données NVMe/TCP vVols dans un domaine de charge de travail VCF VI
+= Créez des SVM et des LIF ainsi que l'espace de noms NVMe pour les datastores NVMe/TCP dans un domaine de charge de travail VMware Cloud Foundation
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -64,10 +64,10 @@ image:vmware-vcf-asa-004.png["Activer le compte SVM et terminer"]
 
 Les espaces de noms NVMe sont analogues aux LUN pour iSCSi ou FC. Vous devez créer l’espace de noms NVMe avant qu’une banque de données VMFS puisse être déployée à partir du client vSphere.
 
-Pour créer l’espace de noms NVMe, obtenez le nom qualifié NVMe (NQN) de chaque hôte ESXi du cluster.  ONTAP utilise le NQN pour fournir un contrôle d'accès à l'espace de noms.
+Pour créer l'espace de noms NVMe, récupérez le nom qualifié NVMe (NQN) de chaque hôte vSphere dans le cluster. ONTAP utilise le NQN pour fournir un contrôle d'accès à l'espace de noms.
 
 .Étapes
-. Ouvrez une session SSH avec un hôte ESXi dans le cluster pour obtenir son NQN.  Utilisez la commande suivante depuis la CLI :
+. Ouvrez une session SSH avec un hôte vSphere du cluster pour obtenir son NQN. Utilisez la commande suivante depuis l'interface de ligne de commande :
 +
 [source, cli]
 ----
@@ -81,7 +81,7 @@ Une sortie similaire à l’exemple suivant devrait être affichée :
 ----
 Host NQN: nqn.2014-08.com.netapp.sddc:nvme:vcf-wkld-esx01
 ----
-. Enregistrez le NQN pour chaque hôte ESXi du cluster.
+. Enregistrez le NQN pour chaque vSphere hôte du cluster.
 . Depuis ONTAP System Manager, accédez à *Espaces de noms NVMe* dans le menu de gauche et cliquez sur *+ Ajouter* pour démarrer.
 +
 .Afficher un exemple
@@ -91,7 +91,7 @@ image:vmware-vcf-asa-093.png["Cliquez sur +Ajouter pour créer un espace de noms
 
 ====
 . Sur la page *Ajouter un espace de noms NVMe*, renseignez un préfixe de nom, le nombre d'espaces de noms à créer, la taille de l'espace de noms et le système d'exploitation hôte qui accédera à l'espace de noms.
-. Dans la section *Host NQN*, créez une liste séparée par des virgules des NQN précédemment collectés auprès des hôtes ESXi qui accéderont aux espaces de noms.
+. Dans la section *NQN hôte*, créez une liste séparée par des virgules des NQN précédemment collectés auprès des hôtes vSphere qui accéderont aux espaces de noms.
 . Cliquez sur *Plus d'options* pour configurer des éléments supplémentaires, tels que la politique de protection des instantanés.
 . Enfin, cliquez sur *Enregistrer* pour créer l’espace de noms NVMe.
 +
@@ -108,4 +108,4 @@ image:vmware-vcf-asa-093.png["Cliquez sur +Ajouter pour créer un espace de noms
 [[whats-next]]
 == Quelle est la prochaine étape ?
 
-Après avoir créé le SVM et les LIF,link:vmw-vcf-viwld-supp-nvme-network.html["configurer la mise en réseau pour NVMe/TCP (NVMe/TCP) vVols"] .
+Après avoir créé le SVM et les LIF, link:vmw-vcf-viwld-supp-nvme-network.html["configurer le réseau pour NVMe/TCP (NVMe/TCP)"].
