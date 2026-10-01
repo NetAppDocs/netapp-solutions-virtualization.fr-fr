@@ -2914,7 +2914,6 @@
   <block id="092bf78f9c97ba171b8232ddff585392" category="section-title">Informations supplémentaires</block>
   <block id="825bcb57c4a920b6ec1b4c96c593210a" category="paragraph">Pour en savoir plus sur les technologies présentées dans cette solution, reportez-vous aux informations complémentaires suivantes.</block>
   <block id="c566b67acddd823601fe79f9cbf31db9" category="inline-link">Documentation sur NetApp Data Infrastructure Insights</block>
-  <block id="cd05e79905f9f7de7a13066ca0953f4f" category="list-text"><block ref="cd05e79905f9f7de7a13066ca0953f4f" category="inline-link-rx"></block></block>
   <block id="cb59b87e00d11222bfd9159d0d23836f" category="section-title">Commencer</block>
   <block id="436e68f1ecbb1aad162f323520820215" category="list-text">La résolution DNS doit être en place lors de l'utilisation de noms DNS. Sinon, utilisez les adresses IP pour le vCenter.</block>
   <block id="182e56e650699ca4b371ce3f1d77f3a0" category="list-text">Assurez-vous que l’environnement dispose de versions prises en charge des serveurs vCenter Server et ESXi.</block>
@@ -4773,7 +4772,6 @@
   <block id="1a718e68b847d8b2043c7f76af9a4858" category="cell"><block ref="34ab3c79d36e5a654b9402fe2fcf7f3b" category="inline-link-rx"></block></block>
   <block id="391de35bbb4cf1a51813527b129bb11e" category="cell"><block ref="e3a74d6b6b54621583ac737da6124d3a" category="inline-link-rx"></block></block>
   <block id="47c5c0877638b8f808901039637b1474" category="cell"><block ref="8ef8fc61fd753b52cc179e3463e5820b" category="inline-link-rx"></block></block>
-  <block id="b8145535eda5b8ac300fd64bfa74cc26" category="cell"><block ref="64c621ea990d75acd1bb8fba7b272f2c" category="inline-link-rx"></block></block>
   <block id="315a0755b344c41b2a45eb62f3868930" category="cell"><block ref="c0dded1a1fb8dd474b19235d36c5c4c7" category="inline-link-rx"></block></block>
   <block id="15c077c967c5957622bfd9c744f7015f" category="doc">En savoir plus sur la prise en charge de NetApp pour VMware vSphere 8</block>
   <block id="cadc15be508d2904dd26fdd4f4303243" category="paragraph">Le partenariat entre NetApp et VMware est le seul partenariat dans lequel un système de stockage unique répond à tous les cas d'utilisation clés définis par VMware.</block>
@@ -8929,8 +8927,6 @@
   <block id="cff9b0e8b1c1c7426b72f45e3a9ac644" category="sidebar">Configuration du cluster source</block>
   <block id="824c1665365457f3bde955b98c2b7f55" category="sidebar">Configuration du cluster cible</block>
   <block id="2aeae710edc424cc326d6cb63b550031" category="sidebar">Red Hat OpenShift Virtualization Monitor : surveillance des machines virtuelles avec Data Infrastructure Insights</block>
-  <block id="2c596413f7f9ee1efaa7fc41145df5c9" category="paragraph">Red Hat l'a documenté.<block ref="e72861cc2ffb2a6f6b2f87c56b1d8448" category="inline-link-macro-rx"></block></block>
-  <block id="7868d2e71c1c27e2a8485d667b537155" category="paragraph">De plus, ils ont également documenté <block ref="1bdd2b72ac809b354864a3247a207d41" category="inline-link-macro-rx"></block> et <block ref="e8677739388ad10428adf0f294cbf3a4" category="inline-link-macro-rx"></block>.</block>
   <block id="91d4980348340733f698961b8bd2b5a1" category="list-text"><block ref="91d4980348340733f698961b8bd2b5a1" category="inline-link-macro-rx"></block></block>
   <block id="ce13298964940b432f5dc3759956e597" category="list-text">Suivez les instructions <block ref="3532d0b80dc5cd43a24a54e35bbc755c" category="inline-link-macro-rx"></block> fournies par Red Hat pour déployer dans l’environnement de votre choix.</block>
   <block id="27d15430e2f80a592305cc8f4b2594dd" category="summary">Sauvegarder et restaurer les machines virtuelles OpenShift Virtualization à l'aide du service NetApp Console Backup and Recovery</block>
@@ -9653,4 +9649,10 @@
   <block id="2eb0e03e77cc8eca36d62bc47ae9fe27" category="sidebar">Configurez les domaines de charge de travail avec MetroCluster</block>
   <block id="dff7877eaefeaf43d1486416898a3b01" category="sidebar">Configurer les domaines de gestion avec SnapMirror Active Sync (SAN et NAS)</block>
   <block id="b1821483a2acb5e3685fa2dc5780aec8" category="sidebar">Configurez les domaines de charge de travail avec SnapMirror Active Sync (SAN et NAS)</block>
+  <block id="f97a05b6d3b0e518f5dc930494fed433" category="paragraph">Red Hat l'a documenté.<block ref="e643f3ad7f751c329c7c2de066096c05" category="inline-link-macro-rx"></block></block>
+  <block id="030872cb79765f6a3b8523b90733f271" category="paragraph">De plus, ils ont également documenté <block ref="1bdd2b72ac809b354864a3247a207d41" category="inline-link-macro-rx"></block> et <block ref="a841c31a520ed2f6dce57ebfd0326a44" category="inline-link-macro-rx"></block>.</block>
+  <block id="fc0aa59ca4ba1a47e72a0390cfbb1a6f" category="video-title">Déploiement VCF avec VMFS sur FC</block>
+  <block id="32cd4e96e16ea22218701d95fbb8641b" category="list-text"><block ref="32cd4e96e16ea22218701d95fbb8641b" category="inline-link-rx"></block></block>
+  <block id="4ac9ef937d6829e78f453d8c03de16a1" category="list-text">Créez un datastore VMFS (avec LUN FC) sur l’un des hôtes vSphere du cluster.</block>
+  <block id="1cda12e319bfea043837b8254a9a7c84" category="video-title">Datastore principal avec FC</block>
 </blocks>

@@ -102,3 +102,5 @@ Pour provisionner une banque de données VMFS, procédez comme suit :
 
 .Magasin de données supplémentaire avec FC
 video::96311abf-aa45-4ce9-984b-b4b001005bab[panopto,width=360]
+.Datastore principal avec FC
+video::9c51101c-292b-41ef-8dd5-b4cf0131dd62[panopto,width=360]

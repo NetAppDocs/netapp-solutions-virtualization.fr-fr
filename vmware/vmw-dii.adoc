@@ -267,5 +267,5 @@ Pour en savoir plus sur les technologies présentées dans cette solution, repor
 
 * https://www.netapp.com/console/["Page d'accueil de la NetApp Console"]
 * https://www.netapp.com/data-infrastructure-insights/["Page d'accueil de NetApp Data Infrastructure Insights"]
-* https://docs.netapp.com/us-en/data-infrastructure-insights/index.html/["Documentation sur NetApp Data Infrastructure Insights"]
+* https://docs.netapp.com/us-en/data-infrastructure-insights/index.html["Documentation sur NetApp Data Infrastructure Insights"]
 
