@@ -160,7 +160,7 @@ image:vmfs-deploy-015.png["Figure montrant une boîte de dialogue d'entrée/sort
 
 
 
-Consultez ces liens pour le provisionnement de banques de données vVol, FC, NVMe/TCP.
+Pour provisionner des banques de données vVols ou des banques de données VMFS utilisant FC ou NVMe/TCP, reportez-vous à link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-datastore.html["Créer un datastore dans ONTAP tools"^]. Cette page répertorie également la configuration de l'hôte ESXi requise pour NVMe/TCP.
 
 
 

@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-Les ONTAP tools for VMware vSphere rationalisent la gestion du cycle de vie des machines virtuelles utilisant le stockage NetApp .  Les administrateurs peuvent gérer le stockage directement depuis vCenter Server, simplifiant ainsi les opérations et améliorant l'évolutivité.  Les composants clés tels que la console de stockage virtuelle (VSC), le fournisseur VASA et l'adaptateur de réplication de stockage (SRA) optimisent le provisionnement, la surveillance des performances et la reprise après sinistre.
+ONTAP tools for VMware vSphere simplifie la gestion du cycle de vie des VM à l'aide du stockage NetApp. Les administrateurs peuvent gérer le stockage directement à partir de vCenter Server, ce qui simplifie les opérations et améliore l'évolutivité. Des composants clés tels que le plug-in vSphere Client, VASA Provider et Storage Replication Adapter (SRA) optimisent le provisionnement, la surveillance des performances et la reprise d'activité.
 
 
 
@@ -28,9 +28,13 @@ Il permet aux administrateurs de gérer directement le stockage au sein du vCent
 [[ontap-tools-components]]
 == Composants des outils ONTAP
 
-* *Console de stockage virtuelle (VSC)* La VSC inclut l'interface intégrée au client vSphere où vous pouvez ajouter des contrôleurs de stockage, provisionner des banques de données, surveiller les performances des banques de données et afficher et mettre à jour les paramètres de l'hôte ESXi.
+* *vSphere Client plug-in* Ce plug-in inclut l'interface intégrée au client vSphere dans laquelle vous pouvez ajouter des contrôleurs de stockage, provisionner des datastores, surveiller les performances des datastores, et afficher et mettre à jour les paramètres de l'hôte ESXi. Dans ONTAP tools 9.x, ce composant est appelé Virtual Storage Console (VSC).
 * *Fournisseur VASA* Le fournisseur VMware vSphere APIs for Storage Awareness (VASA) pour ONTAP envoie des informations sur le stockage utilisé par VMware vSphere au serveur vCenter, permettant ainsi le provisionnement des banques de données VMware Virtual Volumes (vVols), la création et l'utilisation de profils de capacité de stockage, la vérification de la conformité et la surveillance des performances.
 * *Adaptateur de réplication de stockage (SRA)* Lorsqu'il est activé et utilisé avec VMware Site Recovery Manager (SRM), SRA facilite la récupération des banques de données et des machines virtuelles vCenter Server en cas de panne, permettant la configuration de sites protégés et de sites de récupération pour la reprise après sinistre.
 
 
-Pour plus d'informations sur les outils NetApp ONTAP pour VMware, consultez https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["Documentation des ONTAP tools for VMware vSphere"] .
+Pour plus d'informations, consultez la documentation de ONTAP tools for VMware vSphere correspondant à votre version :
+
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["Documentation de ONTAP tools for VMware vSphere 10.x"^] (dernière version)
+* link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["Documentation de ONTAP tools for VMware vSphere 9.x"^]
+

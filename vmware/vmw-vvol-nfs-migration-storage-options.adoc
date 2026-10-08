@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-vvol-nfs-migration-storage-options.html 
+keywords: netapp, vmware, nfs, ontap, flexvol, flexgroup, storage, options, scalability 
+summary: Découvrez les options de stockage ONTAP pour les datastores NFS dans les environnements VMware, et comparez les volumes FlexVol et FlexGroup pour choisir la solution la mieux adaptée à vos charges de travail. 
+---
+= Options de stockage pour les datastores NFS dans les environnements VMware vSphere avec ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Découvrez les options de stockage ONTAP pour les datastores NFS dans les environnements VMware. Comparez les volumes FlexVol et FlexGroup pour choisir la solution la mieux adaptée aux exigences et à l'échelle de votre workload.
+
+Lors du choix entre les volumes FlexVol et FlexGroup pour les datastores NFS dans les environnements VMware, tenez compte des éléments suivants :
+
+image:vmw-vvol-nfs-migration-005.png["FlexVol et FlexGroup : comparaison"]
+
+.FlexVol®
+Les FlexVol volumes conviennent aux environnements de petite à moyenne taille où des performances prévisibles et une gestion granulaire sont requises.
+
+Ils prennent en charge les copies Snapshot, le clonage et la réplication. FlexVol volumes sont idéaux lorsque vous devez isoler des charges de travail ou appliquer des politiques spécifiques à des datastores individuels.
+
+.FlexGroup
+Les volumes FlexGroup sont conçus pour les déploiements à grande échelle et offrent une évolutivité massive (jusqu'à 20 PB et 400 milliards de fichiers) et un parallélisme important.
+
+Ils répartissent automatiquement les données sur plusieurs volumes constitutifs, offrant des performances élevées et une gestion simplifiée pour les environnements comportant des milliers de machines virtuelles. Utilisez les volumes FlexGroup lorsque vous avez besoin d'un datastore unique et évolutif pour de nombreuses machines virtuelles.
+
+.Recommandation
+* *Utilisez les volumes FlexVol* pour les charges de travail plus petites et isolées ou lorsqu'un contrôle granulaire est nécessaire.
+* *Utilisez les volumes FlexGroup* pour les environnements vastes et performants qui nécessitent une gestion et une évolutivité simplifiées.
+
+
+
+
+[[additional-information]]
+== Informations Complémentaires
+
+* link:https://docs.netapp.com/us-en/ontap/flexgroup/index.html["FlexGroup documentation des volumes"^]
+* link:https://docs.netapp.com/us-en/ontap/flexgroup/supported-unsupported-config-concept.html["Configurations prises en charge et non prises en charge pour les volumes FlexGroup"^]
+* link:https://docs.netapp.com/us-en/ontap/volumes/index.html["Documentation de gestion du stockage logique"^]
+
