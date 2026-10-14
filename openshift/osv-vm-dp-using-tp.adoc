@@ -140,7 +140,7 @@ image:rh-os-n-use-case-ocpv-tp-dp-007.png["vm, pods et pvc créés"]
 .Créer une application
 [%collapsible]
 ====
-**Créer une application de protection Trident pour la VM**
+**Créer une application Trident Protect pour la machine virtuelle**
 
 Dans l'exemple, l'espace de noms de démonstration comporte une machine virtuelle et toutes les ressources de l'espace de noms sont incluses lors de la création de l'application.
 

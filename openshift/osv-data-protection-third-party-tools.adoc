@@ -18,7 +18,7 @@ OpenShift API for Data Protection (OADP) avec Velero fournit des fonctionnalité
 
 Les machines virtuelles dans l’environnement de virtualisation OpenShift sont des applications conteneurisées qui s’exécutent dans les nœuds de travail de votre plateforme OpenShift Container. Il est important de protéger les métadonnées des machines virtuelles ainsi que les disques persistants des machines virtuelles, afin que lorsqu'elles sont perdues ou corrompues, vous puissiez les récupérer.
 
-Les disques persistants des machines virtuelles de virtualisation OpenShift peuvent être sauvegardés par le stockage ONTAP intégré au cluster OpenShift à l'aide delink:https://docs.netapp.com/us-en/trident/["Trident CSI"] . Dans cette section, nous utilisonslink:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["API OpenShift pour la protection des données (OADP)"] pour effectuer la sauvegarde des machines virtuelles, y compris leurs volumes de données,
+Les disques persistants des machines virtuelles de OpenShift Virtualization peuvent être sauvegardés sur le stockage ONTAP intégré au cluster OpenShift à l’aide de link:https://docs.netapp.com/us-en/trident/["Trident CSI"]. Dans cette section, nous utilisons link:https://docs.openshift.com/en/documentation/openshift_container_platform/4.14/html/backup_and_restore/backup-restore-overview#application-backup-restore-operations-overview["API OpenShift pour la protection des données (OADP)"] pour sauvegarder les machines virtuelles et leurs volumes de données vers
 
 * Stockage d'objets ONTAP
 * Grille de stockage
@@ -60,7 +60,7 @@ Sauvegardez les machines virtuelles dans OpenShift Virtualization à l'aide de V
 [[steps-to-create-a-backup-of-a-vm]]
 === Étapes pour créer une sauvegarde d'une machine virtuelle
 
-Pour créer une sauvegarde à la demande de l'intégralité de la VM (métadonnées de la VM et disques de la VM), cliquez sur l'onglet **Sauvegarde**.  Cela crée une ressource personnalisée de sauvegarde (CR). Un exemple de fichier yaml est fourni pour créer le CR de sauvegarde.  À l’aide de ce fichier yaml, la machine virtuelle et ses disques dans l’espace de noms spécifié seront sauvegardés. Des paramètres supplémentaires peuvent être définis comme indiqué dans lelink:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["documentation"] .
+Pour créer une sauvegarde à la demande de l’intégralité de la VM (métadonnées de la VM et disques de la VM), cliquez sur l’onglet **Backup**. Cela crée une Backup Custom Resource (CR). Un exemple de fichier yaml est fourni pour créer la Backup CR. À l’aide de ce fichier yaml, la VM et ses disques dans l’espace de noms spécifié seront sauvegardés. Des informations supplémentaires sont disponibles dans link:https://docs.openshift.com/en/documentation/openshift_container_platform/4.14/html/backup_and_restore/backup-restore-overview#application-backup-restore-operations-overview["Documentation de OpenShift Container Platform"].
 
 Un instantané des volumes persistants soutenant les disques sera créé par le CSI.  Une sauvegarde de la machine virtuelle ainsi que l'instantané de ses disques sont créés et stockés dans l'emplacement de sauvegarde spécifié dans le fichier yaml. La sauvegarde restera dans le système pendant 30 jours comme spécifié dans le ttl.
 

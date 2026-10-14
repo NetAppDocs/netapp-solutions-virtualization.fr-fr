@@ -60,24 +60,13 @@ Pour plus de détails sur Trident Protect, veuillez consulter NetApp Trident Pro
 
 
 
-[[netapp-ontap-hardware-models-and-protocols-supported]]
-== NetApp ONTAP Modèles de matériel et protocoles pris en charge
+[[trident-support-for-orchestrators-and-storage-backends]]
+== Prise en charge de Trident pour les orchestrateurs et les backends de stockage
 
-NetApp ONTAP fonctionne sur différents modèles de matériel, chacun conçu pour répondre à des exigences spécifiques en matière de performances et de capacité. Trident étend ses fonctionnalités robustes pour prendre en charge divers systèmes NetApp ONTAP, notamment All Flash FAS (AFF), All SAN Array (ASA) et ASA R2. Cette prise en charge garantit que les organisations peuvent exploiter pleinement le potentiel de leurs solutions de stockage haute performance dans des environnements conteneurisés.
+Pour connaître les distributions Kubernetes et les systèmes de stockage pris en charge, veuillez vous référer à la link:https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html["Exigences de Trident"].
 
-**Systèmes All Flash FAS (AFF)** Les systèmes AFF offrent des performances exceptionnelles et une faible latence, ce qui les rend idéaux pour les applications à forte demande.
 
-**All SAN Array (ASA) Systems** Les systèmes ASA sont conçus pour les environnements SAN dédiés, offrant des performances et une fiabilité robustes.
-
-**ASA R2 Systems** Les systèmes ASA R2 offrent des fonctionnalités et des capacités améliorées pour les environnements SAN.
-
-**AFX** NetApp AFX est une architecture de stockage 100 % Flash, désagrégée et spécialement conçue pour les charges de travail d'IA en entreprise. Elle offre un NAS haute performance, permettant une mise à l'échelle indépendante de la puissance de calcul et de la capacité. Les systèmes de stockage NetApp AFX se distinguent des autres systèmes basés sur ONTAP (ASA, AFF et FAS) par l'implémentation de leur couche de stockage. AFX utilise un système de fichiers distribué qui permet des performances et une évolutivité élevées, tandis que les autres systèmes basés sur ONTAP utilisent une architecture de stockage traditionnelle.
-
-. Protocoles pris en charge par AFF : NFS, CIFS/SMB, iSCSI, FC, NVMe/TCP
-. Protocoles pris en charge pour ASA : iSCSI, FC, NVMe/TCP
-. Protocoles pris en charge pour ASA R2 : iSCSI, FC, NVMe/TCP
-. Protocoles pris en charge pour AFX : à partir de Trident 25.10, seul le protocole NFS est pris en charge ; le protocole SMB n’est pas pris en charge.
-
+NOTE: Trident prend également en charge NetApp link:https://docs.netapp.com/us-en/ontap-afx/get-started/ontap-afx-storage.html#typical-application-workloads["AFX"]. Pour connaître les exigences de prise en charge d'AFX, veuillez consulter link:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas-prep.html["Documentation de préparation NAS ONTAP"].
 
 
 
@@ -88,8 +77,8 @@ Trident inclut les pilotes CSI suivants, chacun capable de provisionner un volum
 
 
 
-[[for-nas-protocols-on-supported-hardware-models]]
-=== Pour les protocoles NAS sur les modèles matériels pris en charge
+[[for-nas-protocols]]
+=== Pour les protocoles NAS
 
 . ontap-nas : Un PVC correspond à un PV, qui est un flexvolume dédié.
 . ontap-nas-economy : Chaque PV provisionné est un qtree, avec un nombre configurable de qtrees par FlexVolume (200 par défaut, configurable entre 50 et 300). Un PVC correspond à un PV, qui est un qtree sur un flexvolume partagé.
@@ -103,8 +92,8 @@ NOTE: Vous pouvez placer tous les disques des machines virtuelles sous forme de 
 
 
 
-[[for-san-protocols-on-supported-hardware-models]]
-=== Pour les protocoles SAN sur les modèles matériels pris en charge
+[[for-san-protocols]]
+=== Pour les protocoles SAN
 
 . ontap-san : Un PVC correspond à un PV, qui est un LUN sur un flexvolume dédié.
 . ontap-san-economy : Un PVC correspond à un PV, qui est un LUN sur un flexvolume partagé. Vous pouvez avoir plusieurs LUN dans le flexvolume partagé (100 par défaut, configurable entre 50 et 200 LUN/PV par volume flexvol).
