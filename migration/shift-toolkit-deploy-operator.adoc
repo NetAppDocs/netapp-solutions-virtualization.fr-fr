@@ -312,6 +312,8 @@ image::shift_migration_completed.png[Plan de migration mené à bien avec succè
 .Et ensuite
 Une fois la migration terminée, chaque volume cloné doit être détaché. La méthode de détachement dépend de la version d'ONTAP : utilisez la fonctionnalité « clone split » pour ONTAP 9.17.1 et versions ultérieures, ou « vol move » pour les versions antérieures.
 
+Pour accélérer les opérations de fractionnement des volumes persistants (PVC) après la migration, limitez la taille du datastore NFS source à 5 To ou moins. Des volumes plus importants peuvent être utilisés, mais lors de la création de 200 à 300 clones pour les migrations de machines virtuelles, des volumes plus petits sont idéaux pour accélérer le fractionnement.
+
 Le fractionnement des clones et le déplacement des volumes sont des opérations d'arrière-plan qui n'ont aucun impact sur les charges de travail de production pendant leur exécution. Un script permettant de lancer le processus de détachement est disponible dans le widget *Post Migrate Detach* du NetApp Console Automation Catalog.
 
 
