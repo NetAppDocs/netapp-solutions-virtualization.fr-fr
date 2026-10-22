@@ -32,6 +32,14 @@ indexpage:
       url: proxmox-wkld-dp-pbs.html
     - title: Configurer et utiliser Storage Manager pour Proxmox
       url: proxmox-smp.html
+  - title: Continuité d'activité pour les charges de travail Proxmox VE
+    links:
+    - title: Architecture de la solution
+      url: proxmox-business-continuity.html
+    - title: Configurer avec un stockage NAS
+      url: proxmox-active-sync-nas-config.html
+    - title: Configurer et utiliser Storage Manager pour Proxmox
+      url: proxmox-smp.html
   - title: Ressources supplémentaires
     links:
     - title: Stockage NetApp et NVMe-oF pour des performances exceptionnelles dans

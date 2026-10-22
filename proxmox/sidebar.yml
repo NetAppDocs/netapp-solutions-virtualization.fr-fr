@@ -41,5 +41,14 @@ entries:
     url: "/proxmox/proxmox-pbs-requirements.html"
   - title: Configurez la protection des données avec Proxmox Backup Server
     url: "/proxmox/proxmox-wkld-dp-pbs.html"
-- title: Configurer et utiliser Storage Manager pour Proxmox
-  url: "/proxmox/proxmox-smp.html"
+  - title: Configurer et utiliser Storage Manager pour Proxmox
+    url: "/proxmox/proxmox-smp.html"
+- title: Continuité d'activité pour les charges de travail Proxmox VE
+  pdf-filename: Continuité d'activité pour les charges de travail Proxmox VE
+  entries:
+  - title: Architecture de la solution
+    url: "/proxmox/proxmox-business-continuity.html"
+  - title: Configurer avec un stockage NAS
+    url: "/proxmox/proxmox-active-sync-nas-config.html"
+  - title: Configurer et utiliser Storage Manager pour Proxmox
+    url: "/proxmox/proxmox-smp.html"
