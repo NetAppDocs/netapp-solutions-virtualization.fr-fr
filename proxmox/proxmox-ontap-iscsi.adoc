@@ -59,8 +59,25 @@ Si vous débutez avec ONTAP, utilisez System Manager pour une meilleure expérie
 +
 image:proxmox-ontap-iscsi-001.png["détails de l'interface iscsi"]
 
-. Créez un groupe iGroup et renseignez-y les initiateurs iSCSI hôtes.
-. Créez le LUN de la taille souhaitée sur le SVM et présentez-le à l'igroup créé à l'étape précédente. Assurez-vous que la protection anti-ransomware est activée dans l'onglet Sécurité des systèmes ASA . Pour les systèmes AFF/ FAS , assurez-vous que la protection anti-ransomware est activée dans l'onglet sécurité du volume.
+. Créez un igroup avec le type de système d'exploitation défini sur `linux` et ajoutez les initiateurs iSCSI de l'hôte.
++
+Proxmox VE étant basé sur Debian Linux, utilisez le  `linux`type de système d'exploitation correspondant pour les igroups qui contiennent des initiateurs hôtes Proxmox VE. Dans System Manager, sélectionnez *Linux* comme système d'exploitation hôte. Si vous utilisez l'ONTAP CLI, exécutez la commande suivante.
+
++
+[source, cli]
+----
+lun igroup create -vserver <svm_name> -igroup <igroup_name> -protocol iscsi -ostype linux -initiator <host_iqn_1>,<host_iqn_2>
+----
+. Créez le LUN avec le type de système d'exploitation défini sur `linux` et la taille souhaitée sur la SVM, puis présentez-le à l'igroup créé à l'étape précédente. Assurez-vous que la protection Anti-Ransomware est activée dans l'onglet Security pour les systèmes ASA. Pour les systèmes AFF/FAS, assurez-vous que la protection Anti-Ransomware est activée dans l'onglet Security pour le volume.
++
+Dans System Manager, sélectionnez *Linux* comme système d'exploitation hôte. Si vous utilisez ONTAP CLI, exécutez les commandes suivantes.
+
++
+[source, cli]
+----
+lun create -vserver <svm_name> -path /vol/<volume_name>/<lun_name> -size <size> -ostype linux
+lun mapping create -vserver <svm_name> -path /vol/<volume_name>/<lun_name> -igroup <igroup_name>
+----
 +
 image:proxmox-ontap-iscsi-002.png["détails de l'ISCSI LUN"]
 

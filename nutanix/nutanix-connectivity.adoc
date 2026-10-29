@@ -1,0 +1,146 @@
+---
+sidebar: sidebar 
+permalink: nutanix/nutanix-connectivity.html 
+keywords: nutanix, ahv, ontap, nfs, netapp, network, vswitch, lacp, jumbo frames, prerequisites 
+summary: Préparez votre environnement et planifiez la connectivité réseau entre les hôtes Nutanix AHV dédiés au calcul et les contrôleurs de stockage ONTAP. 
+---
+= Préparez-vous à déployer Nutanix Cloud Platform avec le stockage ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Consultez les prérequis et l’architecture réseau recommandée pour connecter les hôtes Nutanix AHV dédiés au calcul au stockage ONTAP. Cette architecture permet d’étendre la capacité et les performances de stockage indépendamment du calcul, évitant ainsi d’ajouter des nœuds Nutanix uniquement pour augmenter le stockage.
+
+L'architecture repose sur un réseau de stockage dédié entre les hôtes de calcul uniquement Nutanix AHV et les contrôleurs de stockage ONTAP. Le trafic de stockage est isolé du trafic de gestion et d'application grâce à un commutateur virtuel dédié (vswitch1) et à un VLAN de stockage externe. ONTAP fournit des services de stockage NFSv3 via des LIF de données SVM dédiées, tandis que les LIF de gestion SVM sont utilisées avec les API REST pour l'administration et l'intégration du stockage.
+
+Pour garantir la résilience et les performances, les hôtes de calcul uniquement Nutanix et les contrôleurs ONTAP utilisent LACP (actif/actif) sur des chemins réseau redondants. Si LACP n'est pas disponible, le mode actif/actif avec épinglage MAC assure l'équilibrage de charge au niveau de la couche du commutateur virtuel. Le trafic de stockage doit résider sur un VLAN dédié non routé, tandis que le trafic de gestion, de migration à chaud, de réplication de reprise après sinistre et d'application continue d'utiliser le réseau routé standard.
+
+
+
+[[prerequisites]]
+== Prérequis
+
+Avant d’intégrer le stockage ONTAP à l’infrastructure cloud Nutanix, assurez-vous que les exigences suivantes sont respectées.
+
+*Cluster Nutanix*
+
+Un cluster Nutanix exécutant AHV est déployé et opérationnel, et répond aux exigences suivantes :
+
+* Un minimum de trois nœuds.
+* Les nœuds de calcul répondent aux exigences minimales de Nutanix en matière de processeur, de mémoire, de réseau et de périphériques de démarrage. Pour plus d'informations, consultez Minimum Compute Requirements.
+* Le matériel et les logiciels sont répertoriés dans les matrices de compatibilité Nutanix applicables. Voir link:https://portal.nutanix.com/page/compatibility-interoperability-matrix/platform-compatibility/compute-platforms["Matrice de compatibilité et d'interopérabilité pour les plateformes de calcul"^].
+
+
+*NetApp stockage ONTAP*
+
+NetApp ONTAP est déployé et configuré avec les services NFS activés, et répond aux exigences suivantes :
+
+* Plateformes ONTAP prises en charge : AFF A-Series (tout flash), AFF C-Series (tout flash) et FAS (Flash hybride).
+* ONTAP fonctionne avec une version prise en charge : 9.15.1P18 ou ultérieure, 9.16.1P16 ou ultérieure, 9.17.1P8 ou ultérieure, 9.18.1P4 ou ultérieure, ou 9.19.1P2 ou ultérieure.
+* Licence ONTAP One.
+* Une machine virtuelle de stockage ONTAP (SVM) est configurée pour fournir du stockage au cluster de calcul Nutanix.
+* Un ou plusieurs volumes FlexVol sont exportés sous forme de partages NFS. Le cluster Nutanix monte les exports NFS et les présente comme stockage partagé pour les charges de travail.
+* NetApp recommande vivement d'utiliser un groupe d'interfaces comme port d'attache pour l'interface logique NFS. Pour plus d'informations, consultez link:https://docs.netapp.com/us-en/ontap/networking/combine_physical_ports_to_create_interface_groups.html["Combinez les ports physiques pour créer des groupes d'interfaces ONTAP"^].
+
+
+*Réseau*
+
+* Un réseau de stockage dédié est disponible avec un débit minimum de 10 GbE. Un débit de 25 GbE ou plus est recommandé.
+* Des interfaces distinctes sont disponibles pour le trafic de stockage.
+* Les trames Jumbo (MTU 9000) sont configurées de manière cohérente sur le réseau de stockage là où elles sont prises en charge.
+
+
+[NOTE]
+====
+* Utilisez un commutateur virtuel dédié pour le trafic de stockage ONTAP et configurez une MTU de 9000 octets (trames jumbo).
+* Une fois la segmentation réseau activée pour le réseau privé ONTAP, elle ne peut plus être désactivée. La désactivation de la segmentation réseau rend l'adresse IP privée du stockage inaccessible et peut entraîner des défaillances critiques des services du cluster.
+
+
+====
+
+
+[[network-architecture]]
+== Architecture réseau
+
+Le schéma suivant illustre la connectivité entre un nœud Nutanix AHV et un cluster ONTAP.
+
+image:nutanix-connectivity-001.png["Schéma de réseau montrant un nœud Nutanix AHV avec vswitch0 et vswitch1 connectés via deux commutateurs externes à un cluster ONTAP 9"]
+
+Le tableau suivant décrit chaque composant du réseau, sa configuration et son rôle.
+
+[cols="25,45,30"]
+|===
+| Composant | Configuration | But 
+
+
+| nœuds de calcul Nutanix | Cartes réseau agrégées pour le réseau des VM de gestion et des VM utilisateur (VLAN routé) et le réseau de stockage (VLAN non routé). Si les cartes réseau agrégées ne sont pas possibles, utilisez des liaisons montantes actives/actives pour les commutateurs virtuels. | Assure la redondance du réseau tout en isolant le trafic de gestion, de machines virtuelles et de stockage. 
+
+
+| Contrôleurs de stockage ONTAP | LIF de gestion du SVM et LIF de données du SVM. Utilisez des groupes d'interfaces pour la tolérance aux pannes et l'équilibrage de la charge chaque fois que possible. | Les LIF de gestion servent à l'administration de ONTAP. Les LIF de données permettent l'accès au stockage NFSv3 du cluster Nutanix. 
+
+
+| Réseau des machines virtuelles de gestion et des utilisateurs (VLAN routé) | Gestion de Prism, trafic CVM, migration en direct et trafic de réplication | Assure la gestion du cluster et le trafic des machines virtuelles. 
+
+
+| Réseau de stockage interne (non routé) | Communication de CVM à CVM, services AHV, trafic inter-nœuds du cluster | Réseau dédié aux services de stockage et de cluster. Isolé du trafic utilisateur. 
+
+
+| Réseau de stockage externe (VLAN non routé) | Trafic de stockage NFSv3 entre AHV/CVMs et ONTAP | Offre un accès à faible latence et hautes performances au stockage ONTAP. 
+
+
+| vswitch0 | Gestion de Nutanix, trafic applicatif, migration à chaud et réplication | Commutateur virtuel principal pour la gestion et la mise en réseau des machines virtuelles. 
+
+
+| vswitch1 | Trafic de stockage NFSv3 dédié. Au moins deux liaisons montantes physiques. LACP (actif/actif) recommandé. MTU 9000. | Commutateur de stockage dédié offrant des performances optimales, une grande résilience et une isolation du trafic pour la connectivité ONTAP. 
+|===
+
+
+[[high-level-deployment-steps]]
+== Étapes de déploiement générales
+
+Suivez les étapes générales suivantes pour préparer ONTAP, configurer le réseau de stockage et connecter les hôtes Nutanix au stockage ONTAP.
+
+. Déployer et configurer ONTAP.
++
+.. Voir link:https://docs.netapp.com/us-en/ontap/quick-start.html["Démarrage rapide pour ONTAP"^].
+.. Créez des groupes d'interfaces chaque fois que possible. Voir link:https://docs.netapp.com/us-en/ontap/networking/combine_physical_ports_to_create_interface_groups.html["Combinez les ports physiques pour créer des groupes d'interfaces ONTAP"^].
+.. Créez des SVM pour le réseau ONTAP. Voir link:https://docs.netapp.com/us-en/ontap/networking/create_svms.html["Créer des SVM pour le réseau ONTAP"^].
+.. Créez des LIF ONTAP pour la gestion et les données NFS. Voir link:https://docs.netapp.com/us-en/ontap/networking/create_a_lif.html["Créer des LIF ONTAP"^].
+.. Ajoutez un volume avec ONTAP System Manager. Le volume doit utiliser le style de sécurité UNIX pour servir les données NFSv3. Voir link:https://docs.netapp.com/us-en/ontap/task_admin_add_a_volume.html["Ajoutez un volume avec ONTAP System Manager"^] et link:https://docs.netapp.com/us-en/ontap/nfs-admin/create-volumes-specified-junction-task.html["Créer des volumes NAS ONTAP avec des points de jonction spécifiés"^].
+.. Configurez les politiques d'exportation pour autoriser l'accès depuis les hôtes Nutanix dédiés au calcul. Voir link:https://docs.netapp.com/us-en/ontap/nfs-admin/export-policies-client-access-volumes-concept.html["Comment les politiques d'exportation contrôlent l'accès des clients aux volumes NFS ONTAP ou aux qtrees"^].
+
+
+. Configurez le réseau de stockage.
++
+.. Créez un VLAN dédié non routé pour le trafic de stockage NFS. Voir link:https://docs.netapp.com/us-en/ontap/networking/configure_vlans_over_physical_ports.html["Créez un VLAN dédié non routé"^].
+.. Configurez une infrastructure de commutation redondante.
+.. Activez les trames jumbo (MTU 9000) de bout en bout. Pour ONTAP, voir link:https://docs.netapp.com/us-en/ontap/networking/change_the_mtu_value_for_ports_in_a_broadcast_domain.html["Modifier la valeur MTU des ports dans un domaine de diffusion ONTAP"^].
+
+
+. Provisionner et connecter les hôtes Nutanix à ONTAP.
++
+.. Validez la connectivité aux LIF de données NFS ONTAP.
+.. Vérifiez l'équilibrage de charge et la redondance des chemins.
+
+
+. Créez un commutateur virtuel de stockage dédié.
++
+.. Créer vswitch1 sur Nutanix AHV.
+.. Attribuez au moins deux cartes réseau physiques dédiées.
+.. Configurez LACP (actif/actif) lorsque cette configuration est prise en charge.
+
+
+. Validez la résilience.
++
+.. Testez le basculement du chemin de stockage.
+.. Vérifiez que l'AHV redirige automatiquement le trafic de stockage en cas de panne de liaison ou de commutateur sans affecter les machines virtuelles en cours d'exécution.
+
+
+
+
+Cette architecture offre une infrastructure de stockage haute performance et à haute disponibilité pour les environnements Nutanix, tout en permettant une mise à l'échelle indépendante des ressources de calcul et de stockage. L'extension du stockage peut être gérée via ONTAP sans nécessiter de nœuds Nutanix supplémentaires dédiés au calcul, ce qui réduit les coûts d'infrastructure tout en maintenant des performances et une disponibilité de niveau entreprise.

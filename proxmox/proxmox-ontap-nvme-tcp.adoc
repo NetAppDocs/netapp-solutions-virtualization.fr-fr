@@ -43,7 +43,15 @@ nvme show-hostnqn
 Si vous débutez avec ONTAP, utilisez System Manager pour une meilleure expérience.
 
 . Vérifiez que le SVM est disponible avec le protocole NVMe activé. Se référer à link:https://docs.netapp.com/us-en/ontap/san-admin/create-nvme-namespace-subsystem-task.html["Documentation des tâches NVMe sur ONTAP 9"].
-. Créez l’espace de noms NVMe.
+. Créez le namespace NVMe avec le type de système d’exploitation défini sur `linux`.
++
+Proxmox VE étant basé sur Debian Linux, utilisez le `linux` type de système d'exploitation correspondant pour les namespaces auxquels les hôtes Proxmox VE accèdent. Dans System Manager, sélectionnez *Linux* comme système d'exploitation hôte. Si vous utilisez l'interface de ligne de commande ONTAP, spécifiez `-ostype linux`.
+
++
+[source, cli]
+----
+vserver nvme namespace create -vserver <svm_name> -path /vol/<volume_name>/<namespace_name> -size <size> -ostype linux
+----
 +
 .Afficher un exemple
 [%collapsible]
@@ -51,7 +59,17 @@ Si vous débutez avec ONTAP, utilisez System Manager pour une meilleure expérie
 image:proxmox-ontap-nvme-tcp-001.png["création d'espace de noms NVME"]
 
 ====
-. Créez le sous-système et attribuez les NQN hôtes (si vous utilisez l'interface de ligne de commande). Suivez le lien de référence ci-dessus.
+. Créez le sous-système avec le type de système d'exploitation hôte défini sur `linux`, attribuez les NQN hôtes et mappez le namespace au sous-système.
++
+System Manager crée le sous-système lorsque vous créez le namespace et sélectionnez *Linux* comme système d'exploitation hôte. Si vous utilisez la ONTAP CLI, exécutez les commandes suivantes.
+
++
+[source, cli]
+----
+vserver nvme subsystem create -vserver <svm_name> -subsystem <subsystem_name> -ostype linux
+vserver nvme subsystem host add -vserver <svm_name> -subsystem <subsystem_name> -host-nqn <host_nqn>
+vserver nvme subsystem map add -vserver <svm_name> -subsystem <subsystem_name> -path /vol/<volume_name>/<namespace_name>
+----
 . Assurez-vous que la protection anti-ransomware est activée dans l'onglet Sécurité.
 . Informez l'administrateur de virtualisation que l'espace de noms NVMe a été créé.
 

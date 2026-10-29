@@ -1,0 +1,105 @@
+---
+sidebar: sidebar 
+permalink: nutanix/nutanix-sizing.html 
+keywords: nutanix, ahv, ontap, sizing, migration, vmware, iops, capacity, vmdc 
+summary: Dimensionnez indépendamment la couche de calcul Nutanix AHV et le stockage ONTAP de NetApp lorsque vous migrez des workloads VMware vers Nutanix AHV avec un stockage externe ONTAP. 
+---
+= Dimensionner le stockage ONTAP pour les migrations Nutanix AHV
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Lorsque vous migrez des workloads VMware vers Nutanix AHV avec un stockage externe NetApp ONTAP, dimensionnez indépendamment les ressources de calcul et de stockage. Le dimensionnement des ressources de calcul Nutanix détermine le nombre de nœuds AHV requis et leur configuration, y compris les ressources utilisées par la machine virtuelle de contrôleur (CVM) sur chaque nœud. Le dimensionnement ONTAP prend en compte la capacité, les performances et la disponibilité du stockage.
+
+
+
+[[discover-vmware-workload-requirements]]
+== Découvrez les exigences des workloads VMware
+
+Collectez 30 à 90 jours de données de performance au niveau des machines virtuelles à partir de VMware vCenter, notamment :
+
+* *Calcul* : vCPU, taux d'utilisation du processeur, allocation de mémoire et demande de mémoire maximale.
+* *Capacité de stockage* : espace disque provisionné et consommé.
+* *Performances de stockage* : IOPS en lecture/écriture, débit en lecture/écriture, taille moyenne des E/S et latence.
+* *Modèles de workload* : périodes de pointe, workloads simultanés et répartition des opérations de lecture/écriture.
+
+
+Utilisez la taille moyenne des E/S mesurée pour les workloads en cours de dimensionnement. Il n'existe pas de taille de bloc unique, telle que 8 Kio ou 16 Kio, qui devrait être supposée pour tous les workloads Nutanix.
+
+
+
+[[size-nutanix-compute]]
+== Dimensionner la capacité de calcul Nutanix
+
+Calculez link:https://sizer.nutanix.com/["Exigences relatives aux nœuds AHV"^] à partir de la demande globale de processeur et de mémoire des machines virtuelles. Incluez le processeur et la mémoire réservés à la CVM sur chaque nœud, ainsi que la surallocation du processeur, les exigences de haute disponibilité et la croissance prévue. Appliquez les réservations de ressources CVM recommandées par Nutanix afin qu'elles soient prises en compte dans la capacité disponible de chaque nœud.
+
+Calculez séparément les besoins en processeur et en mémoire des nœuds. L'estimation la plus élevée détermine le besoin initial du cluster. Validez la configuration obtenue par rapport aux recommandations de dimensionnement et aux exigences de haute disponibilité de Nutanix.
+
+
+
+[[size-ontap-storage-performance]]
+== Dimensionner les performances du stockage ONTAP
+
+Utilisez les étapes suivantes pour déterminer les exigences en matière d'IOPS, de débit, de latence et de contrôleur pour vos workloads.
+
+. *Calculer les IOPS du workload agrégé.*
++
+Agrégez les IOPS de lecture et d'écriture des machines virtuelles sur des intervalles de temps communs afin d'identifier les pics simultanés réels. Utilisez la demande agrégée observée plutôt que de supposer que chaque machine virtuelle atteint son pic individuel simultanément. Utilisez link:https://docs.netapp.com/us-en/netapp-solutions-virtualization/vmware/vmw-getting-started-vmdc.html["NetApp Virtual Machine Data Collector (VMDC)"^], Live Optics ou tout autre outil de surveillance pour collecter les statistiques au niveau du disque des machines virtuelles.
+
++
+Exemple de profil de workload :
+
++
+** Nombre de VMs: 500
+** IOPS moyennes par machine virtuelle : 100
+** Moyenne des IOPS de l'agrégat : 50 000
+** Pic d'IOPS observé : 100 000
+** Ratio lecture/écriture: 70 % / 30 %
+** Taille moyenne des E/S : mesurée à partir des données du workload
+
+
+. *Calculer le débit.*
++
+Utilisez le débit de lecture/écriture mesuré lorsqu'il est disponible. Sinon, estimez-le à partir de la taille des E/S mesurée :
+
++
+`Throughput = IOPS × Average I/O Size`
+
++
+Calculez séparément les débits de lecture et d'écriture si leurs tailles d'E/S diffèrent.
+
+. *Définir les exigences de latence.*
++
+Basez les objectifs sur les performances historiques de VMware et les exigences des applications. À titre indicatif, ils pourraient être de 5 ms ou moins pour les machines virtuelles à usage général, de 2 ms ou moins pour les applications sensibles aux performances, et inférieurs à la milliseconde pour certaines bases de données critiques. Il s'agit d'objectifs de service, et non de niveaux de performance ONTAP garantis. Les exigences finales doivent refléter les SLA des applications.
+
+. *Appliquer la croissance du workload.*
++
+Tenez compte de la croissance prévue et évaluez la variabilité des performances, les opérations en arrière-plan et l'activité des snapshots. Par exemple, une croissance de 30 % sur une base de 100 000 IOPS donne un besoin projeté de 130 000 IOPS.
+
+. *Sélectionnez les contrôleurs ONTAP.*
++
+Choisissez une plateforme AFF en fonction des IOPS de lecture/écriture requises, de la latence cible, du débit et de la bande passante réseau, des caractéristiques d'E/S, de l'efficacité du stockage, du traitement en arrière-plan, des performances de basculement et de la croissance prévue. Validez la configuration à l'aide des outils de dimensionnement pris en charge par NetApp et des données de performance de la plateforme. Les IOPS seules ne suffisent pas à déterminer le choix du contrôleur.
+
+
+
+
+
+[[size-ontap-capacity]]
+== Dimensionner la capacité ONTAP
+
+Estimez la capacité à partir de l'espace disque VMware consommé, de la croissance prévue, de la durée de conservation des snapshots et de l'efficacité de stockage attendue. Un ratio d'efficacité de stockage de 2:1 peut être utilisé comme hypothèse de planification, mais les résultats réels varient selon le workload et la configuration. Calculez la capacité des snapshots et de la protection en fonction de la durée de conservation prévue et des taux de variation du workload, plutôt que d'appliquer une marge arbitraire.
+
+Exemple de calcul de capacité:
+
+* 500 machines virtuelles × 100 Gio consommés : 48,8 Tio logiques
+* Après une croissance du workload de 30 % : 63,5 Tio logiques
+* Données physiques estimées pour un rendement de 2:1 : 31,7 Tio
+* Capacité utile installée estimée à 80 % d'utilisation : 39,7 Tio
+
+
+Le taux d'utilisation de 80 % réserve de la capacité. Il ne s'agit pas d'une surcharge opérationnelle supplémentaire de 20 %. Validez les hypothèses de réduction des données, la capacité utilisable et la surcharge de la plateforme avec un architecte de solutions NetApp ou un partenaire NetApp désigné. Ils peuvent dimensionner le système ONTAP à l'aide de NetApp Fusion et confirmer les exigences en matière de capacité, de performances et de disponibilité.

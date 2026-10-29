@@ -7119,7 +7119,6 @@
   <block id="0a6a83d62edac699a685a5110adc5b5a" category="list-text">Créez deux LIF par contrôleur dédiés au FC.</block>
   <block id="4a5e89db07ee92045ddc5ac57264b75b" category="inline-image-macro">Détails de l'interface FC</block>
   <block id="9ca441070522dd2f1d54b6ab432b7332" category="paragraph"><block ref="9ca441070522dd2f1d54b6ab432b7332" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="d55490705ccca6cce7810fa807fc74cd" category="list-text">Créez un igroup et renseignez les initiateurs FC hôtes.</block>
   <block id="1247a43611c0d600007445125567c7d8" category="list-text">Créez le LUN de la taille souhaitée sur le SVM et présentez-le à l'igroup créé à l'étape précédente. Assurez-vous que la protection anti-ransomware est activée dans l'onglet Sécurité pour les systèmes ASA et dans l'onglet Sécurité des volumes pour les systèmes AFF/ FAS .</block>
   <block id="4d96faf61f4af2b33014302c604ee549" category="inline-image-macro">détails du soleil</block>
   <block id="c9546f4d399f52fa0fbc3b1d384bbe38" category="paragraph"><block ref="c9546f4d399f52fa0fbc3b1d384bbe38" category="inline-image-macro-rx" type="image"></block></block>
@@ -7146,8 +7145,6 @@
   <block id="2122c33556de1dbae33223ccafc71df3" category="list-text">Assurez-vous que le SVM est disponible avec le protocole iSCSI activé. Suivre <block ref="7c79a8d96ccab5e00ffe5a51372cb5c5" category="inline-link-macro-rx"></block>.</block>
   <block id="48590fe3408a0ed194b7d763a5f58b44" category="list-text">Créez deux LIF par contrôleur dédiées à iSCSI.</block>
   <block id="851413bf6fa6ef971ec8791be965f7e9" category="paragraph"><block ref="851413bf6fa6ef971ec8791be965f7e9" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="e2975f34bb0c193ad8c157c8c19f7a1a" category="list-text">Créez un groupe iGroup et renseignez-y les initiateurs iSCSI hôtes.</block>
-  <block id="022ff6b8a2a7f0f8a870dcecfe149e64" category="list-text">Créez le LUN de la taille souhaitée sur le SVM et présentez-le à l'igroup créé à l'étape précédente. Assurez-vous que la protection anti-ransomware est activée dans l'onglet Sécurité des systèmes ASA . Pour les systèmes AFF/ FAS , assurez-vous que la protection anti-ransomware est activée dans l'onglet sécurité du volume.</block>
   <block id="508651d2a8dc6c48c0b3acac0462c605" category="paragraph"><block ref="508651d2a8dc6c48c0b3acac0462c605" category="inline-image-macro-rx" type="image"></block></block>
   <block id="cd76c01fc90f38590f1723a0e3b6c5e3" category="paragraph">Effectuez ces tâches pour configurer le LUN iSCSI en tant que stockage LVM partagé dans Proxmox VE.</block>
   <block id="30f170d7ac8b903032f54b8a8a70fb1a" category="list-text">Utilisation de l'interface utilisateur de gestion à<block ref="386c071bd7898138d6219d21f97e168d" prefix=" " category="inline-code"></block>, cliquez sur Centre de données, sélectionnez Stockage, cliquez sur Ajouter et sélectionnez iSCSI.</block>
@@ -7199,7 +7196,6 @@
   <block id="d985a6fbcfbe393df03f57368e7f04fd" category="list-text">Fournissez les informations NQN et WWPN de l'hôte collectées à l'administrateur de stockage et demandez un espace de noms NVMe de la taille requise.</block>
   <block id="2ec446f10b7b466ea6a7401bc4407402" category="list-text">Vérifiez que le SVM est disponible avec le protocole NVMe activé. Se référer à <block ref="dff9a6cc2313f520177d7aee32699621" category="inline-link-macro-rx"></block>.</block>
   <block id="c8bbdfd862a2945db0df1f19e39be37f" category="paragraph"><block ref="c8bbdfd862a2945db0df1f19e39be37f" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="3e81c631da00b7287028256b42d7f3c0" category="list-text">Créez le sous-système et attribuez les NQN hôtes (si vous utilisez l'interface de ligne de commande). Suivez le lien de référence ci-dessus.</block>
   <block id="b20376398e0425f815da0c982b56b96b" category="list-text">Assurez-vous que la protection anti-ransomware est activée dans l'onglet Sécurité.</block>
   <block id="8d9e6709bc2c4a996ae2505a1837dd74" category="inline-image-macro">État de la protection anti-ransomware</block>
   <block id="7e3d11ff5a9754f504115873fa5b8542" category="paragraph"><block ref="7e3d11ff5a9754f504115873fa5b8542" category="inline-image-macro-rx" type="image"></block></block>
@@ -7947,7 +7943,6 @@
   <block id="1d73fea09ff2c41139aaaf8f795e18f8" category="list-text">Attendez que le système installe automatiquement les composants nécessaires.</block>
   <block id="ee16a42e32bf023103544c9f7c590ada" category="list-text">Une fois l'installation terminée, accédez à Storage Manager en cliquant sur *View* ou en ouvrant un navigateur Web pour<block ref="17c02bfa253344cd8c235e1435ecfead" prefix=" " category="inline-code"></block></block>
   <block id="344f4624c197942068a6539cdc4138e0" category="paragraph">Par exemple :<block ref="abad16881186eb7f5a53f159fcbe4243" prefix=" " category="inline-code"></block></block>
-  <block id="d82fbaed65c0ae471da1583d14a37bca" category="list-text">Ouvrez un navigateur Web et accédez à l'interface utilisateur SMP en saisissant<block ref="05b17a751d9f33ab7e7a878a6ab984a2" prefix=" " category="inline-code"></block></block>
   <block id="6e4d0d0f8b4808f7b2807bccfe8483da" category="example-title">Afficher l'écran de connexion SMP</block>
   <block id="e85bb40f2eb4ebf12cc2fb9761d2a1cd" category="image-alt">écran de connexion SMP</block>
   <block id="870cd4e95860fe235c8a2e3b15aede36" category="example-title">Afficher l'écran d'accueil SMP</block>
@@ -10328,7 +10323,6 @@
   <block id="d6405e5d5ec6aebf79309244812c9f50" category="list-text"><block ref="d6405e5d5ec6aebf79309244812c9f50" category="inline-link-macro-rx"></block></block>
   <block id="0e47570de34d34f503e569132e73b40c" category="inline-link-macro">Haute disponibilité de Proxmox VE</block>
   <block id="95ff68ea490d91143431d474341e6917" category="list-text"><block ref="95ff68ea490d91143431d474341e6917" category="inline-link-macro-rx"></block></block>
-  <block id="f535eb1278ad100b4d323539a7942781" category="section-title">14 octobre 2026</block>
   <block id="9c6fb696da0cdd15c87ef7016fe4f6ef" category="list-text">Ajout d'une solution de continuité d'activité pour Proxmox VE avec ONTAP SnapMirror active sync.</block>
   <block id="2f8480a0bd37c11da2dff9d9b62c37ea" category="list-text"><block ref="2f8480a0bd37c11da2dff9d9b62c37ea" category="inline-link-macro-rx"></block></block>
   <block id="b9509c2be2f49b59c9f2d64393ee8d8a" category="paragraph">Découvrez comment un cluster étendu Proxmox VE avec SnapMirror active sync pour NAS permet aux machines virtuelles de continuer à fonctionner en cas de panne du stockage ou du site, avec un RPO nul. Comprend des considérations de conception pour corosync et QDevice, les options ONTAP Mediator et ONTAP Cloud Mediator, les LIF VIP avec BGP pour les réseaux de couche 3, ainsi qu'une comparaison avec MetroCluster.</block>
@@ -10336,4 +10330,423 @@
   <block id="1bc5e6d2348849b5c1c0bab88934bc0f" category="paragraph">Configurez le médiateur, protégez le SVM NFS, construisez le cluster étendu avec un QDevice, provisionnez le stockage partagé NFS et configurez la haute disponibilité et les sauvegardes de VM avec Storage Manager pour Proxmox.</block>
   <block id="5177be93f9cdfe3b7df558b63f798e77" category="sidebar">Continuité d'activité pour les charges de travail Proxmox VE</block>
   <block id="274fe65c32318cf5c48e4591b8045f37" category="sidebar">Configurer avec un stockage NAS</block>
+  <block id="97838d03852984f65fe015efab3eba80" category="summary">Attachez des volumes NFS ONTAP en tant que conteneurs de stockage à un cluster de calcul Nutanix à l'aide de Prism Element.</block>
+  <block id="b18bbcdec49ce25933fc3cb2880e3829" category="doc">Connectez un stockage NFS ONTAP à un cluster de calcul Nutanix</block>
+  <block id="f84f4d5b1dbe9f990c8c39397fe00692" category="paragraph">Après avoir provisionné les volumes ONTAP et configuré la connectivité, utilisez Prism Element ou Prism Central pour attacher les volumes NFS ONTAP en tant que conteneurs de stockage au cluster de calcul Nutanix.</block>
+  <block id="189451dcfbf73c8ca0df125c3630dff2" category="paragraph">Assurez-vous que les conditions préalables suivantes sont remplies :</block>
+  <block id="5b41045240da2c16858a76c3a7315e5b" category="list-text">Le cluster ONTAP ou la SVM est accessible depuis le cluster Nutanix.</block>
+  <block id="0a4a1009a2ed545dfc85afe68492a415" category="list-text">Une LIF de gestion ONTAP valide (adresse IP ou FQDN) est disponible.</block>
+  <block id="88cde953a67b7d523c1b0de377bef7f5" category="list-text">Les identifiants ONTAP appropriés sont disponibles.</block>
+  <block id="bc5c8741c963c580b76d67338533982d" category="list-text">Les chemins d'exportation requis de FlexVol, de qtree ou de dossier ont été créés et configurés pour l'accès NFS.</block>
+  <block id="471fb11d929eabe1846676075057e229" category="list-text">Connectez-vous à la console web Prism Element.</block>
+  <block id="86248b1d3534066ee794a93966d16996" category="list-text">Dans le menu principal, sélectionnez *Stockage*, puis cliquez sur *+ Connecter un stockage externe*.</block>
+  <block id="afe2be3f17fda6c50527fa0572b0399b" category="list-text">Sur la page *Configuration initiale*, consultez les informations disponibles et cliquez sur *Suivant*.</block>
+  <block id="e44a01642383cbf10b2aa6ac3aef254a" category="inline-image-macro">Assistant de connexion de stockage externe, page de configuration initiale</block>
+  <block id="f297526f7767af54bd7d95f6421a2401" category="paragraph"><block ref="f297526f7767af54bd7d95f6421a2401" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="510e0263087017ede813c0551e2ca790" category="list-text">Sur la page *Détails de connexion*, sélectionnez *NetApp ONTAP* comme fournisseur de stockage externe, puis saisissez les valeurs suivantes :</block>
+  <block id="c14873ad82550f662ba3fceda63d9bd4" category="list-text">*Adresse IP (IPv4) ou FQDN* : Saisissez l’adresse LIF de gestion du cluster ONTAP ou de la SVM, ou le FQDN.</block>
+  <block id="02a1c245020cdbc544434cc5ddeb33b5" category="list-text">*Nom d'utilisateur* : Saisissez le nom d'utilisateur du compte de service ONTAP.</block>
+  <block id="3a3c7df736092f7633a49a023f4f5bcf" category="list-text">*Mot de passe* : Saisissez le mot de passe du compte de service.</block>
+  <block id="5a378b18f7bf0c4cabc6c655cd2f535e" category="paragraph">Cliquez sur *Suivant*.</block>
+  <block id="49686764afebb22740fe334d7c9e7f8c" category="inline-image-macro">Assistant Attacher un stockage externe, page Détails de la connexion</block>
+  <block id="a399af38aee667575173f393bb545e76" category="paragraph"><block ref="a399af38aee667575173f393bb545e76" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="4861503a3f465d8f3482c0ad29995020" category="list-text">Sur la page *Détails du stockage*, spécifiez un nom unique pour le système de stockage ONTAP dans *Nom du stockage externe*, entrez un ou plusieurs chemins d'exportation de stockage dans *Chemin d'exportation*, puis cliquez sur *Ajouter*.</block>
+  <block id="44545f1794f7b9315b94b6fed2321e6a" category="admonition">Les chemins d'exportation pris en charge incluent les chemins d'exportation FlexVol et qtree.</block>
+  <block id="2f59836f0225be101147115bd53ab7ce" category="inline-image-macro">Assistant d'attachement du stockage externe, page Détails du stockage affichant la sélection du chemin d'exportation du volume de service</block>
+  <block id="96ed365d0bb5a6bb739d07a824a51201" category="paragraph"><block ref="96ed365d0bb5a6bb739d07a824a51201" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2f80c7c6141a4d837c0d3b3d563d7ec1" category="list-text">Cliquez sur *Joindre*.</block>
+  <block id="f84591921bdb106114beec35c239c189" category="paragraph">Le système connecte le stockage ONTAP au cluster Nutanix. Vous pouvez suivre la progression et les informations d'état à partir de *Tasks* dans Prism Element.</block>
+  <block id="22e4e008a7bf679c77fa0aa44ee55c99" category="inline-image-macro">Assistant Attacher un stockage externe, page Détails du stockage affichant les chemins d'exportation sélectionnés et leur capacité</block>
+  <block id="f699fb900027f03a5d1c73a1c035147d" category="paragraph"><block ref="f699fb900027f03a5d1c73a1c035147d" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d500a4dd57bdd348ad2c1ec6c580ec95" category="admonition">L'<block ref="bb0fc0de24da5f7976510a315e4b7120" prefix=" " category="inline-code"></block>option est utilisée dans les options de montage.</block>
+  <block id="435423e72dc328e48c58b391696afbb2" category="list-text">Le premier chemin d'exportation ajouté lors de la configuration est automatiquement désigné comme le conteneur de stockage par défaut et porte l’étiquette *Conteneur par défaut*.</block>
+  <block id="c76d86f9397f068b7ff22b6601aef411" category="list-text">NetApp recommande d'utiliser plusieurs volumes FlexVol comme conteneurs de stockage pour répartir les charges de travail des machines virtuelles et équilibrer l'utilisation de la capacité.</block>
+  <block id="407244745d89ec1c62a378bfd9c4982b" category="list-text">Utilisez un volume dédié aux services de métadonnées (gestion).</block>
+  <block id="3462594e2b91cfdf8704609ba1a33c12" category="list-text">Vous pouvez supprimer les chemins d'exportation sauf s'ils sont affectés au volume des services de cluster (métadonnées) ou au conteneur de stockage par défaut.</block>
+  <block id="143058cca38c3e14765cc87eccaea025" category="list-text">Le stockage externe ne peut pas être retiré tant qu’il est rattaché à un cluster de calcul Nutanix.</block>
+  <block id="45872041b55539e7ecf32f329ffb131f" category="list-text">Un seul système de stockage externe ONTAP peut être connecté à un cluster de calcul Nutanix.</block>
+  <block id="90d57912caaff09634e842970f84d25f" category="list-text">Nutanix recommande jusqu'à 128 VM par nœud, jusqu'à 32 nœuds et jusqu'à 4 800 vDisks AOS répliqués entre les clusters DR (réplications asynchrones et synchrones combinées).</block>
+  <block id="48901db36539e5b09cdc319a4741e291" category="paragraph">Une fois le stockage connecté, déployez Prism Central sur la plateforme Nutanix Cloud Infrastructure (NCI) pour effectuer les tâches de gestion et de configuration du cluster. Vous pouvez également connecter le stockage ONTAP via Prism Central.</block>
+  <block id="ef54739cb0e82cf668ee8e9322ded296" category="summary">Préparez votre environnement et planifiez la connectivité réseau entre les hôtes Nutanix AHV dédiés au calcul et les contrôleurs de stockage ONTAP.</block>
+  <block id="4281e247679a4e9f91958cb81df204a8" category="doc">Préparez-vous à déployer Nutanix Cloud Platform avec le stockage ONTAP</block>
+  <block id="10e42d1cf4c2688d643b5f43089f4441" category="paragraph">Consultez les prérequis et l’architecture réseau recommandée pour connecter les hôtes Nutanix AHV dédiés au calcul au stockage ONTAP. Cette architecture permet d’étendre la capacité et les performances de stockage indépendamment du calcul, évitant ainsi d’ajouter des nœuds Nutanix uniquement pour augmenter le stockage.</block>
+  <block id="7326e2a7ee83bf39ecbd35e3781e34ad" category="paragraph">L'architecture repose sur un réseau de stockage dédié entre les hôtes de calcul uniquement Nutanix AHV et les contrôleurs de stockage ONTAP. Le trafic de stockage est isolé du trafic de gestion et d'application grâce à un commutateur virtuel dédié (vswitch1) et à un VLAN de stockage externe. ONTAP fournit des services de stockage NFSv3 via des LIF de données SVM dédiées, tandis que les LIF de gestion SVM sont utilisées avec les API REST pour l'administration et l'intégration du stockage.</block>
+  <block id="1789a22e63c3bbffdd02ec4f18a611a2" category="paragraph">Pour garantir la résilience et les performances, les hôtes de calcul uniquement Nutanix et les contrôleurs ONTAP utilisent LACP (actif/actif) sur des chemins réseau redondants. Si LACP n'est pas disponible, le mode actif/actif avec épinglage MAC assure l'équilibrage de charge au niveau de la couche du commutateur virtuel. Le trafic de stockage doit résider sur un VLAN dédié non routé, tandis que le trafic de gestion, de migration à chaud, de réplication de reprise après sinistre et d'application continue d'utiliser le réseau routé standard.</block>
+  <block id="01156694543097b9445b72943e566e02" category="paragraph">Avant d’intégrer le stockage ONTAP à l’infrastructure cloud Nutanix, assurez-vous que les exigences suivantes sont respectées.</block>
+  <block id="73fa4db6c16918b8b1476cd57c4b80a3" category="paragraph">*Cluster Nutanix*</block>
+  <block id="7822a29dbe9ed28f88309d8940333179" category="paragraph">Un cluster Nutanix exécutant AHV est déployé et opérationnel, et répond aux exigences suivantes :</block>
+  <block id="c604e5d03e1e7091ec9908672191982f" category="list-text">Un minimum de trois nœuds.</block>
+  <block id="e0c31f92c2d0b1a49d272890219daf6c" category="list-text">Les nœuds de calcul répondent aux exigences minimales de Nutanix en matière de processeur, de mémoire, de réseau et de périphériques de démarrage. Pour plus d'informations, consultez Minimum Compute Requirements.</block>
+  <block id="bc85160904d40313adbdc82e4ecfbb50" category="inline-link-macro">Matrice de compatibilité et d'interopérabilité pour les plateformes de calcul</block>
+  <block id="77ce847edcf2be60ba1cf5baff26d6f7" category="list-text">Le matériel et les logiciels sont répertoriés dans les matrices de compatibilité Nutanix applicables. Voir <block ref="c81ad5cf378d90ab0d03ced0033acda8" category="inline-link-macro-rx"></block>.</block>
+  <block id="6fcb8ee8bc8725e23730e2b0739522c8" category="paragraph">*NetApp stockage ONTAP*</block>
+  <block id="b5952aa77e54231a64191a542bfb2e4b" category="paragraph">NetApp ONTAP est déployé et configuré avec les services NFS activés, et répond aux exigences suivantes :</block>
+  <block id="24875b4d112506ce2170563900155c60" category="list-text">Plateformes ONTAP prises en charge : AFF A-Series (tout flash), AFF C-Series (tout flash) et FAS (Flash hybride).</block>
+  <block id="7992c41569a6bb74bbc75e7082421468" category="list-text">ONTAP fonctionne avec une version prise en charge : 9.15.1P18 ou ultérieure, 9.16.1P16 ou ultérieure, 9.17.1P8 ou ultérieure, 9.18.1P4 ou ultérieure, ou 9.19.1P2 ou ultérieure.</block>
+  <block id="6cf1fc4be2dae301740b386b7b203db5" category="list-text">Licence ONTAP One.</block>
+  <block id="320210f832a34fe880ba0273c10d4711" category="list-text">Une machine virtuelle de stockage ONTAP (SVM) est configurée pour fournir du stockage au cluster de calcul Nutanix.</block>
+  <block id="013c0e655bb0084fe15ffb125726e8c2" category="list-text">Un ou plusieurs volumes FlexVol sont exportés sous forme de partages NFS. Le cluster Nutanix monte les exports NFS et les présente comme stockage partagé pour les charges de travail.</block>
+  <block id="7e2388a20aef8baa12c86febcb6c7f22" category="inline-link-macro">Combinez les ports physiques pour créer des groupes d'interfaces ONTAP</block>
+  <block id="c4ef6228655d857d98dd1f12ad5bbad1" category="list-text">NetApp recommande vivement d'utiliser un groupe d'interfaces comme port d'attache pour l'interface logique NFS. Pour plus d'informations, consultez <block ref="81b7786f6941e04595c4c2ff6b3de461" category="inline-link-macro-rx"></block>.</block>
+  <block id="d0e5aa254f1ccca87a0cd6748a924c03" category="paragraph">*Réseau*</block>
+  <block id="8a6933d4e0f55d49cafcde07ebe4ce69" category="list-text">Un réseau de stockage dédié est disponible avec un débit minimum de 10 GbE. Un débit de 25 GbE ou plus est recommandé.</block>
+  <block id="9f93d1aea77ba6580146236a9c1a9661" category="list-text">Des interfaces distinctes sont disponibles pour le trafic de stockage.</block>
+  <block id="7ef6c69924549f74224057397cbd4cac" category="list-text">Les trames Jumbo (MTU 9000) sont configurées de manière cohérente sur le réseau de stockage là où elles sont prises en charge.</block>
+  <block id="7d88b061a000ab1d3d13ccc6c8009dee" category="list-text">Utilisez un commutateur virtuel dédié pour le trafic de stockage ONTAP et configurez une MTU de 9000 octets (trames jumbo).</block>
+  <block id="024da6f5a5ca69013333e20d5b21f459" category="list-text">Une fois la segmentation réseau activée pour le réseau privé ONTAP, elle ne peut plus être désactivée. La désactivation de la segmentation réseau rend l'adresse IP privée du stockage inaccessible et peut entraîner des défaillances critiques des services du cluster.</block>
+  <block id="82c161268dfe0b9b1287ad4fe5c236b0" category="section-title">Architecture réseau</block>
+  <block id="ce6e593f91bf8a47c5f1e109124ef518" category="paragraph">Le schéma suivant illustre la connectivité entre un nœud Nutanix AHV et un cluster ONTAP.</block>
+  <block id="9fa1fa9c342aa04e2ab4321a098f85ad" category="inline-image-macro">Schéma de réseau montrant un nœud Nutanix AHV avec vswitch0 et vswitch1 connectés via deux commutateurs externes à un cluster ONTAP 9</block>
+  <block id="4fa6b398ba2977fdc851dc24f10a7934" category="paragraph"><block ref="4fa6b398ba2977fdc851dc24f10a7934" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="af5ff5784a731bc016ed4b6afa56caf3" category="paragraph">Le tableau suivant décrit chaque composant du réseau, sa configuration et son rôle.</block>
+  <block id="2cb05e4bb7830be982f0922fed86b4cd" category="cell">Composant</block>
+  <block id="254f642527b45bc260048e30704edb39" category="cell">Configuration</block>
+  <block id="e244710138950cf403d4fdca0161c94c" category="cell">nœuds de calcul Nutanix</block>
+  <block id="afa568d367d052961a86faf602d6e17f" category="cell">Cartes réseau agrégées pour le réseau des VM de gestion et des VM utilisateur (VLAN routé) et le réseau de stockage (VLAN non routé). Si les cartes réseau agrégées ne sont pas possibles, utilisez des liaisons montantes actives/actives pour les commutateurs virtuels.</block>
+  <block id="a95a090a8f9e328a5d6ce13cb1d137c9" category="cell">Assure la redondance du réseau tout en isolant le trafic de gestion, de machines virtuelles et de stockage.</block>
+  <block id="a678ef77de622077207781708e3e99b7" category="cell">Contrôleurs de stockage ONTAP</block>
+  <block id="b1dd4dd40fe36fdb54995a2da5613b7f" category="cell">LIF de gestion du SVM et LIF de données du SVM. Utilisez des groupes d'interfaces pour la tolérance aux pannes et l'équilibrage de la charge chaque fois que possible.</block>
+  <block id="06f6d3b7ad02108688d9ca2fedc4abf9" category="cell">Les LIF de gestion servent à l'administration de ONTAP. Les LIF de données permettent l'accès au stockage NFSv3 du cluster Nutanix.</block>
+  <block id="c6d30908fc554df682ad6e9382d0eeb7" category="cell">Réseau des machines virtuelles de gestion et des utilisateurs (VLAN routé)</block>
+  <block id="4dd2a26e244f72edcf2576e5d5cd6702" category="cell">Gestion de Prism, trafic CVM, migration en direct et trafic de réplication</block>
+  <block id="b1f814e61eab0b9ea2acb2f2d447b717" category="cell">Assure la gestion du cluster et le trafic des machines virtuelles.</block>
+  <block id="9bf01d663e7a657ce91486d604bb5a3f" category="cell">Réseau de stockage interne (non routé)</block>
+  <block id="25155acb786c092e649b5c745428336e" category="cell">Communication de CVM à CVM, services AHV, trafic inter-nœuds du cluster</block>
+  <block id="c0fcc7833ab8cb13aa5722da86b46386" category="cell">Réseau dédié aux services de stockage et de cluster. Isolé du trafic utilisateur.</block>
+  <block id="3b71fa87aff883a944c83d389531eb3b" category="cell">Réseau de stockage externe (VLAN non routé)</block>
+  <block id="888f2e6005dbe99e045cac976efc39cf" category="cell">Trafic de stockage NFSv3 entre AHV/CVMs et ONTAP</block>
+  <block id="1c7429bc15e42100216ac0a060da23dc" category="cell">Offre un accès à faible latence et hautes performances au stockage ONTAP.</block>
+  <block id="923de2f57c729a15244d2d32be13c2f1" category="cell">vswitch0</block>
+  <block id="17ff15338eaa3f0dbdc3a561b4b7c47a" category="cell">Gestion de Nutanix, trafic applicatif, migration à chaud et réplication</block>
+  <block id="21f1ded6ee5fe47e5454d461d413df35" category="cell">Commutateur virtuel principal pour la gestion et la mise en réseau des machines virtuelles.</block>
+  <block id="1fc1c5d87203c86922bf41b7641e6504" category="cell">vswitch1</block>
+  <block id="6124c75321ba55da58785f3a07e604c3" category="cell">Trafic de stockage NFSv3 dédié. Au moins deux liaisons montantes physiques. LACP (actif/actif) recommandé. MTU 9000.</block>
+  <block id="c8774204e3a861f300153a01cafc50fd" category="cell">Commutateur de stockage dédié offrant des performances optimales, une grande résilience et une isolation du trafic pour la connectivité ONTAP.</block>
+  <block id="24d89b66885ddf758c470311b0e238c5" category="section-title">Étapes de déploiement générales</block>
+  <block id="f8098539a697e2e23ff2fbbcdc41ba49" category="paragraph">Suivez les étapes générales suivantes pour préparer ONTAP, configurer le réseau de stockage et connecter les hôtes Nutanix au stockage ONTAP.</block>
+  <block id="e22d4898791c63ab332c69b60b6a8774" category="list-text">Déployer et configurer ONTAP.</block>
+  <block id="718a426d0459c990f966c5aa3b496666" category="inline-link-macro">Démarrage rapide pour ONTAP</block>
+  <block id="aec4b036c7f7bfbf4f2f37fe95984800" category="list-text">Voir <block ref="35a96c1424a5d39370406442822b6766" category="inline-link-macro-rx"></block>.</block>
+  <block id="1adf393ea11e2b1a03a2f42cd137ec43" category="list-text">Créez des groupes d'interfaces chaque fois que possible. Voir <block ref="81b7786f6941e04595c4c2ff6b3de461" category="inline-link-macro-rx"></block>.</block>
+  <block id="2a4d5c63b1e6241d99e4939d1e02d80a" category="inline-link-macro">Créer des SVM pour le réseau ONTAP</block>
+  <block id="73358681da1cfcb20b958a561c76414c" category="list-text">Créez des SVM pour le réseau ONTAP. Voir <block ref="374c90f8834cdea00a6f60d18a70f604" category="inline-link-macro-rx"></block>.</block>
+  <block id="47514845299a6fb079009508979f3f4e" category="list-text">Créez des LIF ONTAP pour la gestion et les données NFS. Voir <block ref="0dd83352fe1a672de604487265159d1a" category="inline-link-macro-rx"></block>.</block>
+  <block id="f162dae9b2713f12b5bb5bfb34ca8116" category="inline-link-macro">Ajoutez un volume avec ONTAP System Manager</block>
+  <block id="b08fa99a736cc3dd29dba13fa709ba16" category="inline-link-macro">Créer des volumes NAS ONTAP avec des points de jonction spécifiés</block>
+  <block id="8ba761e58164d425c600e567b51bde45" category="list-text">Ajoutez un volume avec ONTAP System Manager. Le volume doit utiliser le style de sécurité UNIX pour servir les données NFSv3. Voir <block ref="adc597f3f81344bb5887abb0794ad73c" category="inline-link-macro-rx"></block> et <block ref="6f0dc90b5189dce76a9b1098ae1169a1" category="inline-link-macro-rx"></block>.</block>
+  <block id="af221594fc5a0003396437dfbee347a7" category="inline-link-macro">Comment les politiques d'exportation contrôlent l'accès des clients aux volumes NFS ONTAP ou aux qtrees</block>
+  <block id="de9f3a925790eb0942f4d15299bccd04" category="list-text">Configurez les politiques d'exportation pour autoriser l'accès depuis les hôtes Nutanix dédiés au calcul. Voir <block ref="f51fa1661575b66ec4b4f117ced6c1d4" category="inline-link-macro-rx"></block>.</block>
+  <block id="defaba5f9ab73ddeacbf7e18a4d78c1a" category="list-text">Configurez le réseau de stockage.</block>
+  <block id="8668d8e40858086ff0f44cc7126a8bfb" category="inline-link-macro">Créez un VLAN dédié non routé</block>
+  <block id="fc06197a100edcd59314f40c205e647d" category="list-text">Créez un VLAN dédié non routé pour le trafic de stockage NFS. Voir <block ref="e2f3a3d5ff90e9ab56933021d41612b3" category="inline-link-macro-rx"></block>.</block>
+  <block id="c3f8dc8572c7a9ffbb954a9e7d807d94" category="list-text">Configurez une infrastructure de commutation redondante.</block>
+  <block id="e02dbffb8cc8785729c0a1d016c77018" category="inline-link-macro">Modifier la valeur MTU des ports dans un domaine de diffusion ONTAP</block>
+  <block id="e79a9284ad5fda895c42ec492c4a75be" category="list-text">Activez les trames jumbo (MTU 9000) de bout en bout. Pour ONTAP, voir <block ref="ba2bec8a8ab65d996ac1477e07eb5431" category="inline-link-macro-rx"></block>.</block>
+  <block id="660715516ea5b15f3e42792213d071e2" category="list-text">Provisionner et connecter les hôtes Nutanix à ONTAP.</block>
+  <block id="b5668b17431aae66903055ca3154e818" category="list-text">Validez la connectivité aux LIF de données NFS ONTAP.</block>
+  <block id="704ba3a7d2db8276934ffa82543a1da4" category="list-text">Vérifiez l'équilibrage de charge et la redondance des chemins.</block>
+  <block id="b8bb6bc05a14dc8a4f4374b2a99819b2" category="list-text">Créez un commutateur virtuel de stockage dédié.</block>
+  <block id="cf91b203b11d67e5ebbe25dd364e31e1" category="list-text">Créer vswitch1 sur Nutanix AHV.</block>
+  <block id="c0472e733dc8e8b474cb2ff6204455ea" category="list-text">Attribuez au moins deux cartes réseau physiques dédiées.</block>
+  <block id="b4ec9445752af56a85f4eb292f7b1280" category="list-text">Configurez LACP (actif/actif) lorsque cette configuration est prise en charge.</block>
+  <block id="0befe8ce4f5a98b7d04748cf4d9f8283" category="list-text">Validez la résilience.</block>
+  <block id="375252d90edc44fe471a486566cd7321" category="list-text">Testez le basculement du chemin de stockage.</block>
+  <block id="097de64531dbbf4fb65ec7cfbbd0617a" category="list-text">Vérifiez que l'AHV redirige automatiquement le trafic de stockage en cas de panne de liaison ou de commutateur sans affecter les machines virtuelles en cours d'exécution.</block>
+  <block id="13ae5f91ef4c9979c9b27b7da80642b9" category="paragraph">Cette architecture offre une infrastructure de stockage haute performance et à haute disponibilité pour les environnements Nutanix, tout en permettant une mise à l'échelle indépendante des ressources de calcul et de stockage. L'extension du stockage peut être gérée via ONTAP sans nécessiter de nœuds Nutanix supplémentaires dédiés au calcul, ce qui réduit les coûts d'infrastructure tout en maintenant des performances et une disponibilité de niveau entreprise.</block>
+  <block id="c3d9387404c3997bbb5df9608d738492" category="summary">Découvrez comment fonctionnent la protection des données, la reprise après sinistre et la migration de machines virtuelles pour Nutanix avec le stockage externe ONTAP, et quelles fonctionnalités ne sont pas prises en charge lors de la disponibilité générale.</block>
+  <block id="b03fd488e5c8eadca4d9e0785a4da008" category="doc">Protection des données, reprise après sinistre, migration et limites pour Nutanix avec ONTAP</block>
+  <block id="e9fdd4b4a1f19e027482ec6e585a176b" category="paragraph">Découvrez comment la protection des données, la reprise après sinistre et la migration de VM fonctionnent lorsque vous utilisez ONTAP comme stockage externe pour un cluster de calcul Nutanix, et examinez les fonctionnalités qui ne sont pas prises en charge lors de la disponibilité générale (GA).</block>
+  <block id="7e7397a7b79323762c61941fc0e6b5f9" category="section-title">Protection des données</block>
+  <block id="794a3d8583847795adb014e40d9dc85a" category="paragraph">Les snapshots de VM gérés par Prism utilisent des clones ONTAP au niveau des fichiers des disques de la VM plutôt que des snapshots de volume ONTAP. Prism gère le cycle de vie des snapshots, tandis que ONTAP fournit la fonctionnalité sous-jacente de clonage de fichiers.</block>
+  <block id="8ba45cc8c2b575e2a515b212df141d8e" category="paragraph">Un clone de fichier est une copie accessible en écriture dans le système de fichier actif. À lui seul, il ne peut pas être verrouillé contre la suppression, ne constitue pas un point de récupération ARP et n'est ni conservé ni archivé indépendamment par SnapMirror ou SnapVault. Chaque disque est cloné séparément, de sorte que les points de récupération sur plusieurs disques ne sont pas capturés à un même instant partagé, sauf si cela est coordonné. Les snapshots de volume ONTAP offrent nativement ces protections. Les clients qui ont besoin de points de récupération immuables, résistants aux ransomwares et conservés à long terme devraient envisager d'attendre l'intégration des snapshots ONTAP.</block>
+  <block id="c1e3ee060dc65237e26b41548d38cc13" category="admonition">Il est prévu de corriger, dans une version ultérieure, la limitation de la version GA concernant la prise en charge des snapshots ONTAP.</block>
+  <block id="71c6167c7d242b9bda11821ec2344b96" category="paragraph">La reprise après sinistre asynchrone de Nutanix est la seule méthode de réplication prise en charge durant la version GA. ONTAP SnapMirror n'est pas disponible.</block>
+  <block id="3f43898082ec1f513a69a8de6ef6f6b5" category="paragraph">SnapMirror est le choix éprouvé pour la réplication des données ONTAP entre sites. Il réplique uniquement les blocs modifiés, préserve les gains de déduplication et de compression pendant le transfert et à destination, et peut conserver plusieurs points de restauration sur le système secondaire. Comme la réplication s’exécute sur le système de stockage, les hôtes n’ont pas à copier les données. Pour les clients qui utilisent ONTAP comme stockage externe, cela signifie que la reprise après sinistre utilise les mêmes processus de réplication, de rétention et de restauration que le reste de leur environnement ONTAP.</block>
+  <block id="ba38eee467f32cfe339059ac2583e961" category="admonition">L’intégration de SnapMirror est prévue pour une version ultérieure. Les clients souhaitant standardiser la reprise après sinistre sur la réplication ONTAP devraient envisager d’attendre l’intégration de SnapMirror.</block>
+  <block id="40aeb9ec9c66503ac9e2096f9f50be5e" category="section-title">Migrations de machines virtuelles</block>
+  <block id="2b11abb043cf2a6b03b5db45a499fb15" category="paragraph">Dans cette version, la migration des VM utilise Nutanix Move. Le toolkit Shift de NetApp n'est pas pris en charge. L'intégration du toolkit Shift avec Nutanix Move est prévue dans une version ultérieure. Elle utilisera le clonage ONTAP et le mappage des blocs alloués pour éviter les copies complètes de données et accélérer les migrations.</block>
+  <block id="15954d6859a0fe86dc4697a321cef5d9" category="section-title">Fonctionnalités non prises en charge à la GA</block>
+  <block id="7c8680054f36aa03f6bf693e30d9473d" category="paragraph">Les configurations, fonctionnalités et intégrations suivantes ne sont pas prises en charge à la disponibilité générale pour l’intégration NetApp et Nutanix :</block>
+  <block id="a8e21e772918f6400bf2944d13f6cc54" category="list-text">Configurations utilisant plusieurs baies NetApp, plusieurs machines virtuelles de stockage (SVM) par cluster Nutanix ou plusieurs interfaces logiques (LIF)</block>
+  <block id="a3e0d31abbc94a19371d4564bfc84cf7" category="list-text">Snapshots ONTAP et fonctionnalités qui en dépendent</block>
+  <block id="b5d574f46373cb46cf89b82338cd5825" category="list-text">NetApp Trident pour Nutanix Kubernetes Platform (NKP)</block>
+  <block id="ee1ef6cf0f3971b44eb2abcac958fb8d" category="list-text">Volumes FlexGroup</block>
+  <block id="371711dcb125366b5f6e2979db40f239" category="list-text">Boîte à outils NetApp Shift</block>
+  <block id="6e69b4c6f01283d2e4f5c7224065f7f3" category="summary">Déployez un cluster de calcul Nutanix à l'aide de Foundation Central, puis connectez-le au stockage ONTAP de NetApp.</block>
+  <block id="081f6f8cc82e7b3abe6a7365e7f222f6" category="doc">Déployez un cluster de calcul Nutanix avec le stockage ONTAP</block>
+  <block id="e46be2a73a958132d2487a2a93ca5d97" category="paragraph">Déployez un cluster de calcul Nutanix utilisant le stockage NetApp ONTAP. Téléchargez les packages d'installation AOS et AHV, configurez Foundation Central, imagez et intégrez les nœuds de calcul, créez le cluster, puis connectez-y le stockage ONTAP.</block>
+  <block id="e8f43dcb2f62d20ca72e427a9f7c4f32" category="list-text">*Téléchargez les packages d'installation AOS et AHV.*</block>
+  <block id="91f41053835d014870e967b522fdfa7e" category="inline-link-macro">Téléchargement des packages d'installation AOS et AHV</block>
+  <block id="8ffb8af5a4bc29bb7e91a32bcdaa1150" category="paragraph">Pour plus d’informations, consultez <block ref="38f05d1733d5299b87a4cff0ac94ba83" category="inline-link-macro-rx"></block>.</block>
+  <block id="74cb5ebaf42ce83b4e79d177c7f4f1a6" category="list-text">*Configurer Foundation Central.*</block>
+  <block id="516dd068aa72e7731a6ba493ae73d1c2" category="paragraph">Nutanix Foundation Central (FCA) est l’outil de déploiement recommandé pour imager les serveurs OEM pris en charge et créer le cluster de calcul Nutanix.</block>
+  <block id="a93dba624abd55e9d47b281f4561ed08" category="list-text">Téléchargez le package d'installation de Foundation et déployez la machine virtuelle Foundation.</block>
+  <block id="6d1f66d126a3b8e7f075cad8521ca49f" category="inline-link-macro">Configuration de Foundation Central</block>
+  <block id="2d1a4348468004e0100cf18fe8688e08" category="list-text">Complétez <block ref="f791a23ba9a105ed6ac3a0123bd96460" category="inline-link-macro-rx"></block>.</block>
+  <block id="51234611747f52a35df7a5353ddc8727" category="list-text">Mettez à jour l'adresse IP de gestion et les paramètres réseau selon les besoins.</block>
+  <block id="d0bce400a8a13ec0e62ee7a7d670380a" category="list-text">Accédez à l’interface utilisateur web de Foundation Central à l’aide de l’adresse IP configurée.</block>
+  <block id="813481c10c31b37781572d7443dce8ae" category="admonition">Si le déploiement de Foundation Central échoue, connectez-vous à la machine virtuelle FCA, exécutez<block ref="ca3845fe3b73258677a5defacd1e25aa" prefix=" " category="inline-code"></block>, puis relancez le processus d'installation.</block>
+  <block id="e6d89822f35fc247c74d5eb5f74869d4" category="inline-link-macro">Installation de la machine virtuelle Foundation</block>
+  <block id="8157109459babe165ed8f861f20e6248" category="paragraph">Pour plus d’informations, consultez <block ref="15bc47ca8b243dfb544c54d62c121409" category="inline-link-macro-rx"></block>.</block>
+  <block id="d90e0a8c61666878591830dce9cd3707" category="list-text">*Chargez les images d'installation AOS et AHV.*</block>
+  <block id="d223eae137a144267396b169e8e69770" category="paragraph">Utilisez la gestion d'images de Foundation Central pour effectuer les opérations suivantes :</block>
+  <block id="749099afebe0e939c40094c1fa5d99d1" category="list-text">Téléchargez les images AOS et AHV dans Foundation Central.</block>
+  <block id="da3404b398cdfb65fb220e5362f53bcc" category="list-text">Vérifiez que les images sont disponibles pour le déploiement.</block>
+  <block id="5252d89d1dc2c29e8d6ba1fdb6ccd983" category="list-text">*Découvrir et imager les nœuds de calcul.*</block>
+  <block id="45215b033870c582d772fd4ff8c33fd2" category="paragraph">*Option A : Fournisseur de matériel (recommandé)*</block>
+  <block id="7d92e6a8eacceaf7798bc85191f3de1f" category="inline-link-macro">fournisseur de matériel</block>
+  <block id="250b467585c4c37342b0c2af530e9f7e" category="paragraph">Utilisez un <block ref="35566d01e9acbe2e672b081115ed5fa5" category="inline-link-macro-rx"></block> pour automatiser l'imagerie et l'intégration des nœuds.</block>
+  <block id="eae6abd2bfb477415259bfe6fbcf86ab" category="list-text">Configurez une connexion à un fournisseur matériel à l’aide de HPE iLO ou Dell iDRAC.</block>
+  <block id="98c80639e9e0be2987dd3c67cecfb769" category="list-text">Détectez automatiquement les serveurs cibles.</block>
+  <block id="2a99aaaabfcfc9b0889267046004d6cd" category="list-text">Sélectionnez les images AOS et AHV téléchargées.</block>
+  <block id="a751acdbbb9a841fba8ed42e797f79cb" category="list-text">Imagez les nœuds directement depuis Foundation Central.</block>
+  <block id="e88bc585491767891c9d1f5757b72130" category="paragraph">*Option B: Imagerie manuelle*</block>
+  <block id="b52996994fab6b48cd81e934dee321e6" category="inline-link-macro">imagerie manuelle</block>
+  <block id="49baba35db7bcd09b14a4ca25125d9b7" category="paragraph">Si la découverte du fournisseur de matériel n'est pas disponible, utilisez <block ref="8f5493e7165305573721d2539a580994" category="inline-link-macro-rx"></block>.</block>
+  <block id="dd0679a0ea834bda0a34b306e7a09346" category="paragraph">Avant de commencer, assurez-vous que les conditions préalables suivantes sont remplies :</block>
+  <block id="66b62e50b4972a240cbba541d7b7a1b9" category="list-text">Le mode de démarrage UEFI est activé.</block>
+  <block id="8b4000931dce8be969425ca4ea629531" category="list-text">Le démarrage sécurisé est désactivé.</block>
+  <block id="b0ee2666cf5b9113e191b9c6bda3c001" category="list-text">Les réseaux hors bande (OOB) et de données sont accessibles.</block>
+  <block id="1b4490cc35dd9fb01927652019a1d041" category="list-text">Il n'y a pas de décalage horaire entre les hôtes et Foundation Central.</block>
+  <block id="c5b87462ede4de94bca9a532ca933384" category="list-text">Une adresse IP AHV est disponible pour chaque hôte.</block>
+  <block id="7257449f9518c473a626ee5939a65833" category="admonition">N’attribuez pas d’adresses IP provenant d’un sous-réseau qui chevauche l’espace d’adressage 192.168.5.0/24 sur le VLAN par défaut.</block>
+  <block id="ec7c19653fc4cdaf314f97c8b8bc29a6" category="list-text">Créer des jetons de revendication sécurisés.</block>
+  <block id="05332e7515b61ca00d1c9c56b65eb1d2" category="list-text">Montez l'ISO d'installation d'AHV sur chaque nœud de calcul.</block>
+  <block id="e5ede927d4698de51e7de8d6459969d9" category="list-text">Démarrez et installez AHV manuellement.</block>
+  <block id="232dae110fed03b1c3e37734f201e395" category="list-text">*Intégrez les nœuds.*</block>
+  <block id="90e33977af6187e71f8c05eb861c7da9" category="paragraph">L’intégration enregistre les serveurs découverts auprès de la Foundation Central Appliance et les prépare aux workflows d’imagerie ou de création de cluster.</block>
+  <block id="03c96cad49b7b47ae1994c9e152b2857" category="list-text">Sélectionnez les hôtes AHV découverts.</block>
+  <block id="a72fea437a7a18abca4e6a2f54c9fe76" category="list-text">Démarrez le processus d'intégration.</block>
+  <block id="fd650d1cbb3cbf981cfc3cbe4f86a5e7" category="list-text">Vérifiez que tous les nœuds apparaissent dans l'inventaire des nœuds.</block>
+  <block id="ea4ecd2ff157eb206bcc287b669d228f" category="paragraph">Une fois l'intégration terminée, les hôtes sont prêts pour la création du cluster.</block>
+  <block id="753b99019692770e964d6b456ac85293" category="list-text">*Créer le cluster Nutanix.*</block>
+  <block id="f164a43821225ee54e0394a577c959b6" category="list-text">Sélectionnez les nœuds intégrés.</block>
+  <block id="c04c8f4ee057b9770ef3148a2b7f90b9" category="list-text">Cliquez sur *Créer un cluster*.</block>
+  <block id="e634053c9c886664389e7b9c974ac9b3" category="list-text">Fournissez les informations de configuration du cluster.</block>
+  <block id="af7181ced3e0f98f6ca635d584b4ff72" category="list-text">Saisissez les adresses IP de la machine virtuelle du contrôleur (CVM) lorsque vous y êtes invité.</block>
+  <block id="6ee0593644601a457512f7c5d05401a5" category="paragraph">Le processus de création du cluster effectue les opérations suivantes :</block>
+  <block id="c81e6147899da85d556722d2835a1aa6" category="list-text">Déploie les CVM.</block>
+  <block id="8227d90a71c897d611deddae88bced89" category="list-text">Installez AOS.</block>
+  <block id="8b64eea0142b42f10433982dcc31e645" category="list-text">Configure les services du cluster.</block>
+  <block id="9f35fbf8e7ac03a5118463910d804eda" category="list-text">Effectue des contrôles de validation.</block>
+  <block id="2bdd53f46f82a16ddd7bbada5efcf2a5" category="inline-image-macro">Page d'accueil de Prism Element d'un cluster Nutanix nouvellement créé exécutant AHV</block>
+  <block id="14d508cebd5f4c810792d089f979051e" category="paragraph"><block ref="14d508cebd5f4c810792d089f979051e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b2b79048cc2b1171fcc1bf747d6a0f9c" category="admonition">Assurez-vous qu'il n'y a pas de décalage horaire entre les nœuds. Les erreurs de synchronisation d'horloge peuvent entraîner l'échec du déploiement du cluster et nécessiter un redémarrage du processus.</block>
+  <block id="b9e920a3dd1bca0a157befb26f455eaa" category="list-text">*Connectez le stockage ONTAP au cluster de calcul Nutanix.*</block>
+  <block id="e20f8d43ee05141d2fe59d709a9b6f28" category="paragraph">Une fois le cluster Nutanix opérationnel, procédez comme suit :</block>
+  <block id="1a879e5b50f2cf6a7f443d9b5e2419c6" category="list-text">Vérifiez la connectivité entre tous les hôtes AHV et les LIF de données NFS ONTAP.</block>
+  <block id="fd9cdf1a9f2060636b550962bad5a182" category="list-text">Ajoutez les exports NFS ONTAP au cluster Nutanix.</block>
+  <block id="8c01ab30bb6dad2915cbbf9f5b1c92d1" category="list-text">Montez les partages NFS FlexVol® exportés.</block>
+  <block id="3800b4f56e912a5db25d8a12bdcebbb2" category="list-text">Validez l’accès en lecture/écriture.</block>
+  <block id="c0d0093272a683163e9db60b646dc05b" category="list-text">Vérifier la visibilité et la disponibilité du datastore.</block>
+  <block id="0efb367309c5112f30d09fda62dce646" category="paragraph">Vous pouvez utiliser le stockage NFS monté pour les opérations suivantes :</block>
+  <block id="393b74b0f99482a306c16e4ef2a2b1f7" category="list-text">Charges de travail des machines virtuelles</block>
+  <block id="f7c5fe6bd0c6e625cc9c02ea08a554da" category="list-text">Dépôts d'images</block>
+  <block id="7df96b18c230f90ada0a9e2307226338" category="list-text">Modèles</block>
+  <block id="98084adef1ea8e4d4e3384364fd3f774" category="list-text">Données de l'application</block>
+  <block id="2a3447e388ce7f3e91b67e86a06a867d" category="paragraph">Pour la procédure détaillée, voir <block ref="3bb6ec5a7295347c11887b87947a5268" category="inline-link-macro-rx"></block>.</block>
+  <block id="90beb67bbb40c624d8407576b3477531" category="summary">Créez des volumes ONTAP FlexVol®, configurez les règles d'export, et créez un rôle SVM ainsi qu'un compte de service avec les autorisations minimales de l'API REST requises par Nutanix.</block>
+  <block id="92dc1ba23fc901065953a38964070d3d" category="doc">Configurez les volumes ONTAP, les règles d'export et les autorisations pour Nutanix</block>
+  <block id="9099a77440d01e0a7f6e50f384cefdda" category="paragraph">Créez et configurez des volumes de stockage ONTAP, configurez des règles d'export et définissez le rôle SVM ainsi que le compte de service que Nutanix utilise pour gérer le stockage ONTAP. Une fois ces tâches accomplies, vous pouvez rattacher les exports FlexVol® au cluster Nutanix en tant que stockage partagé pour les workloads de machines virtuelles.</block>
+  <block id="2efebf6a87cfa87a05f1ce717a0eb634" category="paragraph">Le processus commence par la création de volumes ONTAP FlexVol et la configuration des règles d'export NFS. Vous définissez ensuite le rôle SVM requis et les autorisations de l'API REST, puis vous rattachez le stockage ONTAP au cluster de calcul Nutanix.</block>
+  <block id="d0d11c278677bcc01b4088ad0e01a0e7" category="section-title">Créer des volumes ONTAP FlexVol</block>
+  <block id="4c8a286e125109320cc853e190bf9d53" category="paragraph">Créez les volumes FlexVol requis et appliquez les paramètres ONTAP recommandés pour optimiser l'utilisation de la capacité, l'efficacité du stockage et les performances des workloads Nutanix.</block>
+  <block id="de4700c2801a5bbb50de45c5214cad13" category="list-text">Créez les volumes FlexVol avec les paramètres suivants :</block>
+  <block id="51ac4bf63a0c6a9cefa7ba69b4154ef1" category="cell">Paramètre</block>
+  <block id="947a833a137f4ed3e295eacc535ed8bd" category="cell"><block ref="f1e0735081bab920eff76b08a4600c76" prefix="" category="inline-code"></block></block>
+  <block id="1fac41ed156429eae37ffff4c99fde2c" category="cell"><block ref="99c0f62171e34b4ab6a79265f038e3af" prefix="" category="inline-code"></block></block>
+  <block id="7c68df7d17c446f99304ee1dc1498bfc" category="cell">Dimensionnement automatique</block>
+  <block id="521c36a31c2762741cf0f8890cbe05e3" category="cell">Disponible</block>
+  <block id="a85c04491cb5bbcb534dc50b65b97530" category="cell">Suppression automatique</block>
+  <block id="bce6cdbbccc632d1644ba652aca25a21" category="cell"><block ref="210ab9e731c9c36c2c38db15c28a8d1c" prefix="" category="inline-code"></block>/<block ref="1c05b3b1dbdf1a366261edd571c87d43" prefix=" " category="inline-code"></block></block>
+  <block id="43c4c1dbc452be91829f25ee32c2a956" category="cell">politique de hiérarchisation des volumes</block>
+  <block id="6d576caa9862f6db0177dfaff7abb095" category="cell">Snapshot uniquement</block>
+  <block id="1a0347c29b1489fa0ab3d94768b3af37" category="cell"><block ref="902c737cbaa1a86889c41fec210c805f" prefix="" category="inline-code"></block></block>
+  <block id="f4c25546f220bb5d07f94244c9303967" category="cell">Dimensionnement automatique</block>
+  <block id="4c0abf2d4c54820b8d33061abaf30759" category="cell">Stratégie de snapshot</block>
+  <block id="94196aaec5ec0e56c6e4674450447eed" category="list-text">Provisionnez plusieurs volumes FlexVol et ajoutez-les en tant que conteneurs de stockage.</block>
+  <block id="07dc5d493e4013e826e06d84243bb40f" category="list-text">Créez au minimum 4 à 8 volumes NFSv3 pour héberger les données de la machine virtuelle.</block>
+  <block id="473d44bff7d5ab7df1ab806a9eea848f" category="list-text">Utilisez un volume dédié pour le service Nutanix ou le volume de métadonnées. Bien que les données de service puissent partager un volume de données, un volume dédié est recommandé.</block>
+  <block id="f76a1b79446e5fcd4830de7205aee57f" category="list-text">Utilisez les chemins d'exportation FlexVol® par défaut. Si des qtrees sont utilisés, spécifiez le chemin d'exportation du qtree lorsque vous attachez le conteneur de stockage.</block>
+  <block id="8e4b6807031f0687bd243567c5d31889" category="list-text">Répartissez les volumes uniformément sur les nœuds ONTAP, en les plaçant en alternance sur les nœuds afin d'équilibrer le placement des workloads et l'utilisation des ressources sur l'ensemble du cluster.</block>
+  <block id="54278706e756fc32632e725ac74a7c70" category="section-title">Calculer la taille du volume de service</block>
+  <block id="5589ee999b11a39899b74f5ac5667a15" category="paragraph">Calculez la taille du volume de métadonnées (service) en allouant un minimum de 1 Tio par nœud de cluster (N × 1 Tio). Par exemple, un cluster de 8 nœuds nécessite au moins 8 Tio de capacité disponible.</block>
+  <block id="277cfb06b78e92e9906356782ebd14ff" category="list-text">Créer un volume FlexVol unique à provisionnement fin pour les métadonnées Nutanix.</block>
+  <block id="e55622ea68ec3d556626db91c3060190" category="list-text">Si aucun chemin d'exportation dédié n'est spécifié pour le volume de service, le système utilise automatiquement le premier chemin d'exportation configuré pour le volume des services de cluster (métadonnées) et applique la balise *Cluster Services* à ce chemin.</block>
+  <block id="25da714eff5c8cf0f1a3bef6c2f571d5" category="list-text">Ne renommez pas les volumes FlexVol sélectionnés ni leurs chemins d'exportation associés après le déploiement. Le renommage peut perturber les opérations d'E/S des machines virtuelles et affecter l'accessibilité du workload.</block>
+  <block id="5fab8f40aaa759f06d0e9d5803d0e482" category="list-text">Le volume FlexVol utilisé pour le volume de service peut être configuré à l’aide du provisionnement fin.</block>
+  <block id="03976948c8dc5b708cb61b3194d1bc3a" category="section-title">Calculer la taille du volume de données</block>
+  <block id="796e261753c1de28205557620ce4d45a" category="paragraph">Le dimensionnement des volumes de données est similaire à celui des datastores. Dimensionnez les volumes de conteneurs de stockage en fonction du nombre prévu de machines virtuelles, de leurs besoins en capacité et de la croissance projetée. Prévoyez un espace libre suffisant pour le provisionnement des VM, les snapshots et la surcharge opérationnelle, tout en répartissant les workloads sur plusieurs volumes afin de prendre en charge l'évolutivité et une utilisation équilibrée des ressources.</block>
+  <block id="dad2940097284c3b6c8345e293e3cd9e" category="section-title">Configurer les règles d'export ONTAP</block>
+  <block id="c8d281ad787a7e5e23b6f6d76afe4ff7" category="paragraph">Configurez les règles d'export afin que seules les CVM Nutanix puissent accéder aux volumes NFS.</block>
+  <block id="d54c86c42bb034e2e134a338152314a7" category="paragraph">*Volumes de données*</block>
+  <block id="ebea75065fb15c7ecfb9b539a76cfd17" category="list-text">Créez une règle d'export au niveau du volume qui autorise les adresses IP des CVM ou leur plage de sous-réseaux.</block>
+  <block id="a21de5807356512316ffa48519a7c389" category="list-text">Établissez les règles suivantes :</block>
+  <block id="4881ae5df68a63d3acf226a4e0e70f74" category="list-text">Règle de lecture seule <block ref="248ae85cd46aa9db2669ecfda6d5ac2e" prefix="(" category="inline-code"></block>):<block ref="36bcbb801f5052739af8220c6ea51434" prefix=" " category="inline-code"></block></block>
+  <block id="31db56e3c017f815d12ff1e548f89b27" category="list-text">Règle de lecture-écriture <block ref="daf1ece2b63bdb7d527a5f823f4d0b95" prefix="(" category="inline-code"></block>):<block ref="36bcbb801f5052739af8220c6ea51434" prefix=" " category="inline-code"></block></block>
+  <block id="3b5d875ed67cb591c4ef2944857a2d0b" category="list-text">Superutilisateur :<block ref="36bcbb801f5052739af8220c6ea51434" prefix=" " category="inline-code"></block></block>
+  <block id="d1354ba4b2c70e084937c1e77f0d539d" category="list-text">Si des qtrees sont utilisés, créez une règle de règles d'export dédiée pour chaque qtree avec les mêmes autorisations.</block>
+  <block id="234d205c259293c4fcd5e3d1e2b2314e" category="paragraph">*Volume de service ou de métadonnées*</block>
+  <block id="410e7876391fd067eff94f7355fe5897" category="list-text">Toutes les exportations NFS ONTAP doivent autoriser l'accès uniquement à partir des adresses IP Nutanix CVM ou du sous-réseau CVM désigné.</block>
+  <block id="3fa12f12811769d06524abe06744d029" category="list-text">Utilisez l'API Prism ou <block ref="8b8f20398735e0a28ae5337a71b4a5db" prefix=" " category="inline-code"></block> pour trouver la liste des adresses IP des hôtes CVM afin de mettre à jour les règles d'export</block>
+  <block id="77bf0de81d3ac434fb134d139a3442bb" category="section-title">Configurer les rôles et les autorisations ONTAP</block>
+  <block id="00988a3c5aaaed41af79d9dccdbe0bb4" category="paragraph">Pour connecter le stockage ONTAP à un cluster de calcul Nutanix, Nutanix utilise l'API REST ONTAP pour les opérations du plan de contrôle (provisionnement de VM, clonage, instantanés et gestion du stockage) et NFSv3 pour le chemin d'accès aux données.</block>
+  <block id="9f8215fbf22053a6bb75c835b970359d" category="paragraph">Créez un rôle ONTAP avec les privilèges minimaux afin de ne pas avoir à utiliser le rôle ONTAP<block ref="21232f297a57a5a743894a0e4a801fc3" prefix=" " category="inline-code"></block> pour effectuer des opérations dans le cluster Nutanix dédié uniquement au calcul. Ces rôles minimaux sont requis au niveau de la SVM du côté du stockage ONTAP.</block>
+  <block id="1957b4b90acaa152602ef9151ed827aa" category="list-text">Utilisez les paramètres de configuration NFS ONTAP par défaut.</block>
+  <block id="bd06250641d7104cbc560dd3ccce5c8a" category="list-text">Vous pouvez également utiliser le<block ref="6173aa5206484b5224450952747c7148" prefix=" " category="inline-code"></block> rôle.</block>
+  <block id="b472efad4175e5d5e228f0a56a05b56c" category="section-title">Autorisations minimales de l'API REST</block>
+  <block id="ad90ef5522a8663d2649151ac94be293" category="paragraph">Créez un rôle SVM ONTAP personnalisé avec les autorisations minimales requises de l'API REST pour permettre les opérations de découverte, de provisionnement, de clonage et de gestion du stockage Nutanix.</block>
+  <block id="e5d70720d20baa60b840d30a0254f374" category="cell">point de terminaison de l'API REST</block>
+  <block id="bf733d8a933c1601697f364223fc7ecb" category="cell">Accéder</block>
+  <block id="363e2cd7817f719f33d63e2e00a604ae" category="cell"><block ref="d48b8c7902dee00442e14d9b1af3af1b" prefix="" category="inline-code"></block></block>
+  <block id="358388857b3167886e81189ce45f87ef" category="cell">Lecture seule</block>
+  <block id="803fe6a23d72ffde4f8e3f75af659308" category="cell">Authentification du cluster et validation de la version</block>
+  <block id="bff176118c8043e6d5e6e206169ef3ca" category="cell"><block ref="afc03d1a82dbecc47aa9f8732c12aace" prefix="" category="inline-code"></block></block>
+  <block id="1de81d00e47b4dfc05b7940048245adf" category="cell">Surveiller les opérations de stockage asynchrones</block>
+  <block id="ded94fd2265eeb1163edbc94cc4a04ae" category="cell"><block ref="a00c50b90749f90a36742b8673eb5362" prefix="" category="inline-code"></block></block>
+  <block id="135a0938ca14153c3b5cffe6a3d4a752" category="cell">Découvrez les LIF de données ONTAP</block>
+  <block id="5171b2271c084b4f83bf2064c3fbc9b4" category="cell"><block ref="91443afe19221b584756b058dec25daa" prefix="" category="inline-code"></block></block>
+  <block id="3cdb55110e0f03268456c135dbdeddd0" category="cell">Lire/Créer</block>
+  <block id="a3763b6dbd67c7098e9cacdd4e16ab32" category="cell">Opérations de clonage, de snapshot et de sauvegarde des machines virtuelles</block>
+  <block id="05e30638fc4699fd0f5f46965a7de061" category="cell"><block ref="e4bda0100c995f1a022b02958516473a" prefix="" category="inline-code"></block></block>
+  <block id="904f1356ff49d5d1f567dacaacb6272f" category="cell">Découverte et gestion des volumes</block>
+  <block id="e034c69dc6c44535ed8fcb28eebc885d" category="cell"><block ref="b411b876fbf8eae92bfaa2e8d8d43f52" prefix="" category="inline-code"></block></block>
+  <block id="22bb71f5bb6dc726ce615387711955e1" category="cell">Accès complet</block>
+  <block id="8e3e6473250f1c3294023340b704b116" category="cell">Créer, modifier, lire et supprimer des fichiers gérés par Nutanix</block>
+  <block id="66f611f92066b778a2ee33d7d561c388" category="section-title">Configurer le compte de service</block>
+  <block id="9cee9e02c6cee3e221c414e166cc2a1d" category="paragraph">Vous pouvez créer le rôle et l'utilisateur avec ONTAP System Manager ou avec l'ONTAP CLI.</block>
+  <block id="26ed02718973e705cd69ee6e109400e0" category="open-title">Gestionnaire de système</block>
+  <block id="f606c49f26cc72eebe93a8d7e95cd942" category="list-text">Créez un rôle personnalisé au niveau de la SVM.</block>
+  <block id="33db147c2d843800fccf91edb584070c" category="list-text">Sélectionnez *Stockage &gt; Machines virtuelles de stockage &gt; _SVM désignée_ &gt; Paramètres &gt; Utilisateurs et rôles*.</block>
+  <block id="398ebb1248b54866ba874a05f89db335" category="list-text">Sélectionnez l'icône en forme de flèche (→) à côté de *Users and Roles*.</block>
+  <block id="a1270bcef444ae8f7e1978d17176ecba" category="list-text">Sous *Rôles*, sélectionnez *+Ajouter*.</block>
+  <block id="0607c670bf97cc18aea662bb4a8b1897" category="list-text">Définissez les règles du rôle et cliquez sur *Save*.</block>
+  <block id="7574cd284f601a710ac10503b0f739bd" category="inline-image-macro">Page des attributs du rôle dans ONTAP System Manager répertoriant les chemins d'accès à l'API REST et les niveaux d'accès pour le rôle Nutanix</block>
+  <block id="dbcd9b01fa038f8f3c830f760a04bf98" category="paragraph"><block ref="dbcd9b01fa038f8f3c830f760a04bf98" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="8407e74fd32f9869d1dc5e18cdf5fe42" category="list-text">Associez le rôle à l'utilisateur administrateur Nutanix.</block>
+  <block id="5e2565ad35410ae55f3c3837d1b9e9aa" category="list-text">Sur la page *Utilisateurs et rôles*, sous *Utilisateurs*, sélectionnez *+Ajouter*.</block>
+  <block id="e8e5bd346e1cab4305ccd3272259cca8" category="list-text">Sélectionnez le nom d'utilisateur requis, puis sélectionnez le rôle que vous avez créé à l'étape précédente dans le menu déroulant *Role*.</block>
+  <block id="3f8f532f90cddcf60cef75113d4629c5" category="list-text">Pour les méthodes de connexion utilisateur, sélectionnez *HTTP*.</block>
+  <block id="4cc186df234138a57b2e8c5d8e5f7f8d" category="list-text">Cliquez sur *Enregistrer*.</block>
+  <block id="8295254f89bc1b74a1cae258f93f3745" category="inline-image-macro">Page Utilisateurs et rôles de ONTAP System Manager montrant l'utilisateur Nutanix associé au rôle personnalisé</block>
+  <block id="94b8a0621e36f76c499ad1a9f9fc878b" category="paragraph"><block ref="94b8a0621e36f76c499ad1a9f9fc878b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="404b6767f45d89523e5530444aac4093" category="inline-image-macro">Page Utilisateurs et rôles de ONTAP System Manager affichant les utilisateurs et les niveaux d'accès des rôles pour le SVM</block>
+  <block id="c3088bca5482ea2ea1594bd04273ae87" category="paragraph"><block ref="c3088bca5482ea2ea1594bd04273ae87" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="ad3da557e531e495867ad0fb3ada97cc" category="list-text">Créez le rôle en exécutant les commandes suivantes. Remplacez <block ref="f9aa6283cec0ad9cc7e4b9173215222e" prefix=" " category="inline-code"></block>`&lt;SVM&gt;` et <block ref="46e6e6ce85951e4a4fb07f51c242d712" prefix=" " category="inline-code"></block>`&lt;role&gt;` par vos noms de SVM et de rôle.</block>
+  <block id="5225604484856c358c25a1531e2d0984" category="list-text">Créez l'utilisateur et associez-le au rôle.</block>
+  <block id="bedfb2f5b6fb33f637bfadf7329016e2" category="admonition">Le nom d’utilisateur et le mot de passe du compte de service ONTAP sont requis lorsque vous ajoutez la baie ONTAP au cluster Nutanix. Utilisez cet utilisateur lorsque vous configurez la SVM de stockage ONTAP dans Prism Element ou Prism Central.</block>
+  <block id="9f0056d1b1d00e12bacf13d8da8397df" category="summary">Découvrez comment le stockage NetApp ONTAP s'intègre à Nutanix Cloud Platform pour fournir un stockage NFS externe et faire évoluer indépendamment les capacités de calcul et de stockage.</block>
+  <block id="5c2c25319ea82fd6076426390a9f0b07" category="doc">Découvrez Nutanix Cloud Platform avec le stockage ONTAP de NetApp</block>
+  <block id="a5f4222f42fab14e6e59c309eb489f9c" category="paragraph">La plateforme cloud Nutanix avec le stockage ONTAP de NetApp offre une architecture désagrégée qui vous permet d'adapter indépendamment la capacité et les performances du stockage des ressources de calcul Nutanix. Découvrez l'architecture, la configuration prise en charge et les prérequis à respecter avant le déploiement.</block>
+  <block id="40082e4dcbc30d3e394d4fc22e349315" category="paragraph">ONTAP fournit une plateforme de stockage évolutive et résiliente pour l'hébergement des workloads de machines virtuelles Nutanix, permettant aux organisations de simplifier la gestion du stockage tout en optimisant l'utilisation de la capacité, les performances et la protection des données.</block>
+  <block id="df49e73834f4040e3051807231098cc1" category="paragraph">En combinant la puissance de calcul Nutanix avec le stockage ONTAP, les clients peuvent tirer parti de services de stockage de niveau entreprise, d'une gestion des données flexible et d'une évolutivité transparente, tout en maintenant un modèle opérationnel cohérent. La solution utilise des concepts de stockage familiers tels que les machines virtuelles de stockage (SVM), les volumes FlexVol®, les règles d'export et les datastores NFS, ce qui permet aux administrateurs de déployer et de gérer le stockage à l'aide des outils et procédures ONTAP établis. Cette intégration permet à l'hyperviseur Nutanix AHV de bénéficier des services de données éprouvés d'ONTAP tout en fournissant une infrastructure flexible et efficace pour les environnements virtualisés.</block>
+  <block id="2bcf66072fda23991ffc00bd9893a437" category="paragraph">Découvrez pourquoi les entreprises évaluent Nutanix Cloud Platform, les défis liés à la mise à l'échelle des capacités de calcul et du stockage qu'elle peut engendrer, et comment le stockage externe NetApp ONTAP répond à ce défi.</block>
+  <block id="d953649cb8ecaf5fa66eca0db2578f9c" category="section-title">Pourquoi les organisations réévaluent la virtualisation</block>
+  <block id="5d2ac342894d4196b1975fd5b28e5bee" category="paragraph">Le paysage de la virtualisation a considérablement évolué suite à l'acquisition de VMware par Broadcom, incitant de nombreuses organisations à réévaluer leurs stratégies d'infrastructure et de cloud à long terme. Dans le cadre de leurs initiatives de modernisation, les entreprises évaluent des plateformes capables d'offrir une cohérence opérationnelle, l'évolutivité et l'efficacité économique, tout en minimisant les perturbations des workloads existants. Qu'elles soient motivées par des changements de licences, des objectifs d'optimisation des coûts, des initiatives de transformation des centres de données ou le besoin d'une plus grande flexibilité du cloud hybride, les organisations recherchent de plus en plus des solutions qui simplifient la migration et offrent une voie pérenne pour leurs environnements virtualisés.</block>
+  <block id="c9a17b790d8bdd8d039c3b068fdfb903" category="section-title">Nutanix Cloud Platform</block>
+  <block id="69215416761133d5c3e9008a4bb8a313" category="paragraph">La plateforme Nutanix Cloud Platform (NCP) offre un modèle opérationnel hybride multicloud cohérent, permettant aux entreprises d'exécuter des applications et des données dans des environnements sur site et dans des clouds publics, tout en conservant une gestion, des opérations et une gouvernance communes. En s'appuyant sur l'architecture définie par logiciel de Nutanix, les clients peuvent étendre leurs workloads de manière transparente entre les environnements, simplifier la gestion de leur infrastructure et réduire la complexité opérationnelle.</block>
+  <block id="e650846facac8d1bfb846dd4d3b7ae54" category="section-title">Le défi de la mise à l'échelle du calcul et du stockage</block>
+  <block id="cd7ce001bad50e4d3d873f06c73b8899" category="paragraph">Dans les environnements de virtualisation, l'équilibre entre les besoins en calcul et en stockage représente un défi courant. Les architectures traditionnelles obligent souvent les entreprises à faire évoluer leurs ressources de calcul simplement pour obtenir une capacité de stockage supplémentaire, ce qui entraîne une augmentation des coûts d'infrastructure. Les workloads à forte intensité de stockage nécessitent souvent davantage de capacité et de performances plutôt que des ressources CPU et mémoire supplémentaires.</block>
+  <block id="ee8daea185cccadd816ee76c012f3ae7" category="section-title">Comment ONTAP relève le défi</block>
+  <block id="682ab0967db2ebed923769bdb0c7b785" category="paragraph">C’est là que l’intégration du stockage NetApp ONTAP à la plateforme cloud Nutanix apporte une valeur significative. ONTAP offre des capacités de stockage de niveau entreprise, notamment des performances élevées, une grande efficacité, une protection des données, une sécurité et une évolutivité, tout en permettant d’adapter indépendamment la capacité et les performances du stockage par rapport à l’infrastructure de calcul Nutanix.</block>
+  <block id="707f55faf7b5f019c2bd9320391866ae" category="section-title">Exemple de scénario</block>
+  <block id="8943eba6fc27313dd81624add75a051a" category="paragraph">Considérez le scénario suivant : un client a besoin de ressources d'infrastructure équivalentes à huit nœuds pour répondre aux exigences de calcul des applications (vCPU et mémoire). Cependant, en raison de la croissance du volume des données et d'applications gourmandes en stockage, l'organisation a besoin d'une capacité de stockage qui nécessiterait traditionnellement le déploiement de nœuds supplémentaires. Cela augmente le coût total de possession (TCO), car le client doit acquérir des ressources de calcul supplémentaires uniquement pour satisfaire les exigences de stockage. Avec ONTAP intégré aux environnements Nutanix, les organisations disposent d'une architecture véritablement désagrégée qui peut faire évoluer le stockage indépendamment, en fournissant la capacité et les performances de stockage requises sans extension inutile des ressources de calcul.</block>
+  <block id="68403bad1101fc14b65e50cc7012c97f" category="section-title">Workloads et cas d'utilisation pris en charge</block>
+  <block id="07fa509afe07bd1a5edece90b1dee857" category="paragraph">Cette fonctionnalité est précieuse pour un large éventail de déploiements d'applications d'entreprise, notamment les bases de données stratégiques, les plateformes ERP, les applications Microsoft, les infrastructures de postes de travail virtuels (VDI), les workloads analytiques, les environnements d'IA/ML, les services de fichiers et les applications conteneurisées modernes. Elle prend également en charge des initiatives d'infrastructure clés telles que les migrations de workloads, la reprise après sinistre, les environnements de développement et de test, la protection des données et la cyber-résilience. En permettant une mise à l'échelle indépendante des ressources de calcul et de stockage, les organisations peuvent optimiser leurs investissements d'infrastructure en partageant un pool commun de stockage haute densité entre les clusters de calcul, tout en répondant aux exigences de performance, de disponibilité et de capacité des applications traditionnelles et modernes.</block>
+  <block id="d729a5ecf18f1f7b7636dae38975ade5" category="section-title">Ce que couvre cette solution</block>
+  <block id="da168d451b029c221cbf8cea4acbbe19" category="paragraph">Cette solution décrit les étapes nécessaires pour provisionner et intégrer le stockage ONTAP à Nutanix Cloud Platform, permettant l'utilisation d'un stockage basé sur NFS pour les workloads virtualisés tout en optimisant les coûts, l'évolutivité et les performances.</block>
+  <block id="40af7bf55634bf778fc4f933d2d0e4a2" category="section-title">Architecture de haut niveau</block>
+  <block id="d650960ceaea0568ada5e54f138be398" category="paragraph">Dans cette architecture, le cluster de calcul Nutanix fournit la couche de calcul à l'aide d'hyperviseurs AHV exécutant des machines virtuelles sur un cluster Nutanix, tandis que ONTAP fournit la couche de stockage partagé externe. Les disques et les données des machines virtuelles sont stockés sur des datastores NFSv3 NetApp, qui sont montés directement par les hôtes Nutanix.</block>
+  <block id="246e5f67d71ceeffa74ae0dc846704de" category="paragraph">Nutanix utilise NFSv3 comme chemin d'accès aux données hautes performances pour les E/S des machines virtuelles, tandis que les API REST ONTAP servent au provisionnement, à la gestion et à l'automatisation du stockage. ONTAP fournit des services de données de niveau entreprise, notamment les snapshots, le clonage, la réplication, l'efficacité du stockage et les opérations sans interruption de service, indépendamment de l'infrastructure de calcul Nutanix.</block>
+  <block id="f6d74ae4e6a1c2c4baa8e371693e9bce" category="inline-image-macro">Schéma d'architecture d'un cluster de calcul Nutanix avec trois nœuds AHV connectés à un cluster NetApp ONTAP 9 via NFSv3 et l'API REST ONTAP</block>
+  <block id="e7d7bec2b9ae170ed6bc0577c80008ed" category="paragraph"><block ref="e7d7bec2b9ae170ed6bc0577c80008ed" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2659da98abc9c08dfbe43a358abef75e" category="paragraph">Cette architecture désagrégée permet aux clients de faire évoluer indépendamment les ressources de calcul et de stockage, d'optimiser l'utilisation du stockage et de tirer parti de la résilience éprouvée et des capacités de protection des données d'ONTAP. La solution prend en charge les plateformes NetApp AFF et FAS, offrant ainsi une base flexible pour les workloads virtualisés, les déploiements de cloud privé et les applications critiques pour l'entreprise.</block>
+  <block id="6f35fd4aea7586e8cfe094d27efac631" category="paragraph">Veuillez consulter les exigences suivantes avant de déployer le stockage ONTAP avec un cluster de calcul Nutanix.</block>
+  <block id="d5a4f2a696644d590f1a1b1b914639e7" category="list-text">Un cluster de calcul d'au moins trois nœuds est nécessaire.</block>
+  <block id="d7fa6a28e8e7d5e89c8b22431b6e72cb" category="list-text">Au sein d'ONTAP, une machine virtuelle de stockage (SVM) fournit du stockage au cluster de calcul.</block>
+  <block id="875b12ce36ccc374fc64cf1a8e4b2258" category="list-text">Chaque FlexVol volume est exporté en tant que partage ou export NFSv3.</block>
+  <block id="f9316a1a896b138a097aa54b68678814" category="section-title">Limitations et considérations de configuration</block>
+  <block id="677ebf7e0b1a7095fbbae3370f1b4a54" category="paragraph">Gardez à l'esprit les limitations et considérations de conception suivantes lorsque vous planifiez votre configuration Nutanix et ONTAP.</block>
+  <block id="56b1b31f7f7230af5a0d60d2bdaadffa" category="list-text">Il est impossible de connecter un stockage externe ONTAP à un cluster Nutanix HCI nouveau ou existant. Les clusters de calcul Nutanix peuvent être déployés dans des configurations HCI ou de stockage externe, mais un cluster de calcul ne peut pas utiliser les deux configurations en même temps. L'ajout d'un stockage externe à un déploiement HCI existant nécessite un redéploiement complet des nœuds.</block>
+  <block id="c2b0259f0d8d0300ba1762704dc58772" category="list-text">Une seule ONTAP SVM provenant d'un seul cluster ONTAP peut être ajoutée à un cluster Nutanix dédié uniquement au calcul.</block>
+  <block id="770b5eba62a050593381c034a6b03696" category="list-text">Une seule LIF par SVM peut être utilisée lors du rattachement d'un conteneur de stockage.</block>
+  <block id="04e146fb9f1da75030e5a4dca14107db" category="list-text">La reprise après sinistre basée sur ONTAP SnapMirror et la reprise par instantané basée sur FlexVol ne sont pas prises en charge.</block>
+  <block id="7d20e9fe22670559c1517d1492e04559" category="list-text">Un seul cluster ONTAP peut être utilisé par plusieurs clusters de calcul Nutanix, sous réserve des exigences en matière de capacité de stockage, de performances et de conception.</block>
+  <block id="03af4ddab612673e89672664295ec4e4" category="summary">Dimensionnez indépendamment la couche de calcul Nutanix AHV et le stockage ONTAP de NetApp lorsque vous migrez des workloads VMware vers Nutanix AHV avec un stockage externe ONTAP.</block>
+  <block id="052f58ceb417844c33f5d11e8557c0c5" category="doc">Dimensionner le stockage ONTAP pour les migrations Nutanix AHV</block>
+  <block id="e23cbfa1197def6682c09a40c494bf2a" category="paragraph">Lorsque vous migrez des workloads VMware vers Nutanix AHV avec un stockage externe NetApp ONTAP, dimensionnez indépendamment les ressources de calcul et de stockage. Le dimensionnement des ressources de calcul Nutanix détermine le nombre de nœuds AHV requis et leur configuration, y compris les ressources utilisées par la machine virtuelle de contrôleur (CVM) sur chaque nœud. Le dimensionnement ONTAP prend en compte la capacité, les performances et la disponibilité du stockage.</block>
+  <block id="a4ed853a445efea972a59a797722022f" category="section-title">Découvrez les exigences des workloads VMware</block>
+  <block id="ab15b0e572e9628e796c823d17c8d5fc" category="paragraph">Collectez 30 à 90 jours de données de performance au niveau des machines virtuelles à partir de VMware vCenter, notamment :</block>
+  <block id="2d5b1b35a87e9c35f1b7284220b90df0" category="list-text">*Calcul* : vCPU, taux d'utilisation du processeur, allocation de mémoire et demande de mémoire maximale.</block>
+  <block id="319f8caa1f829d70f76e85bf7f1ba8c2" category="list-text">*Capacité de stockage* : espace disque provisionné et consommé.</block>
+  <block id="4bc8ffebb70b5accd41f5376175bd9b3" category="list-text">*Performances de stockage* : IOPS en lecture/écriture, débit en lecture/écriture, taille moyenne des E/S et latence.</block>
+  <block id="f020a90bc688b239107c00ebc3d9d98e" category="list-text">*Modèles de workload* : périodes de pointe, workloads simultanés et répartition des opérations de lecture/écriture.</block>
+  <block id="b87542b96de79721593dad3534f16124" category="paragraph">Utilisez la taille moyenne des E/S mesurée pour les workloads en cours de dimensionnement. Il n'existe pas de taille de bloc unique, telle que 8 Kio ou 16 Kio, qui devrait être supposée pour tous les workloads Nutanix.</block>
+  <block id="9986ccc2895f854058d07e70e2a8ebc2" category="section-title">Dimensionner la capacité de calcul Nutanix</block>
+  <block id="04d8e526599db7192973b90ad308606e" category="inline-link-macro">Exigences relatives aux nœuds AHV</block>
+  <block id="72fe440d655f1cbeec9ab2d4de51b42e" category="paragraph">Calculez <block ref="6be2c60eab6837fcca1ca701295f027b" category="inline-link-macro-rx"></block> à partir de la demande globale de processeur et de mémoire des machines virtuelles. Incluez le processeur et la mémoire réservés à la CVM sur chaque nœud, ainsi que la surallocation du processeur, les exigences de haute disponibilité et la croissance prévue. Appliquez les réservations de ressources CVM recommandées par Nutanix afin qu'elles soient prises en compte dans la capacité disponible de chaque nœud.</block>
+  <block id="b681acc252ff9785de9b861a36df55fa" category="paragraph">Calculez séparément les besoins en processeur et en mémoire des nœuds. L'estimation la plus élevée détermine le besoin initial du cluster. Validez la configuration obtenue par rapport aux recommandations de dimensionnement et aux exigences de haute disponibilité de Nutanix.</block>
+  <block id="5b4ae3c76d892cbba6bb9456cfb48998" category="section-title">Dimensionner les performances du stockage ONTAP</block>
+  <block id="a40b230a89089e457be7e98cf27d3965" category="paragraph">Utilisez les étapes suivantes pour déterminer les exigences en matière d'IOPS, de débit, de latence et de contrôleur pour vos workloads.</block>
+  <block id="b5e8687d1cdf2b1a8cbdc424b949addb" category="list-text">*Calculer les IOPS du workload agrégé.*</block>
+  <block id="1ad5fa09ba377526c355359775236672" category="inline-link-macro">NetApp Virtual Machine Data Collector (VMDC)</block>
+  <block id="d2ed1183704b41e9abe9e35346f65b41" category="paragraph">Agrégez les IOPS de lecture et d'écriture des machines virtuelles sur des intervalles de temps communs afin d'identifier les pics simultanés réels. Utilisez la demande agrégée observée plutôt que de supposer que chaque machine virtuelle atteint son pic individuel simultanément. Utilisez <block ref="bd1ff698c2b3acd5af03831af6080933" category="inline-link-macro-rx"></block>, Live Optics ou tout autre outil de surveillance pour collecter les statistiques au niveau du disque des machines virtuelles.</block>
+  <block id="427b078709720263148d9e3f2f82a0d9" category="paragraph">Exemple de profil de workload :</block>
+  <block id="0164aecbc37fdddffa1d43d785464803" category="list-text">Nombre de VMs: 500</block>
+  <block id="e33d0efaf7cc674bd7ff8cb42a34a680" category="list-text">IOPS moyennes par machine virtuelle : 100</block>
+  <block id="b9de93a41f4138051496e4eab73c0901" category="list-text">Moyenne des IOPS de l'agrégat : 50 000</block>
+  <block id="c0aca45f9acea2e1b64f87f9a8bd8e13" category="list-text">Pic d'IOPS observé : 100 000</block>
+  <block id="a63abc889edbfe2457d558bbd7c00071" category="list-text">Ratio lecture/écriture: 70 % / 30 %</block>
+  <block id="0235bd18b20d4a554fc902cef51b5156" category="list-text">Taille moyenne des E/S : mesurée à partir des données du workload</block>
+  <block id="b25c27a7b92ba7886a69e10cb120b327" category="list-text">*Calculer le débit.*</block>
+  <block id="9d47a616f69267dd69859c33521b4d54" category="paragraph">Utilisez le débit de lecture/écriture mesuré lorsqu'il est disponible. Sinon, estimez-le à partir de la taille des E/S mesurée :</block>
+  <block id="aac6a8d1d05a04f46ec918f94e398b64" category="paragraph"><block ref="1385b8ce4e62d638c3de7901573ced45" prefix="" category="inline-code"></block></block>
+  <block id="e45dc9fc154d4bdc4465d10fcc597465" category="paragraph">Calculez séparément les débits de lecture et d'écriture si leurs tailles d'E/S diffèrent.</block>
+  <block id="bbfc7833a2822beac14bfecce1720bcf" category="list-text">*Définir les exigences de latence.*</block>
+  <block id="f2af8c63b550cbdd0461885f75cdaadf" category="paragraph">Basez les objectifs sur les performances historiques de VMware et les exigences des applications. À titre indicatif, ils pourraient être de 5 ms ou moins pour les machines virtuelles à usage général, de 2 ms ou moins pour les applications sensibles aux performances, et inférieurs à la milliseconde pour certaines bases de données critiques. Il s'agit d'objectifs de service, et non de niveaux de performance ONTAP garantis. Les exigences finales doivent refléter les SLA des applications.</block>
+  <block id="c18a914b885b59e79080dc62eaecbc39" category="list-text">*Appliquer la croissance du workload.*</block>
+  <block id="d22b909af4ceeeeacf75b1be19301ba9" category="paragraph">Tenez compte de la croissance prévue et évaluez la variabilité des performances, les opérations en arrière-plan et l'activité des snapshots. Par exemple, une croissance de 30 % sur une base de 100 000 IOPS donne un besoin projeté de 130 000 IOPS.</block>
+  <block id="37090d3bd9be28c9fdf7bc6addbec7ef" category="list-text">*Sélectionnez les contrôleurs ONTAP.*</block>
+  <block id="6118eedbbc6c3d493adf517737935b24" category="paragraph">Choisissez une plateforme AFF en fonction des IOPS de lecture/écriture requises, de la latence cible, du débit et de la bande passante réseau, des caractéristiques d'E/S, de l'efficacité du stockage, du traitement en arrière-plan, des performances de basculement et de la croissance prévue. Validez la configuration à l'aide des outils de dimensionnement pris en charge par NetApp et des données de performance de la plateforme. Les IOPS seules ne suffisent pas à déterminer le choix du contrôleur.</block>
+  <block id="19d59fdcdab2dde245822074dacd5ccf" category="section-title">Dimensionner la capacité ONTAP</block>
+  <block id="e0dcdc1198ffc83720f92c5b393cb1ab" category="paragraph">Estimez la capacité à partir de l'espace disque VMware consommé, de la croissance prévue, de la durée de conservation des snapshots et de l'efficacité de stockage attendue. Un ratio d'efficacité de stockage de 2:1 peut être utilisé comme hypothèse de planification, mais les résultats réels varient selon le workload et la configuration. Calculez la capacité des snapshots et de la protection en fonction de la durée de conservation prévue et des taux de variation du workload, plutôt que d'appliquer une marge arbitraire.</block>
+  <block id="1f2a25309f8d01c25be5427a20ddb550" category="paragraph">Exemple de calcul de capacité:</block>
+  <block id="28e7dc62b3f108e6be27c0a7eca6f12d" category="list-text">500 machines virtuelles × 100 Gio consommés : 48,8 Tio logiques</block>
+  <block id="84ff9ad92ab9c664544ebf3e0ad0dd2d" category="list-text">Après une croissance du workload de 30 % : 63,5 Tio logiques</block>
+  <block id="6b0a140c838e6ddbc93849fb002746ba" category="list-text">Données physiques estimées pour un rendement de 2:1 : 31,7 Tio</block>
+  <block id="c6ebad3a7cd50e43e83ac9e1e9d2433f" category="list-text">Capacité utile installée estimée à 80 % d'utilisation : 39,7 Tio</block>
+  <block id="9ba70168cbcc565c313056a5d538aa4f" category="paragraph">Le taux d'utilisation de 80 % réserve de la capacité. Il ne s'agit pas d'une surcharge opérationnelle supplémentaire de 20 %. Validez les hypothèses de réduction des données, la capacité utilisable et la surcharge de la plateforme avec un architecte de solutions NetApp ou un partenaire NetApp désigné. Ils peuvent dimensionner le système ONTAP à l'aide de NetApp Fusion et confirmer les exigences en matière de capacité, de performances et de disponibilité.</block>
+  <block id="007822c806ef210b6ab100489751a268" category="list-text">Créez un igroup avec le type de système d'exploitation défini sur<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block> et ajoutez les initiateurs FC hôtes.</block>
+  <block id="fba3cc09cd2befce8e9285817c7abedd" category="paragraph">Proxmox VE étant basé sur Debian Linux, utilisez le <block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block>type de système d'exploitation correspondant pour les igroups qui contiennent des initiateurs hôtes Proxmox VE. Dans System Manager, sélectionnez *Linux* comme système d'exploitation hôte. Si vous utilisez l'ONTAP CLI, exécutez la commande suivante.</block>
+  <block id="7d0c33b86e92ab690d078b8f4cea50b6" category="list-text">Créez le LUN avec le type de système d'exploitation défini sur<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block> et la taille souhaitée sur la SVM, puis présentez-le à l'igroup créé à l'étape précédente. Assurez-vous que la protection Anti-Ransomware est activée dans l'onglet Sécurité pour les systèmes ASA et dans l'onglet Sécurité du volume pour les systèmes AFF/FAS.</block>
+  <block id="a0c2ec2c88ecabc268aec734b715f2f5" category="paragraph">Dans System Manager, sélectionnez *Linux* comme système d'exploitation hôte. Si vous utilisez ONTAP CLI, exécutez les commandes suivantes.</block>
+  <block id="12a5429d722c54fc2b990b7192efca4d" category="list-text">Créez un igroup avec le type de système d'exploitation défini sur<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block> et ajoutez les initiateurs iSCSI de l'hôte.</block>
+  <block id="d33f5fae66035c7894e165cda83dfd11" category="list-text">Créez le LUN avec le type de système d'exploitation défini sur<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block> et la taille souhaitée sur la SVM, puis présentez-le à l'igroup créé à l'étape précédente. Assurez-vous que la protection Anti-Ransomware est activée dans l'onglet Security pour les systèmes ASA. Pour les systèmes AFF/FAS, assurez-vous que la protection Anti-Ransomware est activée dans l'onglet Security pour le volume.</block>
+  <block id="f01e62d2af03bb4b22697c48f88ca7b2" category="list-text">Créez le namespace NVMe avec le type de système d’exploitation défini sur<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block>.</block>
+  <block id="a19b827bc9a177885b04bbad3fead60c" category="paragraph">Proxmox VE étant basé sur Debian Linux, utilisez le<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block> type de système d'exploitation correspondant pour les namespaces auxquels les hôtes Proxmox VE accèdent. Dans System Manager, sélectionnez *Linux* comme système d'exploitation hôte. Si vous utilisez l'interface de ligne de commande ONTAP, spécifiez<block ref="a79a9777f91ffbc41a1711a0b48d4103" prefix=" " category="inline-code"></block>.</block>
+  <block id="3275470801f2bf5dfb90922b4cfeb2dd" category="list-text">Créez le sous-système avec le type de système d'exploitation hôte défini sur<block ref="e206a54e97690cce50cc872dd70ee896" prefix=" " category="inline-code"></block>, attribuez les NQN hôtes et mappez le namespace au sous-système.</block>
+  <block id="2efafcba0dc3ad95e2a3861e0d6d12ee" category="paragraph">System Manager crée le sous-système lorsque vous créez le namespace et sélectionnez *Linux* comme système d'exploitation hôte. Si vous utilisez la ONTAP CLI, exécutez les commandes suivantes.</block>
+  <block id="382d8a7d3f9dbae2cd54fe68f087b9e9" category="list-text">Ouvrez un navigateur Web et accédez à l'interface utilisateur SMP en saisissant<block ref="f7b77b1b2665fa138c722f56e2afbf0a" prefix=" " category="inline-code"></block></block>
+  <block id="bfbae08b49c5869f29c7ef356cf541ba" category="list-text">Connectez-vous à SMP avec le nom d'utilisateur par défaut<block ref="21232f297a57a5a743894a0e4a801fc3" prefix=" " category="inline-code"></block> et le mot de passe<block ref="21232f297a57a5a743894a0e4a801fc3" prefix=" " category="inline-code"></block>.</block>
+  <block id="214aa82b7e803741efa1b837ff7c9f6f" category="paragraph">Lorsque vous y êtes invité, modifiez le mot de passe par défaut. Les mêmes identifiants par défaut s'appliquent lors de l'installation de SMP à l'aide de Shift toolkit.</block>
+  <block id="c1d5eadc03b8ae8e90a09d7216f26935" category="section-title">22 octobre 2026</block>
+  <block id="585eb0ed546547b6782499bbe77004af" category="list-text">Ajout du type de système d'exploitation ONTAP recommandé pour les namespaces NVMe, les sous-systèmes NVMe, les LUN et les igroups utilisés avec Proxmox VE.</block>
+  <block id="c66ca2a188d7348d29ef387e66ba317d" category="list-text"><block ref="2e94ca9f81de016c02e76e148fee1eaf" category="inline-link-macro-rx"></block> == 14 octobre 2026</block>
+  <block id="9c23910fefbeeda3ddd579351b6ec0de" category="sidebar">NetApp Les solutions de virtualisation Nutanix montrent comment utiliser NetApp ONTAP comme stockage NFS externe pour Nutanix Cloud Platform, ce qui vous permet de faire évoluer indépendamment les ressources de calcul et de stockage.</block>
+  <block id="d729979f2a5ebe49b7739031bd07bb1b" category="sidebar">NetApp Solutions de virtualisation Nutanix</block>
+  <block id="97a1afd73c2cd01eeba4f33af7085273" category="sidebar">Découvrez Nutanix avec le stockage ONTAP</block>
+  <block id="8ff6db39887e6f377cd6bccb51423334" category="sidebar">Documentation de Nutanix Cloud Platform</block>
+  <block id="3792027e94ae6c9190db74074a73a179" category="sidebar">Déployer Nutanix avec ONTAP</block>
+  <block id="54b6e2a7fb724421b4465be2511dc7df" category="sidebar">Déployer un cluster de calcul Nutanix</block>
+  <block id="ce23a175ba3308c055cffed5849cb891" category="sidebar">Configurer les volumes ONTAP et les autorisations</block>
+  <block id="864a1c8353d9cb6107d0654bb70de59a" category="sidebar">Attacher le stockage NFS ONTAP</block>
+  <block id="9c5ffdefc6ca815ae609bdfec9a4622c" category="sidebar">Planifier et protéger</block>
+  <block id="4454b239e8242fc257f918e7fbad8787" category="sidebar">Protection des données, reprise après sinistre et limitations</block>
+  <block id="098f5a33637670276d04c3dca13babd0" category="sidebar">Virtualisation Nutanix</block>
+  <block id="ee6ba74d15434fa7f9488015f9c2ade7" category="sidebar">À propos de Nutanix avec le stockage ONTAP</block>
+  <block id="b6bc930a5d1ecffce002445909a91249" category="sidebar">Déployez Nutanix avec le stockage ONTAP</block>
+  <block id="f35ae7427609e0b7edeeb614e901b52b" category="sidebar">Déployer Nutanix Cloud Platform avec NetApp ONTAP</block>
+  <block id="655f594403daccdc2c80061d472731bc" category="sidebar">Protection des données, DR et limitations</block>
+  <block id="0c5410939f2fbf4c292853697d3cbb3c" category="sidebar">Protection des données, reprise après sinistre et limitations pour Nutanix avec ONTAP</block>
+  <block id="b148bfd5e1eea585283ef9778eaf950d" category="sidebar">Dimensionner le stockage ONTAP pour les migrations AHV</block>
 </blocks>
