@@ -26,7 +26,7 @@ Pour restaurer à partir d’une sauvegarde, supposons que l’espace de noms o�
 .Restaurer vers le même espace de noms
 [%collapsible%open]
 ====
-Pour restaurer à partir de la sauvegarde que nous venons de créer, nous devons créer une ressource personnalisée de restauration (CR). Nous devons lui donner un nom, fournir le nom de la sauvegarde à partir de laquelle nous voulons restaurer et définir restorePVs sur true. Des paramètres supplémentaires peuvent être définis comme indiqué dans lelink:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/restoring-applications.html["documentation"] . Cliquez sur le bouton Créer.
+Pour effectuer une restauration à partir de la sauvegarde que nous venons de créer, nous devons créer une ressource personnalisée (CR) de restauration. Nous devons lui attribuer un nom, indiquer le nom de la sauvegarde à partir de laquelle nous souhaitons effectuer la restauration et définir restorePVs sur true. Des paramètres supplémentaires peuvent être définis comme indiqué dans la link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.14/html/backup_and_restore/oadp-application-backup-and-restore#oadp-backing-up["documentation"]. Cliquez sur le bouton Créer.
 
 image:redhat-openshift-oadp-restore-001.png["Créer Restaurer CR"]
 

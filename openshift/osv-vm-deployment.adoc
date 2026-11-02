@@ -49,7 +49,7 @@ En règle générale, le mode d'accès par bloc est préféré aux systèmes de 
 Pour personnaliser la création de la machine virtuelle après avoir sélectionné le modèle de système d'exploitation, cliquez sur Personnaliser la machine virtuelle au lieu de Créer rapidement.
 
 . Si le système d'exploitation sélectionné a une source de démarrage configurée, vous pouvez cliquer sur *Personnaliser les paramètres de la machine virtuelle*.
-. Si le système d'exploitation sélectionné n'a pas de source de démarrage configurée, vous devez la configurer.  Vous pouvez voir les détails des procédures présentées dans lelink:https://docs.openshift.com/container-platform/4.14/virt/virtual_machines/creating_vms_custom/virt-creating-vms-from-custom-images-overview.html["documentation"] .
+. Si le système d'exploitation sélectionné n'a pas de source de démarrage configurée, vous devez la configurer. Vous trouverez des détails sur les procédures présentées dans le link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.14/html/virtualization/virtual-machines#virt-creating-vms-from-custom-images-overview["documentation"].
 . Après avoir configuré le disque de démarrage, vous pouvez cliquer sur *Personnaliser les paramètres de la machine virtuelle*.
 . Vous pouvez personnaliser la VM à partir des onglets de cette page.  Par exemple, cliquez sur l'onglet *Disques* puis sur *Ajouter un disque* pour ajouter un autre disque à la machine virtuelle.
 . Cliquez sur Créer une machine virtuelle pour créer la machine virtuelle ; cela lance un pod correspondant en arrière-plan.

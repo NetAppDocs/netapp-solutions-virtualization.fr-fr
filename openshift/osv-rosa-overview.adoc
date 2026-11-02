@@ -30,7 +30,7 @@ Nous examinerons également la connexion à la machine virtuelle à l’aide des
 * link:https://console.redhat.com/openshift/downloads["ROSA CLI"]
 * link:https://console.redhat.com/openshift/downloads["Interface de ligne de commande OpenShift"](oc)
 * link:https://docs.aws.amazon.com/eks/latest/userguide/helm.html["Documentation de Helm 3"]
-* link:https://docs.openshift.com/rosa/rosa_hcp/rosa-hcp-sts-creating-a-cluster-quickly.html["Un cluster HCP ROSA"](avec au moins 3 nœuds de travail bare-metal)
+* link:https://docs.redhat.com/en/documentation/red_hat_openshift_service_on_aws_classic_architecture/4["Un cluster HCP ROSA"] (avec au moins 3 nœuds worker bare-metal)
 * link:https://console.redhat.com/openshift/overview["Accès à la console Web Red Hat OpenShift"]
 * Trident 25.02 ou version ultérieure Pour le prérequis Trident ci-dessus, voirlink:osv-trident-install.html["Section d'installation du Trident"] pour plus de détails.
 * link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/virtualization/installing#virt-aws-bm_preparing-cluster-for-virt["Virtualisation OpenShift installée sur le cluster ROSA"]
