@@ -15,6 +15,18 @@ Découvrez les nouveautés en matière de solutions de virtualisation.
 
 
 
+[[5-november-2026]]
+== 5 novembre 2026
+
+* Ajout d'instructions pour maintenir désactivées les opérations sur les fichiers fragmentés NFS v4.2 pour le stockage NFS Proxmox VE.
++
+** link:proxmox/proxmox-ontap-nfs.html["Configurer le stockage NFS pour Proxmox VE"]
+
+
+
+
+
+
 [[22-october-2026]]
 == 22 octobre 2026
 

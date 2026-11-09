@@ -44,6 +44,7 @@ Suivez ces bonnes pratiques pour optimiser les performances et l'évolutivité d
 * Utilisez les volumes FlexGroup pour les besoins de capacité importants afin de tirer pleinement parti de l'évolutivité ONTAP .
 * Dans les environnements géographiquement distribués, utilisez FlexCache pour distribuer les images et les modèles plus près des nœuds Proxmox VE afin d'accélérer les déploiements et de centraliser la gestion.
 * Lors de l'utilisation de FlexGroup avec NFS, utilisez la combinaison de nConnect ou de l'agrégation de sessions et de pNFS pour optimiser les performances et la disponibilité.
+* Gardez les opérations de fichiers épars NFS v4.2 (`-v4.2-sparsefile-ops`) désactivées sur les SVM qui fournissent un stockage NFS à Proxmox VE. ONTAP prend en charge l'opération DEALLOCATE uniquement pour des fichiers entiers, et les demandes de désallocation de fichiers partiels peuvent entraîner des erreurs d'E/S et une corruption des données dans les VM invitées. Pour plus d'informations, consultez link:proxmox-ontap-nfs.html["Configurer le stockage NFS pour Proxmox VE"].
 * Pour les protocoles de bloc, assurez-vous d'un zonage et d'un masquage LUN appropriés afin de restreindre l'accès aux seuls nœuds Proxmox VE autorisés.
 * Allouer une capacité de stockage suffisante pour répondre à la croissance des machines virtuelles et aux besoins en données.
 * Mettez en œuvre une hiérarchisation du stockage pour optimiser les performances et la rentabilité.
